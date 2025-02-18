@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, Switch, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, Switch, TouchableOpacity, Image } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { globalStyles, mainEdges } from "../styles/globalStyles";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/OutdoorLocation";
-/*Importing react native logos, check website for options
-https://oblador.github.io/react-native-vector-icons/
-*/
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
@@ -47,9 +45,11 @@ interface CampusMapProps {
   campusId: string;
 }
 
-const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
+// Renamed internal map component to avoid naming conflicts
+const CampusMapView: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
-  const region: Region = campus.outdoorLocation === "loc-sgw" ? outdoorLocationSGW : outdoorLocationLoyola;
+  const region: Region =
+    campus.outdoorLocation === "loc-sgw" ? outdoorLocationSGW : outdoorLocationLoyola;
   const mapRef = useRef<MapView | null>(null);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   return (
     <MapView
       ref={(ref) => (mapRef.current = ref)}
-      style={styles.map}
+      style={globalStyles.map}
       initialRegion={region}
       pitchEnabled={false}
       rotateEnabled={false}
@@ -78,84 +78,26 @@ const CampusSwitcher: React.FC = () => {
   const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header Section */}
-      <View style={styles.headerContainer}>
-        <View style={styles.header}>
-          {/* Campus Switch */}
-          <View style={styles.switchContainer}>
-            <Text style={styles.switchText}>SGW</Text>
+    <SafeAreaView style={globalStyles.container} edges={mainEdges}>
+      <View style={globalStyles.switchHeaderContainer}>
+        <View style={globalStyles.campusSwitchHeader}>
+          <View style={globalStyles.switchContainer}>
+            <Text style={globalStyles.switchText}>SGW</Text>
             <Switch
               value={!isSGWCampus}
               onValueChange={() => setIsSGWCampus(!isSGWCampus)}
             />
-            <Text style={styles.switchText}>LOY</Text>
-          </View>
-
-          {/* App Logo */}
-          <Image source={require("../../assets/images/Concordia_Small_Logo.png")} style={styles.logo} />
-
-          {/* Action Buttons */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.iconButton} onPress={() => console.log("Looking up some buildings.")}>
-              <Icon name="search" size={24} color="#fff" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} onPress={() => console.log("Accessibility settings.")}>
-              <Icon name="settings-accessibility" size={24} color="#fff" />
-            </TouchableOpacity>
+            <Text style={globalStyles.switchText}>LOY</Text>
           </View>
         </View>
       </View>
 
       {/* Map Container */}
-      <View style={styles.mapContainer}>
-        <CampusMap campusId={currentCampusId} />
+      <View style={globalStyles.mapContainer}>
+        <CampusMapView campusId={currentCampusId} />
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  headerContainer: {
-    backgroundColor: "rgba(146, 35, 56, 1)", 
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 8,
-    paddingHorizontal: 30,
-    justifyContent: "space-between",
-  },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  switchText: {
-    color: "#fff",
-    fontSize: 16,
-    marginHorizontal: 8,
-  },
-  logo: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-  },
-  iconButton: {
-    marginLeft: 10,
-    padding: 5,
-  },
-  mapContainer: {
-    flex: 1,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-});
 
 export default CampusSwitcher;
