@@ -80,7 +80,7 @@ const TabLayout = () => {
             }}
           />
           <Tabs.Screen
-            name="Menu"
+            name="Home"
             listeners={{
               tabPress: (e) => {
                 e.preventDefault(); // prevent navigation
