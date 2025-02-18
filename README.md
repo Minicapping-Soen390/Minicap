@@ -1,38 +1,70 @@
+[![codecov](https://codecov.io/gh/AsifAliKhan2001/Minicap/graph/badge.svg?token=FJ0CSSVRQY)](https://codecov.io/gh/AsifAliKhan2001/Minicap)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AsifAliKhan2001_Minicap&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AsifAliKhan2001_Minicap)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AsifAliKhan2001_Minicap&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=AsifAliKhan2001_Minicap)
+[![Last Commit](https://img.shields.io/github/last-commit/vibqetowi/Minicap?style=flat-square)](https://github.com/vibqetowi/Minicap/commits/main)
 # Minicapping
 
-## Links
+<div align="center">
 
-* [Bidding Document ](https://docs.google.com/document/d/1tNvGLAktIP1F0Tjw_gifdj-o-byUHX0d9zlu8HiHUS0/edit?usp=sharing)
-* [Wireframes](https://www.figma.com/files/team/1294921182537259910/project/329619643/soen-390?fuid=1294921176252679540)
+[![React Native](https://img.shields.io/badge/React%20Native-Latest-blue?style=for-the-badge&logo=react)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-Latest-white?style=for-the-badge&logo=expo)](https://expo.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-LTS-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Latest-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Jest](https://img.shields.io/badge/Testing-Jest-red?style=for-the-badge&logo=jest)](https://jestjs.io/)
 
-## Technology Stack
 
-Here's a breakdown of the technology stack:
+</div>
 
-**Core Technologies:**
+## 🎯 Project Overview
 
-* **Technology:** React Native
-* **Package Manager:** npm lts (long term support)
-* **Framework** Expo [Docs here](https://docs.expo.dev)
+Minicapping is a comprehensive campus navigation solution designed to:
 
-**Development Environment:**
+- **Indoor/Outdoor Navigation**: Seamlessly guide users through both indoor and outdoor campus spaces
+- **Smart Routing**: Find optimal paths between multiple destinations (Traveling Salesman Problem)
+- **Accessibility Focus**: Prioritize accessible routes with elevator and ramp information
+- **Real-time Updates**: Integration with shuttle service and building schedules
+- **Point of Interest**: Quick access to amenities like coffee shops, study spaces, and bathrooms
 
-* **IDE:** Android Studio _(and your preferred additional IDE)_
-* **Emulator:**
-  * **Device:** Pixel 7
-  * **API Level:** 33
-  * **Purpose:** Responsiveness Testing
+## 📚 Documentation
 
-**Quality Assurance & Deployment:**
+* [Project Wiki](https://github.com/vibqetowi/Minicap/wiki)
+* [Bidding Document](https://docs.google.com/document/d/1tNvGLAktIP1F0Tjw_gifdj-o-byUHX0d9zlu8HiHUS0/edit?usp=sharing)
 
-* **CI/CD:** GitHub Workflow
-  * **Integrations:**
-    * SonarQube
-    * Codecov
-* **Styling & UI Library:** [Gluestack](https://gluestack.io/ui/docs/home/overview/quick-start) Customizeable UI Components, similar to Shadcn
-* **Testing Frameworks:**
-  * **Unit Testing:** Jest
-  * **End-to-End (E2E) Testing:** Detox
+## 🏗️ Technology Stack & Rationale
 
-[![codecov](https://codecov.io/gh/AsifAliKhan2001/Minicap/graph/badge.svg?token=FJ0CSSVRQY)](https://codecov.io/gh/AsifAliKhan2001/Minicap)
+### Core Technologies
+
+| Technology | Benefits |
+|------------|----------|
+| **Expo** | • Simplified React Native development<br>• Easy device testing and deployment<br>• Built-in navigation libraries<br>• Strong developer tools<br>• Over-the-air updates |
+| **React Native** | • Team has React experience<br>• Direct native module access<br>• Strong community support |
+| **Maps Integration** | • React Native Maps for native performance<br>• Google Maps API for accurate data<br>• Native compatibility through Expo<br>• Built-in geolocation support |
+| **Node.js** | • JavaScript ecosystem<br>• API development focus<br>• Server-side performance<br>• React Native integration |
+
+### Development Environment
+
+| Tool | Configuration |
+|------|--------------|
+| **IDE** | VS Code |
+| **Emulator** | • Device: Pixel 7<br>• API Level: 33/35<br>• Purpose: Responsiveness Testing |
+
+### Testing Infrastructure
+
+| Layer | Tools & Benefits |
+|-------|-----------------|
+| **Frontend** | • Jest + React Testing Library<br>• Zero config setup<br>• Parallel execution<br>• TypeScript support |
+| **E2E** | • Detox<br>• Real device testing<br>• Cross-device automation |
+
+### Quality Assurance
+
+| Category | Tools |
+|----------|-------|
+| **CI/CD** | • GitHub Workflow<br>• SonarQube<br>• Codecov |
+| **UI** | • Gluestack<br>• Customizable components<br>• Native-first design |
+
+<div align="center">
+
+
+
+</div>
 
