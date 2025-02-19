@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { Audit } from "./Audit";
 
 export interface Weather extends Audit {

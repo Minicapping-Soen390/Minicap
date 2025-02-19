@@ -1,5 +1,6 @@
 .DS_Store
 .env
+tmp.md
 knowledge.md
 # Xcode
 !**/*.xcodeproj

@@ -5,11 +5,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles, mainEdges } from "../styles/globalStyles";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Campus } from "@/models/Campus";
-import { OutdoorLocation } from "@/models/OutdoorLocation";
+import { OutdoorLocation } from "@/models/Location";
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
-  id: "loc-sgw",
+  _id: "loc-sgw",
   locationType: "outdoor",
   latitude: 45.4973,
   longitude: -73.5789,
@@ -18,7 +18,7 @@ const outdoorLocationSGW: OutdoorLocation = {
 };
 
 const outdoorLocationLoyola: OutdoorLocation = {
-  id: "loc-loyola",
+  _id: "loc-loyola",
   locationType: "outdoor",
   latitude: 45.4581,
   longitude: -73.6405,
@@ -28,14 +28,14 @@ const outdoorLocationLoyola: OutdoorLocation = {
 
 // Define campuses
 const SGWCampus: Campus = {
-  id: "sgw-uuid",
+  _id: "sgw-uuid", // changed from id
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
 };
 
 const LoyolaCampus: Campus = {
-  id: "loyola-uuid",
+  _id: "loyola-uuid", // changed from id
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],
@@ -47,7 +47,8 @@ interface CampusMapProps {
 
 // Renamed internal map component to avoid naming conflicts
 const CampusMapView: React.FC<CampusMapProps> = ({ campusId }) => {
-  const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
+  // Compare using _id
+  const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region =
     campus.outdoorLocation === "loc-sgw" ? outdoorLocationSGW : outdoorLocationLoyola;
   const mapRef = useRef<MapView | null>(null);
@@ -75,7 +76,7 @@ const CampusMapView: React.FC<CampusMapProps> = ({ campusId }) => {
 
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState<boolean>(true);
-  const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
+  const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
 
   return (
     <SafeAreaView style={globalStyles.container} edges={mainEdges}>
