@@ -74,6 +74,7 @@ const CampusMapView: React.FC<CampusMapProps> = ({ campusId }) => {
   );
 };
 
+// CampusSwitcher Component
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState<boolean>(true);
   const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
