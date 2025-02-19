@@ -13,14 +13,14 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 10,
-    backgroundColor: "rgba(146, 35, 56, 1)",
+    backgroundColor: "#922338",
     zIndex: 10,
   },
   container: {
     flex: 1,
   },
   switchHeaderContainer: {
-    backgroundColor: "rgba(146, 35, 56, 1)",
+    backgroundColor: "#922338",
   },
   campusSwitchHeader: {
     alignItems: "center",
@@ -88,7 +88,7 @@ menuContent: {
     tabBarInactiveTintColor: "#CDCDE0",
     tabBarShowLabel: true,
     tabBarStyle: {
-      backgroundColor: "rgba(146, 35, 56, 1)",
+      backgroundColor: "#922338",
       borderTopWidth: 1,
       borderTopColor: "#232533",
       height: 80,
@@ -101,7 +101,7 @@ menuContent: {
     },
   },
   tabBarStyle: {
-    backgroundColor: "rgba(146, 35, 56, 1)",
+    backgroundColor: "#922338",
     borderTopWidth: 1,
     borderTopColor: "#232533",
     height: 80,
