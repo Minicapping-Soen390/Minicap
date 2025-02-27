@@ -95,6 +95,22 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   }, [region]);
 
+  // Function to check if a point is inside a polygon
+  const isPointInPolygon = (point, polygon) => {
+    let inside = false;
+    const x = point.longitude, y = point.latitude;
+
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const xi = polygon[i].longitude, yi = polygon[i].latitude;
+      const xj = polygon[j].longitude, yj = polygon[j].latitude;
+
+      const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
+    }
+
+    return inside;
+  };
+
   const renderBuildings = () => {
     return buildingsData.map((building) => {
       if (Array.isArray(building.polygonShape)) {
@@ -134,7 +150,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               coordinate={center}
               onPress={() => {
                 setBuildingInfo({ name: building.name, address: building.address, openingHours: building.openingHours });
-                setSelectedBuildingId(building._id); // Set selected building ID
+                setSelectedBuildingId(building._id);
               }}
               anchor={{ x: 0.5, y: 0.5 }}
             >
@@ -151,6 +167,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       return null;
     });
   };
+
+
 
   const updateUserLocation = async () => {
     try {
@@ -171,8 +189,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       });
 
       const newRegion = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
+        latitude: 45.49674153452182,
+        longitude: -73.5779170349735,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       };
@@ -219,19 +237,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             <Marker
               coordinate={userLocation}
               title="Your Location"
-              pinColor="blue"
+              pinColor="green"
             />
           )}
           {renderBuildings()}
-
-          {userLocation && (
-            <Circle
-              center={userLocation}
-              radius={10}
-              fillColor="rgba(0, 0, 255, 0.5)"
-              strokeColor="rgba(0, 0, 255, 1)"
-            />
-          )}
         </MapView>
 
         {buildingInfo && (
