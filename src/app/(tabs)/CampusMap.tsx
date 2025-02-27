@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
-import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
+import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { Campus } from "@/models/Campus";
@@ -96,7 +96,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   }, [region]);
 
   // Function to check if a point is inside a polygon
-  const isPointInPolygon = (point, polygon) => {
+  const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
     let inside = false;
     const x = point.longitude, y = point.latitude;
 
@@ -118,22 +118,29 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         return null;
       }
 
-      const coordinates = building.polygonShape.map((coords) => {
-        if (Array.isArray(coords) && coords.length === 2) {
-          const [longitude, latitude] = coords;
-          return { latitude, longitude };
-        }
-        console.warn(`Invalid coordinates for building ${building._id}`);
-        return null;
-      }).filter(Boolean);
+      const coordinates: LatLng[] = building.polygonShape
+        .map((coords) => {
+          if (Array.isArray(coords) && coords.length === 2) {
+            const [longitude, latitude] = coords;
+            return { latitude, longitude };
+          }
+          console.warn(`Invalid coordinates for building ${building._id}`);
+          return null;
+        })
+        .filter((coord): coord is LatLng => coord !== null);
 
       if (coordinates.length === 0) return null;
 
-      const center = coordinates.reduce((acc, curr) => {
-        acc.latitude += curr.latitude;
-        acc.longitude += curr.longitude;
-        return acc;
-      }, { latitude: 0, longitude: 0 });
+      const center = coordinates.reduce(
+        (acc, curr) => {
+          if (curr) {
+            acc.latitude += curr.latitude;
+            acc.longitude += curr.longitude;
+          }
+          return acc;
+        },
+        { latitude: 0, longitude: 0 }
+      );
 
       center.latitude /= coordinates.length;
       center.longitude /= coordinates.length;
@@ -184,7 +191,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       );
     });
   };
-
 
 
   const updateUserLocation = async () => {
