@@ -1,8 +1,10 @@
 {
   "expo": {
     "name": "src",
+    "owner": "dsagfh364h",
     "slug": "src",
     "version": "1.0.0",
+    "runtimeVersion": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -15,7 +17,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.dsagfh364h.src"
     },
     "web": {
       "bundler": "metro",
@@ -25,17 +28,25 @@
     "plugins": [
       "expo-router",
       [
-        "expo-splash-screen",
+        "@react-native-google-signin/google-signin",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "iosUrlScheme": "com.googleusercontent.apps.754721907981-ksioigv97102nvei9k1sbl84a6k9qaiv"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "92f30c5f-d3ef-44f9-9e80-531920c1e5db"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/92f30c5f-d3ef-44f9-9e80-531920c1e5db"
     }
   }
 }
