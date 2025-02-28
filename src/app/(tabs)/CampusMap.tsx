@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-
-import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
 import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -50,7 +49,6 @@ const LoyolaCampus: Campus = {
 
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
-  // Look up the correct OutdoorLocation based on the campus' outdoorLocation id
   const region: Region =
     campus.outdoorLocation === "loc-sgw"
       ? outdoorLocationSGW
@@ -60,6 +58,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [buildingInfo, setBuildingInfo] = useState<{ name: string; address: string; openingHours: string } | null>(null);
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -109,14 +109,44 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           return null;
         }).filter(coord => coord !== null);
 
+        const center = coordinates.reduce((acc, curr) => {
+          acc.latitude += curr.latitude;
+          acc.longitude += curr.longitude;
+          return acc;
+        }, { latitude: 0, longitude: 0 });
+
+        center.latitude /= coordinates.length;
+        center.longitude /= coordinates.length;
+
+        // Determine the fill color based on whether the building is selected
+        const fillColor = selectedBuildingId === building._id ? "rgba(255, 165, 0, 0.5)" : "rgba(180, 16, 16, 0.48)";
+
+        // Get the first two letters of the building name
+        const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
+
         return (
-          <Polygon
-            key={building._id}
-            coordinates={coordinates}
-            strokeColor="rgb(165, 35, 35)"
-            strokeWidth={2}
-            fillColor="rgba(180, 16, 16, 0.48)"
-          />
+          <View key={building._id}>
+            <Polygon
+              coordinates={coordinates}
+              strokeColor="rgb(165, 35, 35)"
+              strokeWidth={2}
+              fillColor={fillColor}
+            />
+            <Marker
+              coordinate={center}
+              onPress={() => {
+                setBuildingInfo({ name: building.name, address: building.address, openingHours: building.openingHours });
+                setSelectedBuildingId(building._id); // Set selected building ID
+              }}
+              anchor={{ x: 0.5, y: 0.5 }}
+            >
+              <View style={styles.marker}>
+                <View style={styles.buildingButton}>
+                  <Text style={styles.buildingButtonText}>{buildingNameInitials}</Text>
+                </View>
+              </View>
+            </Marker>
+          </View>
         );
       }
       console.warn(`Building ${building._id} does not have a valid polygonShape`);
@@ -159,66 +189,74 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
-  return (
-    <View style={styles.mapContainer}>
-      {locationError ? (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{locationError}</Text>
-        </View>
-      ) : null}
-      <MapView
-        testID="map-view"
-        ref={(ref) => (mapRef.current = ref)}
-        style={styles.map}
-        initialRegion={region}
-        pitchEnabled={false}
-        rotateEnabled={false}
-        zoomEnabled={true}
-        zoomControlEnabled={true}
-      >
-        <Marker
-          testID="marker"
-          coordinate={{
-            latitude: region.latitude,
-            longitude: region.longitude,
-          }}
-          title={campus.name}
-        />
-        {permissionGranted && userLocation && (
-          <Marker
-            coordinate={userLocation}
-            title="Your Location"
-            pinColor="blue"
-          />
-        )}
-        {renderBuildings()}
+  const handleMapPress = () => {
+    if (buildingInfo) {
+      setBuildingInfo(null);
+      setSelectedBuildingId(null); // Reset selected building ID
+    }
+  };
 
-        {userLocation && (
-          <Circle
-            testID="circle"
-            center={userLocation}
-            radius={10}
-            fillColor="rgba(0, 0, 255, 0.5)"
-            strokeColor="rgba(0, 0, 255, 1)"
+  return (
+    <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
+      <View style={styles.mapContainer}>
+        {locationError ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{locationError}</Text>
+          </View>
+        ) : null}
+        <MapView
+          ref={(ref) => (mapRef.current = ref)}
+          style={styles.map}
+          initialRegion={region}
+          pitchEnabled={false}
+          rotateEnabled={false}
+          zoomEnabled={true}
+          zoomControlEnabled={true}
+        >
+          <Marker
+            coordinate={{ latitude: region.latitude, longitude: region.longitude }}
+            title={campus.name}
           />
+          {permissionGranted && userLocation && (
+            <Marker
+              coordinate={userLocation}
+              title="Your Location"
+              pinColor="blue"
+            />
+          )}
+          {renderBuildings()}
+
+          {userLocation && (
+            <Circle
+              center={userLocation}
+              radius={10}
+              fillColor="rgba(0, 0, 255, 0.5)"
+              strokeColor="rgba(0, 0, 255, 1)"
+            />
+          )}
+        </MapView>
+
+        {buildingInfo && (
+          <View style={styles.buildingInfoContainer}>
+            <Text style={styles.buildingNameText}>{buildingInfo.name}</Text>
+            <Text style={styles.openingHoursText}>{buildingInfo.openingHours}</Text>
+            <Text style={styles.addressText}>{buildingInfo.address}</Text>
+          </View>
         )}
-      </MapView>
-      <TouchableOpacity
-        testID="my-location-button"
-        style={[
-          styles.refreshButton,
-          isRefreshing && styles.refreshButtonDisabled,
-        ]}
-        onPress={updateUserLocation}
-        disabled={isRefreshing}
-      >
-        {isRefreshing ? (
-          <ActivityIndicator color="white" size="small" />
-        ) : (
-          <Text style={styles.buttonText}>My Location</Text>
-        )}
-      </TouchableOpacity>
-    </View>
+
+        <TouchableOpacity
+          style={[styles.refreshButton, isRefreshing && styles.refreshButtonDisabled]}
+          onPress={updateUserLocation}
+          disabled={isRefreshing}
+        >
+          {isRefreshing ? (
+            <ActivityIndicator color="white" size="small" />
+          ) : (
+            <Text style={styles.buttonText}>My Location</Text>
+          )}
+        </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -297,6 +335,55 @@ const styles = StyleSheet.create({
   },
   refreshButtonDisabled: {
     backgroundColor: "rgba(0, 0, 255, 0.4)",
+  },
+  buildingInfoContainer: {
+    position: 'absolute',
+    top: 50,
+    alignSelf: 'center',
+    backgroundColor: 'rgb(255, 255, 255)',
+    padding: 15,
+    borderRadius: 10,
+    width: '85%',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    zIndex: 2,
+  },
+  buildingNameText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  openingHoursText: {
+    color: 'gray',
+    marginBottom: 5,
+  },
+  addressText: {
+    color: '#555',
+    fontSize: 14,
+  },
+  marker: {
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buildingButton: {
+    width: 25,
+    height: 25,
+    backgroundColor: 'rgb(165, 35, 35)',
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buildingButtonText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
 });
 
