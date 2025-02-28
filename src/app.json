@@ -15,7 +15,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "config": {
+    "googleMaps": {
+      "apiKey": "AIzaSyAJ8SgIjfadd5GVEhcdvY8WhRVc20Ff1Ks"
+    }
+  },
+      "package": "com.hudson22.src"
     },
     "web": {
       "bundler": "metro",
@@ -32,10 +38,19 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4cdf29b3-adbf-4241-aeb2-cbdcefcbc659"
+      }
     }
   }
 }
