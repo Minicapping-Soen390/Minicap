@@ -1,5 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  Text,
+  Switch,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+  TouchableWithoutFeedback,
+} from "react-native";
 import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
@@ -57,15 +65,23 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [buildingInfo, setBuildingInfo] = useState<{ name: string; address: string; openingHours: string } | null>(null);
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
+  const [buildingInfo, setBuildingInfo] = useState<{
+    name: string;
+    address: string;
+    openingHours: string;
+  } | null>(null);
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
+    null
+  );
+  const [newRoute, setNewRoute] = useState<any>(null); // State to hold the new route object
 
   useEffect(() => {
     const requestLocationPermission = async () => {
       try {
-        const foregroundStatus = await Location.requestForegroundPermissionsAsync();
-        if (foregroundStatus.status !== 'granted') {
-          setLocationError('Permission to access location was denied');
+        const foregroundStatus =
+          await Location.requestForegroundPermissionsAsync();
+        if (foregroundStatus.status !== "granted") {
+          setLocationError("Permission to access location was denied");
           return;
         }
 
@@ -81,8 +97,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           longitudeDelta: 0.01,
         });
       } catch (err) {
-        console.error('Error getting location:', err);
-        setLocationError('Error getting location');
+        console.error("Error getting location:", err);
+        setLocationError("Error getting location");
       }
     };
 
@@ -98,29 +114,39 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const renderBuildings = () => {
     return buildingsData.map((building) => {
       if (Array.isArray(building.polygonShape)) {
-        const coordinates = building.polygonShape.map((coords) => {
-          if (Array.isArray(coords) && coords.length === 2) {
-            const [longitude, latitude] = coords;
-            return { latitude, longitude };
-          }
-          console.warn(`Invalid coordinates for building ${building._id}`);
-          return null;
-        }).filter(coord => coord !== null);
+        const coordinates = building.polygonShape
+          .map((coords) => {
+            if (Array.isArray(coords) && coords.length === 2) {
+              const [longitude, latitude] = coords;
+              return { latitude, longitude };
+            }
+            console.warn(`Invalid coordinates for building ${building._id}`);
+            return null;
+          })
+          .filter((coord) => coord !== null);
 
-        const center = coordinates.reduce((acc, curr) => {
-          acc.latitude += curr.latitude;
-          acc.longitude += curr.longitude;
-          return acc;
-        }, { latitude: 0, longitude: 0 });
+        const center = coordinates.reduce(
+          (acc, curr) => {
+            acc.latitude += curr.latitude;
+            acc.longitude += curr.longitude;
+            return acc;
+          },
+          { latitude: 0, longitude: 0 }
+        );
 
         center.latitude /= coordinates.length;
         center.longitude /= coordinates.length;
 
         // Determine the fill color based on whether the building is selected
-        const fillColor = selectedBuildingId === building._id ? "rgba(255, 165, 0, 0.5)" : "rgba(180, 16, 16, 0.48)";
+        const fillColor =
+          selectedBuildingId === building._id
+            ? "rgba(255, 165, 0, 0.5)"
+            : "rgba(180, 16, 16, 0.48)";
 
         // Get the first two letters of the building name
-        const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
+        const buildingNameInitials = building.name
+          .substring(0, 2)
+          .toUpperCase();
 
         return (
           <View key={building._id}>
@@ -133,21 +159,29 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             <Marker
               coordinate={center}
               onPress={() => {
-                setBuildingInfo({ name: building.name, address: building.address, openingHours: building.openingHours });
+                setBuildingInfo({
+                  name: building.name,
+                  address: building.address,
+                  openingHours: building.openingHours,
+                });
                 setSelectedBuildingId(building._id); // Set selected building ID
               }}
               anchor={{ x: 0.5, y: 0.5 }}
             >
               <View style={styles.marker}>
                 <View style={styles.buildingButton}>
-                  <Text style={styles.buildingButtonText}>{buildingNameInitials}</Text>
+                  <Text style={styles.buildingButtonText}>
+                    {buildingNameInitials}
+                  </Text>
                 </View>
               </View>
             </Marker>
           </View>
         );
       }
-      console.warn(`Building ${building._id} does not have a valid polygonShape`);
+      console.warn(
+        `Building ${building._id} does not have a valid polygonShape`
+      );
       return null;
     });
   };
@@ -159,15 +193,15 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
       if (!permissionGranted) {
         const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setLocationError('Location permission required');
+        if (status !== "granted") {
+          setLocationError("Location permission required");
           return;
         }
         setPermissionGranted(true);
       }
 
       const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High
+        accuracy: Location.Accuracy.High,
       });
 
       const newRegion = {
@@ -180,8 +214,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       setUserLocation(newRegion);
       mapRef.current?.animateToRegion(newRegion, 1000);
     } catch (error) {
-      console.error('Error updating location:', error);
-      setLocationError('Failed to get current location');
+      console.error("Error updating location:", error);
+      setLocationError("Failed to get current location");
     } finally {
       setIsRefreshing(false);
     }
@@ -191,6 +225,54 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     if (buildingInfo) {
       setBuildingInfo(null);
       setSelectedBuildingId(null); // Reset selected building ID
+    }
+  };
+
+  const handleAddToNavigation = () => {
+    if (buildingInfo) {
+      const newRouteSegment = {
+        startPoint: {
+          latitude: buildingInfo.latitude,
+          longitude: buildingInfo.longitude,
+        },
+        endPoint: {
+          latitude: userLocation?.latitude || 0,
+          longitude: userLocation?.longitude || 0,
+        },
+        transportationMode: "WALKING", // Default transportation mode
+        usageCount: 0,
+      };
+
+      const newRoute = {
+        accessible: true,
+        segmentIds: [newRouteSegment],
+      };
+
+      setNewRoute(newRoute); // Update the state with the new route object
+      console.log("New Route:", newRoute); // For debugging purposes
+    }
+
+    if (buildingInfo) {
+      const newRouteSegment = {
+        startPoint: {
+          latitude: buildingInfo.latitude,
+          longitude: buildingInfo.longitude,
+        },
+        endPoint: {
+          latitude: userLocation?.latitude || 0,
+          longitude: userLocation?.longitude || 0,
+        },
+        transportationMode: "WALKING", // Default transportation mode
+        usageCount: 0,
+      };
+
+      const newRoute = {
+        accessible: true,
+        segmentIds: [newRouteSegment],
+      };
+
+      setNewRoute(newRoute); // Update the state with the new route object
+      console.log("New Route:", newRoute); // For debugging purposes
     }
   };
 
@@ -212,7 +294,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           zoomControlEnabled={true}
         >
           <Marker
-            coordinate={{ latitude: region.latitude, longitude: region.longitude }}
+            coordinate={{
+              latitude: region.latitude,
+              longitude: region.longitude,
+            }}
             title={campus.name}
           />
           {permissionGranted && userLocation && (
@@ -237,13 +322,24 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         {buildingInfo && (
           <View style={styles.buildingInfoContainer}>
             <Text style={styles.buildingNameText}>{buildingInfo.name}</Text>
-            <Text style={styles.openingHoursText}>{buildingInfo.openingHours}</Text>
+            <Text style={styles.openingHoursText}>
+              {buildingInfo.openingHours}
+            </Text>
             <Text style={styles.addressText}>{buildingInfo.address}</Text>
+            <TouchableOpacity
+              onPress={handleAddToNavigation}
+              style={styles.addButton}
+            >
+              <Text style={styles.buttonText}>Add to Navigation</Text>
+            </TouchableOpacity>
           </View>
         )}
 
         <TouchableOpacity
-          style={[styles.refreshButton, isRefreshing && styles.refreshButtonDisabled]}
+          style={[
+            styles.refreshButton,
+            isRefreshing && styles.refreshButtonDisabled,
+          ]}
           onPress={updateUserLocation}
           disabled={isRefreshing}
         >
@@ -282,12 +378,12 @@ const CampusSwitcher: React.FC = () => {
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
-    position: 'relative',
+    position: "relative",
   },
   refreshButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
     backgroundColor: "rgba(0, 0, 255, 0.7)",
     padding: 10,
     borderRadius: 5,
@@ -317,32 +413,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   errorContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 50,
     left: 20,
     right: 20,
-    backgroundColor: 'rgba(255, 0, 0, 0.7)',
+    backgroundColor: "rgba(255, 0, 0, 0.7)",
     padding: 10,
     borderRadius: 5,
     zIndex: 2,
   },
   errorText: {
-    color: 'white',
-    textAlign: 'center',
+    color: "white",
+    textAlign: "center",
   },
   refreshButtonDisabled: {
     backgroundColor: "rgba(0, 0, 255, 0.4)",
   },
   buildingInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 50,
-    alignSelf: 'center',
-    backgroundColor: 'rgb(255, 255, 255)',
+    alignSelf: "center",
+    backgroundColor: "rgb(255, 255, 255)",
     padding: 15,
     borderRadius: 10,
-    width: '85%',
+    width: "85%",
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -352,35 +448,42 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   buildingNameText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
     marginBottom: 5,
   },
   openingHoursText: {
-    color: 'gray',
+    color: "gray",
     marginBottom: 5,
   },
   addressText: {
-    color: '#555',
+    color: "#555",
     fontSize: 14,
   },
   marker: {
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
   },
   buildingButton: {
     width: 25,
     height: 25,
-    backgroundColor: 'rgb(165, 35, 35)',
+    backgroundColor: "rgb(165, 35, 35)",
     borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buildingButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+  },
+  addButton: {
+    marginTop: 10,
+    backgroundColor: "rgba(0, 255, 0, 0.7)",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
   },
 });
 
