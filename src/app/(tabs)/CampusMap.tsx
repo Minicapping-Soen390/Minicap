@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
 } from "react-native";
-import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
+import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { Campus } from "@/models/Campus";
@@ -111,78 +111,120 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   }, [region]);
 
+  // Function to check if a point is inside a polygon
+  const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
+    let inside = false;
+    const x = point.longitude,
+      y = point.latitude;
+
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const xi = polygon[i].longitude,
+        yi = polygon[i].latitude;
+      const xj = polygon[j].longitude,
+        yj = polygon[j].latitude;
+
+      const intersect =
+        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+      if (intersect) inside = !inside;
+    }
+
+    return inside;
+  };
+
   const renderBuildings = () => {
     return buildingsData.map((building) => {
-      if (Array.isArray(building.polygonShape)) {
-        const coordinates = building.polygonShape
-          .map((coords) => {
-            if (Array.isArray(coords) && coords.length === 2) {
-              const [longitude, latitude] = coords;
-              return { latitude, longitude };
-            }
-            console.warn(`Invalid coordinates for building ${building._id}`);
-            return null;
-          })
-          .filter((coord) => coord !== null);
+      if (!Array.isArray(building.polygonShape)) {
+        console.warn(
+          `Building ${building._id} does not have a valid polygonShape`
+        );
+        return null;
+      }
 
-        const center = coordinates.reduce(
-          (acc, curr) => {
+      const coordinates: LatLng[] = building.polygonShape
+        .map((coords) => {
+          if (Array.isArray(coords) && coords.length === 2) {
+            const [longitude, latitude] = coords;
+            return { latitude, longitude };
+          }
+          console.warn(`Invalid coordinates for building ${building._id}`);
+          return null;
+        })
+        .filter((coord): coord is LatLng => coord !== null);
+
+      if (coordinates.length === 0) return null;
+
+      const center = coordinates.reduce(
+        (acc, curr) => {
+          if (curr) {
             acc.latitude += curr.latitude;
             acc.longitude += curr.longitude;
-            return acc;
-          },
-          { latitude: 0, longitude: 0 }
-        );
-
-        center.latitude /= coordinates.length;
-        center.longitude /= coordinates.length;
-
-        // Determine the fill color based on whether the building is selected
-        const fillColor =
-          selectedBuildingId === building._id
-            ? "rgba(255, 165, 0, 0.5)"
-            : "rgba(180, 16, 16, 0.48)";
-
-        // Get the first two letters of the building name
-        const buildingNameInitials = building.name
-          .substring(0, 2)
-          .toUpperCase();
-
-        return (
-          <View key={building._id}>
-            <Polygon
-              coordinates={coordinates}
-              strokeColor="rgb(165, 35, 35)"
-              strokeWidth={2}
-              fillColor={fillColor}
-            />
-            <Marker
-              coordinate={center}
-              onPress={() => {
-                setBuildingInfo({
-                  name: building.name,
-                  address: building.address,
-                  openingHours: building.openingHours,
-                });
-                setSelectedBuildingId(building._id); // Set selected building ID
-              }}
-              anchor={{ x: 0.5, y: 0.5 }}
-            >
-              <View style={styles.marker}>
-                <View style={styles.buildingButton}>
-                  <Text style={styles.buildingButtonText}>
-                    {buildingNameInitials}
-                  </Text>
-                </View>
-              </View>
-            </Marker>
-          </View>
-        );
-      }
-      console.warn(
-        `Building ${building._id} does not have a valid polygonShape`
+          }
+          return acc;
+        },
+        { latitude: 0, longitude: 0 }
       );
-      return null;
+
+      center.latitude /= coordinates.length;
+      center.longitude /= coordinates.length;
+
+      const isInside =
+        userLocation && isPointInPolygon(userLocation, coordinates);
+      const isSelected = selectedBuildingId === building._id;
+
+      const colorSettings = {
+        insideSelected: {
+          fill: "rgba(255, 165, 0, 0.5)",
+          stroke: "rgb(30, 79, 5)",
+        },
+        inside: { fill: "rgba(46, 118, 10, 0.41)", stroke: "rgb(30, 79, 5)" },
+        selected: {
+          fill: "rgba(255, 165, 0, 0.5)",
+          stroke: "rgb(165, 35, 35)",
+        },
+        default: { fill: "rgba(180, 16, 16, 0.5)", stroke: "rgb(165, 35, 35)" },
+      };
+
+      const { fill, stroke } =
+        isInside && isSelected
+          ? colorSettings.insideSelected
+          : isInside
+          ? colorSettings.inside
+          : isSelected
+          ? colorSettings.selected
+          : colorSettings.default;
+
+      const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
+
+      return (
+        <View key={building._id}>
+          <Polygon
+            coordinates={coordinates}
+            strokeColor={stroke}
+            strokeWidth={2}
+            fillColor={fill}
+          />
+          <Marker
+            coordinate={center}
+            onPress={() => {
+              setBuildingInfo({
+                name: building.name,
+                address: building.address,
+                openingHours: building.openingHours,
+              });
+              setSelectedBuildingId(building._id);
+            }}
+            anchor={{ x: 0.5, y: 0.5 }}
+          >
+            <View style={styles.marker}>
+              <View style={styles.buildingButton}>
+                <Text style={styles.buildingButtonText}>
+                  {buildingNameInitials}
+                </Text>
+              </View>
+            </View>
+          </Marker>
+        </View>
+      );
     });
   };
 
@@ -205,6 +247,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       });
 
       const newRegion = {
+        // Coords to test the LB building
+        // latitude: 45.49674153452182,
+        // longitude: -73.5779170349735,
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.01,
@@ -304,19 +349,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             <Marker
               coordinate={userLocation}
               title="Your Location"
-              pinColor="blue"
+              pinColor="green"
             />
           )}
           {renderBuildings()}
-
-          {userLocation && (
-            <Circle
-              center={userLocation}
-              radius={10}
-              fillColor="rgba(0, 0, 255, 0.5)"
-              strokeColor="rgba(0, 0, 255, 1)"
-            />
-          )}
         </MapView>
 
         {buildingInfo && (
