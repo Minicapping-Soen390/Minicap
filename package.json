@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@expo/vector-icons": "^14.0.4", 
     "@types/jsonwebtoken": "^9.0.8",
     "@types/uuid": "^10.0.0",
     "jsonwebtoken": "^9.0.2",
@@ -8,6 +9,7 @@
     "uuid": "^11.0.5"
   },
   "devDependencies": {
+    "@types/expo__vector-icons": "^9.0.1", 
     "typescript": "^5.7.3"
   },
   "scripts": {
