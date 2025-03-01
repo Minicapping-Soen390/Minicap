@@ -1,5 +1,5 @@
 import { Link, Tabs, usePathname } from "expo-router";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View, TouchableWithoutFeedback } from "react-native";
 import { useState } from "react";
 import Loader from "../../components/Loader";
 import { icons, images } from "../../constants";
@@ -7,15 +7,17 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../styles/globalStyles";
 
-const TabIcon = ({ icon, name, focused }) => {
+const TabIcon = ({ icon, name, isOpen, focused }) => {
+  const isActive = isOpen || focused;
+
   return (
-    <SafeAreaView style={ globalStyles.footerContainer }>
+    <SafeAreaView style={globalStyles.footerContainer}>
       <Image
         source={icon}
         resizeMode="contain"
-        style={ focused ? globalStyles.tabIconsFocused : globalStyles.tabIcons }
+        style={isActive ? globalStyles.tabIconsFocused : globalStyles.tabIcons}
       />
-      <Text style={ focused ? globalStyles.tabTextFocused : globalStyles.tabText }>
+      <Text style={isActive ? globalStyles.tabTextFocused : globalStyles.tabText}>
         {name}
       </Text>
     </SafeAreaView>
@@ -28,35 +30,32 @@ const TabLayout = () => {
   const pathname = usePathname();
   const showHeader = true;
 
+  const closeMenu = () => {
+    if (menuVisible) setMenuVisible(false);
+  };
+
   return (
-    <SafeAreaView style={ globalStyles.container }>
+    <SafeAreaView style={globalStyles.container}>
       {showHeader && (
-        <View style={ globalStyles.header }>
+        <View style={globalStyles.header}>
           <Image
             source={images.Concordia_Small_Logo}
             resizeMode="contain"
-            style={{ width: 50, height: 50 }}
+            style={globalStyles.logo}
           />
-          <Text style={globalStyles.appName}>
-              APP NAME
-            </Text>
+          <Text style={globalStyles.appName}>APP NAME</Text>
         </View>
       )}
 
       {/* Main Content */}
-      <View style={ globalStyles.container }>
-        <Tabs
-          initialRouteName="CampusMap"
-          screenOptions={ globalStyles.screenOptions }
-        >
+      <View style={globalStyles.container}>
+        <Tabs initialRouteName="CampusMap" screenOptions={globalStyles.screenOptions}>
           <Tabs.Screen
             name="CampusMap"
             options={{
               title: "Campus Map",
               headerShown: false,
-              tabBarIcon: ({ focused }) => (
-                <TabIcon icon={icons.Campus} focused={focused} />
-              ),
+              tabBarIcon: ({ focused }) => <TabIcon icon={icons.Campus} focused={focused} />,
             }}
           />
           <Tabs.Screen
@@ -64,9 +63,7 @@ const TabLayout = () => {
             options={{
               title: "Calendar",
               headerShown: false,
-              tabBarIcon: ({ focused }) => (
-                <TabIcon icon={icons.Calendar} focused={focused} />
-              ),
+              tabBarIcon: ({ focused }) => <TabIcon icon={icons.Calendar} focused={focused} />,
             }}
           />
           <Tabs.Screen
@@ -74,36 +71,38 @@ const TabLayout = () => {
             options={{
               title: "Search",
               headerShown: false,
-              tabBarIcon: ({ focused }) => (
-                <TabIcon icon={icons.search} focused={focused} />
-              ),
+              tabBarIcon: ({ focused }) => <TabIcon icon={icons.search} focused={focused} />,
             }}
           />
           <Tabs.Screen
             name="Home"
             listeners={{
               tabPress: (e) => {
-                e.preventDefault(); // prevent navigation
+                e.preventDefault(); // Prevent navigation
                 setMenuVisible(!menuVisible);
               },
             }}
             options={{
               title: "Menu",
               headerShown: false,
-              tabBarIcon: ({ focused }) => (
-                <TabIcon icon={icons.Hamburger} focused={focused} />
-              ),
+              tabBarIcon: () => <TabIcon icon={icons.Hamburger} focused={menuVisible} />,
             }}
           />
         </Tabs>
 
         {/* Popup Menu */}
         {menuVisible && (
-          <View style={ globalStyles.menu }>
-            <Link href="/pages/Login" style={ globalStyles.menuContent }>
-              Log In (optional)
-            </Link>
-          </View>
+          <TouchableWithoutFeedback onPress={closeMenu}>
+            <View style={globalStyles.overlay}>
+              <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+                <View style={globalStyles.menu}>
+                  <Link href="/pages/Login" style={globalStyles.menuContent}>
+                    Log In (optional)
+                  </Link>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
         )}
       </View>
 
