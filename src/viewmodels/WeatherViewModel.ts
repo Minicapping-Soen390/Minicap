@@ -1,13 +1,12 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Weather, ForecastData } from "@/models/Weather";
-import { ObjectId } from "mongodb";
 import { WeatherRepository } from "@/repositories/WeatherRepository";
 import { Audit } from "@/models/Audit";
 
 export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherRepository {
     private readonly COLLECTION = "weather";
 
-    async findForecastById(id: ObjectId): Promise<Weather> {
+    async findForecastById(id: string): Promise<Weather> {
         throw new Error("Method not implemented: findForecastById");
     }
 
@@ -19,7 +18,7 @@ export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherR
         throw new Error("Method not implemented: saveForecast");
     }
 
-    async updateForecast(id: ObjectId, data: Partial<Weather>): Promise<Weather> {
+    async updateForecast(id: string, data: Partial<Weather>): Promise<Weather> {
         throw new Error("Method not implemented: updateForecast");
     }
 
@@ -39,7 +38,7 @@ export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherR
         } as Weather;
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
         throw new Error("Method not implemented: updateAudit");
     }
 }

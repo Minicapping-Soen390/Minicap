@@ -1,7 +1,6 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Route, RouteSegment, TransportationMode } from "@/models/Route";
 import { Location } from "@/models/Location";
-import { ObjectId } from "mongodb";
 import { RouteRepository } from "@/repositories/RouteRepository";
 import { Audit } from "@/models/Audit";
 
@@ -13,11 +12,11 @@ export class RouteViewModel extends BaseViewModel<Route> implements RouteReposit
         super();
     }
 
-    async findRouteById(id: ObjectId): Promise<Route> {
+    async findRouteById(id: string): Promise<Route> {
         throw new Error("Method not implemented: findRouteById");
     }
 
-    async findSegmentsByRouteId(routeId: ObjectId): Promise<RouteSegment[]> {
+    async findSegmentsByRouteId(routeId: string): Promise<RouteSegment[]> {
         throw new Error("Method not implemented: findSegmentsByRouteId");
     }
 
@@ -25,15 +24,15 @@ export class RouteViewModel extends BaseViewModel<Route> implements RouteReposit
         startPoint: Location,
         endPoint: Location,
         mode: TransportationMode,
-        userId: ObjectId
+        userId: string
     ): Promise<RouteSegment> {
         throw new Error("Method not implemented: findOrCreateSegment");
     }
 
     async updateSegment(
-        segmentId: ObjectId, 
+        segmentId: string, 
         updates: Partial<RouteSegment>,
-        userId: ObjectId
+        userId: string
     ): Promise<RouteSegment> {
         throw new Error("Method not implemented: updateSegment");
     }
@@ -41,12 +40,12 @@ export class RouteViewModel extends BaseViewModel<Route> implements RouteReposit
     async createRoute(
         waypoints: Location[],
         mode: TransportationMode,
-        userId: ObjectId
+        userId: string
     ): Promise<Route> {
         throw new Error("Method not implemented: createRoute");
     }
 
-    async calculatePath(segmentId: ObjectId, userId: ObjectId): Promise<RouteSegment> {
+    async calculatePath(segmentId: string, userId: string): Promise<RouteSegment> {
         throw new Error("Method not implemented: calculatePath");
     }
 
@@ -54,7 +53,7 @@ export class RouteViewModel extends BaseViewModel<Route> implements RouteReposit
         throw new Error("Method not implemented: mapToDTO");
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
         throw new Error("Method not implemented: updateAudit");
     }
 }

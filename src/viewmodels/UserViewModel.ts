@@ -1,13 +1,12 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { User } from "@/models/User";
-import { ObjectId } from "mongodb";
 import { UserRepository } from "@/repositories/UserRepository";
 import { Audit } from "@/models/Audit";
 
 export class UserViewModel extends BaseViewModel<User> implements UserRepository {
     private readonly COLLECTION = "users";
 
-    async findUserById(id: ObjectId): Promise<User> {
+    async findUserById(id: string): Promise<User> {
         throw new Error("Method not implemented: findUserById");
     }
 
@@ -23,11 +22,11 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         throw new Error("Method not implemented: logout");
     }
 
-    async updateUser(id: ObjectId, data: Partial<User>, token: string): Promise<User> {
+    async updateUser(id: string, data: Partial<User>, token: string): Promise<User> {
         throw new Error("Method not implemented: updateUser");
     }
 
-    async deleteUser(id: ObjectId, token: string): Promise<void> {
+    async deleteUser(id: string, token: string): Promise<void> {
         throw new Error("Method not implemented: deleteUser");
     }
 
@@ -47,7 +46,7 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         } as User;
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
         throw new Error("Method not implemented: updateAudit");
     }
 }

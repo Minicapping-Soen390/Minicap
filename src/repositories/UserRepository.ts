@@ -1,14 +1,13 @@
 import { User } from "@/models/User";
-import { ObjectId } from "mongodb";
 
 export interface UserRepository {
   /**
    * Retrieves a user by their unique identifier
-   * @param id - The ObjectId of the user to find
+   * @param id - The string of the user to find
    * @returns Promise resolving to the found User
    * @throws {NotFoundError} If user doesn't exist
    */
-  findUserById(id: ObjectId): Promise<User>;
+  findUserById(id: string): Promise<User>;
 
   /**
    * Creates a new user account (sign up)
@@ -37,23 +36,23 @@ export interface UserRepository {
 
   /**
    * Updates user's information
-   * @param id - The ObjectId of the user to update
+   * @param id - The string of the user to update
    * @param data - Partial user data to update
    * @param token - Valid JWT token
    * @returns Promise resolving to updated User
    * @throws {NotFoundError} If user doesn't exist
    * @throws {AuthError} If token is invalid
    */
-  updateUser(id: ObjectId, data: Partial<User>, token: string): Promise<User>;
+  updateUser(id: string, data: Partial<User>, token: string): Promise<User>;
 
   /**
    * Deletes a user account
-   * @param id - The ObjectId of the user to delete
+   * @param id - The string of the user to delete
    * @param token - Valid JWT token
    * @throws {NotFoundError} If user doesn't exist
    * @throws {AuthError} If token is invalid
    */
-  deleteUser(id: ObjectId, token: string): Promise<void>;
+  deleteUser(id: string, token: string): Promise<void>;
 
   /**
    * Finds a user by their email address

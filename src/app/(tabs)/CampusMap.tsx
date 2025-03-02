@@ -33,14 +33,14 @@ interface CampusMapProps {
 
 // Define Campuses
 const SGWCampus: Campus = {
-  id: "sgw-ObjectId",
+  id: "sgw-string",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
 };
 
 const LoyolaCampus: Campus = {
-  id: "loyola-ObjectId",
+  id: "loyola-string",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],

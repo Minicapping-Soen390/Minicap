@@ -1,13 +1,12 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Floor } from "@/models/Floor";
-import { ObjectId } from "mongodb";
 import { Audit } from "@/models/Audit";
 import { FloorRepository } from "@/repositories/FloorRepository";
 
 export class FloorViewModel extends BaseViewModel<Floor> implements FloorRepository {
     private readonly COLLECTION_NAME = "floors";
 
-    async findFloorById(id: ObjectId): Promise<Floor> {
+    async findFloorById(id: string): Promise<Floor> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const doc = await collection.findOne({ _id: id });
             if (!doc) throw new Error(`Floor with id ${id} not found`);
@@ -15,7 +14,7 @@ export class FloorViewModel extends BaseViewModel<Floor> implements FloorReposit
         });
     }
 
-    async findFloorsByBuilding(buildingId: ObjectId): Promise<Floor[]> {
+    async findFloorsByBuilding(buildingId: string): Promise<Floor[]> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const docs = await collection.find({ buildingId }).toArray();
             return docs.map(doc => this.mapToDTO(doc));
@@ -41,7 +40,7 @@ export class FloorViewModel extends BaseViewModel<Floor> implements FloorReposit
         };
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
         throw new Error("Floors are read-only, audit updates not implemented");
     }
 }

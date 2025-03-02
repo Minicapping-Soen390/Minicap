@@ -1,6 +1,5 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Calendar, Event } from "@/models/Calendar";
-import { ObjectId } from "mongodb";
 import { Audit } from "@/models/Audit";
 import { CalendarRepository } from "@/repositories/CalendarRepository";
 
@@ -17,7 +16,7 @@ export class CalendarViewModel extends BaseViewModel<Calendar> implements Calend
     }
     private readonly COLLECTION_NAME = "calendars";
 
-    async connectGoogleCalendar(googleCalendarId: string, userId: ObjectId): Promise<Calendar> {
+    async connectGoogleCalendar(googleCalendarId: string, userId: string): Promise<Calendar> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const calendar: Calendar = {
                 eventIds: [],
@@ -30,7 +29,7 @@ export class CalendarViewModel extends BaseViewModel<Calendar> implements Calend
         });
     }
 
-    async disconnectGoogleCalendar(calendarId: ObjectId): Promise<void> {
+    async disconnectGoogleCalendar(calendarId: string): Promise<void> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const result = await collection.deleteOne({ _id: calendarId });
             if (result.deletedCount === 0) {
@@ -39,22 +38,22 @@ export class CalendarViewModel extends BaseViewModel<Calendar> implements Calend
         });
     }
 
-    async getGoogleCalendarEvents(calendarId: ObjectId): Promise<Event[]> {
+    async getGoogleCalendarEvents(calendarId: string): Promise<Event[]> {
         // TODO: Implement Google Calendar API integration
         return [];
     }
 
-    async getUserConnectedCalendars(userId: ObjectId): Promise<Calendar[]> {
+    async getUserConnectedCalendars(userId: string): Promise<Calendar[]> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const calendars = await collection.find({ userIds: userId }).toArray();
             return calendars as Calendar[];
         });
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
         const now = new Date();
         return {
-            _id: existingAudit?._id || new ObjectId(),
+            _id: existingAudit?._id || new string(),
             createdAtUTC: existingAudit?.createdAtUTC || now,
             updatedAtUTC: now,
             createdBy: existingAudit?.createdBy || userId,

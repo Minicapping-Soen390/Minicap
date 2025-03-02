@@ -1,13 +1,12 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Campus } from "@/models/Campus";
-import { ObjectId } from "mongodb";
 import { Audit } from "@/models/Audit";
 import { CampusRepository } from "@/repositories/CampusRepository";
 
 export class CampusViewModel extends BaseViewModel<Campus> implements CampusRepository {
     private readonly COLLECTION_NAME = "campus";
 
-    async findCampusById(id: ObjectId): Promise<Campus> {
+    async findCampusById(id: string): Promise<Campus> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const doc = await collection.findOne({ _id: id });
             if (!doc) throw new Error(`Campus with id ${id} not found`);
@@ -37,7 +36,7 @@ export class CampusViewModel extends BaseViewModel<Campus> implements CampusRepo
         };
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
         throw new Error("Campuses are read-only, audit updates not implemented");
     }
 }

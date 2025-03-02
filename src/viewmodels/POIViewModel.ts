@@ -1,13 +1,12 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { POI, POICategory } from "@/models/POI";
-import { ObjectId } from "mongodb";
 import { Audit } from "@/models/Audit";
 import { MapRepository } from "@/repositories/POIRepository";
 
 export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
     private readonly COLLECTION_NAME = "pois";
 
-    async findPOIById(id: ObjectId): Promise<POI> {
+    async findPOIById(id: string): Promise<POI> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const doc = await collection.findOne({ _id: id });
             if (!doc) throw new Error(`POI with id ${id} not found`);
@@ -46,7 +45,7 @@ export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
         });
     }
 
-    async createPOI(data: Omit<POI, '_id' | 'createdAtUTC' | 'updatedAtUTC'>, userId: ObjectId): Promise<POI> {
+    async createPOI(data: Omit<POI, '_id' | 'createdAtUTC' | 'updatedAtUTC'>, userId: string): Promise<POI> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const poi: POI = {
                 ...data,
@@ -57,7 +56,7 @@ export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
         });
     }
 
-    async updatePOI(id: ObjectId, data: Partial<POI>, userId: ObjectId): Promise<POI> {
+    async updatePOI(id: string, data: Partial<POI>, userId: string): Promise<POI> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const existing = await collection.findOne({ _id: id });
             if (!existing) throw new Error(`POI with id ${id} not found`);
@@ -73,7 +72,7 @@ export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
         });
     }
 
-    async deletePOI(id: ObjectId, userId: ObjectId): Promise<void> {
+    async deletePOI(id: string, userId: string): Promise<void> {
         await this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const existing = await collection.findOne({ _id: id });
             if (!existing) throw new Error(`POI with id ${id} not found`);
@@ -101,11 +100,11 @@ export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
         };
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
         const now = new Date();
         if (!existingAudit) {
             return {
-                _id: new ObjectId(),
+                _id: new string(),
                 createdAtUTC: now,
                 updatedAtUTC: now,
                 createdBy: userId,

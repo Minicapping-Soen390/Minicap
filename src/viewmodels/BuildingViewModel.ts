@@ -1,13 +1,12 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Building } from "@/models/Building";
-import { ObjectId } from "mongodb";
 import { Audit } from "@/models/Audit";
 import { BuildingRepository } from "@/repositories/BuildingRepository";
 
 export class BuildingViewModel extends BaseViewModel<Building> implements BuildingRepository {
     private readonly COLLECTION_NAME = "buildings";
 
-    async findBuildingById(id: ObjectId): Promise<Building> {
+    async findBuildingById(id: string): Promise<Building> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const doc = await collection.findOne({ _id: id });
             if (!doc) throw new Error(`Building with id ${id} not found`);
@@ -15,7 +14,7 @@ export class BuildingViewModel extends BaseViewModel<Building> implements Buildi
         });
     }
 
-    async findBuildingsByCampus(campusId: ObjectId): Promise<Building[]> {
+    async findBuildingsByCampus(campusId: string): Promise<Building[]> {
         return this.withCollection(this.COLLECTION_NAME, async (collection) => {
             const docs = await collection.find({ campusId }).toArray();
             return docs.map(doc => this.mapToDTO(doc));
@@ -31,7 +30,7 @@ export class BuildingViewModel extends BaseViewModel<Building> implements Buildi
 
     protected mapToDTO(doc: any): Building {
         return {
-            _id: doc._id,  // Already ObjectId, no conversion needed
+            _id: doc._id,  // Already string, no conversion needed
             name: doc.name,
             address: doc.address,
             description: doc.description,
@@ -44,7 +43,7 @@ export class BuildingViewModel extends BaseViewModel<Building> implements Buildi
         };
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
+    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
         throw new Error("Buildings are read-only, audit updates not implemented");
     }
 }
