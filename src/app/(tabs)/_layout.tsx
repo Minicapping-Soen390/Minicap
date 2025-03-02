@@ -63,6 +63,7 @@ const TabLayout = () => {
         <View>
           {/* Settings Button (Hamburger Menu) */}
           <TouchableOpacity
+            testID="hamburger-menu"
             onPress={() => setMenuVisible(!menuVisible)}
             style={{ padding: 10 }}
           >
@@ -76,6 +77,7 @@ const TabLayout = () => {
           {/* Dropdown Menu for Settings */}
           {menuVisible && (
             <View
+              testID="settings-menu"
               style={{
                 position: "absolute",
                 top: 40, //  Moves dropdown below the icon
@@ -122,7 +124,7 @@ const TabLayout = () => {
       </View>
 
       {/* Main Content (Ensure Tabs are Not Cut Off) */}
-      <View style={{ flex: 1 }}>
+      <View testID="tabs-container" style={{ flex: 1 }}>
         <Tabs
           initialRouteName="Home"
           screenOptions={{

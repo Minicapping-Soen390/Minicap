@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
-import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
+import MapView, { Marker, Region, Polygon, Circle, LatLng } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { Campus } from "@/models/Campus";
@@ -63,9 +63,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   useEffect(() => {
     const requestLocationPermission = async () => {
       try {
-        const foregroundStatus = await Location.requestForegroundPermissionsAsync();
-        if (foregroundStatus.status !== 'granted') {
-          setLocationError('Permission to access location was denied');
+        const foregroundStatus =
+          await Location.requestForegroundPermissionsAsync();
+        if (foregroundStatus.status !== "granted") {
+          setLocationError("Permission to access location was denied");
           return;
         }
 
@@ -81,8 +82,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           longitudeDelta: 0.01,
         });
       } catch (err) {
-        console.error('Error getting location:', err);
-        setLocationError('Error getting location');
+        console.error("Error getting location:", err);
+        setLocationError("Error getting location");
       }
     };
 
@@ -200,15 +201,15 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
       if (!permissionGranted) {
         const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setLocationError('Location permission required');
+        if (status !== "granted") {
+          setLocationError("Location permission required");
           return;
         }
         setPermissionGranted(true);
       }
 
       const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High
+        accuracy: Location.Accuracy.High,
       });
 
       const newRegion = {
@@ -224,8 +225,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       setUserLocation(newRegion);
       mapRef.current?.animateToRegion(newRegion, 1000);
     } catch (error) {
-      console.error('Error updating location:', error);
-      setLocationError('Failed to get current location');
+      console.error("Error updating location:", error);
+      setLocationError("Failed to get current location");
     } finally {
       setIsRefreshing(false);
     }
@@ -303,6 +304,7 @@ const CampusSwitcher: React.FC = () => {
       <View style={styles.switchContainer}>
         <Text>SGW Campus</Text>
         <Switch
+          testID="campus-switch"
           value={!isSGWCampus}
           onValueChange={() => setIsSGWCampus(!isSGWCampus)}
         />
@@ -317,12 +319,12 @@ const CampusSwitcher: React.FC = () => {
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
-    position: 'relative',
+    position: "relative",
   },
   refreshButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
     backgroundColor: "rgba(0, 0, 255, 0.7)",
     padding: 10,
     borderRadius: 5,
@@ -352,18 +354,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   errorContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 50,
     left: 20,
     right: 20,
-    backgroundColor: 'rgba(255, 0, 0, 0.7)',
+    backgroundColor: "rgba(255, 0, 0, 0.7)",
     padding: 10,
     borderRadius: 5,
     zIndex: 2,
   },
   errorText: {
-    color: 'white',
-    textAlign: 'center',
+    color: "white",
+    textAlign: "center",
   },
   refreshButtonDisabled: {
     backgroundColor: "rgba(0, 0, 255, 0.4)",
