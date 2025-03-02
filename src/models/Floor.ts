@@ -11,7 +11,7 @@ export interface Floor extends Audit {
 }
 
 export interface Floorplan extends Audit {
-  data: any;
+  data: {};
 }
 
 export interface Room extends Audit {

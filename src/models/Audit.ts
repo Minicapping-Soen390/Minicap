@@ -1,8 +1,7 @@
-
 export interface Audit {
     _id: string;  // MongoDB document ID
-    createdAtUTC?: Date;
-    updatedAtUTC?: Date;
+    createdAtUTC?: string;
+    updatedAtUTC?: string;
     createdBy?: string;
     updatedBy?: string;
 }

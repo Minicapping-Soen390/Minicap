@@ -2,8 +2,13 @@ import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Calendar, Event } from "@/models/Calendar";
 import { Audit } from "@/models/Audit";
 import { CalendarRepository } from "@/repositories/CalendarRepository";
+import { MMKVLoader, create } from "react-native-mmkv-storage";
 
 export class CalendarViewModel extends BaseViewModel<Calendar> implements CalendarRepository {
+    private readonly COLLECTION_NAME = "calendars";
+    // Added MMKV storage instance for calendars collection
+    private readonly calendarStorage = create(new MMKVLoader().initialize());
+
     protected mapToDTO(doc: any): Calendar {
       if (!doc) throw new Error(`Calendar Not Found`);
       
@@ -14,50 +19,21 @@ export class CalendarViewModel extends BaseViewModel<Calendar> implements Calend
         ...doc.audit
       };
     }
-    private readonly COLLECTION_NAME = "calendars";
 
     async connectGoogleCalendar(googleCalendarId: string, userId: string): Promise<Calendar> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const calendar: Calendar = {
-                eventIds: [],
-                userIds: [userId],
-                ...await this.updateAudit(null, userId)
-            };
-
-            await collection.insertOne(calendar);
-            return calendar;
-        });
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     async disconnectGoogleCalendar(calendarId: string): Promise<void> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const result = await collection.deleteOne({ _id: calendarId });
-            if (result.deletedCount === 0) {
-                throw new Error(`Calendar with id ${calendarId} not found`);
-            }
-        });
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     async getGoogleCalendarEvents(calendarId: string): Promise<Event[]> {
-        // TODO: Implement Google Calendar API integration
-        return [];
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     async getUserConnectedCalendars(userId: string): Promise<Calendar[]> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const calendars = await collection.find({ userIds: userId }).toArray();
-            return calendars as Calendar[];
-        });
+        throw new Error("Not implemented: MongoDB removed");
     }
 
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
-        const now = new Date();
-        return {
-            _id: existingAudit?._id || new string(),
-            createdAtUTC: existingAudit?.createdAtUTC || now,
-            updatedAtUTC: now,
-            createdBy: existingAudit?.createdBy || userId,
-            updatedBy: userId
-        };
-    }
 }

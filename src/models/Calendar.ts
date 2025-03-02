@@ -11,7 +11,7 @@ export interface Event extends Audit {
   locationType: 'outdoor' | 'floorplan';  // Discriminator field
   startTime: string;
   endTime: string;
-  recurrence: any;
+  recurrence: {};
   calendarId: string;  // FK to Calendar
 }
 

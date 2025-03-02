@@ -2,23 +2,19 @@ import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Floor } from "@/models/Floor";
 import { Audit } from "@/models/Audit";
 import { FloorRepository } from "@/repositories/FloorRepository";
+import { MMKVLoader, create } from "react-native-mmkv-storage";
 
 export class FloorViewModel extends BaseViewModel<Floor> implements FloorRepository {
     private readonly COLLECTION_NAME = "floors";
+    // Added MMKV storage instance for floors collection
+    private readonly floorStorage = create(new MMKVLoader().initialize());
 
-    async findFloorById(id: string): Promise<Floor> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const doc = await collection.findOne({ _id: id });
-            if (!doc) throw new Error(`Floor with id ${id} not found`);
-            return this.mapToDTO(doc);
-        });
+    async findFloorById(_id: string): Promise<Floor> {
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     async findFloorsByBuilding(buildingId: string): Promise<Floor[]> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const docs = await collection.find({ buildingId }).toArray();
-            return docs.map(doc => this.mapToDTO(doc));
-        });
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     protected mapToDTO(doc: any): Floor {
@@ -38,9 +34,5 @@ export class FloorViewModel extends BaseViewModel<Floor> implements FloorReposit
             createdBy: doc.createdBy,
             updatedBy: doc.updatedBy
         };
-    }
-
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
-        throw new Error("Floors are read-only, audit updates not implemented");
     }
 }

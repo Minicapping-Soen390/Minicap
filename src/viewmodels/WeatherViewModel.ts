@@ -1,12 +1,14 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Weather, ForecastData } from "@/models/Weather";
 import { WeatherRepository } from "@/repositories/WeatherRepository";
-import { Audit } from "@/models/Audit";
+import { MMKVLoader, create } from "react-native-mmkv-storage";
 
 export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherRepository {
     private readonly COLLECTION = "weather";
+    // Added MMKV storage instance for weather collection
+    private readonly weatherStorage = create(new MMKVLoader().initialize());
 
-    async findForecastById(id: string): Promise<Weather> {
+    async findForecastById(_id: string): Promise<Weather> {
         throw new Error("Method not implemented: findForecastById");
     }
 
@@ -18,11 +20,11 @@ export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherR
         throw new Error("Method not implemented: saveForecast");
     }
 
-    async updateForecast(id: string, data: Partial<Weather>): Promise<Weather> {
+    async updateForecast(_id: string, data: Partial<Weather>): Promise<Weather> {
         throw new Error("Method not implemented: updateForecast");
     }
 
-    async deleteOutdatedForecasts(olderThan: Date): Promise<number> {
+    async deleteOutdatedForecasts(olderThan: string): Promise<number> {
         throw new Error("Method not implemented: deleteOutdatedForecasts");
     }
 
@@ -30,15 +32,7 @@ export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherR
         if (!doc) throw new Error('Document not found');
         return {
             _id: doc._id,
-            ...doc,
-            createdAtUTC: doc.createdAtUTC,
-            updatedAtUTC: doc.updatedAtUTC,
-            createdBy: doc.createdBy,
-            updatedBy: doc.updatedBy
+            ...doc
         } as Weather;
-    }
-
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
-        throw new Error("Method not implemented: updateAudit");
     }
 }

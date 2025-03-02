@@ -2,12 +2,12 @@ import { Weather, ForecastData } from "@/models/Weather";
 
 export interface WeatherRepository {
   /**
-   * Retrieves weather forecast by ID from database
-   * @param id - The string of the forecast to find
+   * Retrieves weather forecast by _id from database
+   * @param _id - The string of the forecast to find
    * @returns Promise resolving to the found Weather forecast
    * @throws {NotFoundError} If forecast doesn't exist
    */
-  findForecastById(id: string): Promise<Weather>;
+  findForecastById(_id: string): Promise<Weather>;
 
   /**
    * Queries external weather API for forecast
@@ -28,17 +28,17 @@ export interface WeatherRepository {
 
   /**
    * Updates existing forecast in database
-   * @param id - The string of the forecast to update
+   * @param _id - The string of the forecast to update
    * @param data - Partial forecast data to update
    * @returns Promise resolving to updated Weather forecast
    * @throws {NotFoundError} If forecast doesn't exist
    */
-  updateForecast(id: string, data: Partial<Weather>): Promise<Weather>;
+  updateForecast(_id: string, data: Partial<Weather>): Promise<Weather>;
 
   /**
    * Deletes outdated forecasts from database
    * @param olderThan - Delete forecasts older than this date
    * @returns Promise resolving to number of deleted forecasts
    */
-  deleteOutdatedForecasts(olderThan: Date): Promise<number>;
+  deleteOutdatedForecasts(olderThan: string): Promise<number>;
 }

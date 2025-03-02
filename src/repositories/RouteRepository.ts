@@ -4,12 +4,12 @@ import { Route, RouteSegment, TransportationMode } from "@/models/Route";
 export interface RouteRepository {
     /**
      * Retrieves a route by its unique identifier
-     * @param id - The string of the route to find
+     * @param _id - The string of the route to find
      * @returns Promise resolving to the found Route
-     * @throws {NotFoundError} If route with given ID doesn't exist
+     * @throws {NotFoundError} If route with given _id doesn't exist
      * @throws {DatabaseError} If database query fails
      */
-    findRouteById(id: string): Promise<Route>;
+    findRouteById(_id: string): Promise<Route>;
 
     /**
      * Creates a new route by generating segments between waypoints
@@ -39,15 +39,15 @@ export interface RouteRepository {
 
     /**
      * Updates a route segment (e.g., mark as obstructed, change path)
-     * @param segmentId - The string of the segment to update
+     * @param _id - The string of the segment to update
      * @param updates - Partial segment data to update
      * @param userId - User updating the segment
      * @returns Promise resolving to updated RouteSegment
-     * @throws {NotFoundError} If segment with given ID doesn't exist
+     * @throws {NotFoundError} If segment with given _id doesn't exist
      * @throws {ValidationError} If updates are invalid
      * @throws {DatabaseError} If database operation fails
      */
-    updateSegment(segmentId: string, updates: Partial<RouteSegment>, userId: string): Promise<RouteSegment>;
+    updateSegment(_id: string, updates: Partial<RouteSegment>, userId: string): Promise<RouteSegment>;
 
     /**
      * Retrieves all segments belonging to a route
@@ -60,12 +60,12 @@ export interface RouteRepository {
 
     /**
      * Calculates and updates the path for a route segment
-     * @param segmentId - The string of the segment to calculate path for
+     * @param _id - The string of the segment to calculate path for
      * @param userId - User triggering the path calculation
      * @returns Promise resolving to updated RouteSegment with new path
-     * @throws {NotFoundError} If segment with given ID doesn't exist
+     * @throws {NotFoundError} If segment with given _id doesn't exist
      * @throws {NotImplementedError} If path calculation is not implemented for segment type
      * @throws {DatabaseError} If database operation fails
      */
-    calculatePath(segmentId: string, userId: string): Promise<RouteSegment>;
+    calculatePath(_id: string, userId: string): Promise<RouteSegment>;
 }

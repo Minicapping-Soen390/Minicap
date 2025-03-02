@@ -3,11 +3,11 @@ import { Floor } from '@/models/Floor';
 export interface FloorRepository {
   /**
    * Retrieves a floor by its unique identifier
-   * @param id - The string of the floor to find
+   * @param _id - The string of the floor to find
    * @returns Promise resolving to the found Floor
-   * @throws {NotFoundError} If floor with given ID doesn't exist
+   * @throws {NotFoundError} If floor with given _id doesn't exist
    */
-  findFloorById(id: string): Promise<Floor>;
+  findFloorById(_id: string): Promise<Floor>;
 
   /**
    * Retrieves all floors of a specific building

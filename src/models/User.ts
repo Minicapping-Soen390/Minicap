@@ -9,5 +9,5 @@ export interface User extends Audit {
 }
 
 export interface Administrator extends User {
-  dateGranted: Date;
+  dateGranted: string;
 }

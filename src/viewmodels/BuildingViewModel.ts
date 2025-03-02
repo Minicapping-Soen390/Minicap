@@ -2,30 +2,23 @@ import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Building } from "@/models/Building";
 import { Audit } from "@/models/Audit";
 import { BuildingRepository } from "@/repositories/BuildingRepository";
+import { MMKVLoader, create } from "react-native-mmkv-storage";
 
 export class BuildingViewModel extends BaseViewModel<Building> implements BuildingRepository {
     private readonly COLLECTION_NAME = "buildings";
+    // Added MMKV storage instance for buildings collection
+    private readonly buildingStorage = create(new MMKVLoader().initialize());
 
-    async findBuildingById(id: string): Promise<Building> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const doc = await collection.findOne({ _id: id });
-            if (!doc) throw new Error(`Building with id ${id} not found`);
-            return this.mapToDTO(doc);
-        });
+    async findBuildingById(_id: string): Promise<Building> {
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     async findBuildingsByCampus(campusId: string): Promise<Building[]> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const docs = await collection.find({ campusId }).toArray();
-            return docs.map(doc => this.mapToDTO(doc));
-        });
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     async getAllBuildings(): Promise<Building[]> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const docs = await collection.find({}).toArray();
-            return docs.map(doc => this.mapToDTO(doc));
-        });
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     protected mapToDTO(doc: any): Building {
@@ -41,9 +34,5 @@ export class BuildingViewModel extends BaseViewModel<Building> implements Buildi
             createdBy: doc.createdBy,
             updatedBy: doc.updatedBy
         };
-    }
-
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
-        throw new Error("Buildings are read-only, audit updates not implemented");
     }
 }

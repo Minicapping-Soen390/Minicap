@@ -2,17 +2,19 @@ import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Route, RouteSegment, TransportationMode } from "@/models/Route";
 import { Location } from "@/models/Location";
 import { RouteRepository } from "@/repositories/RouteRepository";
-import { Audit } from "@/models/Audit";
+import { MMKVLoader, create } from "react-native-mmkv-storage";
 
 export class RouteViewModel extends BaseViewModel<Route> implements RouteRepository {
     private readonly ROUTES_COLLECTION = "routes";
     private readonly SEGMENTS_COLLECTION = "routeSegments";
+    // Added MMKV storage instance for routes collection
+    private readonly routeStorage = create(new MMKVLoader().initialize());
 
     constructor() {
         super();
     }
 
-    async findRouteById(id: string): Promise<Route> {
+    async findRouteById(_id: string): Promise<Route> {
         throw new Error("Method not implemented: findRouteById");
     }
 
@@ -30,7 +32,7 @@ export class RouteViewModel extends BaseViewModel<Route> implements RouteReposit
     }
 
     async updateSegment(
-        segmentId: string, 
+        _id: string, 
         updates: Partial<RouteSegment>,
         userId: string
     ): Promise<RouteSegment> {
@@ -45,15 +47,16 @@ export class RouteViewModel extends BaseViewModel<Route> implements RouteReposit
         throw new Error("Method not implemented: createRoute");
     }
 
-    async calculatePath(segmentId: string, userId: string): Promise<RouteSegment> {
+    async calculatePath(_id: string, userId: string): Promise<RouteSegment> {
         throw new Error("Method not implemented: calculatePath");
     }
 
-    protected mapToDTO<T extends Route | RouteSegment>(doc: any): T {
-        throw new Error("Method not implemented: mapToDTO");
-    }
-
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
-        throw new Error("Method not implemented: updateAudit");
+    protected mapToDTO(doc: any): Route {
+        if (!doc) throw new Error("Document not found");
+        return {
+            _id: doc._id,
+            // ...removed audit data...
+            ...doc
+        } as Route;
     }
 }

@@ -3,11 +3,11 @@ import { POI, POICategory } from '@/models/POI';
 export interface MapRepository {
   /**
    * Retrieves a POI by its unique identifier
-   * @param id - The string of the POI to find
+   * @param _id - The string of the POI to find
    * @returns Promise resolving to the found POI
-   * @throws {NotFoundError} If POI with given ID doesn't exist
+   * @throws {NotFoundError} If POI with given _id doesn't exist
    */
-  findPOIById(id: string): Promise<POI>;
+  findPOIById(_id: string): Promise<POI>;
 
   /**
    * Retrieves all POIs in the system
@@ -35,19 +35,19 @@ export interface MapRepository {
 
   /**
    * Updates an existing POI's information and audit trail
-   * @param id - The string of the POI to update
+   * @param _id - The string of the POI to update
    * @param data - Partial POI data to update
    * @param userId - ID of user updating the POI for audit
    * @returns Promise resolving to the updated POI with new audit
-   * @throws {NotFoundError} If POI with given ID doesn't exist
+   * @throws {NotFoundError} If POI with given _id doesn't exist
    */
-  updatePOI(id: string, data: Partial<POI>, userId: string): Promise<POI>;
+  updatePOI(_id: string, data: Partial<POI>, userId: string): Promise<POI>;
 
   /**
    * Removes a POI and logs deletion in audit
-   * @param id - The string of the POI to delete
+   * @param _id - The string of the POI to delete
    * @param userId - ID of user deleting the POI for audit
-   * @throws {NotFoundError} If POI with given ID doesn't exist
+   * @throws {NotFoundError} If POI with given _id doesn't exist
    */
-  deletePOI(id: string, userId: string): Promise<void>;
+  deletePOI(_id: string, userId: string): Promise<void>;
 }

@@ -2,23 +2,19 @@ import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Campus } from "@/models/Campus";
 import { Audit } from "@/models/Audit";
 import { CampusRepository } from "@/repositories/CampusRepository";
+import { MMKVLoader, create } from "react-native-mmkv-storage";
 
 export class CampusViewModel extends BaseViewModel<Campus> implements CampusRepository {
     private readonly COLLECTION_NAME = "campus";
+    // Added MMKV storage instance for campus collection
+    private readonly campusStorage = create(new MMKVLoader().initialize());
 
-    async findCampusById(id: string): Promise<Campus> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const doc = await collection.findOne({ _id: id });
-            if (!doc) throw new Error(`Campus with id ${id} not found`);
-            return this.mapToDTO(doc);
-        });
+    async findCampusById(_id: string): Promise<Campus> {
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     async getAllCampuses(): Promise<Campus[]> {
-        return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-            const docs = await collection.find({}).toArray();
-            return docs.map(doc => this.mapToDTO(doc));
-        });
+        throw new Error("Not implemented: MongoDB removed");
     }
 
     protected mapToDTO(doc: any): Campus {
@@ -34,9 +30,5 @@ export class CampusViewModel extends BaseViewModel<Campus> implements CampusRepo
             createdBy: doc.createdBy,
             updatedBy: doc.updatedBy
         };
-    }
-
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
-        throw new Error("Campuses are read-only, audit updates not implemented");
     }
 }

@@ -1,12 +1,14 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { User } from "@/models/User";
 import { UserRepository } from "@/repositories/UserRepository";
-import { Audit } from "@/models/Audit";
+import { MMKVLoader, create } from "react-native-mmkv-storage";
 
 export class UserViewModel extends BaseViewModel<User> implements UserRepository {
     private readonly COLLECTION = "users";
+    // Added MMKV storage instance for users collection
+    private readonly userStorage = create(new MMKVLoader().initialize());
 
-    async findUserById(id: string): Promise<User> {
+    async findUserById(_id: string): Promise<User> {
         throw new Error("Method not implemented: findUserById");
     }
 
@@ -22,11 +24,11 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         throw new Error("Method not implemented: logout");
     }
 
-    async updateUser(id: string, data: Partial<User>, token: string): Promise<User> {
+    async updateUser(_id: string, data: Partial<User>, token: string): Promise<User> {
         throw new Error("Method not implemented: updateUser");
     }
 
-    async deleteUser(id: string, token: string): Promise<void> {
+    async deleteUser(_id: string, token: string): Promise<void> {
         throw new Error("Method not implemented: deleteUser");
     }
 
@@ -38,15 +40,7 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         if (!doc) throw new Error('Document not found');
         return {
             _id: doc._id,
-            ...doc,
-            createdAtUTC: doc.createdAtUTC,
-            updatedAtUTC: doc.updatedAtUTC,
-            createdBy: doc.createdBy,
-            updatedBy: doc.updatedBy
+            ...doc
         } as User;
-    }
-
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: string): Promise<Audit> {
-        throw new Error("Method not implemented: updateAudit");
     }
 }
