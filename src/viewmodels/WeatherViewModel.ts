@@ -1,45 +1,31 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Weather, ForecastData } from "@/models/Weather";
-import { ObjectId } from "mongodb";
 import { WeatherRepository } from "@/repositories/WeatherRepository";
-import { Audit } from "@/models/Audit";
 
 export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherRepository {
     private readonly COLLECTION = "weather";
 
-    async findForecastById(id: ObjectId): Promise<Weather> {
-        throw new Error("Method not implemented: findForecastById");
+    async findForecastById(id: string): Promise<Weather> {
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
     async queryExternalForecast(latitude: number, longitude: number): Promise<ForecastData> {
-        throw new Error("Method not implemented: queryExternalForecast");
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
     async saveForecast(data: Omit<Weather, "id" | "createdAt" | "updatedAt">): Promise<Weather> {
-        throw new Error("Method not implemented: saveForecast");
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
-    async updateForecast(id: ObjectId, data: Partial<Weather>): Promise<Weather> {
-        throw new Error("Method not implemented: updateForecast");
+    async updateForecast(id: string, data: Partial<Weather>): Promise<Weather> {
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
     async deleteOutdatedForecasts(olderThan: Date): Promise<number> {
-        throw new Error("Method not implemented: deleteOutdatedForecasts");
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
     protected mapToDTO(doc: any): Weather {
-        if (!doc) throw new Error('Document not found');
-        return {
-            _id: doc._id,
-            ...doc,
-            createdAtUTC: doc.createdAtUTC,
-            updatedAtUTC: doc.updatedAtUTC,
-            createdBy: doc.createdBy,
-            updatedBy: doc.updatedBy
-        } as Weather;
-    }
-
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
-        throw new Error("Method not implemented: updateAudit");
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 }
