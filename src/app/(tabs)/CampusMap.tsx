@@ -69,6 +69,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     name: string;
     address: string;
     openingHours: string;
+    latitude: number;
+    longitude: number;
   } | null>(null);
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
     null
@@ -210,6 +212,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 name: building.name,
                 address: building.address,
                 openingHours: building.openingHours,
+                latitude: center.latitude,
+                longitude: center.longitude,
               });
               setSelectedBuildingId(building._id);
             }}
@@ -294,30 +298,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       };
 
       setNewRoute(newRoute); // Update the state with the new route object
-      console.log("New Route:", newRoute); // For debugging purposes
-    }
-
-    if (buildingInfo) {
-      const newRouteSegment = {
-        startPoint: {
-          latitude: buildingInfo.latitude,
-          longitude: buildingInfo.longitude,
-        },
-        endPoint: {
-          latitude: userLocation?.latitude || 0,
-          longitude: userLocation?.longitude || 0,
-        },
-        transportationMode: "WALKING", // Default transportation mode
-        usageCount: 0,
-      };
-
-      const newRoute = {
-        accessible: true,
-        segmentIds: [newRouteSegment],
-      };
-
-      setNewRoute(newRoute); // Update the state with the new route object
-      console.log("New Route:", newRoute); // For debugging purposes
+      console.log("New Route:", JSON.stringify(newRoute, null, 2));
     }
   };
 
