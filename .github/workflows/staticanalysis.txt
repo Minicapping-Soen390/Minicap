@@ -1,0 +1,31 @@
+name: Static Analysis
+
+on: [push, pull_request]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint for static analysis
+        run: npm run lint
+
+      - name: Run Prettier for code formatting check
+        run: npx prettier --check .
+
+      - name: Install React Native dependencies
+        run: npm install --save react-native
+
+      - name: Run React Native lint
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx

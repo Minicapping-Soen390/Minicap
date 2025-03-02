@@ -34,13 +34,12 @@ Minicapping is a comprehensive campus navigation solution designed to:
 
 ### Core Technologies
 
-| Technology | Benefits | Drawbacks|
-|------------|----------|----------|
+| Technology | Benefits |
+|------------|----------|
 | **Expo** | • Simplified React Native development<br>• Easy device testing and deployment<br>• Built-in navigation libraries<br>• Strong developer tools<br>• Over-the-air updates |
 | **React Native** | • Team has React experience<br>• Direct native module access<br>• Strong community support |
-| **Maps Integration** | • React Native Maps for native performance<br>• Google Maps API for accurate data<br>• Native compatibility through Expo<br>• Built-in geolocation support | This does not work on web, forcing us to use emulators or real devices |
+| **Maps Integration** | • React Native Maps for native performance<br>• Google Maps API for accurate data<br>• Native compatibility through Expo<br>• Built-in geolocation support |
 | **Node.js** | • JavaScript ecosystem<br>• API development focus<br>• Server-side performance<br>• React Native integration |
-| **UI** | • Gluestack<br>• Customizable components<br>• Native-first design | Can conflict with other dependencies, forced to use tailwind|
 
 ### Development Environment
 
@@ -49,17 +48,19 @@ Minicapping is a comprehensive campus navigation solution designed to:
 | **IDE** | VS Code |
 | **Emulator** | • Device: Pixel 7<br>• API Level: 33/35<br>• Purpose: Responsiveness Testing |
 
+### Testing Infrastructure
 
-
+| Layer | Tools & Benefits |
+|-------|-----------------|
+| **Frontend** | • Jest + React Testing Library<br>• Zero config setup<br>• Parallel execution<br>• TypeScript support |
+| **E2E** | • Detox<br>• Real device testing<br>• Cross-device automation |
 
 ### Quality Assurance
 
 | Category | Tools |
 |----------|-------|
-| **Frontend tests** | • Jest + React Testing Library<br>• Zero config setup<br>• Parallel execution<br>• TypeScript support |
-| **E2E** | • Detox<br>• Real device testing<br>• Cross-device automation |
 | **CI/CD** | • GitHub Workflow<br>• SonarQube<br>• Codecov |
-
+| **UI** | • Gluestack<br>• Customizable components<br>• Native-first design |
 
 <div align="center">
 
