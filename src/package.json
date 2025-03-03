@@ -46,7 +46,7 @@
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.13.2",
     "ts-node": "^10.9.2",
-    "uuid": "^11.0.5"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.8",
