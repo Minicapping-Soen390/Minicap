@@ -7,7 +7,7 @@ import uuid from 'react-native-uuid';
 export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
     private readonly COLLECTION_NAME = "pois";
 
-    async findPOIById(id: string): Promise<POI> {
+    async findPOIById(_id: string): Promise<POI> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 

@@ -5,7 +5,7 @@ import { UserRepository } from "@/repositories/UserRepository";
 export class UserViewModel extends BaseViewModel<User> implements UserRepository {
     private readonly COLLECTION = "users";
 
-    async findUserById(id: string): Promise<User> {
+    async findUserById(_id: string): Promise<User> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 
@@ -21,11 +21,11 @@ export class UserViewModel extends BaseViewModel<User> implements UserRepository
         throw new Error("NotImplementedError: Operation not implemented");
     }
 
-    async updateUser(id: string, data: Partial<User>, token: string): Promise<User> {
+    async updateUser(_id: string, data: Partial<User>, token: string): Promise<User> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 
-    async deleteUser(id: string, token: string): Promise<void> {
+    async deleteUser(_id: string, token: string): Promise<void> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 

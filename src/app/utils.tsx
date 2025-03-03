@@ -6,3 +6,6 @@ const BASE_WIDTH = 375;
 export const rem = (value: number): number => {
   return PixelRatio.roundToNearestPixel(value * (SCREEN_WIDTH / BASE_WIDTH));
 };
+
+
+export default null;
