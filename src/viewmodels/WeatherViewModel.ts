@@ -5,7 +5,7 @@ import { WeatherRepository } from "@/repositories/WeatherRepository";
 export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherRepository {
     private readonly COLLECTION = "weather";
 
-    async findForecastById(id: string): Promise<Weather> {
+    async findForecastById(_id: string): Promise<Weather> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 
@@ -17,7 +17,7 @@ export class WeatherViewModel extends BaseViewModel<Weather> implements WeatherR
         throw new Error("NotImplementedError: Operation not implemented");
     }
 
-    async updateForecast(id: string, data: Partial<Weather>): Promise<Weather> {
+    async updateForecast(_id: string, data: Partial<Weather>): Promise<Weather> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 

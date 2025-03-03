@@ -7,7 +7,7 @@ export interface MapRepository {
    * @returns Promise resolving to the found POI
    * @throws {NotFoundError} If POI with given ID doesn't exist
    */
-  findPOIById(id: string): Promise<POI>;
+  findPOIById(_id: string): Promise<POI>;
 
   /**
    * Retrieves all POIs in the system

@@ -7,7 +7,7 @@ export interface WeatherRepository {
    * @returns Promise resolving to the found Weather forecast
    * @throws {NotFoundError} If forecast doesn't exist
    */
-  findForecastById(id: string): Promise<Weather>;
+  findForecastById(_id: string): Promise<Weather>;
 
   /**
    * Queries external weather API for forecast

@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
-import MapView, { Marker, Region, Polygon, Circle, LatLng } from "react-native-maps";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, Switch, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, ViewStyle } from "react-native";
+import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
+import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { globalStyles, mainEdges } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
-import { OutdoorLocation } from "@/models/OutdoorLocation";
+import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
-  id: "loc-sgw",
+  _id: "loc-sgw",
   locationType: "outdoor",
   latitude: 45.4973,
   longitude: -73.5789,
@@ -19,7 +19,7 @@ const outdoorLocationSGW: OutdoorLocation = {
 };
 
 const outdoorLocationLoyola: OutdoorLocation = {
-  id: "loc-loyola",
+  _id: "loc-loyola",
   locationType: "outdoor",
   latitude: 45.4581,
   longitude: -73.6405,
@@ -34,21 +34,21 @@ interface CampusMapProps {
 
 // Define campuses
 const SGWCampus: Campus = {
-  id: "sgw-uuid",
+  _id: "sgw-uuid",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
 };
 
 const LoyolaCampus: Campus = {
-  id: "loyola-uuid",
+  _id: "loyola-uuid",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],
 };
 
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
-  const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
+  const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region =
     campus.outdoorLocation === "loc-sgw"
       ? outdoorLocationSGW
@@ -151,10 +151,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       const isSelected = selectedBuildingId === building._id;
 
       const colorSettings = {
-        insideSelected: { fill: "rgba(255, 165, 0, 0.5)", stroke: "rgb(30, 79, 5)" },
-        inside: { fill: "rgba(46, 118, 10, 0.41)", stroke: "rgb(30, 79, 5)" },
-        selected: { fill: "rgba(255, 165, 0, 0.5)", stroke: "rgb(165, 35, 35)" },
-        default: { fill: "rgba(180, 16, 16, 0.5)", stroke: "rgb(165, 35, 35)" },
+        insideSelected: { fill: "#FFA50080", stroke: "#1E4F05" },
+        inside: { fill: "#2E760A69", stroke: "#1E4F05" },
+        selected: { fill: "#FFA50080", stroke: "#A52323" },
+        default: { fill: "#B4101080", stroke: "#A52323" },
       };
 
       const { fill, stroke } = isInside && isSelected
@@ -171,9 +171,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         <View key={building._id}>
           <Polygon
             coordinates={coordinates}
-            strokeColor="rgb(165, 35, 35)"
+            strokeColor={stroke}
             strokeWidth={2}
-            fillColor={fillColor}
+            fillColor={fill}
           />
           <Marker
             coordinate={center}
@@ -280,7 +280,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         )}
 
         <TouchableOpacity
-          style={[globalStyles.refreshButton, isRefreshing && globalStyles.refreshButtonDisabled]}
+          style={[
+            globalStyles.refreshButton,
+            isRefreshing ? (globalStyles.refreshButtonDisabled as ViewStyle) : {}
+          ]}
           onPress={updateUserLocation}
           disabled={isRefreshing}
         >
@@ -297,10 +300,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState(true);
-  const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
+  const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
 
   return (
-    <SafeAreaView style={globalStyles.container} edges={mainEdges}>
+    <SafeAreaView style={globalStyles.container} edges={mainEdges as readonly Edge[]}>
       <View style={globalStyles.switchHeaderContainer}>
         <View style={globalStyles.campusSwitchHeader}>
           <View style={globalStyles.switchContainer}>

@@ -10,7 +10,7 @@ export interface RouteRepository {
      * @throws {NotFoundError} If route with given ID doesn't exist
      * @throws {DatabaseError} If database query fails
      */
-    findRouteById(id: string): Promise<Route>;
+    findRouteById(_id: string): Promise<Route>;
 
     /**
      * Retrieves all segments belonging to a route
@@ -56,7 +56,7 @@ export interface RouteRepository {
      * @throws {ValidationError} If input data is invalid
      * @throws {DatabaseError} If database query fails
      */
-    updateRoute(id: string, updates: Partial<Route>, userId: string): Promise<Route>;
+    updateRoute(_id: string, updates: Partial<Route>, userId: string): Promise<Route>;
 
     /**
      * Updates the details of an existing route segment
@@ -79,7 +79,7 @@ export interface RouteRepository {
      * @throws {NotFoundError} If route with given ID doesn't exist
      * @throws {DatabaseError} If database query fails
      */
-    deleteRoute(id: string, userId: string): Promise<void>;
+    deleteRoute(_id: string, userId: string): Promise<void>;
 
     // Calculation:
     /**
