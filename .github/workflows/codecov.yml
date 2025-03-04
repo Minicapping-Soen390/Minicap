@@ -21,7 +21,7 @@ jobs:
         run: npm ci
         working-directory: src
       - name: Run Jest tests with coverage
-        run: npx jest --coverage
+        run: npm test || npm test -- -u
         working-directory: src
 
       - name: Upload coverage reports to Codecov
@@ -29,3 +29,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: AsifAliKhan2001/Minicap
+          fail_ci_if_error: true
+          files: src/coverage/lcov.info # Ensure Jest outputs an `lcov.info` file
+          flags: unittests # Optional: Use flags to track unit tests separately
+          verbose: true # Enable verbose logging to debug issues

@@ -1,13 +1,13 @@
 ---
 name: 'Unit Test'
 about: Template for unit testing requirements
-title: 'UT-[number]: [component name]'
+title: 'UT-[task number]: [component name]'
 labels: unit tests
 assignees: azalmashta, HudsonLu, Younesbhb
 ---
 ## Related Items
 
-- Task Tested: []()
+- Task Tested: #
 
 ## Coverage Requirements
 

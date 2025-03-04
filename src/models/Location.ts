@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { Audit } from "./Audit";
 
 export interface Location extends Audit {
@@ -8,7 +7,7 @@ export interface Location extends Audit {
 
 export interface FloorplanLocation extends Location {
   locationType: "floorplan";
-  floorplanId: ObjectId;
+  floorplanId: string;
   x: number;
   y: number;
 }
@@ -17,6 +16,6 @@ export interface OutdoorLocation extends Location {
   locationType: "outdoor";
   latitude: number;
   longitude: number;
-  latitudeDelta: number; // Added field
-  longitudeDelta: number; // Added field
+  latitudeDelta: number;
+  longitudeDelta: number;
 }

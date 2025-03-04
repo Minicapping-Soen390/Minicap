@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="17" failures="0" errors="0" time="2.097">
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="0.693" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="0.902" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.093">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.002">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.086" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.041">
+    </testcase>
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.089">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.083" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.131">
+    </testcase>
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
+    </testcase>
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="ClassSchedule Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.157" tests="1">
+    <testcase classname="ClassSchedule Component renders correctly" name="ClassSchedule Component renders correctly" time="0.1">
+    </testcase>
+  </testsuite>
+  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.152" tests="1">
+    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.085">
+    </testcase>
+  </testsuite>
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.18" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.088">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.218" tests="1">
+    <testcase classname="CampusSwitcher Component Test" name="CampusSwitcher Component Test" time="0.007">
+    </testcase>
+  </testsuite>
+</testsuites>
