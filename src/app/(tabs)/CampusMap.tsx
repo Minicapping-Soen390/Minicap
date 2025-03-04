@@ -14,6 +14,7 @@ import * as Location from "expo-location";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
+import { ObjectId } from "mongodb";
 
 // Outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
@@ -23,6 +24,7 @@ const outdoorLocationSGW: OutdoorLocation = {
   longitude: -73.5789,
   latitudeDelta: 0.01,
   longitudeDelta: 0.01,
+  _id: new ObjectId(),
 };
 
 const outdoorLocationLoyola: OutdoorLocation = {
@@ -32,6 +34,7 @@ const outdoorLocationLoyola: OutdoorLocation = {
   longitude: -73.6405,
   latitudeDelta: 0.01,
   longitudeDelta: 0.01,
+  _id: new ObjectId(),
 };
 
 // CampusMap Component
@@ -45,6 +48,7 @@ const SGWCampus: Campus = {
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
+  _id: new ObjectId(),
 };
 
 const LoyolaCampus: Campus = {
@@ -52,6 +56,7 @@ const LoyolaCampus: Campus = {
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],
+  _id: new ObjectId(),
 };
 
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
