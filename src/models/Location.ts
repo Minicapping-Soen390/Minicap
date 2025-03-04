@@ -1,7 +1,6 @@
 import { Audit } from "./Audit";
 
 export interface Location extends Audit {
-  id: string;
   locationType: "outdoor" | "floorplan";
 }
 
