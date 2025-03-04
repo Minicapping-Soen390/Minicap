@@ -11,13 +11,11 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
-
 import Campus from "../assets/icons/Campus.png";
 import Calendar from "../assets/icons/Calendar.png";
 import searchBuilding from "../assets/icons/searchBuilding.png";
 import Hamburger from "../assets/icons/Hamburger.png";
-
-import CampusMap from "@/app/(tabs)/CampusMap";
+import Bus from "../assets/icons/bus.png"; // Added bus icon import 
 
 export default {
   play,
@@ -37,4 +35,5 @@ export default {
   Calendar,
   searchBuilding,
   Hamburger,
+  Bus, // Added bus
 };
