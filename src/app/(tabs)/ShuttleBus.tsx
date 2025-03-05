@@ -179,7 +179,7 @@ const ShuttleBus = () => {
     return rows;
   };
 
-  // Fix the mainEdges type - assuming it's an array of Edge values from the library
+  // Fix the mainEdges types - we assume an array of Edge values from the library
   const safeAreaEdges = mainEdges as Edge[];
 
   if (loading) {
