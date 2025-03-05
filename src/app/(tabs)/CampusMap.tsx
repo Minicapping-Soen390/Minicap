@@ -15,7 +15,7 @@ import { globalStyles, mainEdges } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
-import { ObjectId } from "mongodb";
+//import { ObjectId } from "mongodb";
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
@@ -273,16 +273,16 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
-  const handleAddToNavigation = () => {
+  const handleGoToNavigation = () => {
     if (buildingInfo) {
       const newRouteSegment = {
         startPoint: {
-          latitude: buildingInfo.latitude,
-          longitude: buildingInfo.longitude,
-        },
-        endPoint: {
           latitude: userLocation?.latitude || 0,
           longitude: userLocation?.longitude || 0,
+        },
+        endPoint: {
+          latitude: buildingInfo.latitude,
+          longitude: buildingInfo.longitude,
         },
         transportationMode: "WALKING", // Default transportation mode
         usageCount: 0,
@@ -341,6 +341,14 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               {buildingInfo.openingHours}
             </Text>
             <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
+            <TouchableOpacity
+              onPress={handleGoToNavigation}
+              style={globalStyles.addButton}
+            >
+              <Text style={globalStyles.refreshButtonText}>
+                Go to {buildingInfo.name}
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
 

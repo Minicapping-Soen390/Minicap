@@ -18,7 +18,7 @@ const colors = {
 // View styles
 const viewStyles = StyleSheet.create({
   header: {
-    position: 'relative',
+    position: "relative",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center", // Added to ensure proper centering
@@ -64,6 +64,13 @@ const viewStyles = StyleSheet.create({
   },
   refreshButtonDisabled: {
     backgroundColor: colors.blueMoreTransparent,
+  },
+  addButton: {
+    marginTop: 10,
+    backgroundColor: colors.concordiaRed,
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
   },
   overlay: {
     position: "absolute",
@@ -210,7 +217,7 @@ const textStyles = StyleSheet.create({
 // Image styles
 const imageStyles = StyleSheet.create({
   logo: {
-    position: 'absolute',
+    position: "absolute",
     left: rem(16),
     width: rem(50),
     height: rem(50),
