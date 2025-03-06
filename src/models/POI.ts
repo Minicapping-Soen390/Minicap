@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { Audit } from "./Audit";
 
 export interface POI extends Audit {
@@ -6,7 +5,7 @@ export interface POI extends Audit {
   name: string;
   category: POICategory;
   description: string;
-  location: ObjectId;
+  location: string;
 }
 
 export enum POICategory {

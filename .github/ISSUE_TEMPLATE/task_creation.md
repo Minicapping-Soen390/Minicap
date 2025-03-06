@@ -7,8 +7,8 @@ assignees: ''
 ---
 ## Parent Items
 
-- Parent User Story: #[]
-- Parent Task (if subtask): #[]
+- Parent User Story: #number
+- Parent Task (if subtask): #number
 
 ## Task Description
 

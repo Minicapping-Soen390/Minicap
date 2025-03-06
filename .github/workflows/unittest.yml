@@ -1,0 +1,45 @@
+name: Jest Test Report
+
+on: [push, pull_request]
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  test-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: src/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: src
+
+      - name: Run Jest tests and generate JUnit report
+        run: npm test -- --ci --reporters=default --reporters=jest-junit
+        working-directory: src
+        env:
+          CI: true
+
+      - name: Upload JUnit Test Results as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-test-results
+          path: src/coverage/test-results/junit.xml
+
+      - name: Publish Test Report in GitHub Actions Summary
+        uses: dorny/test-reporter@v1
+        with:
+          name: Unit Test Results
+          path: src/coverage/test-results/junit.xml
+          reporter: jest-junit
