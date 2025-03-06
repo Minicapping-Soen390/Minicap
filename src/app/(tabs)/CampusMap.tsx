@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
-import MapView, { Marker, Region, Polygon, Circle } from "react-native-maps";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, Switch, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, ViewStyle } from "react-native";
+import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
+import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import * as Location from "expo-location";
+import { globalStyles, mainEdges } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
 
-// Outdoor locations
+// Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
-  id: "loc-sgw",
+  _id: "loc-sgw",
   locationType: "outdoor",
   latitude: 45.4973,
   longitude: -73.5789,
@@ -18,7 +19,7 @@ const outdoorLocationSGW: OutdoorLocation = {
 };
 
 const outdoorLocationLoyola: OutdoorLocation = {
-  id: "loc-loyola",
+  _id: "loc-loyola",
   locationType: "outdoor",
   latitude: 45.4581,
   longitude: -73.6405,
@@ -26,28 +27,28 @@ const outdoorLocationLoyola: OutdoorLocation = {
   longitudeDelta: 0.01,
 };
 
-// CampusMap Component
+//CampusMap Component
 interface CampusMapProps {
   campusId: string;
 }
 
-// Define Campuses
+// Define campuses
 const SGWCampus: Campus = {
-  id: "sgw-ObjectId",
+  _id: "sgw-uuid",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
 };
 
 const LoyolaCampus: Campus = {
-  id: "loyola-ObjectId",
+  _id: "loyola-uuid",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],
 };
 
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
-  const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
+  const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region =
     campus.outdoorLocation === "loc-sgw"
       ? outdoorLocationSGW
@@ -63,9 +64,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   useEffect(() => {
     const requestLocationPermission = async () => {
       try {
-        const foregroundStatus = await Location.requestForegroundPermissionsAsync();
-        if (foregroundStatus.status !== 'granted') {
-          setLocationError('Permission to access location was denied');
+        const foregroundStatus =
+          await Location.requestForegroundPermissionsAsync();
+        if (foregroundStatus.status !== "granted") {
+          setLocationError("Permission to access location was denied");
           return;
         }
 
@@ -81,8 +83,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           longitudeDelta: 0.01,
         });
       } catch (err) {
-        console.error('Error getting location:', err);
-        setLocationError('Error getting location');
+        console.error("Error getting location:", err);
+        setLocationError("Error getting location");
       }
     };
 
@@ -95,62 +97,103 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   }, [region]);
 
+  // Function to check if a point is inside a polygon
+  const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
+    let inside = false;
+    const x = point.longitude, y = point.latitude;
+
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const xi = polygon[i].longitude, yi = polygon[i].latitude;
+      const xj = polygon[j].longitude, yj = polygon[j].latitude;
+
+      const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
+    }
+
+    return inside;
+  };
+
   const renderBuildings = () => {
     return buildingsData.map((building) => {
-      if (Array.isArray(building.polygonShape)) {
-        const coordinates = building.polygonShape.map((coords) => {
+      if (!Array.isArray(building.polygonShape)) {
+        console.warn(`Building ${building._id} does not have a valid polygonShape`);
+        return null;
+      }
+
+      const coordinates: LatLng[] = building.polygonShape
+        .map((coords) => {
           if (Array.isArray(coords) && coords.length === 2) {
             const [longitude, latitude] = coords;
             return { latitude, longitude };
           }
           console.warn(`Invalid coordinates for building ${building._id}`);
           return null;
-        }).filter(coord => coord !== null);
+        })
+        .filter((coord): coord is LatLng => coord !== null);
 
-        const center = coordinates.reduce((acc, curr) => {
-          acc.latitude += curr.latitude;
-          acc.longitude += curr.longitude;
+      if (coordinates.length === 0) return null;
+
+      const center = coordinates.reduce(
+        (acc, curr) => {
+          if (curr) {
+            acc.latitude += curr.latitude;
+            acc.longitude += curr.longitude;
+          }
           return acc;
-        }, { latitude: 0, longitude: 0 });
+        },
+        { latitude: 0, longitude: 0 }
+      );
 
-        center.latitude /= coordinates.length;
-        center.longitude /= coordinates.length;
+      center.latitude /= coordinates.length;
+      center.longitude /= coordinates.length;
 
-        // Determine the fill color based on whether the building is selected
-        const fillColor = selectedBuildingId === building._id ? "rgba(255, 165, 0, 0.5)" : "rgba(180, 16, 16, 0.48)";
+      const isInside = userLocation && isPointInPolygon(userLocation, coordinates);
+      const isSelected = selectedBuildingId === building._id;
 
-        // Get the first two letters of the building name
-        const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
+      const colorSettings = {
+        insideSelected: { fill: "#FFA50080", stroke: "#1E4F05" },
+        inside: { fill: "#2E760A69", stroke: "#1E4F05" },
+        selected: { fill: "#FFA50080", stroke: "#A52323" },
+        default: { fill: "#B4101080", stroke: "#A52323" },
+      };
 
-        return (
-          <View key={building._id}>
-            <Polygon
-              coordinates={coordinates}
-              strokeColor="rgb(165, 35, 35)"
-              strokeWidth={2}
-              fillColor={fillColor}
-            />
-            <Marker
-              coordinate={center}
-              onPress={() => {
-                setBuildingInfo({ name: building.name, address: building.address, openingHours: building.openingHours });
-                setSelectedBuildingId(building._id); // Set selected building ID
-              }}
-              anchor={{ x: 0.5, y: 0.5 }}
-            >
-              <View style={styles.marker}>
-                <View style={styles.buildingButton}>
-                  <Text style={styles.buildingButtonText}>{buildingNameInitials}</Text>
-                </View>
+      const { fill, stroke } = isInside && isSelected
+        ? colorSettings.insideSelected
+        : isInside
+          ? colorSettings.inside
+          : isSelected
+            ? colorSettings.selected
+            : colorSettings.default;
+
+      const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
+        
+      return (
+        <View key={building._id}>
+          <Polygon
+            coordinates={coordinates}
+            strokeColor={stroke}
+            strokeWidth={2}
+            fillColor={fill}
+          />
+          <Marker
+            coordinate={center}
+            onPress={() => {
+              setBuildingInfo({ name: building.name, address: building.address, openingHours: building.openingHours });
+              setSelectedBuildingId(building._id);
+            }}
+            anchor={{ x: 0.5, y: 0.5 }}
+          >
+            <View style={globalStyles.marker}>
+              <View style={globalStyles.buildingButton}>
+                <Text style={globalStyles.buildingButtonText}>{buildingNameInitials}</Text>
               </View>
-            </Marker>
-          </View>
-        );
-      }
-      console.warn(`Building ${building._id} does not have a valid polygonShape`);
-      return null;
+            </View>
+          </Marker>
+        </View>
+      );
     });
   };
+
 
   const updateUserLocation = async () => {
     try {
@@ -159,18 +202,21 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
       if (!permissionGranted) {
         const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setLocationError('Location permission required');
+        if (status !== "granted") {
+          setLocationError("Location permission required");
           return;
         }
         setPermissionGranted(true);
       }
 
       const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High
+        accuracy: Location.Accuracy.High,
       });
 
       const newRegion = {
+        // Coords to test the LB building
+        // latitude: 45.49674153452182,
+        // longitude: -73.5779170349735,
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.01,
@@ -180,8 +226,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       setUserLocation(newRegion);
       mapRef.current?.animateToRegion(newRegion, 1000);
     } catch (error) {
-      console.error('Error updating location:', error);
-      setLocationError('Failed to get current location');
+      console.error("Error updating location:", error);
+      setLocationError("Failed to get current location");
     } finally {
       setIsRefreshing(false);
     }
@@ -196,15 +242,15 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
   return (
     <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
-      <View style={styles.mapContainer}>
+      <View style={globalStyles.mapContainer}>
         {locationError ? (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{locationError}</Text>
+          <View style={globalStyles.errorContainer}>
+            <Text style={globalStyles.errorText}>{locationError}</Text>
           </View>
         ) : null}
         <MapView
           ref={(ref) => (mapRef.current = ref)}
-          style={styles.map}
+          style={globalStyles.map}
           initialRegion={region}
           pitchEnabled={false}
           rotateEnabled={false}
@@ -219,38 +265,32 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             <Marker
               coordinate={userLocation}
               title="Your Location"
-              pinColor="blue"
+              pinColor="green"
             />
           )}
           {renderBuildings()}
-
-          {userLocation && (
-            <Circle
-              center={userLocation}
-              radius={10}
-              fillColor="rgba(0, 0, 255, 0.5)"
-              strokeColor="rgba(0, 0, 255, 1)"
-            />
-          )}
         </MapView>
 
         {buildingInfo && (
-          <View style={styles.buildingInfoContainer}>
-            <Text style={styles.buildingNameText}>{buildingInfo.name}</Text>
-            <Text style={styles.openingHoursText}>{buildingInfo.openingHours}</Text>
-            <Text style={styles.addressText}>{buildingInfo.address}</Text>
+          <View style={globalStyles.buildingInfoContainer}>
+            <Text style={globalStyles.buildingNameText}>{buildingInfo.name}</Text>
+            <Text style={globalStyles.openingHoursText}>{buildingInfo.openingHours}</Text>
+            <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
           </View>
         )}
 
         <TouchableOpacity
-          style={[styles.refreshButton, isRefreshing && styles.refreshButtonDisabled]}
+          style={[
+            globalStyles.refreshButton,
+            isRefreshing ? (globalStyles.refreshButtonDisabled as ViewStyle) : {}
+          ]}
           onPress={updateUserLocation}
           disabled={isRefreshing}
         >
           {isRefreshing ? (
             <ActivityIndicator color="white" size="small" />
           ) : (
-            <Text style={styles.buttonText}>My Location</Text>
+            <Text style={globalStyles.refreshButtonText}>My Location</Text>
           )}
         </TouchableOpacity>
       </View>
@@ -258,130 +298,31 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   );
 };
 
-// CampusSwitcher Component
 const CampusSwitcher: React.FC = () => {
-  const [isSGWCampus, setIsSGWCampus] = useState<boolean>(true);
-  const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
+  const [isSGWCampus, setIsSGWCampus] = useState(true);
+  const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.switchContainer}>
-        <Text>SGW Campus</Text>
-        <Switch
-          value={!isSGWCampus}
-          onValueChange={() => setIsSGWCampus(!isSGWCampus)}
-        />
-        <Text>Loyola Campus</Text>
+    <SafeAreaView style={globalStyles.container} edges={mainEdges as readonly Edge[]}>
+      <View style={globalStyles.switchHeaderContainer}>
+        <View style={globalStyles.campusSwitchHeader}>
+          <View style={globalStyles.switchContainer}>
+            <Text style={globalStyles.switchText}>SGW</Text>
+            <Switch
+              value={!isSGWCampus}
+              onValueChange={() => setIsSGWCampus(!isSGWCampus)}
+            />
+            <Text style={globalStyles.switchText}>LOY</Text>
+          </View>
+        </View>
       </View>
-      <CampusMap campusId={currentCampusId} />
+
+      {/* Map Container */}
+      <View style={globalStyles.mapContainer}>
+        <CampusMap campusId={currentCampusId} />
+      </View>
     </SafeAreaView>
   );
 };
-
-// Styles
-const styles = StyleSheet.create({
-  mapContainer: {
-    flex: 1,
-    position: 'relative',
-  },
-  refreshButton: {
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-    backgroundColor: "rgba(0, 0, 255, 0.7)",
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-  },
-  container: {
-    flex: 1,
-  },
-  switchContainer: {
-    position: "absolute",
-    top: 10,
-    left: "33%",
-    transform: [{ translateX: -50 }],
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 20,
-    zIndex: 1,
-  },
-  map: {
-    flex: 1,
-  },
-  errorContainer: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    right: 20,
-    backgroundColor: 'rgba(255, 0, 0, 0.7)',
-    padding: 10,
-    borderRadius: 5,
-    zIndex: 2,
-  },
-  errorText: {
-    color: 'white',
-    textAlign: 'center',
-  },
-  refreshButtonDisabled: {
-    backgroundColor: "rgba(0, 0, 255, 0.4)",
-  },
-  buildingInfoContainer: {
-    position: 'absolute',
-    top: 50,
-    alignSelf: 'center',
-    backgroundColor: 'rgb(255, 255, 255)',
-    padding: 15,
-    borderRadius: 10,
-    width: '85%',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    zIndex: 2,
-  },
-  buildingNameText: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  openingHoursText: {
-    color: 'gray',
-    marginBottom: 5,
-  },
-  addressText: {
-    color: '#555',
-    fontSize: 14,
-  },
-  marker: {
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buildingButton: {
-    width: 25,
-    height: 25,
-    backgroundColor: 'rgb(165, 35, 35)',
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buildingButtonText: {
-    color: 'white',
-    fontSize: 10,
-    fontWeight: 'bold',
-  },
-});
 
 export default CampusSwitcher;

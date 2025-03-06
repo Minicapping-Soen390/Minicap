@@ -13,13 +13,14 @@ const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
 
   return (
     <View
+      testID="loader"
       style={{
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
+        position: "absolute",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
         height: screenHeight,
-        backgroundColor: 'rgba(0,0,0,0.6)',
+        backgroundColor: "rgba(0,0,0,0.6)",
         zIndex: 10,
       }}
     >

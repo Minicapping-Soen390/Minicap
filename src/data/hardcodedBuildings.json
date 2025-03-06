@@ -1,7 +1,9 @@
 [
   {
     "_id": "67aaabc9a89802f0176bad67",
+    "campus": "LOY",
     "name": "AD Building",
+    "BuildingLongName": "Administration Building",
     "description": "The Administration Building, housing key university offices.",
     "address": "7141, Sherbrooke West",
     "polygonShape": [
@@ -193,7 +195,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad68",
+    "campus": "SGW",
     "name": "B Building",
+    "BuildingLongName": "B Annex",
     "description": "B Building, also known as B Annex, is used for administrative offices and student services.",
     "address": "2160 Bishop Street",
     "polygonShape": [
@@ -229,7 +233,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad69",
+    "campus": "LOY",
     "name": "BB Building",
+    "BuildingLongName": "BB Annex",
     "description": "BB-BH Annex, supporting science and engineering labs.",
     "address": "3502 Bermore Avenue",
     "polygonShape": [
@@ -257,7 +263,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad6a",
+    "campus": "LOY",
     "name": "BH Building",
+    "BuildingLongName": "BH Annex",
     "description": "BB-BH Annex, primarily used for research and faculty offices.",
     "address": "3500 Bermore Avenue",
     "polygonShape": [
@@ -285,7 +293,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad6b",
+    "campus": "LOY",
     "name": "CC Building",
+    "BuildingLongName": "Central Building",
     "description": "The Central Building, a hub for various student services.",
     "address": "7141 Sherbrooke West",
     "polygonShape": [
@@ -357,7 +367,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad6c",
+    "campus": "SGW",
     "name": "CI Building",
+    "BuildingLongName": "CI Annex",
     "description": "CI Building, or CI Annex, houses classrooms and faculty offices.",
     "address": "2149 Mackay Street",
     "polygonShape": [
@@ -409,7 +421,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad6d",
+    "campus": "LOY",
     "name": "CJ Building - wing A",
+    "BuildingLongName": "Communication Studies and Journalism Building",
     "description": "Description unavailable",
     "address": "7141, Sherbrooke Wes",
     "polygonShape": [
@@ -533,7 +547,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad6e",
+    "campus": "LOY",
     "name": "CJ Building - wing N",
+    "BuildingLongName": "Communication Studies and Journalism Building",
     "description": "CL Building, known as CL Annex, is known for computer labs and study spaces.",
     "address": "7141, Sherbrooke Wes",
     "polygonShape": [
@@ -657,7 +673,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad6f",
+    "campus": "LOY",
     "name": "CJ Building - wing S",
+    "BuildingLongName": "Communication Studies and Journalism Building",
     "description": "D Building, referred to as D Annex, features lecture halls and seminar rooms.",
     "address": "7141, Sherbrooke Wes",
     "polygonShape": [
@@ -781,7 +799,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad70",
+    "campus": "SGW",
     "name": "CL Building",
+    "BuildingLongName": "CL Annex",
     "description": "Description unavailable",
     "address": "1665 Ste-Catherine W",
     "polygonShape": [
@@ -829,7 +849,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad71",
+    "campus": "SGW",
     "name": "D Building",
+    "BuildingLongName": "D Annex",
     "description": "EN Building, or EN Annex, focuses on engineering labs and research spaces.",
     "address": "2140 Bishop Street",
     "polygonShape": [
@@ -877,7 +899,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad72",
+    "campus": "SGW",
     "name": "EN Building",
+    "BuildingLongName": "EN Annex",
     "description": "ER Building houses various academic departments and offers modern classrooms and facilities.",
     "address": "2070 Mackay Street",
     "polygonShape": [
@@ -937,7 +961,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad73",
+    "campus": "SGW",
     "name": "ER Building",
+    "BuildingLongName": "ER Building",
     "description": "facility dedicated to engineering and science disciplines",
     "address": "2155 Guy Street",
     "polygonShape": [
@@ -983,11 +1009,11 @@
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
     "updatedAtUTC": "2025-02-11T01:45:45.509Z"
   },
-
-
   {
     "_id": "67aaabc9a89802f0176bad76",
+    "campus": "SGW",
     "name": "EV Building",
+    "BuildingLongName": "Engineering, Computer Science and Visual Arts Integrated Complex",
     "description": "No description available",
     "address": "1515 Ste-Catherine W",
     "polygonShape": [
@@ -1103,7 +1129,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad77",
+    "campus": "SGW",
     "name": "FA Building",
+    "BuildingLongName": "FA Annex",
     "description": "FB Building, focuses on fine arts with studios, exhibition spaces, and creative labs.",
     "address": "2060 Mackay Street",
     "polygonShape": [
@@ -1139,7 +1167,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad78",
+    "campus": "SGW",
     "name": "FB Building",
+    "BuildingLongName": "Faubourg Building",
     "description": "FC Building, used for faculty offices and classrooms.",
     "address": "1250 Guy Street",
     "polygonShape": [
@@ -1243,7 +1273,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad79",
+    "campus": "LOY",
     "name": "FC Building",
+    "BuildingLongName": "F.C. Smith Building",
     "description": "FG Building, Fine Arts complex with dedicated spaces for artistic expression and exhibitions.",
     "address": "7141 Sherbrooke West",
     "polygonShape": [
@@ -1539,7 +1571,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad7a",
+    "campus": "SGW",
     "name": "FG Building",
+    "BuildingLongName": "Faubourg Ste-Catherine Building",
     "description": "GA Building, known as Grey Nuns Annex, provides additional space for student residences and study areas.",
     "address": "1610 Ste-Catherine",
     "polygonShape": [
@@ -1603,7 +1637,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad7b",
+    "campus": "SGW",
     "name": "GA Building",
+    "BuildingLongName": "Grey Nuns Annex",
     "description": "The Geodesic Dome, a unique structure for interdisciplinary research.",
     "address": "1211-1215 St-Mathieu",
     "polygonShape": [
@@ -1667,7 +1703,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad7c",
+    "campus": "LOY",
     "name": "GE Building",
+    "BuildingLongName": "Centre for Structural and Functional Genomics",
     "description": "GM Building, John Molson School of Business with state-of-the-art classrooms and student spaces.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -1719,7 +1757,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad7d",
+    "campus": "SGW",
     "name": "GM Building",
+    "BuildingLongName": "Guy-De Maisonneuve Building",
     "description": "No description available",
     "address": "1550 DeMaisonneuve W",
     "polygonShape": [
@@ -1775,7 +1815,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad7e",
+    "campus": "SGW",
     "name": "GN Building",
+    "BuildingLongName": "Grey Nuns Building",
     "description": "No description available",
     "address": "1190 Guy Street",
     "polygonShape": [
@@ -2369,10 +2411,11 @@
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
     "updatedAtUTC": "2025-02-11T01:45:45.509Z"
   },
-
   {
     "_id": "67aaabc9a89802f0176bad82",
+    "campus": "SGW",
     "name": "GS Building",
+    "BuildingLongName": "Guy-Sherbrooke Building",
     "description": "Henry F. Hall Building, a central hub for classrooms, faculty offices, and student activities.",
     "address": "1538, Sherbrooke W",
     "polygonShape": [
@@ -2420,7 +2463,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad83",
+    "campus": "SGW",
     "name": "H Building",
+    "BuildingLongName": "Henry F. Hall Building",
     "description": "Part of the Hingston Hall residence complex, offering student accommodations.",
     "address": "1455 DeMaisonneuve W",
     "polygonShape": [
@@ -2484,7 +2529,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad84",
+    "campus": "LOY",
     "name": "HA Building",
+    "BuildingLongName": "Hingston Hall, wing HA",
     "description": "Hingston Hall, a residence building for Loyola students.",
     "address": "7141 Sherbrooke West",
     "polygonShape": [
@@ -2544,7 +2591,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad85",
+    "campus": "LOY",
     "name": "HB Building",
+    "BuildingLongName": "Hingston Hall, wing HB",
     "description": "Hingston Hall (Wing C), providing student accommodations.",
     "address": "7141 Sherbrooke West",
     "polygonShape": [
@@ -2612,7 +2661,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad86",
+    "campus": "LOY",
     "name": "HC Building",
+    "BuildingLongName": "Hingston Hall, wing HC",
     "description": "A modern research facility dedicated to applied sciences and sustainability projects.",
     "address": "7141 Sherbrooke West",
     "polygonShape": [
@@ -2656,7 +2707,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad87",
+    "campus": "LOY",
     "name": "HU Building",
+    "BuildingLongName": "Applied Science Hub",
     "description": "Provides housing for Jesuit community members.",
     "address": "7141, Sherbrooke W",
     "polygonShape": [
@@ -2684,7 +2737,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad88",
+    "campus": "LOY",
     "name": "JR Building",
+    "BuildingLongName": "Jesuit Residence",
     "description": "Concordia Book store",
     "address": "7141 Sherbrooke West",
     "polygonShape": [
@@ -2768,7 +2823,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad89",
+    "campus": "SGW",
     "name": "K Building",
+    "BuildingLongName": "K Annex",
     "description": "LB Building, home to the R. Howard Webster Library and study spaces for students.",
     "address": "2150 Bishop Street",
     "polygonShape": [
@@ -2832,7 +2889,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad8a",
+    "campus": "SGW",
     "name": "LB Building",
+    "BuildingLongName": "J.W. McConnell Building",
     "description": "No description available",
     "address": "1400 DeMaisonneuve W",
     "polygonShape": [
@@ -2902,11 +2961,11 @@
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
     "updatedAtUTC": "2025-02-11T01:45:45.509Z"
   },
-
-
   {
     "_id": "67aaabc9a89802f0176bad8d",
+    "campus": "SGW",
     "name": "M Building",
+    "BuildingLongName": "M Annex",
     "description": "hosts various academic departments and offers modern classrooms",
     "address": "2135 Mackay Street",
     "polygonShape": [
@@ -2958,7 +3017,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad8e",
+    "campus": "SGW",
     "name": "MB Building",
+    "BuildingLongName": "John Molson Building",
     "description": "MB Building, John Molson School of Business building with modern facilities for business studies.",
     "address": "1450 Guy Street",
     "polygonShape": [
@@ -3006,7 +3067,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad8f",
+    "campus": "SGW",
     "name": "MI Building",
+    "BuildingLongName": "MI Annex",
     "description": "MI Building contains specialized facilities for research and development projects.",
     "address": "2130 Bishop Street",
     "polygonShape": [
@@ -3060,13 +3123,11 @@
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
     "updatedAtUTC": "2025-02-11T01:45:45.509Z"
   },
-
-
-
-
   {
     "_id": "67aaabc9a89802f0176bad94",
+    "campus": "SGW",
     "name": "MU Building",
+    "BuildingLongName": "MU Annex",
     "description": "MU Building offers spaces for music practice and performance, supporting the university's music programs.",
     "address": "2170 Bishop Street",
     "polygonShape": [
@@ -3106,7 +3167,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad95",
+    "campus": "SGW",
     "name": "P Building",
+    "BuildingLongName": "P Annex",
     "description": "P Building, provides versatile event spaces and student meeting areas.",
     "address": "2020 Mackay Street",
     "polygonShape": [
@@ -3142,7 +3205,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad96",
+    "campus": "LOY",
     "name": "PB Building",
+    "BuildingLongName": "PB Building",
     "description": "Focuses on prevention, evaluation, rehabilitation, and training, offering advanced facilities for health research and fitness.",
     "address": "7200 Sherbrooke W",
     "polygonShape": [
@@ -3174,7 +3239,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad97",
+    "campus": "LOY",
     "name": "PC Building",
+    "BuildingLongName": "PERFORM centre",
     "description": "PR Building, practical training center with specialized labs for hands-on learning.",
     "address": "7200 Sherbrooke W",
     "polygonShape": [
@@ -3202,7 +3269,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad98",
+    "campus": "SGW",
     "name": "PR Building",
+    "BuildingLongName": "PR Annex",
     "description": "Psychology Building, hosting labs and faculty offices.",
     "address": "2100 Mackay Street",
     "polygonShape": [
@@ -3246,7 +3315,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad99",
+    "campus": "LOY",
     "name": "PS Building",
+    "BuildingLongName": "Physical Services Building",
     "description": "Contains facilities for physical therapy education and practice.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -3314,7 +3385,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad9a",
+    "campus": "LOY",
     "name": "PT Building",
+    "BuildingLongName": "Oscar Peterson Concert Hall",
     "description": "Additional space for psychology research and studies.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -3354,7 +3427,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad9b",
+    "campus": "LOY",
     "name": "PY Building",
+    "BuildingLongName": "Psychology Building",
     "description": "Q Building houses various administrative offices and support services.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -3494,7 +3569,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad9c",
+    "campus": "SGW",
     "name": "Q Building",
+    "BuildingLongName": "Q Annex",
     "description": "Description unavailable",
     "address": "2010 Mackay Street",
     "polygonShape": [
@@ -3530,7 +3607,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad9d",
+    "campus": "SGW",
     "name": "R Building",
+    "BuildingLongName": "R Annex",
     "description": "R Building offers additional classroom spaces and faculty offices.",
     "address": "2050 Mackay Street",
     "polygonShape": [
@@ -3562,7 +3641,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad9e",
+    "campus": "LOY",
     "name": "RA Building",
+    "BuildingLongName": "Recreation and Athletics Complex",
     "description": "Recreation and Athletics Complex, including a gym and sports facilities.",
     "address": "7200 Sherbrooke W",
     "polygonShape": [
@@ -3606,7 +3687,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bad9f",
+    "campus": "LOY",
     "name": "RF Building",
+    "BuildingLongName": "Loyola Jesuit Hall and Conference Centre",
     "description": "Richard J. Renaud Science Pavilion, featuring science labs and lecture halls.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -3742,7 +3825,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada0",
+    "campus": "SGW",
     "name": "RR Building",
+    "BuildingLongName": "RR Annex",
     "description": "RR Building supports research activities and administrative offices.",
     "address": "2040 Mackay Street",
     "polygonShape": [
@@ -3786,7 +3871,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada1",
+    "campus": "SGW",
     "name": "S Building",
+    "BuildingLongName": "S Annex",
     "description": "S Building contains seminar rooms and collaborative learning spaces.",
     "address": "2145 Mackay Street",
     "polygonShape": [
@@ -3842,7 +3929,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada2",
+    "campus": "SGW",
     "name": "SB Building",
+    "BuildingLongName": "Samuel Bronfman Building",
     "description": "SB Building, focuses on science labs and faculty offices for STEM programs.",
     "address": "1590 Doctor Penfield",
     "polygonShape": [
@@ -3946,7 +4035,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada3",
+    "campus": "LOY",
     "name": "SC Building",
+    "BuildingLongName": "Student Centre",
     "description": "Student Centre, a central space for student activities and events.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -4006,7 +4097,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada4",
+    "campus": "LOY",
     "name": "SH Building",
+    "BuildingLongName": "Solar House",
     "description": "Provides accommodations for students.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -4034,7 +4127,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada5",
+    "campus": "LOY",
     "name": "SP Building",
+    "BuildingLongName": "Richard J. Renaud Science Complex",
     "description": "Description unavailable",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -4166,7 +4261,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada6",
+    "campus": "SGW",
     "name": "T Building",
+    "BuildingLongName": "T Annex",
     "description": "Solar House Pavilion, an eco-friendly research facility.",
     "address": "2030 Mackay Street",
     "polygonShape": [
@@ -4198,7 +4295,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada7",
+    "campus": "LOY",
     "name": "TA Building",
+    "BuildingLongName": "Terrebonne Building",
     "description": "T Building provides technology-enhanced classrooms and computer labs.",
     "address": "7079 Terrebonne",
     "polygonShape": [
@@ -4226,7 +4325,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada8",
+    "campus": "LOY",
     "name": "TB Building",
+    "BuildingLongName": "TB Annex",
     "description": "Supports theater productions and related activities.",
     "address": "7075 Terrebonne",
     "polygonShape": [
@@ -4254,7 +4355,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176bada9",
+    "campus": "SGW",
     "name": "TD Building",
+    "BuildingLongName": "Toronto-Dominion Building",
     "description": "TD Building offers spaces for professional development and training sessions.",
     "address": "1410 Guy Street",
     "polygonShape": [
@@ -4312,10 +4415,11 @@
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
     "updatedAtUTC": "2025-02-11T01:45:45.509Z"
   },
-
   {
     "_id": "67aaabc9a89802f0176badab",
+    "campus": "SGW",
     "name": "V Building",
+    "BuildingLongName": "V Annex",
     "description": "VA Building, Visual Arts building with studios, galleries, and creative spaces.",
     "address": "2110 Mackay Street",
     "polygonShape": [
@@ -4359,7 +4463,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176badac",
+    "campus": "SGW",
     "name": "VA Building",
+    "BuildingLongName": "Visual Arts Building",
     "description": "Additional space for library resources and study areas.",
     "address": "1395 Rene Levesque W",
     "polygonShape": [
@@ -4415,7 +4521,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176badad",
+    "campus": "LOY",
     "name": "VE Building",
+    "BuildingLongName": "Vanier Extension",
     "description": "Vanier Library, offering study spaces and research materials.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -4443,7 +4551,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176badae",
+    "campus": "LOY",
     "name": "VL Building",
+    "BuildingLongName": "Vanier Library Building",
     "description": "X Building accommodates various research centers and specialized laboratories.",
     "address": "7141 Sherbrooke W",
     "polygonShape": [
@@ -4543,7 +4653,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176badaf",
+    "campus": "SGW",
     "name": "X Building",
+    "BuildingLongName": "Student Centre",
     "description": "Z Building accommodates various research centers and specialized laboratories.",
     "address": "2080 Mackay Street",
     "polygonShape": [
@@ -4575,7 +4687,9 @@
   },
   {
     "_id": "67aaabc9a89802f0176badb0",
+    "campus": "SGW",
     "name": "Z Building",
+    "BuildingLongName": "X Annex",
     "description": "The Administration Building, housing key university offices.",
     "address": "2090 Mackay Street",
     "polygonShape": [
@@ -4632,5 +4746,18 @@
     "openingHours": "Mon-Fri: 9:00 AM - 6:00 PM",
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
     "updatedAtUTC": "2025-02-11T01:45:45.509Z"
+  },
+  {
+    "_id": "",
+    "campus": "",
+    "name": "",
+    "BuildingLongName": "Z Annex",
+    "description": "",
+    "address": "",
+    "polygonShape": "",
+    "outdoorLocation": "",
+    "openingHours": "",
+    "createdAtUTC": "",
+    "updatedAtUTC": ""
   }
 ]

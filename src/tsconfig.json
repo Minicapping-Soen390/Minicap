@@ -18,7 +18,8 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "resolveJsonModule": true // Added this line
   },
   "include": [
     "./**/*",
