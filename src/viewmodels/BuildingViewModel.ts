@@ -5,7 +5,7 @@ import { BuildingRepository } from "@/repositories/BuildingRepository";
 export class BuildingViewModel extends BaseViewModel<Building> implements BuildingRepository {
     private readonly COLLECTION_NAME = "buildings";
 
-    async findBuildingById(id: string): Promise<Building> {
+    async findBuildingById(_id: string): Promise<Building> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 

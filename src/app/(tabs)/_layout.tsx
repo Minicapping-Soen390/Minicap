@@ -7,7 +7,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../styles/globalStyles";
 
-const TabIcon = ({ icon, name, isOpen, focused }) => {
+const TabIcon = ({ icon, name, isOpen, focused }: { icon: any, name?: string, isOpen?: boolean, focused: boolean }) => {
   const isActive = isOpen || focused;
 
   return (
@@ -43,7 +43,9 @@ const TabLayout = () => {
             resizeMode="contain"
             style={globalStyles.logo}
           />
-          <Text style={globalStyles.appName}>APP NAME</Text>
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={globalStyles.appName}>APP NAME</Text>
+          </View>
         </View>
       )}
 

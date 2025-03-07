@@ -7,7 +7,7 @@ export interface UserRepository {
    * @returns Promise resolving to the found User
    * @throws {NotFoundError} If user doesn't exist
    */
-  findUserById(id: string): Promise<User>;
+  findUserById(_id: string): Promise<User>;
 
   /**
    * Finds a user by their email address

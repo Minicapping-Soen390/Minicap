@@ -682,7 +682,7 @@ import buildingsData from "@/data/hardcodedBuildings.json";
 &nbsp;
 // Outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
-  id: "loc-sgw",
+  _id: "loc-sgw",
   locationType: "outdoor",
   latitude: 45.4973,
   longitude: -73.5789,
@@ -691,7 +691,7 @@ const outdoorLocationSGW: OutdoorLocation = {
 };
 &nbsp;
 const outdoorLocationLoyola: OutdoorLocation = {
-  id: "loc-loyola",
+  _id: "loc-loyola",
   locationType: "outdoor",
   latitude: 45.4581,
   longitude: -73.6405,
@@ -706,14 +706,14 @@ interface CampusMapProps {
 &nbsp;
 // Define Campuses
 const SGWCampus: Campus = {
-  id: "sgw-ObjectId",
+  _id: "sgw-ObjectId",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
 };
 &nbsp;
 const LoyolaCampus: Campus = {
-  id: "loyola-ObjectId",
+  _id: "loyola-ObjectId",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],

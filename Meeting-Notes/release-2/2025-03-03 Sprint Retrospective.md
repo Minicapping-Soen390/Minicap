@@ -4,7 +4,7 @@
 **Time:** 17h00 - 17h45
 **Purpose:** Sprint Retrospective Review
 **Attendees:** Minh, Melissa, Edward, Hudson, Edward, Allaye, Asif, Safaa, Ayesha
-**Absent:** 
+**Absent:**
 
 ## Agenda Items
 
@@ -34,10 +34,12 @@
 ### **3. Next Sprint Planning**
 
 #### **Priority Items**
+
 - Complete remaining accessibility issues
-- Begin work on MVP1 features
 - Update technical documentation
+- Finish feature 2
 
 ### **4. Action Items/To-Do**
+
 - Team leads to review sprint assignments
 - Prepare for Presentation

@@ -11,15 +11,15 @@ export class RouteViewModel extends BaseViewModel<Route> implements RouteReposit
     constructor() {
         super();
     }
-    async updateRoute(id: string, updates: Partial<Route>, userId: string): Promise<Route> {
+    async updateRoute(_id: string, updates: Partial<Route>, userId: string): Promise<Route> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 
-    async deleteRoute(id: string, userId: string): Promise<void> {
+    async deleteRoute(_id: string, userId: string): Promise<void> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 
-    async findRouteById(id: string): Promise<Route> {
+    async findRouteById(_id: string): Promise<Route> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 

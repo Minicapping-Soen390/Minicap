@@ -6,7 +6,7 @@ import { CampusRepository } from "@/repositories/CampusRepository";
 export class CampusViewModel extends BaseViewModel<Campus> implements CampusRepository {
     private readonly COLLECTION_NAME = "campus";
 
-    async findCampusById(id: string): Promise<Campus> {
+    async findCampusById(_id: string): Promise<Campus> {
         throw new Error("NotImplementedError: Operation not implemented");
     }
 

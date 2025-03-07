@@ -1,16 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, Switch, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
-import MapView, { Marker, Region, Polygon, Circle, LatLng } from "react-native-maps";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  View,
+  Text,
+  Switch,
+  TouchableOpacity,
+  ActivityIndicator,
+  TouchableWithoutFeedback,
+  ViewStyle,
+} from "react-native";
+import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
+import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { globalStyles, mainEdges } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
-import { OutdoorLocation } from "@/models/OutdoorLocation";
+import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
+//import { ObjectId } from "mongodb";
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
-  id: "loc-sgw",
+  _id: "loc-sgw",
   locationType: "outdoor",
   latitude: 45.4973,
   longitude: -73.5789,
@@ -19,7 +28,7 @@ const outdoorLocationSGW: OutdoorLocation = {
 };
 
 const outdoorLocationLoyola: OutdoorLocation = {
-  id: "loc-loyola",
+  _id: "loc-loyola",
   locationType: "outdoor",
   latitude: 45.4581,
   longitude: -73.6405,
@@ -34,21 +43,21 @@ interface CampusMapProps {
 
 // Define campuses
 const SGWCampus: Campus = {
-  id: "sgw-uuid",
+  _id: "sgw-uuid",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
 };
 
 const LoyolaCampus: Campus = {
-  id: "loyola-uuid",
+  _id: "loyola-uuid",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],
 };
 
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
-  const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
+  const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region =
     campus.outdoorLocation === "loc-sgw"
       ? outdoorLocationSGW
@@ -58,8 +67,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [buildingInfo, setBuildingInfo] = useState<{ name: string; address: string; openingHours: string } | null>(null);
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
+  const [buildingInfo, setBuildingInfo] = useState<{
+    name: string;
+    address: string;
+    openingHours: string;
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
+    null
+  );
+  const [newRoute, setNewRoute] = useState<any>(null); // State to hold the new route object
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -100,13 +118,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   // Function to check if a point is inside a polygon
   const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
     let inside = false;
-    const x = point.longitude, y = point.latitude;
+    const x = point.longitude,
+      y = point.latitude;
 
     for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-      const xi = polygon[i].longitude, yi = polygon[i].latitude;
-      const xj = polygon[j].longitude, yj = polygon[j].latitude;
+      const xi = polygon[i].longitude,
+        yi = polygon[i].latitude;
+      const xj = polygon[j].longitude,
+        yj = polygon[j].latitude;
 
-      const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      const intersect =
+        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
       if (intersect) inside = !inside;
     }
 
@@ -116,7 +138,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const renderBuildings = () => {
     return buildingsData.map((building) => {
       if (!Array.isArray(building.polygonShape)) {
-        console.warn(`Building ${building._id} does not have a valid polygonShape`);
+        console.warn(
+          `Building ${building._id} does not have a valid polygonShape`
+        );
         return null;
       }
 
@@ -147,45 +171,55 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       center.latitude /= coordinates.length;
       center.longitude /= coordinates.length;
 
-      const isInside = userLocation && isPointInPolygon(userLocation, coordinates);
+      const isInside =
+        userLocation && isPointInPolygon(userLocation, coordinates);
       const isSelected = selectedBuildingId === building._id;
 
       const colorSettings = {
-        insideSelected: { fill: "rgba(255, 165, 0, 0.5)", stroke: "rgb(30, 79, 5)" },
-        inside: { fill: "rgba(46, 118, 10, 0.41)", stroke: "rgb(30, 79, 5)" },
-        selected: { fill: "rgba(255, 165, 0, 0.5)", stroke: "rgb(165, 35, 35)" },
-        default: { fill: "rgba(180, 16, 16, 0.5)", stroke: "rgb(165, 35, 35)" },
+        insideSelected: { fill: "#FFA50080", stroke: "#1E4F05" },
+        inside: { fill: "#2E760A69", stroke: "#1E4F05" },
+        selected: { fill: "#FFA50080", stroke: "#A52323" },
+        default: { fill: "#B4101080", stroke: "#A52323" },
       };
 
-      const { fill, stroke } = isInside && isSelected
-        ? colorSettings.insideSelected
-        : isInside
+      const { fill, stroke } =
+        isInside && isSelected
+          ? colorSettings.insideSelected
+          : isInside
           ? colorSettings.inside
           : isSelected
-            ? colorSettings.selected
-            : colorSettings.default;
+          ? colorSettings.selected
+          : colorSettings.default;
 
       const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
-        
+
       return (
         <View key={building._id}>
           <Polygon
             coordinates={coordinates}
-            strokeColor="rgb(165, 35, 35)"
+            strokeColor={stroke}
             strokeWidth={2}
-            fillColor={fillColor}
+            fillColor={fill}
           />
           <Marker
             coordinate={center}
             onPress={() => {
-              setBuildingInfo({ name: building.name, address: building.address, openingHours: building.openingHours });
+              setBuildingInfo({
+                name: building.name,
+                address: building.address,
+                openingHours: building.openingHours,
+                latitude: center.latitude,
+                longitude: center.longitude,
+              });
               setSelectedBuildingId(building._id);
             }}
             anchor={{ x: 0.5, y: 0.5 }}
           >
             <View style={globalStyles.marker}>
               <View style={globalStyles.buildingButton}>
-                <Text style={globalStyles.buildingButtonText}>{buildingNameInitials}</Text>
+                <Text style={globalStyles.buildingButtonText}>
+                  {buildingNameInitials}
+                </Text>
               </View>
             </View>
           </Marker>
@@ -193,7 +227,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       );
     });
   };
-
 
   const updateUserLocation = async () => {
     try {
@@ -240,6 +273,31 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
+  const handleGoToNavigation = () => {
+    if (buildingInfo) {
+      const newRouteSegment = {
+        startPoint: {
+          latitude: userLocation?.latitude || 0,
+          longitude: userLocation?.longitude || 0,
+        },
+        endPoint: {
+          latitude: buildingInfo.latitude,
+          longitude: buildingInfo.longitude,
+        },
+        transportationMode: "WALKING", // Default transportation mode
+        usageCount: 0,
+      };
+
+      const newRoute = {
+        accessible: true,
+        segmentIds: [newRouteSegment],
+      };
+
+      setNewRoute(newRoute); // Update the state with the new route object
+      console.log("New Route:", JSON.stringify(newRoute, null, 2));
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
       <View style={globalStyles.mapContainer}>
@@ -258,7 +316,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           zoomControlEnabled={true}
         >
           <Marker
-            coordinate={{ latitude: region.latitude, longitude: region.longitude }}
+            coordinate={{
+              latitude: region.latitude,
+              longitude: region.longitude,
+            }}
             title={campus.name}
           />
           {permissionGranted && userLocation && (
@@ -273,14 +334,31 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
         {buildingInfo && (
           <View style={globalStyles.buildingInfoContainer}>
-            <Text style={globalStyles.buildingNameText}>{buildingInfo.name}</Text>
-            <Text style={globalStyles.openingHoursText}>{buildingInfo.openingHours}</Text>
+            <Text style={globalStyles.buildingNameText}>
+              {buildingInfo.name}
+            </Text>
+            <Text style={globalStyles.openingHoursText}>
+              {buildingInfo.openingHours}
+            </Text>
             <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
+            <TouchableOpacity
+              onPress={handleGoToNavigation}
+              style={globalStyles.addButton}
+            >
+              <Text style={globalStyles.refreshButtonText}>
+                Go to {buildingInfo.name}
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
 
         <TouchableOpacity
-          style={[globalStyles.refreshButton, isRefreshing && globalStyles.refreshButtonDisabled]}
+          style={[
+            globalStyles.refreshButton,
+            isRefreshing
+              ? (globalStyles.refreshButtonDisabled as ViewStyle)
+              : {},
+          ]}
           onPress={updateUserLocation}
           disabled={isRefreshing}
         >
@@ -297,10 +375,13 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState(true);
-  const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
+  const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
 
   return (
-    <SafeAreaView style={globalStyles.container} edges={mainEdges}>
+    <SafeAreaView
+      style={globalStyles.container}
+      edges={mainEdges as readonly Edge[]}
+    >
       <View style={globalStyles.switchHeaderContainer}>
         <View style={globalStyles.campusSwitchHeader}>
           <View style={globalStyles.switchContainer}>
