@@ -1,7 +1,6 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Route, RouteSegment, TransportationMode } from "@/models/Route";
 import { Location } from "@/models/Location";
-import { ObjectId } from "mongodb";
 import { RouteRepository } from "@/repositories/RouteRepository";
 import { Audit } from "@/models/Audit";
 
@@ -12,49 +11,52 @@ export class RouteViewModel extends BaseViewModel<Route> implements RouteReposit
     constructor() {
         super();
     }
-
-    async findRouteById(id: ObjectId): Promise<Route> {
-        throw new Error("Method not implemented: findRouteById");
+    async updateRoute(id: string, updates: Partial<Route>, userId: string): Promise<Route> {
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
-    async findSegmentsByRouteId(routeId: ObjectId): Promise<RouteSegment[]> {
-        throw new Error("Method not implemented: findSegmentsByRouteId");
+    async deleteRoute(id: string, userId: string): Promise<void> {
+        throw new Error("NotImplementedError: Operation not implemented");
+    }
+
+    async findRouteById(id: string): Promise<Route> {
+        throw new Error("NotImplementedError: Operation not implemented");
+    }
+
+    async findSegmentsByRouteId(routeId: string): Promise<RouteSegment[]> {
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
     async findOrCreateSegment(
         startPoint: Location,
         endPoint: Location,
         mode: TransportationMode,
-        userId: ObjectId
+        userId: string
     ): Promise<RouteSegment> {
-        throw new Error("Method not implemented: findOrCreateSegment");
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
     async updateSegment(
-        segmentId: ObjectId, 
+        segmentId: string, 
         updates: Partial<RouteSegment>,
-        userId: ObjectId
+        userId: string
     ): Promise<RouteSegment> {
-        throw new Error("Method not implemented: updateSegment");
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
     async createRoute(
         waypoints: Location[],
         mode: TransportationMode,
-        userId: ObjectId
+        userId: string
     ): Promise<Route> {
-        throw new Error("Method not implemented: createRoute");
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
-    async calculatePath(segmentId: ObjectId, userId: ObjectId): Promise<RouteSegment> {
-        throw new Error("Method not implemented: calculatePath");
+    async calculatePath(segmentId: string, userId: string): Promise<RouteSegment> {
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 
     protected mapToDTO<T extends Route | RouteSegment>(doc: any): T {
-        throw new Error("Method not implemented: mapToDTO");
-    }
-
-    protected async updateAudit(existingAudit: Partial<Audit> | null, userId: ObjectId): Promise<Audit> {
-        throw new Error("Method not implemented: updateAudit");
+        throw new Error("NotImplementedError: Operation not implemented");
     }
 }

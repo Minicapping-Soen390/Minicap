@@ -1,13 +1,14 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { globalStyles, mainEdges } from "../styles/globalStyles";
 
 const ClassSchedule = () => {
   return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
-      <Text style={{ fontSize: 24, fontWeight: "bold" }}>Class Schedule</Text>
+    <SafeAreaView style={globalStyles.container} edges={mainEdges}>
+      <Text style={[globalStyles.textBold, { fontSize: 24 }]}>
+        Class Schedule
+      </Text>
     </SafeAreaView>
   );
 };
