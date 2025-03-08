@@ -30,7 +30,6 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="myapp"/>
-        <data android:scheme="com.hudson22.src"/>
         <data android:scheme="com.dsagfh364h.src"/>
       </intent-filter>
     </activity>
