@@ -1,14 +1,11 @@
-import { ObjectId } from "mongodb";
 import { Audit } from "./Audit";
 
 export interface User extends Audit {
     email: string;
     password: string;
     name: string;
-    calendarIds: ObjectId[];
-    currentLocationId?: ObjectId;
-    createdAt?: Date;
-    updatedAt?: Date;
+    calendarIds: string[];
+    currentLocationId?: string;
 }
 
 export interface Administrator extends User {
