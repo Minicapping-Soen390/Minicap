@@ -12,30 +12,31 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
-"expo": {
-  "doctor": {
-    "reactNativeDirectoryCheck": {
-      "exclude": ["react-native-maps"],
-      "listUnknownPackages": false
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-maps"
+        ],
+        "listUnknownPackages": false
+      }
     }
-  }
-}
-,
-  
+  },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@gluestack-ui/themed": "^1.1.65",
-    "@react-navigation/bottom-tabs": "^7.2.1",
+    "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
-    "expo": "~52.0.31",
+    "dotenv": "^16.4.7",
+    "expo": "~52.0.36",
     "expo-blur": "^14.0.3",
     "expo-constants": "^17.0.5",
     "expo-font": "~13.0.3",
     "expo-haptics": "~14.0.1",
     "expo-linking": "~7.0.5",
-    "expo-location": "~18.0.5",
+    "expo-location": "~18.0.7",
     "expo-router": "~4.0.17",
-    "expo-splash-screen": "~0.29.21",
+    "expo-splash-screen": "~0.29.22",
     "expo-status-bar": "~2.0.1",
     "expo-symbols": "~0.2.1",
     "expo-system-ui": "~4.0.8",
