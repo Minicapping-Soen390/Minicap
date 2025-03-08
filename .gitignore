@@ -1,7 +1,8 @@
 .DS_Store
 .env
-knowledge.md
 tmp.md
+knowledge.md
+expo-env.d.ts
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
@@ -70,6 +71,9 @@ buck-out
 .gradle
 local.properties
 *.iml
+/android
+android/*
+string
 /packages/react-native/android/*
 !/packages/react-native/android/README.md
 .kotlin/
@@ -108,6 +112,21 @@ node_modules
 /packages/react-native/React/FBReactNativeSpec/**/*.xcodeproj
 /packages/react-native-codegen/**/*.xcodeproj
 /packages/rn-tester/**/*.xcodeproj
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
 
 # Ruby Gems (Bundler)
 /packages/react-native/vendor
@@ -169,6 +188,8 @@ vendor/
 # dependencies
 node_modules/
 
+android/
+
 # Expo
 .expo/
 dist/
@@ -203,3 +224,9 @@ yarn-error.*
 
 app-example
 
+src/android/app/src/main/res/values/strings.xml
+src/android/app/src/main/res/values/strings.xml
+src/android/app/src/main/res/values/strings.xml
+src/android/app/src/main/res/values/strings.xml
+src/android/app/src/main/res/values/strings.xml
+/src/android
