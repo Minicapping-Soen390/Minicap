@@ -6,6 +6,7 @@ export default ({ config }) => ({
     name: "Concordia",
     slug: "src",
     version: "1.0.0",
+    runtimeVersion: "1.0.0", // Added to avoid Expo prebuild error
     orientation: "portrait",
     owner: "minicappin",
     icon: "./assets/images/logo.png",
@@ -22,10 +23,10 @@ export default ({ config }) => ({
       },
       config: {
         googleMaps: {
-          apiKey: process.env.GOOGLE_MAPS_API_KEY || "" // This will load from .env.local
+          apiKey: process.env.GOOGLE_MAPS_API_KEY || "" // Loads from .env.local
         }
       },
-      package: "com.hudson22.src"
+      package: "com.dsagfh364h.src"
     },
     web: {
       bundler: "metro",
@@ -43,6 +44,12 @@ export default ({ config }) => ({
           backgroundColor: "#ffffff"
         }
       ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          iosUrlScheme: "com.googleusercontent.apps.754721907981-ksioigv97102nvei9k1sbl84a6k9qaiv"
+        }
+      ],
       "expo-font"
     ],
     experiments: {
@@ -55,6 +62,9 @@ export default ({ config }) => ({
       eas: {
         projectId: "4cdf29b3-adbf-4241-aeb2-cbdcefcbc659"
       }
+    },
+    updates: {
+      url: "https://u.expo.dev/4cdf29b3-adbf-4241-aeb2-cbdcefcbc659"
     }
   }
 });

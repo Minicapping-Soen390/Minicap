@@ -70,6 +70,7 @@ buck-out
 .gradle
 local.properties
 *.iml
+/android
 /packages/react-native/android/*
 !/packages/react-native/android/README.md
 .kotlin/
