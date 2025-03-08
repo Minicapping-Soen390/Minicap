@@ -71,6 +71,8 @@ buck-out
 local.properties
 *.iml
 /android
+android/*
+string
 /packages/react-native/android/*
 !/packages/react-native/android/README.md
 .kotlin/
@@ -222,3 +224,8 @@ yarn-error.*
 app-example
 
 tmp.md
+src/android/app/src/main/res/values/strings.xml
+src/android/app/src/main/res/values/strings.xml
+src/android/app/src/main/res/values/strings.xml
+src/android/app/src/main/res/values/strings.xml
+src/android/app/src/main/res/values/strings.xml
