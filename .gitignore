@@ -220,3 +220,4 @@ yarn-error.*
 app-example
 
 tmp.md
+mmkv-test/expo-env.d.ts

@@ -24,6 +24,8 @@ Minicapping is a comprehensive campus navigation solution designed to:
 - **Accessibility Focus**: Prioritize accessible routes with elevator and ramp information
 - **Real-time Updates**: Integration with shuttle service and building schedules
 - **Point of Interest**: Quick access to amenities like coffee shops, study spaces, and bathrooms
+- **Schedule Integration**: Downloading schedules from Google Calendar for user convenience
+- **Offline-First Design**: Primary functionality works without internet connection
 
 ## 📚 Documentation
 
@@ -39,7 +41,10 @@ Minicapping is a comprehensive campus navigation solution designed to:
 | **Expo** | • Simplified React Native development<br>• Easy device testing and deployment<br>• Built-in navigation libraries<br>• Strong developer tools<br>• Over-the-air updates |
 | **React Native** | • Team has React experience<br>• Direct native module access<br>• Strong community support |
 | **Maps Integration** | • React Native Maps for native performance<br>• Google Maps API for accurate data<br>• Native compatibility through Expo<br>• Built-in geolocation support |
+| **Google Calendar API** | • Download user schedules for convenience<br>• Seamless integration with navigation features |
 | **Node.js** | • JavaScript ecosystem<br>• API development focus<br>• Server-side performance<br>• React Native integration |
+| **Offline Architecture** | • Download maps for offline use<br>• Local user accounts<br>• Offline indoor navigation<br>• JSON-based data storage |
+| **Local Calculation** | • Custom code processing JSON data files<br>• Device-side routing calculations<br>• Minimal server dependency |
 
 ### Development Environment
 
@@ -59,7 +64,7 @@ Minicapping is a comprehensive campus navigation solution designed to:
 
 | Category | Tools |
 |----------|-------|
-| **CI/CD** | • GitHub Workflow<br>• SonarQube<br>• Codecov |
+| **CI/CD** | • GitHub Workflow<br>• SonarQube<br>• Codecov<br>• Dependabot |
 | **UI** | • Gluestack<br>• Customizable components<br>• Native-first design |
 
 <div align="center">
