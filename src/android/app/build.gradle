@@ -79,11 +79,7 @@ def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInRelea
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localProperties.load(new FileInputStream(localPropertiesFile))
-}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -92,7 +88,6 @@ android {
 
     namespace 'com.dsagfh364h.src'
     defaultConfig {
-        buildConfigField "String", "MAPS_API_KEY", "\"${localProperties.getProperty('MAPS_API_KEY')}\""
         applicationId 'com.dsagfh364h.src'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
