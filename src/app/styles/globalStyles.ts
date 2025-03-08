@@ -154,6 +154,84 @@ const viewStyles = StyleSheet.create({
     borderRadius: rem(5),
     zIndex: 2,
   },
+  navigationPopup: {
+    position: "absolute",
+    bottom: 100,
+    left: "10%",
+    right: "10%",
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  popupContainer: {
+    position: "absolute",
+    top: rem(20), // responsive top spacing
+    left: "5%",
+    right: "5%",
+    backgroundColor: "#fff",
+    borderRadius: rem(8),
+    paddingRight: rem(18),
+    paddingLeft: rem(18),
+    paddingTop: rem(10),
+    paddingBottom: rem(10),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: rem(2) },
+    shadowOpacity: 0.3,
+    shadowRadius: rem(4),
+    elevation: 5,
+  },
+  popupText: {
+    fontSize: rem(16),
+    color: "#333",
+  },
+  popupRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: rem(8),
+  },
+  greenDot: {
+    width: rem(12),
+    height: rem(12),
+    borderRadius: rem(6),
+    backgroundColor: "green",
+    marginRight: rem(8),
+  },
+  goldDot: {
+    width: rem(12),
+    height: rem(12),
+    borderRadius: rem(6),
+    backgroundColor: colors.orange,
+    marginRight: rem(8),
+  },
+  closeButton: {
+    position: "absolute",
+    top: rem(-10),
+    left: rem(-10), // positioned at the top left of the popup
+    backgroundColor: "#fff",
+    borderRadius: rem(12),
+    padding: rem(4),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: rem(2) },
+    shadowOpacity: 0.3,
+    shadowRadius: rem(4),
+    elevation: 5,
+  },
+  closeButtonText: {
+    fontSize: rem(14),
+    fontWeight: "bold",
+    color: "#333",
+  },
+  separator: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginVertical: rem(8),
+  },
 });
 
 // Text styles
@@ -192,16 +270,17 @@ const textStyles = StyleSheet.create({
   },
   buildingNameText: {
     fontWeight: "bold",
-    fontSize: rem(18),
+    fontSize: rem(20),
     marginBottom: rem(5),
   },
   openingHoursText: {
+    fontSize: rem(12),
     color: colors.lightGray,
     marginBottom: rem(5),
   },
   addressText: {
     color: colors.darkGray,
-    fontSize: rem(14),
+    fontSize: rem(16),
   },
   buildingButtonText: {
     color: colors.white,
@@ -211,6 +290,11 @@ const textStyles = StyleSheet.create({
   errorText: {
     color: colors.white,
     textAlign: "center",
+  },
+  navAddressText: {
+    fontSize: 16,
+    color: colors.black,
+    marginBottom: 4,
   },
 });
 
