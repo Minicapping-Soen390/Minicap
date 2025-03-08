@@ -13,6 +13,7 @@ const colors = {
   brightRed: "#ff0000b3",
   darkGray: "#555",
   transparent: "transparent",
+  green: "green",
 };
 
 // View styles
@@ -68,7 +69,7 @@ const viewStyles = StyleSheet.create({
   addButton: {
     marginTop: 10,
     backgroundColor: colors.concordiaRed,
-    padding: 10,
+    padding: rem(10),
     borderRadius: 5,
     alignItems: "center",
   },
@@ -159,28 +160,27 @@ const viewStyles = StyleSheet.create({
     bottom: 100,
     left: "10%",
     right: "10%",
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
-    shadowColor: "#000",
+    backgroundColor: colors.white,
+    borderRadius: rem(8),
+    padding: rem(16),
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
   },
-
   popupContainer: {
     position: "absolute",
-    top: rem(20), // responsive top spacing
+    top: rem(20),
     left: "5%",
     right: "5%",
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     borderRadius: rem(8),
     paddingRight: rem(18),
     paddingLeft: rem(18),
     paddingTop: rem(10),
     paddingBottom: rem(10),
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: rem(2) },
     shadowOpacity: 0.3,
     shadowRadius: rem(4),
@@ -188,7 +188,7 @@ const viewStyles = StyleSheet.create({
   },
   popupText: {
     fontSize: rem(16),
-    color: "#333",
+    color: colors.darkGray,
   },
   popupRow: {
     flexDirection: "row",
@@ -199,7 +199,7 @@ const viewStyles = StyleSheet.create({
     width: rem(12),
     height: rem(12),
     borderRadius: rem(6),
-    backgroundColor: "green",
+    backgroundColor: colors.green,
     marginRight: rem(8),
   },
   goldDot: {
@@ -212,11 +212,11 @@ const viewStyles = StyleSheet.create({
   closeButton: {
     position: "absolute",
     top: rem(-10),
-    left: rem(-10), // positioned at the top left of the popup
-    backgroundColor: "#fff",
+    left: rem(-10),
+    backgroundColor: colors.white,
     borderRadius: rem(12),
     padding: rem(4),
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: rem(2) },
     shadowOpacity: 0.3,
     shadowRadius: rem(4),
@@ -225,11 +225,11 @@ const viewStyles = StyleSheet.create({
   closeButtonText: {
     fontSize: rem(14),
     fontWeight: "bold",
-    color: "#333",
+    color: colors.darkGray,
   },
   separator: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomWidth: rem(1),
+    borderBottomColor: colors.lightGray,
     marginVertical: rem(8),
   },
 });
@@ -292,7 +292,7 @@ const textStyles = StyleSheet.create({
     textAlign: "center",
   },
   navAddressText: {
-    fontSize: 16,
+    fontSize: rem(16),
     color: colors.black,
     marginBottom: 4,
   },
