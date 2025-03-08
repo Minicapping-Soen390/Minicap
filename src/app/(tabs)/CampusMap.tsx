@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   ViewStyle,
+  Linking,
 } from "react-native";
 import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
@@ -273,28 +274,29 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
-  const handleGoToNavigation = () => {
+  const handleGoToNavigation = async () => {
     if (buildingInfo) {
-      const newRouteSegment = {
-        startPoint: {
-          latitude: userLocation?.latitude || 0,
-          longitude: userLocation?.longitude || 0,
-        },
-        endPoint: {
-          latitude: buildingInfo.latitude,
-          longitude: buildingInfo.longitude,
-        },
-        transportationMode: "WALKING", // Default transportation mode
-        usageCount: 0,
-      };
-
-      const newRoute = {
-        accessible: true,
-        segmentIds: [newRouteSegment],
-      };
-
-      setNewRoute(newRoute); // Update the state with the new route object
-      console.log("New Route:", JSON.stringify(newRoute, null, 2));
+      const { latitude, longitude, name, address } = buildingInfo;
+      
+      // Try to open in Google Maps app first with direct navigation
+      const mapsUrl = `comgooglemaps://?daddr=${latitude},${longitude}&q=${encodeURIComponent(name)}&travelmode=walking&action=navigate`;
+      const webUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&destination_name=${encodeURIComponent(name)}&travelmode=walking&action=navigate`;
+      
+      try {
+        // Check if Google Maps app is installed
+        const canOpenMaps = await Linking.canOpenURL(mapsUrl);
+        
+        if (canOpenMaps) {
+          await Linking.openURL(mapsUrl);
+        } else {
+          // Fallback to web version
+          await Linking.openURL(webUrl);
+        }
+      } catch (error) {
+        console.error('Error opening maps:', error);
+        // If both fail, try the web version as a last resort
+        await Linking.openURL(webUrl);
+      }
     }
   };
 
