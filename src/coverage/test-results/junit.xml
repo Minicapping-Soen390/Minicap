@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="17" failures="0" errors="0" time="2.097">
-  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="0.693" tests="1">
-    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.007">
+<testsuites name="jest tests" tests="16" failures="1" errors="0" time="7.853">
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-03-08T20:09:51" time="2.149" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.012">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="0.902" tests="7">
-    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.093">
+  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T20:09:51" time="2.234" tests="1">
+    <testcase classname="CampusSwitcher Component Test" name="CampusSwitcher Component Test" time="0.011">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.002">
+  </testsuite>
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T20:09:51" time="3.528" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.511">
+    </testcase>
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.002">
+    </testcase>
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T20:09:51" time="3.597" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.454">
+    </testcase>
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.105">
+    </testcase>
+  </testsuite>
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T20:09:51" time="4.128" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.422">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T20:09:51" time="4.124" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.597">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.001">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.001">
     </testcase>
@@ -17,37 +39,34 @@
     </testcase>
     <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.001">
     </testcase>
-    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.002">
+    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.086" tests="2">
-    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.041">
-    </testcase>
-    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.089">
-    </testcase>
-  </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.083" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.131">
-    </testcase>
-    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
-    </testcase>
-    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="ClassSchedule Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.157" tests="1">
-    <testcase classname="ClassSchedule Component renders correctly" name="ClassSchedule Component renders correctly" time="0.1">
-    </testcase>
-  </testsuite>
-  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.152" tests="1">
-    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.085">
-    </testcase>
-  </testsuite>
-  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.18" tests="1">
-    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.088">
-    </testcase>
-  </testsuite>
-  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.218" tests="1">
-    <testcase classname="CampusSwitcher Component Test" name="CampusSwitcher Component Test" time="0.007">
+  <testsuite name="FindBuilding Component" errors="0" failures="1" skipped="0" timestamp="2025-03-08T20:09:51" time="5.7" tests="1">
+    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.244">
+      <failure>Error: Unable to find an element with text: Find Building
+
+&lt;RNCSafeAreaView&gt;
+  &lt;ActivityIndicator /&gt;
+  &lt;Text&gt;
+    Loading buildings...
+  &lt;/Text&gt;
+&lt;/RNCSafeAreaView&gt;
+    at Object.getByText (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\FindBuilding.test.tsx:10:12)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
 </testsuites>
