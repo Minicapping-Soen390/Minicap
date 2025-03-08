@@ -1,53 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="17" failures="0" errors="0" time="2.097">
-  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="0.693" tests="1">
-    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.007">
+<testsuites name="jest tests" tests="18" failures="3" errors="0" time="15.802">
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T21:01:32" time="7.054" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="1.49">
+    </testcase>
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.841">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="0.902" tests="7">
-    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.093">
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T21:01:32" time="7.238" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="2.496">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.002">
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.016">
+    </testcase>
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-03-08T21:01:39" time="0.338" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T21:01:32" time="8.497" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="1.431">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.003">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.001">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.001">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.001">
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.003">
     </testcase>
-    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.001">
+    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.002">
     </testcase>
     <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.086" tests="2">
-    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.041">
-    </testcase>
-    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.089">
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-03-08T21:01:32" time="8.498" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.991">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.083" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.131">
-    </testcase>
-    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
-    </testcase>
-    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.003">
+  <testsuite name="FindBuilding Component" errors="0" failures="1" skipped="0" timestamp="2025-03-08T21:01:32" time="10.405" tests="1">
+    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.362">
+      <failure>Error: Unable to find an element with text: Find Building
+
+&lt;RNCSafeAreaView&gt;
+  &lt;ActivityIndicator /&gt;
+  &lt;Text&gt;
+    Loading buildings...
+  &lt;/Text&gt;
+&lt;/RNCSafeAreaView&gt;
+    at Object.getByText (/Users/youssef/MiniCap/Minicap/src/__test__/app/FindBuilding.test.tsx:10:12)
+    at Promise.then.completed (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="ClassSchedule Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.157" tests="1">
-    <testcase classname="ClassSchedule Component renders correctly" name="ClassSchedule Component renders correctly" time="0.1">
+  <testsuite name="CampusSwitcher Component" errors="0" failures="2" skipped="0" timestamp="2025-03-08T21:01:32" time="11.565" tests="3">
+    <testcase classname="CampusSwitcher Component Test" name="CampusSwitcher Component Test" time="0.032">
     </testcase>
-  </testsuite>
-  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.152" tests="1">
-    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.085">
+    <testcase classname="CampusSwitcher Component constructs correct navigation URLs when Go to Building is pressed" name="CampusSwitcher Component constructs correct navigation URLs when Go to Building is pressed" time="3.853">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+
+Check the render method of `CampusMap`.
+    at createFiberFromTypeAndProps (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17557:17)
+    at createFiberFromElement (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17583:15)
+    at createChild (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:3532:28)
+    at reconcileChildrenArray (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:3822:25)
+    at reconcileChildFibers (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4214:16)
+    at reconcileChildren (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:9115:28)
+    at updateHostComponent (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:9742:3)
+    at beginWork (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:11382:14)
+    at performUnitOfWork (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15847:12)
+    at workLoopSync (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15784:5)
+    at renderRootSync (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15126:22)
+    at flushActQueue (/Users/youssef/MiniCap/Minicap/src/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/Users/youssef/MiniCap/Minicap/src/node_modules/react/cjs/react.development.js:2582:11)
+    at actImplementation (/Users/youssef/MiniCap/Minicap/src/node_modules/@testing-library/react-native/src/act.ts:31:25)
+    at renderWithAct (/Users/youssef/MiniCap/Minicap/src/node_modules/@testing-library/react-native/src/render-act.ts:12:11)
+    at renderInternal (/Users/youssef/MiniCap/Minicap/src/node_modules/@testing-library/react-native/src/render.tsx:68:33)
+    at renderInternal (/Users/youssef/MiniCap/Minicap/src/node_modules/@testing-library/react-native/src/render.tsx:43:10)
+    at Object.&lt;anonymous&gt; (/Users/youssef/MiniCap/Minicap/src/__test__/app/CampusMap.test.tsx:58:46)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (/Users/youssef/MiniCap/Minicap/src/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+    at _next (/Users/youssef/MiniCap/Minicap/src/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+    at /Users/youssef/MiniCap/Minicap/src/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (/Users/youssef/MiniCap/Minicap/src/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+    at Promise.then.completed (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/testWorker.js:106:12)</failure>
     </testcase>
-  </testsuite>
-  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.18" tests="1">
-    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.088">
-    </testcase>
-  </testsuite>
-  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.218" tests="1">
-    <testcase classname="CampusSwitcher Component Test" name="CampusSwitcher Component Test" time="0.007">
+    <testcase classname="CampusSwitcher Component falls back to web URL when Google Maps app is not installed" name="CampusSwitcher Component falls back to web URL when Google Maps app is not installed" time="0.148">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+
+Check the render method of `CampusMap`.
+    at createFiberFromTypeAndProps (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17557:17)
+    at createFiberFromElement (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17583:15)
+    at createChild (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:3532:28)
+    at reconcileChildrenArray (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:3822:25)
+    at reconcileChildFibers (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4214:16)
+    at reconcileChildren (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:9115:28)
+    at updateHostComponent (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:9742:3)
+    at beginWork (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:11382:14)
+    at performUnitOfWork (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15847:12)
+    at workLoopSync (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15784:5)
+    at renderRootSync (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (/Users/youssef/MiniCap/Minicap/src/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15126:22)
+    at flushActQueue (/Users/youssef/MiniCap/Minicap/src/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/Users/youssef/MiniCap/Minicap/src/node_modules/react/cjs/react.development.js:2582:11)
+    at actImplementation (/Users/youssef/MiniCap/Minicap/src/node_modules/@testing-library/react-native/src/act.ts:31:25)
+    at renderWithAct (/Users/youssef/MiniCap/Minicap/src/node_modules/@testing-library/react-native/src/render-act.ts:12:11)
+    at renderInternal (/Users/youssef/MiniCap/Minicap/src/node_modules/@testing-library/react-native/src/render.tsx:68:33)
+    at renderInternal (/Users/youssef/MiniCap/Minicap/src/node_modules/@testing-library/react-native/src/render.tsx:43:10)
+    at Object.&lt;anonymous&gt; (/Users/youssef/MiniCap/Minicap/src/__test__/app/CampusMap.test.tsx:95:46)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (/Users/youssef/MiniCap/Minicap/src/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+    at _next (/Users/youssef/MiniCap/Minicap/src/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+    at /Users/youssef/MiniCap/Minicap/src/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (/Users/youssef/MiniCap/Minicap/src/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+    at Promise.then.completed (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/Users/youssef/MiniCap/Minicap/src/node_modules/jest-runner/build/testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
 </testsuites>

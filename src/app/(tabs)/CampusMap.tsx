@@ -278,9 +278,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     if (buildingInfo) {
       const { latitude, longitude, name, address } = buildingInfo;
       
-      // Try to open in Google Maps app first
-      const mapsUrl = `comgooglemaps://?daddr=${latitude},${longitude}&q=${encodeURIComponent(name)}&travelmode=walking`;
-      const webUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&destination_name=${encodeURIComponent(name)}&travelmode=walking`;
+      // Try to open in Google Maps app first with direct navigation
+      const mapsUrl = `comgooglemaps://?daddr=${latitude},${longitude}&q=${encodeURIComponent(name)}&travelmode=walking&action=navigate`;
+      const webUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&destination_name=${encodeURIComponent(name)}&travelmode=walking&action=navigate`;
       
       try {
         // Check if Google Maps app is installed
