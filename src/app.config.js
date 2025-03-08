@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
-export default {
+export default ({ config }) => ({
+  ...config, // This ensures you inherit the default Expo config
   expo: {
     name: "Concordia",
     slug: "src",
@@ -21,7 +22,7 @@ export default {
       },
       config: {
         googleMaps: {
-          apiKey: process.env.GOOGLE_MAPS_API_KEY || ""
+          apiKey: process.env.GOOGLE_MAPS_API_KEY || "" // This will load from .env.local
         }
       },
       package: "com.hudson22.src"
@@ -52,8 +53,8 @@ export default {
         origin: false
       },
       eas: {
-     "projectId": "4cdf29b3-adbf-4241-aeb2-cbdcefcbc659"
+        projectId: "4cdf29b3-adbf-4241-aeb2-cbdcefcbc659"
       }
     }
   }
-};
+});
