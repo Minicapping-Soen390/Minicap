@@ -18,7 +18,9 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
+          with:
           args: >
+            -Dsonar.projectKey=Minicapping-Soen390_Minicap 
+            -Dsonar.organization=minicapping-soen390
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.javascript.lcov.reportPaths=src/coverage/lcov.info
