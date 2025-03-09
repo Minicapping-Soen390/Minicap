@@ -79,6 +79,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     null
   );
   const [newRoute, setNewRoute] = useState<any>(null); // State to hold the new route object
+  const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -275,28 +276,35 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   const handleGoToNavigation = async () => {
-    if (buildingInfo) {
+    if (!buildingInfo) return;
+    
+    if (!userLocation) {
+      setLocationError("Please enable location services to get directions");
+      return;
+    }
+
+    setIsNavigating(true);
+    try {
       const { latitude, longitude, name, address } = buildingInfo;
       
       // Try to open in Google Maps app first with direct navigation
       const mapsUrl = `comgooglemaps://?daddr=${latitude},${longitude}&q=${encodeURIComponent(name)}&travelmode=walking&action=navigate`;
       const webUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&destination_name=${encodeURIComponent(name)}&travelmode=walking&action=navigate`;
       
-      try {
-        // Check if Google Maps app is installed
-        const canOpenMaps = await Linking.canOpenURL(mapsUrl);
-        
-        if (canOpenMaps) {
-          await Linking.openURL(mapsUrl);
-        } else {
-          // Fallback to web version
-          await Linking.openURL(webUrl);
-        }
-      } catch (error) {
-        console.error('Error opening maps:', error);
-        // If both fail, try the web version as a last resort
+      // Check if Google Maps app is installed
+      const canOpenMaps = await Linking.canOpenURL(mapsUrl);
+      
+      if (canOpenMaps) {
+        await Linking.openURL(mapsUrl);
+      } else {
+        // Fallback to web version
         await Linking.openURL(webUrl);
       }
+    } catch (error) {
+      console.error('Error opening maps:', error);
+      setLocationError("Failed to open navigation. Please try again.");
+    } finally {
+      setIsNavigating(false);
     }
   };
 
@@ -345,11 +353,19 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
             <TouchableOpacity
               onPress={handleGoToNavigation}
-              style={globalStyles.addButton}
+              style={[
+                globalStyles.addButton,
+                isNavigating && (globalStyles.refreshButtonDisabled as ViewStyle)
+              ]}
+              disabled={isNavigating}
             >
-              <Text style={globalStyles.refreshButtonText}>
-                Go to {buildingInfo.name}
-              </Text>
+              {isNavigating ? (
+                <ActivityIndicator color="white" size="small" />
+              ) : (
+                <Text style={globalStyles.refreshButtonText}>
+                  Go to {buildingInfo.name}
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         )}
