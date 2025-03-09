@@ -202,6 +202,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             fillColor={fill}
           />
           <Marker
+            testID={`building-marker-${building._id}`}
             coordinate={center}
             onPress={() => {
               setBuildingInfo({
@@ -302,7 +303,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
       <View style={globalStyles.mapContainer}>
         {locationError ? (
-          <View style={globalStyles.errorContainer}>
+          <View
+            style={globalStyles.errorContainer}
+            testID="campus-map-container"
+          >
             <Text style={globalStyles.errorText}>{locationError}</Text>
           </View>
         ) : null}
@@ -314,8 +318,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           rotateEnabled={false}
           zoomEnabled={true}
           zoomControlEnabled={true}
+          testID="campus-map"
         >
           <Marker
+            testID="campus-marker"
             coordinate={{
               latitude: region.latitude,
               longitude: region.longitude,
@@ -327,13 +333,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               coordinate={userLocation}
               title="Your Location"
               pinColor="green"
+              testID="user-location-marker"
             />
           )}
           {renderBuildings()}
         </MapView>
 
         {buildingInfo && (
-          <View style={globalStyles.buildingInfoContainer}>
+          <View
+            style={globalStyles.buildingInfoContainer}
+            testID="building-info"
+          >
             <Text style={globalStyles.buildingNameText}>
               {buildingInfo.name}
             </Text>
@@ -361,6 +371,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           ]}
           onPress={updateUserLocation}
           disabled={isRefreshing}
+          testID="refresh-location-button"
         >
           {isRefreshing ? (
             <ActivityIndicator color="white" size="small" />
@@ -381,14 +392,19 @@ const CampusSwitcher: React.FC = () => {
     <SafeAreaView
       style={globalStyles.container}
       edges={mainEdges as readonly Edge[]}
+      testID="campus-switcher-container"
     >
       <View style={globalStyles.switchHeaderContainer}>
         <View style={globalStyles.campusSwitchHeader}>
-          <View style={globalStyles.switchContainer}>
+          <View
+            style={globalStyles.switchContainer}
+            testID="campus-switch-container"
+          >
             <Text style={globalStyles.switchText}>SGW</Text>
             <Switch
               value={!isSGWCampus}
               onValueChange={() => setIsSGWCampus(!isSGWCampus)}
+              testID="campus-switch"
             />
             <Text style={globalStyles.switchText}>LOY</Text>
           </View>
