@@ -28,7 +28,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: AsifAliKhan2001/Minicap
+          slug: Minicapping-Soen390/Minicap
           fail_ci_if_error: true
           files: ./src/coverage/lcov.info # Ensure Jest outputs an `lcov.info` file
           flags: unittests # Optional: Use flags to track unit tests separately
