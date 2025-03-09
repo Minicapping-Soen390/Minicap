@@ -171,9 +171,9 @@ const viewStyles = StyleSheet.create({
   },
   popupContainer: {
     position: "absolute",
-    top: rem(10),
-    left: "2%",
-    right: "2%",
+    top: rem(20),
+    left: "5%",
+    right: "5%",
     backgroundColor: colors.white,
     borderRadius: rem(8),
     paddingRight: rem(18),
@@ -193,7 +193,7 @@ const viewStyles = StyleSheet.create({
   popupRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: rem(3),
+    marginBottom: rem(8),
   },
   greenDot: {
     width: rem(12),
@@ -237,115 +237,111 @@ const viewStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    top: 300,
-    backgroundColor: "#f9f9f9",
-    borderTopColor: "#ccc",
-    borderRadius: 10,
-    padding: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: rem(20),
+    borderTopRightRadius: rem(20),
+    padding: rem(15),
+    maxHeight: "60%",
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: rem(-2),
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: rem(3.84),
     elevation: 5,
   },
-  
   fullScreenDirections: {
-    position: "absolute",
-    top: 120,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "#f9f9f9",
-    borderRadius: 0,
+    maxHeight: "100%",
   },
-
   directionsHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 3,
+    marginBottom: rem(10),
   },
   directionsTitle: {
+    fontSize: rem(18),
     fontWeight: "bold",
-    fontSize: 18,
   },
-  cancelButton: {
-    padding: 2,
-    paddingLeft:10,
-    paddingRight:10,
-    borderRadius: 100,
-    backgroundColor: "lightgrey",
-    height:25
+  directionsScroll: {
+    marginTop: rem(10),
+  },
+  directionStep: {
+    marginBottom: rem(15),
+    padding: rem(10),
+    backgroundColor: colors.white,
+    borderRadius: rem(8),
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: rem(1),
     },
-  cancelButtonText: {
-    color: "black",
+    shadowOpacity: 0.2,
+    shadowRadius: rem(2),
+    elevation: 2,
+  },
+  shuttleDirectionStep: {
+    backgroundColor: colors.concordiaRed + "15",
+    borderLeftWidth: rem(3),
+    borderLeftColor: colors.concordiaRed,
+  },
+  shuttleInstruction: {
+    color: colors.concordiaRed,
+    fontWeight: "bold",
+  },
+  shuttleInfo: {
+    marginTop: rem(5),
+    padding: rem(8),
+    backgroundColor: colors.white,
+    borderRadius: rem(4),
+  },
+  shuttleScheduleText: {
+    color: colors.darkGray,
+    marginBottom: rem(2),
+  },
+  shuttleStopMarker: {
+    backgroundColor: colors.white,
+    padding: rem(8),
+    borderRadius: rem(8),
+    borderWidth: rem(2),
+    borderColor: colors.concordiaRed,
+    alignItems: "center",
+  },
+  shuttleStopText: {
+    fontSize: rem(16),
   },
   transportModes: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingVertical: 18,
-  },
-  activeModeTabText: {
-    fontWeight: "bold",
-  },
-  modeTabText: {
-    fontWeight: "normal",
-  },
-  directionsScroll: {
-    paddingHorizontal: 0,
-  },
-  directionStep: {
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    paddingBottom: 10,
+    marginBottom: rem(10),
   },
   modeTab: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginHorizontal: 4,
+    paddingVertical: rem(8),
+    paddingHorizontal: rem(12),
+    borderRadius: rem(20),
+    backgroundColor: colors.lightGray,
   },
   activeModeTab: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.concordiaRed,
   },
-  shuttleStopMarker: {
-    backgroundColor: colors.white,
-    borderRadius: 30,
-    padding: 12,
-    borderWidth: 3,
-    borderColor: colors.concordiaRed,
-    shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  shuttleStopText: {
-    fontSize: 24,
-  },
-  shuttleDirectionStep: {
-    backgroundColor: '#f0f8ff', // Light blue background
-    borderLeftWidth: 3,
-    borderLeftColor: colors.concordiaRed,
-    padding: 12,
-  },
-  shuttleInstruction: {
-    fontWeight: 'bold',
-    color: colors.concordiaRed,
-  },
-  shuttleInfo: {
-    marginTop: 8,
-    padding: 8,
-    backgroundColor: '#fff',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-  shuttleScheduleText: {
+  modeTabText: {
     color: colors.darkGray,
-    fontSize: 14,
-    marginVertical: 2,
+  },
+  activeModeTabText: {
+    color: colors.white,
+  },
+  fullScreenToggleText: {
+    color: colors.concordiaRed,
+    textAlign: "right",
+    marginBottom: rem(5),
+  },
+  cancelButton: {
+    padding: rem(5),
+  },
+  cancelButtonText: {
+    fontSize: rem(24),
+    color: colors.darkGray,
   },
 });
 
@@ -409,12 +405,6 @@ const textStyles = StyleSheet.create({
     fontSize: rem(16),
     color: colors.black,
     marginBottom: 4,
-  },
-  fullScreenToggleText: {
-    color: colors.orange,
-    fontWeight: 'bold',
-    textAlign: "center",
-    top:0
   },
 });
 
