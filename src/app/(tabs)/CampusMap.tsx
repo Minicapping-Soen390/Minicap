@@ -78,9 +78,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
   const [newRoute, setNewRoute] = useState<LatLng[] | null>(null);
   const [directions, setDirections] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<string>("walking");
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
   const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false);
+  const [isFullScreenDirections, setIsFullScreenDirections] = useState<boolean>(false); // New state for full screen directions
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -325,7 +327,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
-
+  const handleGoToBuilding = () => {
+    fetchDirections("walking");
+    handleNavigationPopup();
+  };
 
 
   const decodePolyline = (encoded: string) => {
@@ -376,6 +381,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setShowNavigationPopup(false);
     setStartingAddress("");
     setDestinationAddress("");
+    setNewRoute(null);
     setDirections([]);
   };
 
@@ -403,6 +409,21 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               title="Your Location"
               pinColor="green"
             />
+          )}
+          {newRoute && (
+            <>
+              <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={5} />
+              {buildingInfo && (
+                <Marker
+                  coordinate={{
+                    latitude: buildingInfo.latitude,
+                    longitude: buildingInfo.longitude,
+                  }}
+                  title={buildingInfo.name}
+                  pinColor="orange"
+                />
+              )}
+            </>
           )}
           {renderBuildings()}
         </MapView>
@@ -460,6 +481,31 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           <Text style={globalStyles.refreshButtonText}>My Location</Text>
         )}
       </TouchableOpacity>
+      {directions.length > 0 && (
+        <View style={[globalStyles.directionsContainer, isFullScreenDirections && globalStyles.fullScreenDirections]}>
+          <TouchableOpacity onPress={() => {
+            setIsFullScreenDirections(!isFullScreenDirections);
+          }}>
+            <Text style={globalStyles.fullScreenToggleText}>{isFullScreenDirections ? "Exit Full Screen" : "Full Screen"}</Text>
+          </TouchableOpacity>
+
+          <View style={globalStyles.directionsHeader}>
+            <Text style={globalStyles.directionsTitle}>Directions</Text>
+            <TouchableOpacity onPress={resetPopupAndDirections} style={globalStyles.cancelButton}>
+              <Text style={globalStyles.cancelButtonText}>×</Text>
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView style={globalStyles.directionsScroll}>
+            {directions.map((step, index) => (
+              <View key={index} style={globalStyles.directionStep}>
+                <Text>{step.instruction}</Text>
+                <Text>{step.distance} | {step.duration}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      )}
     </View>
   );
 };
