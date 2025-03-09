@@ -14,14 +14,20 @@ const ClassSchedule = () => {
   // Initialize Google Sign-In
   useEffect(() => {
     GoogleSignin.configure({
-      scopes: ["https://www.googleapis.com/auth/calendar.readonly", "openid", "profile", "email"],
-      webClientId: "436455800564-o1o1i23h8p1neamojjd2ahfk5tjjecdg.apps.googleusercontent.com",
-      iosClientId: "436455800564-e8o7pk0ea0vemit5iasgr86n58d3295m.apps.googleusercontent.com",
+      scopes: [
+        "https://www.googleapis.com/auth/calendar.readonly",
+        "openid",
+        "profile",
+        "email",
+      ],
+      webClientId:
+        "436455800564-o1o1i23h8p1neamojjd2ahfk5tjjecdg.apps.googleusercontent.com",
+      iosClientId:
+        "436455800564-e8o7pk0ea0vemit5iasgr86n58d3295m.apps.googleusercontent.com",
       offlineAccess: true, // if you need to access Google API on behalf of the user FROM YOUR SERVER
       forceCodeForRefreshToken: true, // needed for offline access
     });
   }, []);
-
 
   // Sign in with Google
   const signIn = async () => {
@@ -30,7 +36,6 @@ const ClassSchedule = () => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setUserInfo(userInfo);
-
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log("User cancelled the sign-in flow");
@@ -58,27 +63,32 @@ const ClassSchedule = () => {
   };
 
   return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Class Schedule</Text>
+    <SafeAreaView style={styles.container}>
+      <Text testID="class-schedule-title" style={styles.title}>
+        Class Schedule
+      </Text>
 
-        {!userInfo ? (
-            <GoogleSigninButton
-                size={GoogleSigninButton.Size.Wide}
-                color={GoogleSigninButton.Color.Dark}
-                onPress={signIn}
-                disabled={isSigninInProgress}
-                style={styles.googleButton}
-            />
-        ) : (
-            <View style={styles.userInfoContainer}>
-              <Text style={styles.successText}>✅ Connected to Google Calendar!</Text>
-              <Text style={styles.userEmail}>
-                Signed in as: {userInfo.data.user?.email}
-              </Text>
-              <Button title="Sign Out" onPress={signOut} />
-            </View>
-        )}
-      </SafeAreaView>
+      {!userInfo ? (
+        <GoogleSigninButton
+          testID="google-signin-button"
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={signIn}
+          disabled={isSigninInProgress}
+          style={styles.googleButton}
+        />
+      ) : (
+        <View style={styles.userInfoContainer}>
+          <Text style={styles.successText}>
+            ✅ Connected to Google Calendar!
+          </Text>
+          <Text testID="user-email" style={styles.userEmail}>
+            Signed in as: {userInfo.data.user?.email}
+          </Text>
+          <Button testID="signout-button" title="Sign Out" onPress={signOut} />
+        </View>
+      )}
+    </SafeAreaView>
   );
 };
 
