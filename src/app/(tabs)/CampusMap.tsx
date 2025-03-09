@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import sanitizeHtml from "sanitize-html";
 import {
   View,
   Text,
@@ -308,7 +309,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         setNewRoute(decodedRoute);
 
         const steps = route.legs[0].steps.map((step: any) => ({
-          instruction: step.html_instructions.replace(/<[^>]+>/g, ''),
+          instruction: sanitizeHtml(step.html_instructions, { allowedTags: [], allowedAttributes: {} }),
           distance: step.distance.text,
           duration: step.duration.text,
         }));
