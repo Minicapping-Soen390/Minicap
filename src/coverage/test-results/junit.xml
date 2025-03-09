@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="36" failures="0" errors="0" time="16.294">
-  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:08:39" time="2.548" tests="1">
-    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.028">
+<testsuites name="jest tests" tests="36" failures="0" errors="0" time="16.033">
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:11:35" time="2.349" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.033">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:08:39" time="3.448" tests="7">
-    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.339">
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:11:35" time="3.191" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.284">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.005">
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.006">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.003">
+    <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.004">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.004">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.005">
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.004">
     </testcase>
     <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.003">
     </testcase>
     <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:08:39" time="3.965" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.485">
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:11:35" time="3.558" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.425">
     </testcase>
-    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.011">
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.008">
     </testcase>
-    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.008">
-    </testcase>
-  </testsuite>
-  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:08:39" time="3.947" tests="2">
-    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.18">
-    </testcase>
-    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.306">
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:08:39" time="4.232" tests="1">
-    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.269">
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:11:35" time="3.613" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.176">
+    </testcase>
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.26">
     </testcase>
   </testsuite>
-  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:08:39" time="7.455" tests="16">
-    <testcase classname="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" name="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" time="1.193">
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:11:35" time="3.925" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.219">
     </testcase>
-    <testcase classname="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" name="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" time="0.241">
+  </testsuite>
+  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:11:35" time="6.671" tests="16">
+    <testcase classname="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" name="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" time="1.047">
     </testcase>
-    <testcase classname="CampusSwitcher Component updates the map region when the campus changes" name="CampusSwitcher Component updates the map region when the campus changes" time="0.18">
+    <testcase classname="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" name="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" time="0.155">
     </testcase>
-    <testcase classname="CampusSwitcher Component requests and updates user location" name="CampusSwitcher Component requests and updates user location" time="0.146">
+    <testcase classname="CampusSwitcher Component updates the map region when the campus changes" name="CampusSwitcher Component updates the map region when the campus changes" time="0.13">
     </testcase>
-    <testcase classname="CampusSwitcher Component displays error when location permission is denied" name="CampusSwitcher Component displays error when location permission is denied" time="0.208">
+    <testcase classname="CampusSwitcher Component requests and updates user location" name="CampusSwitcher Component requests and updates user location" time="0.132">
     </testcase>
-    <testcase classname="CampusSwitcher Component displays error when fetching location fails" name="CampusSwitcher Component displays error when fetching location fails" time="0.266">
+    <testcase classname="CampusSwitcher Component displays error when location permission is denied" name="CampusSwitcher Component displays error when location permission is denied" time="0.187">
     </testcase>
-    <testcase classname="CampusSwitcher Component switches between campuses and verifies map updates" name="CampusSwitcher Component switches between campuses and verifies map updates" time="0.106">
+    <testcase classname="CampusSwitcher Component displays error when fetching location fails" name="CampusSwitcher Component displays error when fetching location fails" time="0.251">
     </testcase>
-    <testcase classname="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" name="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" time="0.19">
+    <testcase classname="CampusSwitcher Component switches between campuses and verifies map updates" name="CampusSwitcher Component switches between campuses and verifies map updates" time="0.101">
     </testcase>
-    <testcase classname="CampusSwitcher Component displays building information when clicking on a building SWG" name="CampusSwitcher Component displays building information when clicking on a building SWG" time="0.175">
+    <testcase classname="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" name="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" time="0.163">
     </testcase>
-    <testcase classname="CampusSwitcher Component displays building information when clicking on a building LOY" name="CampusSwitcher Component displays building information when clicking on a building LOY" time="0.164">
+    <testcase classname="CampusSwitcher Component displays building information when clicking on a building SWG" name="CampusSwitcher Component displays building information when clicking on a building SWG" time="0.121">
     </testcase>
-    <testcase classname="CampusSwitcher Component hides building information when clicking outside" name="CampusSwitcher Component hides building information when clicking outside" time="0.163">
+    <testcase classname="CampusSwitcher Component displays building information when clicking on a building LOY" name="CampusSwitcher Component displays building information when clicking on a building LOY" time="0.089">
+    </testcase>
+    <testcase classname="CampusSwitcher Component hides building information when clicking outside" name="CampusSwitcher Component hides building information when clicking outside" time="0.189">
     </testcase>
     <testcase classname="CampusSwitcher Component handles case where building polygon is invalid" name="CampusSwitcher Component handles case where building polygon is invalid" time="0.116">
     </testcase>
-    <testcase classname="CampusSwitcher Component handles case where user location is outside building polygon" name="CampusSwitcher Component handles case where user location is outside building polygon" time="0.064">
+    <testcase classname="CampusSwitcher Component handles case where user location is outside building polygon" name="CampusSwitcher Component handles case where user location is outside building polygon" time="0.087">
     </testcase>
-    <testcase classname="CampusSwitcher Component zooms in and out when pinch gesture is performed" name="CampusSwitcher Component zooms in and out when pinch gesture is performed" time="0.07">
+    <testcase classname="CampusSwitcher Component zooms in and out when pinch gesture is performed" name="CampusSwitcher Component zooms in and out when pinch gesture is performed" time="0.092">
     </testcase>
-    <testcase classname="CampusSwitcher Component scrolls left and right to change visible coordinates" name="CampusSwitcher Component scrolls left and right to change visible coordinates" time="0.056">
+    <testcase classname="CampusSwitcher Component scrolls left and right to change visible coordinates" name="CampusSwitcher Component scrolls left and right to change visible coordinates" time="0.064">
     </testcase>
-    <testcase classname="CampusSwitcher Component scrolls up and down to change visible coordinates" name="CampusSwitcher Component scrolls up and down to change visible coordinates" time="0.06">
+    <testcase classname="CampusSwitcher Component scrolls up and down to change visible coordinates" name="CampusSwitcher Component scrolls up and down to change visible coordinates" time="0.063">
     </testcase>
   </testsuite>
-  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:08:39" time="12.656" tests="6">
-    <testcase classname="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" name="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" time="2.696">
+  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T23:11:35" time="12.315" tests="6">
+    <testcase classname="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" name="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" time="2.632">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" time="1.101">
+    <testcase classname="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" time="1.175">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" name="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" time="1.08">
+    <testcase classname="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" name="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" time="1.164">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results when searching by partial campus name" name="FindBuilding Component renders search results when searching by partial campus name" time="1.097">
+    <testcase classname="FindBuilding Component renders search results when searching by partial campus name" name="FindBuilding Component renders search results when searching by partial campus name" time="1.102">
     </testcase>
-    <testcase classname="FindBuilding Component renders X Building as search result when typing X" name="FindBuilding Component renders X Building as search result when typing X" time="1.064">
+    <testcase classname="FindBuilding Component renders X Building as search result when typing X" name="FindBuilding Component renders X Building as search result when typing X" time="1.068">
     </testcase>
-    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="1.054">
+    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="1.065">
     </testcase>
   </testsuite>
 </testsuites>

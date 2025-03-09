@@ -220,3 +220,5 @@ app-example
 tmp.md
 /src/coverage/lcov-report
 
+src/coverage/clover.xml
+src/coverage/coverage-final.json
