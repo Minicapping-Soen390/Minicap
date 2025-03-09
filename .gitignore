@@ -86,7 +86,7 @@ node_modules
 # Test generated files
 *.js.meta
 
-/coverage
+
 /third-party
 
 # Test Reports
@@ -113,9 +113,6 @@ node_modules
 htmlcov/
 .tox/
 .nox/
-.coverage
-
-.coverage.*
 .cache
 nosetests.xml
 coverage.xml
@@ -222,8 +219,4 @@ app-example
 
 tmp.md
 /src/coverage/lcov-report
-/src/coverage/test-results
-src/coverage/clover.xml
-src/coverage/coverage-final.json
-src/coverage/coverage-final.json
-src/coverage/coverage-final.json
+
