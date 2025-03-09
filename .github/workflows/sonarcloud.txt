@@ -55,6 +55,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information
         with:
           args: >
-            -Dsonar.projectKey=minicapping-soen390_minicapping-app
+            -Dsonar.projectKey=Minicapping-Soen390_Minicap
             -Dsonar.organization=minicapping-soen390
             -Dsonar.sources=.
