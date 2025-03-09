@@ -78,6 +78,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
   const [newRoute, setNewRoute] = useState<LatLng[] | null>(null);
   const [directions, setDirections] = useState<any[]>([]);
+  const [transportMode, setTransportMode] = useState<string>("walking");
   const [activeTab, setActiveTab] = useState<string>("walking");
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
@@ -374,6 +375,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     return path;
   };
 
+  const handleTransportModeChange = (mode: string) => {
+    setTransportMode(mode);
+    setActiveTab(mode);
+    fetchDirections(mode);
+  };
 
   const resetPopupAndDirections = () => {
     setBuildingInfo(null);
@@ -494,6 +500,16 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             <TouchableOpacity onPress={resetPopupAndDirections} style={globalStyles.cancelButton}>
               <Text style={globalStyles.cancelButtonText}>×</Text>
             </TouchableOpacity>
+          </View>
+
+          <View style={globalStyles.transportModes}>
+            {['walking', 'driving', 'transit', 'bicycling'].map((mode) => (
+              <TouchableOpacity key={mode} onPress={() => handleTransportModeChange(mode)}>
+                <Text style={activeTab === mode ? globalStyles.activeModeTabText : globalStyles.modeTabText}>
+                  {mode.charAt(0).toUpperCase() + mode.slice(1)}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
 
           <ScrollView style={globalStyles.directionsScroll}>
