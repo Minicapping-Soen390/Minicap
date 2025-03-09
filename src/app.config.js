@@ -4,7 +4,7 @@ export default {
   expo: {
     name: "Concordia",
     slug: "src",
-    version: "1.0.0",
+    version: "1.1.0",
     orientation: "portrait",
     owner: "minicappin",
     icon: "./assets/images/logo.png",
