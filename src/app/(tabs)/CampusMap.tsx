@@ -78,7 +78,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     null
   );
   const [newRoute, setNewRoute] = useState<any>(null); // State to hold the new route object
-  const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false); // Controls popup that shows navigation addresses or building info pop ups
+  const [showNavigationPopup, setShowNavigationPopup] =
+    useState<boolean>(false); // Controls popup that shows navigation addresses or building info pop ups
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
 
@@ -208,7 +209,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             testID={`building-marker-${building._id}`}
             coordinate={center}
             onPress={() => {
-              if (showNavigationPopup){
+              if (showNavigationPopup) {
                 return;
               }
               setBuildingInfo({
@@ -309,8 +310,14 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
       mapRef.current?.fitToCoordinates(
         [
-          { latitude: userLocation?.latitude || 0, longitude: userLocation?.longitude || 0 },
-          { latitude: buildingInfo.latitude, longitude: buildingInfo.longitude },
+          {
+            latitude: userLocation?.latitude || 0,
+            longitude: userLocation?.longitude || 0,
+          },
+          {
+            latitude: buildingInfo.latitude,
+            longitude: buildingInfo.longitude,
+          },
         ],
         {
           edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
@@ -382,7 +389,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         </MapView>
 
         {buildingInfo && (
-          <View style={globalStyles.popupContainer}>
+          <View style={globalStyles.popupContainer} testID="building-info">
             {showNavigationPopup ? (
               <>
                 <View style={globalStyles.popupRow}>
@@ -392,7 +399,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 <View style={globalStyles.separator} />
                 <View style={globalStyles.popupRow}>
                   <View style={globalStyles.goldDot} />
-                  <Text style={globalStyles.popupText}>{destinationAddress}</Text>
+                  <Text style={globalStyles.popupText}>
+                    {destinationAddress}
+                  </Text>
                 </View>
                 <TouchableOpacity
                   style={globalStyles.closeButton}
