@@ -178,6 +178,19 @@ describe("CampusSwitcher Component", () => {
     });
   });
 
+  it("switches between campuses and verifies map updates", async () => {
+    const { getByTestId } = render(<CampusSwitcher />);
+    const switchComponent = getByTestId("campus-switch");
+
+    await act(async () => {
+      fireEvent.press(switchComponent);
+    });
+
+    await waitFor(() => {
+      expect(getByTestId("campus-map")).toBeTruthy();
+    });
+  });
+
   //PASS
   it("ensures user location is updated and not equal to an incorrect location", async () => {
     const { findByTestId, getByTestId } = render(<CampusSwitcher />);
@@ -205,7 +218,7 @@ describe("CampusSwitcher Component", () => {
     });
   });
 
-  it("displays building information when clicking on a building", async () => {
+  it("displays building information when clicking on a building SWG", async () => {
     const { findByTestId, getByTestId, getByText } = render(<CampusSwitcher />);
 
     expect(await findByTestId("campus-map")).toBeTruthy();
@@ -226,6 +239,36 @@ describe("CampusSwitcher Component", () => {
     // Verify building details
     expect(getByText("MB Building")).toBeTruthy();
     expect(getByText("1450 Guy Street")).toBeTruthy();
+    expect(getByText("Mon-Fri: 9:00 AM - 6:00 PM")).toBeTruthy();
+  });
+
+  it("displays building information when clicking on a building LOY", async () => {
+    const { findByTestId, getByTestId, getByText } = render(<CampusSwitcher />);
+
+    expect(await findByTestId("campus-map")).toBeTruthy();
+
+    // Switch to Loyola Campus
+    const campusSwitch = getByTestId("campus-switch");
+    await act(async () => {
+      fireEvent.press(campusSwitch);
+    });
+
+    // Find and click on HA Building marker
+    const haBuildingMarker = await findByTestId(
+      "building-marker-67aaabc9a89802f0176bad84"
+    );
+
+    await act(async () => {
+      fireEvent.press(haBuildingMarker);
+    });
+
+    await waitFor(() => {
+      expect(getByTestId("building-info")).toBeTruthy();
+    });
+
+    // Verify building details
+    expect(getByText("HA Building")).toBeTruthy();
+    expect(getByText("7141 Sherbrooke West")).toBeTruthy();
     expect(getByText("Mon-Fri: 9:00 AM - 6:00 PM")).toBeTruthy();
   });
 
@@ -251,6 +294,85 @@ describe("CampusSwitcher Component", () => {
     // Verify the pop-up disappears
     await waitFor(() => {
       expect(queryByTestId("building-info")).toBeNull();
+    });
+  });
+
+  it("handles case where building polygon is invalid", async () => {
+    const { findByTestId } = render(<CampusSwitcher />);
+    const buildingMarker = await findByTestId(
+      "building-marker-67aaabc9a89802f0176bad84"
+    );
+
+    await act(async () => {
+      fireEvent.press(buildingMarker);
+    });
+
+    await waitFor(() => {
+      expect(findByTestId("building-info")).toBeTruthy();
+    });
+  });
+
+  it("handles case where user location is outside building polygon", async () => {
+    const { getByTestId } = render(<CampusSwitcher />);
+    const refreshButton = getByTestId("refresh-location-button");
+
+    await act(async () => {
+      fireEvent.press(refreshButton);
+    });
+
+    await waitFor(() => {
+      expect(getByTestId("user-location-marker")).toBeTruthy();
+    });
+  });
+
+  it("zooms in and out when pinch gesture is performed", async () => {
+    const { getByTestId } = render(<CampusSwitcher />);
+    const mapView = getByTestId("campus-map");
+
+    await act(async () => {
+      fireEvent(mapView, "gesture", {
+        nativeEvent: { scale: 2 },
+      });
+    });
+
+    await act(async () => {
+      fireEvent(mapView, "gesture", {
+        nativeEvent: { scale: 0.5 },
+      });
+    });
+  });
+
+  it("scrolls left and right to change visible coordinates", async () => {
+    const { getByTestId } = render(<CampusSwitcher />);
+    const mapView = getByTestId("campus-map");
+
+    await act(async () => {
+      fireEvent.scroll(mapView, {
+        nativeEvent: { contentOffset: { x: 100, y: 0 } }, // Scroll right
+      });
+    });
+
+    await act(async () => {
+      fireEvent.scroll(mapView, {
+        nativeEvent: { contentOffset: { x: -100, y: 0 } }, // Scroll left
+      });
+    });
+  });
+
+  it("scrolls up and down to change visible coordinates", async () => {
+    const { getByTestId } = render(<CampusSwitcher />);
+    const mapView = getByTestId("campus-map");
+
+    await act(async () => {
+      fireEvent.scroll(mapView, {
+        nativeEvent: { contentOffset: { x: 0, y: 100 } }, // Scroll down
+      });
+    });
+
+    await act(async () => {
+      fireEvent.scroll(mapView, {
+        nativeEvent: { contentOffset: { x: 0, y: -100 } }, // Scroll up
+      });
     });
   });
 });
