@@ -78,6 +78,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     null
   );
   const [newRoute, setNewRoute] = useState<any>(null); // State to hold the new route object
+  const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false); // Controls popup that shows navigation addresses or building info pop ups
+  const [destinationAddress, setDestinationAddress] = useState<string>("");
+  const [startingAddress, setStartingAddress] = useState<string>("");
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -202,8 +205,12 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             fillColor={fill}
           />
           <Marker
+            testID={`building-marker-${building._id}`}
             coordinate={center}
             onPress={() => {
+              if (showNavigationPopup){
+                return;
+              }
               setBuildingInfo({
                 name: building.name,
                 address: building.address,
@@ -212,6 +219,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 longitude: center.longitude,
               });
               setSelectedBuildingId(building._id);
+              if (!destinationAddress) {
+                setDestinationAddress(building.address);
+              }
+              setShowNavigationPopup(false);
             }}
             anchor={{ x: 0.5, y: 0.5 }}
           >
@@ -267,7 +278,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   const handleMapPress = () => {
-    if (buildingInfo) {
+    if (!showNavigationPopup && buildingInfo) {
       setBuildingInfo(null);
       setSelectedBuildingId(null); // Reset selected building ID
     }
@@ -295,14 +306,49 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
       setNewRoute(newRoute); // Update the state with the new route object
       console.log("New Route:", JSON.stringify(newRoute, null, 2));
+
+      mapRef.current?.fitToCoordinates(
+        [
+          { latitude: userLocation?.latitude || 0, longitude: userLocation?.longitude || 0 },
+          { latitude: buildingInfo.latitude, longitude: buildingInfo.longitude },
+        ],
+        {
+          edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+          animated: true,
+        }
+      );
     }
+  };
+
+  const handleNavigationPopup = () => {
+    if (buildingInfo) {
+      setStartingAddress("My Location");
+      setDestinationAddress(buildingInfo.address);
+      setShowNavigationPopup(true);
+    }
+  };
+
+  const handleGoToBuilding = () => {
+    handleGoToNavigation();
+    handleNavigationPopup();
+  };
+
+  const handleClosePopup = () => {
+    setBuildingInfo(null);
+    setSelectedBuildingId(null);
+    setShowNavigationPopup(false);
+    setStartingAddress("");
+    setDestinationAddress("");
   };
 
   return (
     <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
       <View style={globalStyles.mapContainer}>
         {locationError ? (
-          <View style={globalStyles.errorContainer}>
+          <View
+            style={globalStyles.errorContainer}
+            testID="campus-map-container"
+          >
             <Text style={globalStyles.errorText}>{locationError}</Text>
           </View>
         ) : null}
@@ -314,8 +360,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           rotateEnabled={false}
           zoomEnabled={true}
           zoomControlEnabled={true}
+          testID="campus-map"
         >
           <Marker
+            testID="campus-marker"
             coordinate={{
               latitude: region.latitude,
               longitude: region.longitude,
@@ -327,28 +375,53 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               coordinate={userLocation}
               title="Your Location"
               pinColor="green"
+              testID="user-location-marker"
             />
           )}
           {renderBuildings()}
         </MapView>
 
         {buildingInfo && (
-          <View style={globalStyles.buildingInfoContainer}>
-            <Text style={globalStyles.buildingNameText}>
-              {buildingInfo.name}
-            </Text>
-            <Text style={globalStyles.openingHoursText}>
-              {buildingInfo.openingHours}
-            </Text>
-            <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
-            <TouchableOpacity
-              onPress={handleGoToNavigation}
-              style={globalStyles.addButton}
-            >
-              <Text style={globalStyles.refreshButtonText}>
-                Go to {buildingInfo.name}
-              </Text>
-            </TouchableOpacity>
+          <View style={globalStyles.popupContainer}>
+            {showNavigationPopup ? (
+              <>
+                <View style={globalStyles.popupRow}>
+                  <View style={globalStyles.greenDot} />
+                  <Text style={globalStyles.popupText}>{startingAddress}</Text>
+                </View>
+                <View style={globalStyles.separator} />
+                <View style={globalStyles.popupRow}>
+                  <View style={globalStyles.goldDot} />
+                  <Text style={globalStyles.popupText}>{destinationAddress}</Text>
+                </View>
+                <TouchableOpacity
+                  style={globalStyles.closeButton}
+                  onPress={handleClosePopup}
+                >
+                  <Text style={globalStyles.closeButtonText}>X</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <Text style={globalStyles.buildingNameText}>
+                  {buildingInfo.name}
+                </Text>
+                <Text style={globalStyles.openingHoursText}>
+                  {buildingInfo.openingHours}
+                </Text>
+                <Text style={globalStyles.addressText}>
+                  {buildingInfo.address}
+                </Text>
+                <TouchableOpacity
+                  onPress={handleGoToBuilding}
+                  style={globalStyles.addButton}
+                >
+                  <Text style={globalStyles.refreshButtonText}>
+                    Go to {buildingInfo.name}
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
         )}
 
@@ -361,6 +434,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           ]}
           onPress={updateUserLocation}
           disabled={isRefreshing}
+          testID="refresh-location-button"
         >
           {isRefreshing ? (
             <ActivityIndicator color="white" size="small" />
@@ -381,14 +455,19 @@ const CampusSwitcher: React.FC = () => {
     <SafeAreaView
       style={globalStyles.container}
       edges={mainEdges as readonly Edge[]}
+      testID="campus-switcher-container"
     >
       <View style={globalStyles.switchHeaderContainer}>
         <View style={globalStyles.campusSwitchHeader}>
-          <View style={globalStyles.switchContainer}>
+          <View
+            style={globalStyles.switchContainer}
+            testID="campus-switch-container"
+          >
             <Text style={globalStyles.switchText}>SGW</Text>
             <Switch
               value={!isSGWCampus}
               onValueChange={() => setIsSGWCampus(!isSGWCampus)}
+              testID="campus-switch"
             />
             <Text style={globalStyles.switchText}>LOY</Text>
           </View>

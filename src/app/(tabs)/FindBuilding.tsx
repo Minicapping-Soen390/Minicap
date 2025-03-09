@@ -1,9 +1,17 @@
 // export default FindBuilding;
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  TextInput,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import buildingsData from "../../data/hardcodedBuildings.json"; // 
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import buildingsData from "../../data/hardcodedBuildings.json"; //
 
 // Define TypeScript type for building objects
 type Building = {
@@ -47,10 +55,11 @@ const FindBuilding = () => {
     const lowerQuery = query.toLowerCase();
 
     // Filter buildings by name, campus, or address
-    const filtered = buildings.filter((building) =>
-      building.name.toLowerCase().includes(lowerQuery) ||
-      building.campus.toLowerCase().includes(lowerQuery) ||
-      building.address.toLowerCase().includes(lowerQuery)
+    const filtered = buildings.filter(
+      (building) =>
+        building.name.toLowerCase().includes(lowerQuery) ||
+        building.campus.toLowerCase().includes(lowerQuery) ||
+        building.address.toLowerCase().includes(lowerQuery)
     );
 
     setFilteredBuildings(filtered);
@@ -58,16 +67,39 @@ const FindBuilding = () => {
 
   const renderBuildingItem = ({ item }: { item: Building }) => (
     <TouchableOpacity
+      testID={`building-item-${item._id}`}
       style={styles.searchItem}
       activeOpacity={0.7}
       onPress={() => console.log("Selected Building:", item)}
     >
-      <MaterialCommunityIcons name="office-building" size={24} color="#800000" style={styles.buildingIcon} />
+      <MaterialCommunityIcons
+        name="office-building"
+        size={24}
+        color="#800000"
+        style={styles.buildingIcon}
+      />
       <View style={styles.searchTextContainer}>
-        <Text style={styles.buildingName}>{item.name}</Text>
-        <Text style={styles.buildingDetails}>{item.description}</Text>
-        <Text style={styles.buildingCampus}>Campus: {item.campus}</Text>
-        <Text style={styles.buildingAddress}>Address: {item.address}</Text>
+        <Text testID={`building-item-${item._id}`} style={styles.buildingName}>
+          {item.name}
+        </Text>
+        <Text
+          testID={`building-item-${item._id}`}
+          style={styles.buildingDetails}
+        >
+          {item.description}
+        </Text>
+        <Text
+          testID={`building-item-${item._id}`}
+          style={styles.buildingCampus}
+        >
+          Campus: {item.campus}
+        </Text>
+        <Text
+          testID={`building-item-${item._id}`}
+          style={styles.buildingAddress}
+        >
+          Address: {item.address}
+        </Text>
       </View>
       <Ionicons name="chevron-forward" size={24} color="#800000" />
     </TouchableOpacity>
@@ -86,8 +118,14 @@ const FindBuilding = () => {
     <SafeAreaView style={styles.container}>
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#800000" style={styles.searchIcon} />
+        <Ionicons
+          name="search"
+          size={20}
+          color="#800000"
+          style={styles.searchIcon}
+        />
         <TextInput
+          testID="search-input"
           style={styles.searchBar}
           placeholder="Search for a building..."
           placeholderTextColor="#BBB"
