@@ -20,12 +20,17 @@ import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import { shuttleService, SHUTTLE_STOPS } from '@/services/ShuttleService';
 
-// Safe HTML sanitization function with proper tag and entity handling
+// Comprehensive HTML sanitization function with complete tag and entity handling
 const sanitizeHtmlContent = (html: string): string => {
-  return html
-    .replace(/<[^>]+>/g, '') // Remove HTML tags more thoroughly
+  if (!html) return '';
+  
+  const sanitized = html
+    // First pass: Remove any malformed or partial tags
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    // Second pass: Handle HTML entities
     .replace(/&([^;]+);/g, (match, entity) => {
-      // Handle HTML entities in a safe way
+      // Whitelist of allowed entities
       const entities: { [key: string]: string } = {
         'nbsp': ' ',
         'amp': '&',
@@ -40,11 +45,16 @@ const sanitizeHtmlContent = (html: string): string => {
         'ldquo': '"',
         'rdquo': '"',
         'lsquo': "'",
-        'rsquo': "'"
+        'rsquo': "'",
       };
-      return entities[entity] || '';  // Return empty string for unknown entities
+      // Only return mapped entities, strip unknown ones
+      return entities[entity] || '';
     })
+    // Final pass: Clean up any remaining potentially dangerous characters
+    .replace(/[<>]/g, '') // Remove any remaining angle brackets
     .trim();
+
+  return sanitized;
 };
 
 // Define outdoor locations
