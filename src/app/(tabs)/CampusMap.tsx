@@ -20,14 +20,30 @@ import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import { shuttleService, SHUTTLE_STOPS } from '@/services/ShuttleService';
 
-// Simple HTML sanitization function
+// Safe HTML sanitization function with proper tag and entity handling
 const sanitizeHtmlContent = (html: string): string => {
   return html
-    .replace(/<[^>]*>/g, '') // Remove HTML tags
-    .replace(/&nbsp;/g, ' ') // Replace &nbsp; with space
-    .replace(/&amp;/g, '&') // Replace &amp; with &
-    .replace(/&lt;/g, '<') // Replace &lt; with <
-    .replace(/&gt;/g, '>') // Replace &gt; with >
+    .replace(/<[^>]+>/g, '') // Remove HTML tags more thoroughly
+    .replace(/&([^;]+);/g, (match, entity) => {
+      // Handle HTML entities in a safe way
+      const entities: { [key: string]: string } = {
+        'nbsp': ' ',
+        'amp': '&',
+        'lt': '<',
+        'gt': '>',
+        'quot': '"',
+        'apos': "'",
+        '#39': "'",
+        '#x27': "'",
+        '#x2F': '/',
+        '#x2f': '/',
+        'ldquo': '"',
+        'rdquo': '"',
+        'lsquo': "'",
+        'rsquo': "'"
+      };
+      return entities[entity] || '';  // Return empty string for unknown entities
+    })
     .trim();
 };
 
