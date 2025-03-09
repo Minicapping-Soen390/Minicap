@@ -1,7 +1,7 @@
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 import { rem } from "../utils";
 
-const colors = {
+export const colors = {
   concordiaRed: "#922338",
   white: "#FFFFFF",
   blueSemiTransparent: "#0000ffb3",
@@ -299,6 +299,53 @@ const viewStyles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     paddingBottom: 10,
+  },
+  modeTab: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginHorizontal: 4,
+  },
+  activeModeTab: {
+    backgroundColor: colors.primary,
+  },
+  shuttleStopMarker: {
+    backgroundColor: colors.white,
+    borderRadius: 30,
+    padding: 12,
+    borderWidth: 3,
+    borderColor: colors.concordiaRed,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  shuttleStopText: {
+    fontSize: 24,
+  },
+  shuttleDirectionStep: {
+    backgroundColor: '#f0f8ff', // Light blue background
+    borderLeftWidth: 3,
+    borderLeftColor: colors.concordiaRed,
+    padding: 12,
+  },
+  shuttleInstruction: {
+    fontWeight: 'bold',
+    color: colors.concordiaRed,
+  },
+  shuttleInfo: {
+    marginTop: 8,
+    padding: 8,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  shuttleScheduleText: {
+    color: colors.darkGray,
+    fontSize: 14,
+    marginVertical: 2,
   },
 });
 
