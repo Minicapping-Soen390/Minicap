@@ -7,11 +7,13 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   ViewStyle,
+  Alert,
+  Linking,
 } from "react-native";
-import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
+import MapView, { Marker, Region, Polygon, LatLng, Polyline } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import * as Location from "expo-location";
-import { globalStyles, mainEdges } from "../styles/globalStyles";
+import { globalStyles, mainEdges, colors } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
@@ -34,6 +36,27 @@ const outdoorLocationLoyola: OutdoorLocation = {
   longitude: -73.6405,
   latitudeDelta: 0.01,
   longitudeDelta: 0.01,
+};
+
+// Add route coordinates for cross-campus navigation
+const crossCampusRouteCoordinates: LatLng[] = [
+  { latitude: 45.4973, longitude: -73.5789 }, // SGW Campus
+  { latitude: 45.4778, longitude: -73.6097 }, // Midpoint
+  { latitude: 45.4581, longitude: -73.6405 }, // Loyola Campus
+];
+
+// Add these constants at the top with other constants
+const CAMPUS_ENTRANCES = {
+  SGW: {
+    main: { latitude: 45.4973, longitude: -73.5789 },
+    guy: { latitude: 45.4965, longitude: -73.5780 },
+    mackay: { latitude: 45.4978, longitude: -73.5795 }
+  },
+  LOYOLA: {
+    main: { latitude: 45.4581, longitude: -73.6405 },
+    sherbrooke: { latitude: 45.4575, longitude: -73.6400 },
+    west: { latitude: 45.4585, longitude: -73.6410 }
+  }
 };
 
 //CampusMap Component
@@ -73,11 +96,24 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     openingHours: string;
     latitude: number;
     longitude: number;
+    campus: string;
   } | null>(null);
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
-    null
-  );
-  const [newRoute, setNewRoute] = useState<any>(null); // State to hold the new route object
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
+  const [newRoute, setNewRoute] = useState<any>(null);
+  const [isCrossCampusNavigation, setIsCrossCampusNavigation] = useState(false);
+  const [startPoint, setStartPoint] = useState<{
+    name: string;
+    latitude: number;
+    longitude: number;
+    campus: string;
+  } | null>(null);
+  const [endPoint, setEndPoint] = useState<{
+    name: string;
+    latitude: number;
+    longitude: number;
+    campus: string;
+  } | null>(null);
+  const [showRoute, setShowRoute] = useState(false);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -204,14 +240,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           <Marker
             coordinate={center}
             onPress={() => {
-              setBuildingInfo({
-                name: building.name,
-                address: building.address,
-                openingHours: building.openingHours,
-                latitude: center.latitude,
-                longitude: center.longitude,
-              });
-              setSelectedBuildingId(building._id);
+              handleBuildingSelection(building);
             }}
             anchor={{ x: 0.5, y: 0.5 }}
           >
@@ -267,9 +296,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   const handleMapPress = () => {
-    if (buildingInfo) {
+    if (buildingInfo && !isCrossCampusNavigation) {
       setBuildingInfo(null);
-      setSelectedBuildingId(null); // Reset selected building ID
+      setSelectedBuildingId(null);
     }
   };
 
@@ -296,6 +325,84 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       setNewRoute(newRoute); // Update the state with the new route object
       console.log("New Route:", JSON.stringify(newRoute, null, 2));
     }
+  };
+
+  const handleCrossCampusNavigation = async () => {
+    if (!startPoint || !endPoint) {
+      Alert.alert("Error", "Please select both start and end points");
+      return;
+    }
+
+    try {
+      setShowRoute(true);
+      
+      // Determine the best entrance/exit points based on the selected buildings
+      const startCampus = startPoint.campus;
+      const endCampus = endPoint.campus;
+      
+      // Select the main entrance/exit for now (can be enhanced with better selection logic)
+      const startExit = CAMPUS_ENTRANCES[startCampus as keyof typeof CAMPUS_ENTRANCES].main;
+      const endEntrance = CAMPUS_ENTRANCES[endCampus as keyof typeof CAMPUS_ENTRANCES].main;
+
+      // Create a multi-segment route
+      const segments = [
+        // From start building to campus exit
+        `${startPoint.latitude},${startPoint.longitude}`,
+        // From campus exit to destination campus entrance
+        `${startExit.latitude},${startExit.longitude}`,
+        // From destination campus entrance to end building
+        `${endEntrance.latitude},${endEntrance.longitude}`,
+        `${endPoint.latitude},${endPoint.longitude}`
+      ];
+
+      // Create a waypoints URL for Google Maps
+      const waypoints = segments.slice(1, -1).map(coord => `via:${coord}`).join('|');
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${segments[0]}&destination=${segments[segments.length - 1]}&travelmode=transit&waypoints=${waypoints}`;
+
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(
+          "Error",
+          "Google Maps is not installed. Please install it to use navigation."
+        );
+      }
+    } catch (error) {
+      console.error("Error opening navigation:", error);
+      Alert.alert("Error", "Failed to open navigation");
+    }
+  };
+
+  const handleBuildingSelection = (building: any) => {
+    const buildingInfo = {
+      name: building.name,
+      address: building.address,
+      openingHours: building.openingHours,
+      latitude: building.polygonShape[0][1],
+      longitude: building.polygonShape[0][0],
+      campus: building.campus,
+    };
+
+    if (!startPoint) {
+      setStartPoint(buildingInfo);
+      setBuildingInfo(buildingInfo);
+      setSelectedBuildingId(building._id);
+      Alert.alert("Start Point Selected", `Selected ${building.name} as start point. Now select your destination.`);
+    } else if (!endPoint) {
+      setEndPoint(buildingInfo);
+      setBuildingInfo(buildingInfo);
+      setSelectedBuildingId(building._id);
+      setIsCrossCampusNavigation(true);
+      Alert.alert("End Point Selected", `Selected ${building.name} as destination. You can now start navigation.`);
+    }
+  };
+
+  const resetNavigation = () => {
+    setStartPoint(null);
+    setEndPoint(null);
+    setIsCrossCampusNavigation(false);
+    setShowRoute(false);
   };
 
   return (
@@ -330,9 +437,23 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             />
           )}
           {renderBuildings()}
+          {showRoute && startPoint && endPoint && (
+            <Polyline
+              coordinates={[
+                { latitude: startPoint.latitude, longitude: startPoint.longitude },
+                { latitude: CAMPUS_ENTRANCES[startPoint.campus as keyof typeof CAMPUS_ENTRANCES].main.latitude, 
+                  longitude: CAMPUS_ENTRANCES[startPoint.campus as keyof typeof CAMPUS_ENTRANCES].main.longitude },
+                { latitude: CAMPUS_ENTRANCES[endPoint.campus as keyof typeof CAMPUS_ENTRANCES].main.latitude,
+                  longitude: CAMPUS_ENTRANCES[endPoint.campus as keyof typeof CAMPUS_ENTRANCES].main.longitude },
+                { latitude: endPoint.latitude, longitude: endPoint.longitude }
+              ]}
+              strokeColor={colors.concordiaRed}
+              strokeWidth={3}
+            />
+          )}
         </MapView>
 
-        {buildingInfo && (
+        {buildingInfo && !isCrossCampusNavigation && (
           <View style={globalStyles.buildingInfoContainer}>
             <Text style={globalStyles.buildingNameText}>
               {buildingInfo.name}
@@ -341,12 +462,54 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               {buildingInfo.openingHours}
             </Text>
             <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
+            {!startPoint && (
+              <TouchableOpacity
+                onPress={() => handleBuildingSelection(buildingInfo)}
+                style={globalStyles.addButton}
+              >
+                <Text style={globalStyles.refreshButtonText}>
+                  Select as Start Point
+                </Text>
+              </TouchableOpacity>
+            )}
+            {startPoint && !endPoint && (
+              <TouchableOpacity
+                onPress={() => handleBuildingSelection(buildingInfo)}
+                style={globalStyles.addButton}
+              >
+                <Text style={globalStyles.refreshButtonText}>
+                  Select as End Point
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
+
+        {isCrossCampusNavigation && startPoint && endPoint && (
+          <View style={globalStyles.buildingInfoContainer}>
+            <Text style={globalStyles.buildingNameText}>
+              Cross-Campus Navigation
+            </Text>
+            <Text style={globalStyles.addressText}>
+              From: {startPoint.name} ({startPoint.campus})
+            </Text>
+            <Text style={globalStyles.addressText}>
+              To: {endPoint.name} ({endPoint.campus})
+            </Text>
             <TouchableOpacity
-              onPress={handleGoToNavigation}
+              onPress={handleCrossCampusNavigation}
               style={globalStyles.addButton}
             >
               <Text style={globalStyles.refreshButtonText}>
-                Go to {buildingInfo.name}
+                Start Navigation
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={resetNavigation}
+              style={[globalStyles.addButton, { marginTop: 10, backgroundColor: "#555" }]}
+            >
+              <Text style={globalStyles.refreshButtonText}>
+                Reset
               </Text>
             </TouchableOpacity>
           </View>

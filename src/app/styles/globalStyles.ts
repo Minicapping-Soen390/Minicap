@@ -1,7 +1,7 @@
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 import { rem } from "../utils";
 
-const colors = {
+export const colors = {
   concordiaRed: "#922338",
   white: "#FFFFFF",
   blueSemiTransparent: "#0000ffb3",
@@ -115,21 +115,36 @@ const viewStyles = StyleSheet.create({
   },
   buildingInfoContainer: {
     position: "absolute",
-    top: rem(50),
-    alignSelf: "center",
+    bottom: 20,
+    left: 20,
+    right: 20,
     backgroundColor: colors.white,
-    padding: rem(15),
-    borderRadius: rem(10),
-    width: "85%",
-    elevation: 5,
+    padding: 15,
+    borderRadius: 10,
     shadowColor: colors.black,
     shadowOffset: {
       width: 0,
-      height: rem(2),
+      height: 2,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: rem(4),
-    zIndex: 2,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  buildingNameText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: colors.concordiaRed,
+    marginBottom: 5,
+  },
+  openingHoursText: {
+    fontSize: 14,
+    color: colors.darkGray,
+    marginBottom: 5,
+  },
+  addressText: {
+    fontSize: 14,
+    color: colors.darkGray,
+    marginBottom: 5,
   },
   marker: {
     backgroundColor: colors.transparent,
@@ -189,19 +204,6 @@ const textStyles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
     color: colors.orange,
     fontSize: rem(30),
-  },
-  buildingNameText: {
-    fontWeight: "bold",
-    fontSize: rem(18),
-    marginBottom: rem(5),
-  },
-  openingHoursText: {
-    color: colors.lightGray,
-    marginBottom: rem(5),
-  },
-  addressText: {
-    color: colors.darkGray,
-    fontSize: rem(14),
   },
   buildingButtonText: {
     color: colors.white,
