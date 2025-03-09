@@ -1,0 +1,21 @@
+coverage:
+  status:
+    project: # More options at https://docs.codecov.com/docs/commit-status
+      default:
+        target: auto
+        threshold: 0%
+        base: auto
+        informational: true
+    patch:
+      default:
+        informational: true
+    github_checks:
+      annotations: false
+
+comment:
+  layout: "diff, flags, components, files" # Ensures per-file breakdown
+  behavior: default
+  require_changes: true # Only post comment if coverage changes
+  require_base: yes # Require base branch report
+  require_head: yes # Require head branch report
+  hide_project_coverage: false # Show both project and patch coverage
