@@ -1,6 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`ThemedText Component applies custom styles correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#11181C",
+      },
+      {
+        "fontSize": 16,
+        "lineHeight": 24,
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        "fontSize": 20,
+        "fontWeight": "bold",
+      },
+    ]
+  }
+>
+  Custom Styled Text
+</Text>
+`;
+
+exports[`ThemedText Component renders correctly with default type 1`] = `
 <Text
   style={
     [
@@ -19,6 +45,124 @@ exports[`renders correctly 1`] = `
     ]
   }
 >
-  Snapshot test!
+  Default Text
+</Text>
+`;
+
+exports[`ThemedText Component renders correctly with defaultSemiBold type 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#11181C",
+      },
+      undefined,
+      undefined,
+      {
+        "fontSize": 16,
+        "fontWeight": "600",
+        "lineHeight": 24,
+      },
+      undefined,
+      undefined,
+      undefined,
+    ]
+  }
+>
+  SemiBold Text
+</Text>
+`;
+
+exports[`ThemedText Component renders correctly with link type 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#11181C",
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        "color": "#0a7ea4",
+        "fontSize": 16,
+        "lineHeight": 30,
+      },
+      undefined,
+    ]
+  }
+>
+  Link Text
+</Text>
+`;
+
+exports[`ThemedText Component renders correctly with subtitle type 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#11181C",
+      },
+      undefined,
+      undefined,
+      undefined,
+      {
+        "fontSize": 20,
+        "fontWeight": "bold",
+      },
+      undefined,
+      undefined,
+    ]
+  }
+>
+  Subtitle Text
+</Text>
+`;
+
+exports[`ThemedText Component renders correctly with title type 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#11181C",
+      },
+      undefined,
+      {
+        "fontSize": 32,
+        "fontWeight": "bold",
+        "lineHeight": 32,
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    ]
+  }
+>
+  Title Text
+</Text>
+`;
+
+exports[`ThemedText Component uses custom light and dark colors 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "blue",
+      },
+      {
+        "fontSize": 16,
+        "lineHeight": 24,
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    ]
+  }
+>
+  Custom Colors
 </Text>
 `;
