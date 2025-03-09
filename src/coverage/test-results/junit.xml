@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="17" failures="0" errors="0" time="2.097">
-  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="0.693" tests="1">
-    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.007">
+<testsuites name="jest tests" tests="25" failures="2" errors="0" time="7.601">
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-03-09T04:50:46" time="0.925" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.016">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="0.902" tests="7">
-    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.093">
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T04:50:46" time="1.381" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.143">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.002">
     </testcase>
@@ -13,41 +13,130 @@
     </testcase>
     <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.001">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.001">
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.002">
     </testcase>
     <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.001">
     </testcase>
-    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.002">
+    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.086" tests="2">
-    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.041">
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T04:50:46" time="1.535" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.07">
     </testcase>
-    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.089">
-    </testcase>
-  </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.083" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.131">
-    </testcase>
-    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
-    </testcase>
-    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.003">
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.128">
     </testcase>
   </testsuite>
-  <testsuite name="ClassSchedule Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.157" tests="1">
-    <testcase classname="ClassSchedule Component renders correctly" name="ClassSchedule Component renders correctly" time="0.1">
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T04:50:46" time="1.58" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.206">
+    </testcase>
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.004">
+    </testcase>
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.152" tests="1">
-    <testcase classname="FindBuilding Component renders correctly" name="FindBuilding Component renders correctly" time="0.085">
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T04:50:46" time="1.692" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.167">
     </testcase>
   </testsuite>
-  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.18" tests="1">
-    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.088">
+  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-03-09T04:50:46" time="3.034" tests="9">
+    <testcase classname="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" name="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" time="0.729">
+    </testcase>
+    <testcase classname="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" name="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" time="0.085">
+    </testcase>
+    <testcase classname="CampusSwitcher Component updates the map region when the campus changes" name="CampusSwitcher Component updates the map region when the campus changes" time="0.085">
+    </testcase>
+    <testcase classname="CampusSwitcher Component requests and updates user location" name="CampusSwitcher Component requests and updates user location" time="0.059">
+    </testcase>
+    <testcase classname="CampusSwitcher Component displays error when location permission is denied" name="CampusSwitcher Component displays error when location permission is denied" time="0.069">
+    </testcase>
+    <testcase classname="CampusSwitcher Component displays error when fetching location fails" name="CampusSwitcher Component displays error when fetching location fails" time="0.091">
+    </testcase>
+    <testcase classname="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" name="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" time="0.052">
+    </testcase>
+    <testcase classname="CampusSwitcher Component displays building information when clicking on a building" name="CampusSwitcher Component displays building information when clicking on a building" time="0.077">
+    </testcase>
+    <testcase classname="CampusSwitcher Component hides building information when clicking outside" name="CampusSwitcher Component hides building information when clicking outside" time="0.091">
     </testcase>
   </testsuite>
-  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-02-13T15:49:49" time="1.218" tests="1">
-    <testcase classname="CampusSwitcher Component Test" name="CampusSwitcher Component Test" time="0.007">
+  <testsuite name="FindBuilding Component" errors="0" failures="2" skipped="0" timestamp="2025-03-09T04:50:46" time="6.457" tests="2">
+    <testcase classname="FindBuilding Component renders search results for MB Building and logs its details on click" name="FindBuilding Component renders search results for MB Building and logs its details on click" time="2.201">
+      <failure>TypeError: loadedNativeFonts.forEach is not a function
+    at forEach (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\expo-font\src\memory.ts:21:23)
+    at Object.isLoaded (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\expo-font\src\Font.ts:27:24)
+    at new isLoaded (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@expo\vector-icons\src\createIconSet.tsx:125:26)
+    at constructClassInstance (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:8215:18)
+    at updateClassComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9592:5)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11375:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at workLoop (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\scheduler\cjs\scheduler.development.js:266:34)
+    at flushWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\scheduler\cjs\scheduler.development.js:239:14)
+    at Immediate.performWorkUntilDeadline (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\scheduler\cjs\scheduler.development.js:533:21)
+    at processImmediate (node:internal/timers:476:21)</failure>
+      <failure>Error: Unable to find node on an unmounted component.
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\FindBuilding.test.tsx:13:18)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+    at _next (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+    at C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="2.002">
+      <failure>TypeError: loadedNativeFonts.forEach is not a function
+    at forEach (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\expo-font\src\memory.ts:21:23)
+    at Object.isLoaded (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\expo-font\src\Font.ts:27:24)
+    at new isLoaded (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@expo\vector-icons\src\createIconSet.tsx:125:26)
+    at constructClassInstance (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:8215:18)
+    at updateClassComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9592:5)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11375:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at workLoop (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\scheduler\cjs\scheduler.development.js:266:34)
+    at flushWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\scheduler\cjs\scheduler.development.js:239:14)
+    at Immediate.performWorkUntilDeadline (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\scheduler\cjs\scheduler.development.js:533:21)
+    at processImmediate (node:internal/timers:476:21)</failure>
+      <failure>Error: Unable to find node on an unmounted component.
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\FindBuilding.test.tsx:50:18)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+    at _next (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+    at C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
 </testsuites>

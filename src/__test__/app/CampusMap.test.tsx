@@ -1,6 +1,6 @@
+import CampusSwitcher from "../../app/(tabs)/CampusMap";
 import React from "react";
 import { render, fireEvent, waitFor, act } from "@testing-library/react-native";
-import CampusSwitcher from "../../app/(tabs)/CampusMap";
 import * as Location from "expo-location";
 
 // Mock react-native-maps
@@ -21,15 +21,14 @@ jest.mock("react-native-maps", () => {
         React.ClassAttributes<HTMLDivElement> &
         React.HTMLAttributes<HTMLDivElement>
     ) => <div {...props} data-testid="marker" />,
-    Circle: (
+    Polygon: (
       props: React.JSX.IntrinsicAttributes &
         React.ClassAttributes<HTMLDivElement> &
         React.HTMLAttributes<HTMLDivElement>
-    ) => <div {...props} data-testid="circle" />,
+    ) => <div {...props} data-testid="polygon" />,
   };
 });
 
-// Mock expo-location
 jest.mock("expo-location", () => ({
   requestForegroundPermissionsAsync: jest.fn(async () => ({
     status: "granted",
@@ -37,12 +36,12 @@ jest.mock("expo-location", () => ({
   getCurrentPositionAsync: jest.fn(async () => ({
     coords: { latitude: 45.5, longitude: -73.6 },
   })),
-  Accuracy: { High: 5 }, // Ensure Accuracy.High is defined
+  Accuracy: { High: 5 },
 }));
 
 describe("CampusSwitcher Component", () => {
   beforeEach(() => {
-    jest.useFakeTimers(); // Ensure consistent async handling
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
@@ -50,73 +49,208 @@ describe("CampusSwitcher Component", () => {
     jest.useRealTimers();
   });
 
-  it("Test", async () => {
-    expect(1).toBeTruthy();
+  //PASS
+  it("renders CampusSwitcher correctly with SGW Campus", async () => {
+    const { findByTestId, getByText, getByTestId } = render(<CampusSwitcher />);
+
+    expect(await findByTestId("campus-map")).toBeTruthy();
+    expect(getByText("SGW")).toBeTruthy();
+    expect(getByText("LOY")).toBeTruthy();
+
+    const switchComponent = getByTestId("campus-switch");
+    expect(switchComponent.props.value).toBe(false);
   });
 
-  // it("renders CampusSwitcher correctly with SGW Campus", async () => {
-  //   const { getByText, getByTestId } = render(<CampusSwitcher />);
+  //PASS
+  it("toggles between SGW and Loyola campus when the switch is pressed", async () => {
+    const { getByTestId, getByText } = render(<CampusSwitcher />);
 
-  //   await waitFor(() => {
-  //     expect(getByText("SGW Campus")).toBeTruthy();
-  //     expect(getByTestId("map-view")).toBeTruthy();
-  //     expect(getByTestId("marker")).toBeTruthy();
-  //   });
-  // });
+    expect(getByText("SGW")).toBeTruthy();
+    expect(getByText("LOY")).toBeTruthy();
 
-  // it("switches between SGW and Loyola Campus", async () => {
-  //   const { getByText, getByTestId } = render(<CampusSwitcher />);
-  //   const switchElement = getByTestId("campus-switch");
+    const switchComponent = getByTestId("campus-switch");
 
-  //   expect(getByText("SGW Campus")).toBeTruthy();
+    // Toggle the switch to Loyola
+    await act(async () => {
+      fireEvent(switchComponent, "valueChange", true);
+    });
 
-  //   await act(async () => {
-  //     fireEvent(switchElement, "valueChange", true);
-  //   });
+    await waitFor(() => {
+      expect(getByTestId("campus-map")).toBeTruthy();
+    });
 
-  //   await waitFor(() => expect(getByText("Loyola Campus")).toBeTruthy());
+    // Toggle the switch back to SGW
+    await act(async () => {
+      fireEvent(switchComponent, "valueChange", false);
+    });
 
-  //   await act(async () => {
-  //     fireEvent(switchElement, "valueChange", false);
-  //   });
+    await waitFor(() => {
+      expect(getByTestId("campus-map")).toBeTruthy();
+    });
+  });
+  //PASS
+  it("updates the map region when the campus changes", async () => {
+    const { getByTestId } = render(<CampusSwitcher />);
+    const switchComponent = getByTestId("campus-switch");
 
-  //   await waitFor(() => expect(getByText("SGW Campus")).toBeTruthy());
-  // });
+    let mapView = getByTestId("campus-map");
+    let initialLatitude = mapView.props.initialRegion.latitude;
+    let initialLongitude = mapView.props.initialRegion.longitude;
 
-  // it("updates the map region when the campus changes", async () => {
-  //   const { getByTestId } = render(<CampusSwitcher />);
-  //   const switchElement = getByTestId("campus-switch");
+    expect(initialLatitude).toBe(45.4973);
+    expect(initialLongitude).toBe(-73.5789);
 
-  //   await act(async () => {
-  //     fireEvent(switchElement, "valueChange", true);
-  //   });
+    // Change to Loyola Campus
+    await act(async () => {
+      fireEvent(switchComponent, "valueChange", true);
+    });
 
-  //   await waitFor(() => {
-  //     const mapView = getByTestId("map-view");
-  //     expect(mapView.props["data-testid"]).toBe("map-view"); // Fix: Use `.props`
-  //   });
+    await waitFor(() => {
+      mapView = getByTestId("campus-map");
+      const newLatitude = mapView.props.initialRegion.latitude;
+      const newLongitude = mapView.props.initialRegion.longitude;
+      // Verify Loyola Campus coordinates
+      expect(newLatitude).toBe(45.4581);
+      expect(newLongitude).toBe(-73.6405);
+    });
+    // Change back to SGW Campus
+    await act(async () => {
+      fireEvent(switchComponent, "valueChange", false);
+    });
+    await waitFor(() => {
+      mapView = getByTestId("campus-map");
+      const revertedLatitude = mapView.props.initialRegion.latitude;
+      const revertedLongitude = mapView.props.initialRegion.longitude;
+      expect(revertedLatitude).toBe(45.4973);
+      expect(revertedLongitude).toBe(-73.5789);
+    });
+  });
+  //PASS
+  it("requests and updates user location", async () => {
+    const { findByTestId, getByTestId } = render(<CampusSwitcher />);
+    const refreshButton = getByTestId("refresh-location-button");
 
-  //   await act(async () => {
-  //     fireEvent(switchElement, "valueChange", false);
-  //   });
+    // Ensure initial location is not updated yet
+    let userLocationMarker = await findByTestId("user-location-marker");
 
-  //   await waitFor(() => {
-  //     const mapView = getByTestId("map-view");
-  //     expect(mapView.props["data-testid"]).toBe("map-view"); // Fix: Use `.props`
-  //   });
-  // });
+    // Press refresh button to update location
+    await act(async () => {
+      fireEvent.press(refreshButton);
+    });
 
-  // it("requests and updates user location", async () => {
-  //   const { getByTestId } = render(<CampusSwitcher />);
-  //   const refreshButton = getByTestId("my-location-button");
+    // Wait for location update
+    await waitFor(async () => {
+      userLocationMarker = await findByTestId("user-location-marker");
+      expect(userLocationMarker.props.coordinate.latitude).toBe(45.5);
+      expect(userLocationMarker.props.coordinate.longitude).toBe(-73.6);
+    });
+  });
 
-  //   await act(async () => {
-  //     fireEvent.press(refreshButton);
-  //   });
+  //PASS
+  it("displays error when location permission is denied", async () => {
+    // Fix: Ensure it's correctly mocked
+    (
+      Location.requestForegroundPermissionsAsync as jest.Mock
+    ).mockResolvedValueOnce({ status: "denied" });
 
-  //   await waitFor(() => {
-  //     expect(getByTestId("marker")).toBeTruthy();
-  //     expect(getByTestId("circle")).toBeTruthy();
-  //   });
-  // });
+    const { findByTestId, getByText } = render(<CampusSwitcher />);
+
+    // Wait for location error to appear
+    await waitFor(() => {
+      expect(
+        getByText("Permission to access location was denied")
+      ).toBeTruthy();
+    });
+  });
+
+  //PASS
+  it("displays error when fetching location fails", async () => {
+    // Fix: Ensure it's correctly mocked
+    (Location.getCurrentPositionAsync as jest.Mock).mockRejectedValueOnce(
+      new Error("Location fetch failed")
+    );
+
+    const { findByTestId, getByText } = render(<CampusSwitcher />);
+
+    // Wait for location error to appear
+    await waitFor(() => {
+      expect(getByText("Error getting location")).toBeTruthy();
+    });
+  });
+
+  //PASS
+  it("ensures user location is updated and not equal to an incorrect location", async () => {
+    const { findByTestId, getByTestId } = render(<CampusSwitcher />);
+    const refreshButton = getByTestId("refresh-location-button");
+
+    // Ensure initial location is not updated yet
+    let userLocationMarker = await findByTestId("user-location-marker");
+
+    // Press refresh button to update location
+    await act(async () => {
+      fireEvent.press(refreshButton);
+    });
+
+    // Wait for location update
+    await waitFor(async () => {
+      userLocationMarker = await findByTestId("user-location-marker");
+
+      // Assert correct location update
+      expect(userLocationMarker.props.coordinate.latitude).toBe(45.5);
+      expect(userLocationMarker.props.coordinate.longitude).toBe(-73.6);
+
+      // Assert incorrect location (should not be equal)
+      expect(userLocationMarker.props.coordinate.latitude).not.toBe(40.0);
+      expect(userLocationMarker.props.coordinate.longitude).not.toBe(-75.0);
+    });
+  });
+
+  it("displays building information when clicking on a building", async () => {
+    const { findByTestId, getByTestId, getByText } = render(<CampusSwitcher />);
+
+    expect(await findByTestId("campus-map")).toBeTruthy();
+
+    // Find and click on MB Building marker
+    const mbBuildingMarker = await findByTestId(
+      "building-marker-67aaabc9a89802f0176bad8e"
+    );
+
+    await act(async () => {
+      fireEvent.press(mbBuildingMarker);
+    });
+
+    await waitFor(() => {
+      expect(getByTestId("building-info")).toBeTruthy();
+    });
+
+    // Verify building details
+    expect(getByText("MB Building")).toBeTruthy();
+    expect(getByText("1450 Guy Street")).toBeTruthy();
+    expect(getByText("Mon-Fri: 9:00 AM - 6:00 PM")).toBeTruthy();
+  });
+
+  it("hides building information when clicking outside", async () => {
+    const { findByTestId, getByTestId, queryByTestId } = render(
+      <CampusSwitcher />
+    );
+
+    const mbBuildingMarker = await findByTestId(
+      "building-marker-67aaabc9a89802f0176bad8e"
+    );
+    await act(async () => {
+      fireEvent.press(mbBuildingMarker);
+    });
+
+    expect(await findByTestId("building-info")).toBeTruthy();
+
+    const mapView = getByTestId("campus-map");
+    await act(async () => {
+      fireEvent.press(mapView);
+    });
+
+    // Verify the pop-up disappears
+    await waitFor(() => {
+      expect(queryByTestId("building-info")).toBeNull();
+    });
+  });
 });
