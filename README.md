@@ -1,6 +1,6 @@
 [![codecov](https://codecov.io/gh/AsifAliKhan2001/Minicap/graph/badge.svg?token=FJ0CSSVRQY)](https://codecov.io/gh/AsifAliKhan2001/Minicap)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=minicapping-soen390_minicapping-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=minicapping-soen390_minicapping-app)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=minicapping-soen390_minicapping-app&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=minicapping-soen390_minicapping-app)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Minicapping-Soen390_Minicap&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Minicapping-Soen390_Minicap)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Minicapping-Soen390_Minicap&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Minicapping-Soen390_Minicap)
 [![Last Commit](https://img.shields.io/github/last-commit/vibqetowi/Minicap?style=flat-square)](https://github.com/vibqetowi/Minicap/commits/main)
 # Minicapping
 
