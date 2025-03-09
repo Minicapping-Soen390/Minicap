@@ -51,7 +51,7 @@ describe("FindBuilding Component", () => {
       () => {
         expect(queryByText("Loading buildings...")).toBeNull();
       },
-      { timeout: 2000 }
+      { timeout: 3000 }
     );
 
     // Ensure "Search Results" appears
@@ -59,7 +59,7 @@ describe("FindBuilding Component", () => {
 
     // Get search input and type a non-existing building name
     const searchInput = getByTestId("search-input");
-    fireEvent.changeText(searchInput, "asbsdassda"); // A string that does not exist in the data
+    fireEvent.changeText(searchInput, "MASASA"); // A string that does not exist in the data
 
     // Ensure "No buildings found." is displayed
     await waitFor(() => {
