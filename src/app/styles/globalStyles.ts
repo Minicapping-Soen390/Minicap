@@ -174,6 +174,7 @@ const viewStyles = StyleSheet.create({
     top: rem(10),
     left: "2%",
     right: "2%",
+
     backgroundColor: colors.white,
     borderRadius: rem(8),
     paddingRight: rem(18),
@@ -194,6 +195,7 @@ const viewStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: rem(3),
+
   },
   greenDot: {
     width: rem(12),
@@ -300,6 +302,7 @@ const viewStyles = StyleSheet.create({
     borderBottomColor: "#ccc",
     paddingBottom: 10,
   },
+
 });
 
 // Text styles
@@ -369,6 +372,7 @@ const textStyles = StyleSheet.create({
     textAlign: "center",
     top:0
   },
+
 });
 
 // Image styles

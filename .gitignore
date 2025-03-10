@@ -221,3 +221,4 @@ yarn-error.*
 app-example
 
 tmp.md
+/src/coverage

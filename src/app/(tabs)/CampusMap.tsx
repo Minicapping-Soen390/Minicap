@@ -86,6 +86,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false);
   const [isFullScreenDirections, setIsFullScreenDirections] = useState<boolean>(false); // New state for full screen directions
 
+
   useEffect(() => {
     const requestLocationPermission = async () => {
       try {
@@ -209,6 +210,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             fillColor={fill}
           />
           <Marker
+            testID={`building-marker-${building._id}`}
             coordinate={center}
             onPress={() => {
               if (showNavigationPopup) {
@@ -225,6 +227,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               if (!destinationAddress) {
                 setDestinationAddress(building.address);
                 setStartingAddress("My Location");
+
               }
               setShowNavigationPopup(false);
             }}
@@ -371,6 +374,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         latitude: latitude / 1e5,
         longitude: longitude / 1e5,
       });
+
     }
 
     return path;
@@ -392,6 +396,27 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setDirections([]);
   };
 
+  const handleNavigationPopup = () => {
+    if (buildingInfo) {
+      setStartingAddress("My Location");
+      setDestinationAddress(buildingInfo.address);
+      setShowNavigationPopup(true);
+    }
+  };
+
+  const handleGoToBuilding = () => {
+    handleGoToNavigation();
+    handleNavigationPopup();
+  };
+
+  const handleClosePopup = () => {
+    setBuildingInfo(null);
+    setSelectedBuildingId(null);
+    setShowNavigationPopup(false);
+    setStartingAddress("");
+    setDestinationAddress("");
+  };
+
   return (
     <View style={globalStyles.mapContainer}>
       {locationError ? (
@@ -401,6 +426,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       ) : null}
 
       <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
+
         <MapView
           ref={(ref) => (mapRef.current = ref)}
           style={globalStyles.map}
@@ -409,12 +435,15 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           rotateEnabled={false}
           zoomEnabled={true}
           zoomControlEnabled={true}
+          testID="campus-map"
         >
+
           {permissionGranted && userLocation && (
             <Marker
               coordinate={userLocation}
               title="Your Location"
               pinColor="green"
+              testID="user-location-marker"
             />
           )}
           {newRoute && (
@@ -501,6 +530,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             <TouchableOpacity onPress={resetPopupAndDirections} style={globalStyles.cancelButton}>
               <Text style={globalStyles.cancelButtonText}>×</Text>
             </TouchableOpacity>
+
           </View>
 
           <View style={globalStyles.transportModes}>
@@ -524,6 +554,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         </View>
       )}
     </View>
+
   );
 };
 
@@ -535,14 +566,19 @@ const CampusSwitcher: React.FC = () => {
     <SafeAreaView
       style={globalStyles.container}
       edges={mainEdges as readonly Edge[]}
+      testID="campus-switcher-container"
     >
       <View style={globalStyles.switchHeaderContainer}>
         <View style={globalStyles.campusSwitchHeader}>
-          <View style={globalStyles.switchContainer}>
+          <View
+            style={globalStyles.switchContainer}
+            testID="campus-switch-container"
+          >
             <Text style={globalStyles.switchText}>SGW</Text>
             <Switch
               value={!isSGWCampus}
               onValueChange={() => setIsSGWCampus(!isSGWCampus)}
+              testID="campus-switch"
             />
             <Text style={globalStyles.switchText}>LOY</Text>
           </View>
