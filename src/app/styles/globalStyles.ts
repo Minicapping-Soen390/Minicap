@@ -1,7 +1,8 @@
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 import { rem } from "../utils";
 
-const colors = {
+// Define and export brand colors separately
+export const brandColors = {
   concordiaRed: "#922338",
   white: "#FFFFFF",
   blueSemiTransparent: "#0000ffb3",
@@ -14,7 +15,15 @@ const colors = {
   darkGray: "#555",
   transparent: "transparent",
   green: "green",
+  // Transparent versions for map polygons
+  concordiaRedTransparent: "#92233880",
+  orangeTransparent: "#FFA00180",
+  darkGreen: "#1E4F05",
+  darkGreenTransparent: "#1E4F0580",
 };
+
+// Use brandColors in place of the colors object
+const colors = brandColors;
 
 // View styles
 const viewStyles = StyleSheet.create({
