@@ -287,7 +287,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
   const fetchDirections = async (mode: string) => {
     if (buildingInfo && userLocation) {
-      const origin = `45.49674153452182,-73.5779170349735`; // Start location hardcoded, and set to LB building for now
+      const origin = `${userLocation?.latitude},${userLocation?.longitude}`;
       const destination = `${buildingInfo.latitude},${buildingInfo.longitude}`;
 
       try {
@@ -419,7 +419,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           )}
           {newRoute && (
             <>
-              <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={5} />
+              <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={4} />
               {buildingInfo && (
                 <Marker
                   coordinate={{
