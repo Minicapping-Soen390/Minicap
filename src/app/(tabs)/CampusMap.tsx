@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import sanitizeHtml from "sanitize-html";
 import {
   View,
   Text,
@@ -7,14 +8,17 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   ViewStyle,
+  ScrollView,
 } from "react-native";
-import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
+import MapView, { Marker, Region, LatLng, Polygon, Polyline } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import * as Location from "expo-location";
+import axios from "axios";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
+import Constants from 'expo-constants';
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
@@ -73,14 +77,16 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     latitude: number;
     longitude: number;
   } | null>(null);
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
-    null
-  );
-  const [newRoute, setNewRoute] = useState<any>(null); // State to hold the new route object
-  const [showNavigationPopup, setShowNavigationPopup] =
-    useState<boolean>(false); // Controls popup that shows navigation addresses or building info pop ups
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
+  const [newRoute, setNewRoute] = useState<LatLng[] | null>(null);
+  const [directions, setDirections] = useState<any[]>([]);
+  const [transportMode, setTransportMode] = useState<string>("walking");
+  const [activeTab, setActiveTab] = useState<string>("walking");
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
+  const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false);
+  const [isFullScreenDirections, setIsFullScreenDirections] = useState<boolean>(false); // New state for full screen directions
+
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -189,10 +195,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         isInside && isSelected
           ? colorSettings.insideSelected
           : isInside
-          ? colorSettings.inside
-          : isSelected
-          ? colorSettings.selected
-          : colorSettings.default;
+            ? colorSettings.inside
+            : isSelected
+              ? colorSettings.selected
+              : colorSettings.default;
 
       const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
 
@@ -221,6 +227,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               setSelectedBuildingId(building._id);
               if (!destinationAddress) {
                 setDestinationAddress(building.address);
+                setStartingAddress("My Location");
+
               }
               setShowNavigationPopup(false);
             }}
@@ -258,9 +266,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       });
 
       const newRegion = {
-        // Coords to test the LB building
-        // latitude: 45.49674153452182,
-        // longitude: -73.5779170349735,
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.01,
@@ -280,49 +285,67 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const handleMapPress = () => {
     if (!showNavigationPopup && buildingInfo) {
       setBuildingInfo(null);
-      setSelectedBuildingId(null); // Reset selected building ID
+      setSelectedBuildingId(null);
     }
   };
 
-  const handleGoToNavigation = () => {
-    if (buildingInfo) {
-      const newRouteSegment = {
-        startPoint: {
-          latitude: userLocation?.latitude || 0,
-          longitude: userLocation?.longitude || 0,
-        },
-        endPoint: {
-          latitude: buildingInfo.latitude,
-          longitude: buildingInfo.longitude,
-        },
-        transportationMode: "WALKING", // Default transportation mode
-        usageCount: 0,
-      };
+  const fetchDirections = async (mode: string) => {
+    if (buildingInfo && userLocation) {
+      const origin = `${userLocation?.latitude},${userLocation?.longitude}`;
+      const destination = `${buildingInfo.latitude},${buildingInfo.longitude}`;
 
-      const newRoute = {
-        accessible: true,
-        segmentIds: [newRouteSegment],
-      };
-
-      setNewRoute(newRoute); // Update the state with the new route object
-      console.log("New Route:", JSON.stringify(newRoute, null, 2));
-
-      mapRef.current?.fitToCoordinates(
-        [
+      try {
+        console.log(`Fetching directions from ${origin} to ${destination} via ${mode}`);
+        
+        const response = await axios.get(
+          "https://maps.googleapis.com/maps/api/directions/json",
           {
-            latitude: userLocation?.latitude || 0,
-            longitude: userLocation?.longitude || 0,
-          },
-          {
-            latitude: buildingInfo.latitude,
-            longitude: buildingInfo.longitude,
-          },
-        ],
-        {
-          edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-          animated: true,
+            params: {
+              origin,
+              destination,
+              mode,
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+            },
+          }
+        );
+
+        // Check if we got a valid response with routes
+        if (!response.data.routes || response.data.routes.length === 0) {
+          console.error("No routes found in the API response");
+          setLocationError("No route found. Please try a different transportation mode.");
+          return;
         }
-      );
+
+        const route = response.data.routes[0];
+        
+        if (!route.overview_polyline) {
+          console.error("No overview_polyline found in the route");
+          return;
+        }
+        
+        const polyline = route.overview_polyline.points;
+        const decodedRoute = decodePolyline(polyline);
+        setNewRoute(decodedRoute);
+
+        if (!route.legs || route.legs.length === 0 || !route.legs[0].steps) {
+          console.error("No valid legs or steps found in the route");
+          return;
+        }
+
+        const steps = route.legs[0].steps.map((step: any) => ({
+          instruction: sanitizeHtml(step.html_instructions, { allowedTags: [], allowedAttributes: {} }),
+          distance: step.distance.text,
+          duration: step.duration.text,
+        }));
+
+        setDirections(steps);
+        setLocationError(null);
+      } catch (error) {
+        console.error("Error fetching directions:", error);
+        setLocationError("Failed to fetch directions. Please try again later.");
+        setNewRoute(null);
+        setDirections([]);
+      }
     }
   };
 
@@ -335,8 +358,66 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   const handleGoToBuilding = () => {
-    handleGoToNavigation();
+    fetchDirections("walking");
     handleNavigationPopup();
+  };
+
+  const decodePolyline = (encoded: string) => {
+    let index = 0;
+    const path = [];
+    let latitude = 0;
+    let longitude = 0;
+
+    while (index < encoded.length) {
+      let byte;
+      let shift = 0;
+      let result = 0;
+
+      do {
+        byte = encoded.charCodeAt(index++) - 63;
+        result |= (byte & 0x1f) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+
+      const deltaLat = ((result & 0x01) ? ~(result >> 1) : result >> 1);
+      latitude += deltaLat;
+
+      shift = 0;
+      result = 0;
+
+      do {
+        byte = encoded.charCodeAt(index++) - 63;
+        result |= (byte & 0x1f) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+
+      const deltaLng = ((result & 0x01) ? ~(result >> 1) : result >> 1);
+      longitude += deltaLng;
+
+      path.push({
+        latitude: latitude / 1e5,
+        longitude: longitude / 1e5,
+      });
+
+    }
+
+    return path;
+  };
+
+  const handleTransportModeChange = (mode: string) => {
+    setTransportMode(mode);
+    setActiveTab(mode);
+    fetchDirections(mode);
+  };
+
+  const resetPopupAndDirections = () => {
+    setBuildingInfo(null);
+    setSelectedBuildingId(null);
+    setShowNavigationPopup(false);
+    setStartingAddress("");
+    setDestinationAddress("");
+    setNewRoute(null);
+    setDirections([]);
   };
 
   const handleClosePopup = () => {
@@ -348,16 +429,15 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
-      <View style={globalStyles.mapContainer}>
-        {locationError ? (
-          <View
-            style={globalStyles.errorContainer}
-            testID="campus-map-container"
-          >
-            <Text style={globalStyles.errorText}>{locationError}</Text>
-          </View>
-        ) : null}
+    <View style={globalStyles.mapContainer}>
+      {locationError ? (
+        <View style={globalStyles.errorContainer}>
+          <Text style={globalStyles.errorText}>{locationError}</Text>
+        </View>
+      ) : null}
+
+      <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
+
         <MapView
           ref={(ref) => (mapRef.current = ref)}
           style={globalStyles.map}
@@ -368,14 +448,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           zoomControlEnabled={true}
           testID="campus-map"
         >
-          <Marker
-            testID="campus-marker"
-            coordinate={{
-              latitude: region.latitude,
-              longitude: region.longitude,
-            }}
-            title={campus.name}
-          />
+
           {permissionGranted && userLocation && (
             <Marker
               coordinate={userLocation}
@@ -384,74 +457,115 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               testID="user-location-marker"
             />
           )}
+          {newRoute && (
+            <>
+              <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={4} />
+              {buildingInfo && (
+                <Marker
+                  coordinate={{
+                    latitude: buildingInfo.latitude,
+                    longitude: buildingInfo.longitude,
+                  }}
+                  title={buildingInfo.name}
+                  pinColor="orange"
+                />
+              )}
+            </>
+          )}
           {renderBuildings()}
         </MapView>
+      </TouchableWithoutFeedback>
 
-        {buildingInfo && (
-          <View style={globalStyles.popupContainer} testID="building-info">
-            {showNavigationPopup ? (
-              <>
-                <View style={globalStyles.popupRow}>
-                  <View style={globalStyles.greenDot} />
-                  <Text style={globalStyles.popupText}>{startingAddress}</Text>
-                </View>
-                <View style={globalStyles.separator} />
-                <View style={globalStyles.popupRow}>
-                  <View style={globalStyles.goldDot} />
-                  <Text style={globalStyles.popupText}>
-                    {destinationAddress}
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  style={globalStyles.closeButton}
-                  onPress={handleClosePopup}
-                >
-                  <Text style={globalStyles.closeButtonText}>X</Text>
-                </TouchableOpacity>
-              </>
-            ) : (
-              <>
-                <Text style={globalStyles.buildingNameText}>
-                  {buildingInfo.name}
-                </Text>
-                <Text style={globalStyles.openingHoursText}>
-                  {buildingInfo.openingHours}
-                </Text>
-                <Text style={globalStyles.addressText}>
-                  {buildingInfo.address}
-                </Text>
-                <TouchableOpacity
-                  onPress={handleGoToBuilding}
-                  style={globalStyles.addButton}
-                >
-                  <Text style={globalStyles.refreshButtonText}>
-                    Go to {buildingInfo.name}
-                  </Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>
-        )}
-
-        <TouchableOpacity
-          style={[
-            globalStyles.refreshButton,
-            isRefreshing
-              ? (globalStyles.refreshButtonDisabled as ViewStyle)
-              : {},
-          ]}
-          onPress={updateUserLocation}
-          disabled={isRefreshing}
-          testID="refresh-location-button"
-        >
-          {isRefreshing ? (
-            <ActivityIndicator color="white" size="small" />
+      {buildingInfo && (
+        <View style={globalStyles.popupContainer}>
+          {showNavigationPopup ? (
+            <>
+              <View style={globalStyles.popupRow}>
+                <View style={globalStyles.greenDot} />
+                <Text style={globalStyles.popupText}>{startingAddress}</Text>
+              </View>
+              <View style={globalStyles.separator} />
+              <View style={globalStyles.popupRow}>
+                <View style={globalStyles.goldDot} />
+                <Text style={globalStyles.popupText}>{destinationAddress}</Text>
+              </View>
+            </>
           ) : (
-            <Text style={globalStyles.refreshButtonText}>My Location</Text>
+            <>
+              <Text style={globalStyles.buildingNameText}>
+                {buildingInfo.name}
+              </Text>
+              <Text style={globalStyles.openingHoursText}>
+                {buildingInfo.openingHours}
+              </Text>
+              <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
+              <TouchableOpacity
+                onPress={handleGoToBuilding}
+                style={globalStyles.addButton}
+              >
+                <Text style={globalStyles.refreshButtonText}>
+                  Go to {buildingInfo.name}
+                </Text>
+              </TouchableOpacity>
+            </>
           )}
-        </TouchableOpacity>
-      </View>
-    </TouchableWithoutFeedback>
+        </View>
+      )}
+
+      <TouchableOpacity
+        style={[
+          globalStyles.refreshButton,
+          isRefreshing
+            ? (globalStyles.refreshButtonDisabled as ViewStyle)
+            : {},
+        ]}
+        onPress={updateUserLocation}
+        disabled={isRefreshing}
+      >
+        {isRefreshing ? (
+          <ActivityIndicator color="white" size="small" />
+        ) : (
+          <Text style={globalStyles.refreshButtonText}>My Location</Text>
+        )}
+      </TouchableOpacity>
+      {directions.length > 0 && (
+        <View style={[globalStyles.directionsContainer, isFullScreenDirections && globalStyles.fullScreenDirections]}>
+          <TouchableOpacity onPress={() => {
+            setIsFullScreenDirections(!isFullScreenDirections);
+          }}>
+            <Text style={globalStyles.fullScreenToggleText}>{isFullScreenDirections ? "Exit Full Screen" : "Full Screen"}</Text>
+          </TouchableOpacity>
+
+          <View style={globalStyles.directionsHeader}>
+            <Text style={globalStyles.directionsTitle}>Directions</Text>
+            <TouchableOpacity onPress={resetPopupAndDirections} style={globalStyles.cancelButton}>
+              <Text style={globalStyles.cancelButtonText}>×</Text>
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={globalStyles.transportModes}>
+            {['walking', 'driving', 'transit', 'bicycling'].map((mode) => (
+              <TouchableOpacity key={mode} onPress={() => handleTransportModeChange(mode)}>
+                <Text style={activeTab === mode ? globalStyles.activeModeTabText : globalStyles.modeTabText}>
+                  {mode.charAt(0).toUpperCase() + mode.slice(1)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <ScrollView style={globalStyles.directionsScroll}>
+            {directions.map((step, index) => (
+              <View key={index} style={globalStyles.directionStep}>
+                <Text>{step.instruction}</Text>
+                <Text>{step.distance} | {step.duration}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      )}
+    </View>
+
   );
 };
 

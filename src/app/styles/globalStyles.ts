@@ -31,11 +31,11 @@ const viewStyles = StyleSheet.create({
     position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center", // Added to ensure proper centering
+    justifyContent: "center",
     padding: rem(10),
     backgroundColor: colors.concordiaRed,
     zIndex: 10,
-    height: rem(70), // Add specific height for proper sizing
+    height: rem(70),
   },
   container: {
     flex: 1,
@@ -180,9 +180,10 @@ const viewStyles = StyleSheet.create({
   },
   popupContainer: {
     position: "absolute",
-    top: rem(20),
-    left: "5%",
-    right: "5%",
+    top: rem(10),
+    left: "2%",
+    right: "2%",
+
     backgroundColor: colors.white,
     borderRadius: rem(8),
     paddingRight: rem(18),
@@ -202,7 +203,8 @@ const viewStyles = StyleSheet.create({
   popupRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: rem(8),
+    marginBottom: rem(3),
+
   },
   greenDot: {
     width: rem(12),
@@ -241,6 +243,75 @@ const viewStyles = StyleSheet.create({
     borderBottomColor: colors.lightGray,
     marginVertical: rem(8),
   },
+  directionsContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 300,
+    backgroundColor: "#f9f9f9",
+    borderTopColor: "#ccc",
+    borderRadius: 10,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  
+  fullScreenDirections: {
+    position: "absolute",
+    top: 120,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 0,
+  },
+
+  directionsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 3,
+  },
+  directionsTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  cancelButton: {
+    padding: 2,
+    paddingLeft:10,
+    paddingRight:10,
+    borderRadius: 100,
+    backgroundColor: "lightgrey",
+    height:25
+    },
+  cancelButtonText: {
+    color: "black",
+  },
+  transportModes: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 18,
+  },
+  activeModeTabText: {
+    fontWeight: "bold",
+  },
+  modeTabText: {
+    fontWeight: "normal",
+  },
+  directionsScroll: {
+    paddingHorizontal: 0,
+  },
+  directionStep: {
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    paddingBottom: 10,
+  },
+
 });
 
 // Text styles
@@ -250,7 +321,6 @@ const textStyles = StyleSheet.create({
     fontFamily: "Poppins-Bold",
     color: colors.white,
     textAlign: "center",
-    // Remove absolute positioning and flex: 1
   },
   switchText: {
     color: colors.white,
@@ -305,6 +375,13 @@ const textStyles = StyleSheet.create({
     color: colors.black,
     marginBottom: 4,
   },
+  fullScreenToggleText: {
+    color: colors.orange,
+    fontWeight: 'bold',
+    textAlign: "center",
+    top:0
+  },
+
 });
 
 // Image styles
@@ -315,7 +392,7 @@ const imageStyles = StyleSheet.create({
     width: rem(50),
     height: rem(50),
     resizeMode: "contain",
-    alignSelf: "center", // Add to ensure vertical centering
+    alignSelf: "center",
   },
   tabIcons: {
     width: rem(24),
