@@ -1,0 +1,133 @@
+@startuml basic-elements
+' Basic Elements Example
+abstract        abstract
+abstract class  "abstract class"
+annotation      annotation
+circle          circle
+()              circle_short_form
+class           class
+class           class_stereo  <<stereotype>>
+diamond         diamond
+<>              diamond_short_form
+entity          entity
+enum            enum
+exception       exception
+interface       interface
+metaclass       metaclass
+protocol        protocol
+stereotype      stereotype
+struct          struct
+@enduml
+
+@startuml relationships
+' Relationships Example
+Class01 <|-- Class02    
+Class03 *-- Class04     
+Class05 o-- Class06     
+Class07 .. Class08      
+Class09 -- Class10      
+@enduml
+
+@startuml association-classes
+' Association Classes Example
+class Student
+class Course
+class Enrollment {
+  enrollmentDate: Date
+  grade: String
+}
+
+Student "1" -- "many" Enrollment
+Enrollment "many" -- "1" Course
+@enduml
+
+@startuml styling
+' Styling Example
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+}
+skinparam stereotypeCBackgroundColor Yellow
+skinparam stereotypeCBorderColor Brown
+
+class Example
+@enduml
+
+@startuml labels
+' Labels Example
+Class01 "1" *-- "many" Class02 : contains
+Class03 o-- Class04 : aggregation
+Class05 --> "1" Class06
+@enduml
+
+@startuml visibility
+' Visibility Example
+class Dummy {
+  -private field
+  #protected field
+  ~package method()
+  +public method()
+}
+@enduml
+
+@startuml notes
+' Notes Example
+class Foo
+note left: A note can be\nplaced left
+note right: Or right
+note top: Or top
+note bottom: Or below
+@enduml
+
+@startuml stereotypes
+' Stereotypes Example
+class Object << general >>
+class User << entity >>
+class Order << value object >>
+@enduml
+
+@startuml direction
+' Direction Example
+' Top to bottom (default)
+top to bottom direction
+class A
+class B
+A --> B
+
+' Left to right
+left to right direction
+class C
+class D
+C --> D
+@enduml
+
+@startuml grouping
+' Grouping Example
+together {
+  class A
+  class B
+}
+A --> B
+@enduml
+
+@startuml hidden
+' Hidden Links Example
+class A
+class B
+A -[hidden]-> B
+@enduml
+
+@startuml use-case
+' Use Case Example
+left to right direction
+skinparam packageStyle rectangle
+actor customer
+actor clerk
+rectangle checkout {
+  customer -- (checkout)
+  (checkout) .> (payment) : include
+  (help) .> (checkout) : extends
+  (checkout) -- clerk
+}
+@enduml

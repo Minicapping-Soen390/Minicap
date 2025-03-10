@@ -1,0 +1,183 @@
+@startuml
+skinparam linetype ortho
+skinparam groupInheritance 2
+
+title ER diagram (Crow's Foot) (updated 2024-02-12)
+
+note as AuditNote
+  All entities contain Audit fields:
+  - _id: string
+  - createdAtUTC: Date
+  - updatedAtUTC: Date
+  - createdBy: string
+  - updatedBy: string
+end note
+
+enum TransportationMode {
+    WALKING
+    WHEELCHAIR
+    BICYCLE
+    CAR
+    BUS
+    METRO
+    ELEVATOR
+    ESCALATOR
+    STAIRS
+}
+
+enum POICategory {
+    RESTAURANT
+    COFFEE_SHOP
+    BATHROOM
+    LIBRARY
+    OTHER
+}
+
+enum LocationType {
+    OUTDOOR
+    FLOORPLAN
+}
+
+' --- Entities ---
+entity "User" as User {
+    email: VARCHAR
+    password: VARCHAR
+    name: VARCHAR
+    data: ?
+}
+
+entity Administrator extends User{
+    date_granted: Date
+}
+
+entity "Calendar" as Calendar {
+}
+
+entity "Event" as Event {
+    name: VARCHAR
+    location_type: ENUM
+    start_time: VARCHAR
+    end_time: VARCHAR
+    recurrence: ?
+}
+
+entity Course extends Event {
+    course_code: VARCHAR
+    description: VARCHAR
+}
+
+entity "Task" as Task {
+    description: TEXT
+    location_type: VARCHAR
+    emergency_task: BOOLEAN
+    needs_display: BOOLEAN
+}
+
+entity "Planner" as Planner {
+}
+
+entity "Location" as Location {
+    location_type: ENUM
+}
+
+entity OutdoorLocation extends Location{
+    latitude: DOUBLE
+    longitude: DOUBLE
+    latitude_delta: DOUBLE
+    longitude_delta: DOUBLE
+}
+
+entity FloorplanLocation extends Location{
+    x: INT
+    y: INT
+}
+
+entity "Route" as Route {
+    accessible: BOOLEAN
+    data: ?
+}
+
+entity "RouteSegment" as RouteSegment {
+    usage_count: INT
+    transportation_mode: ENUM
+    path: ?
+    order: INT
+}
+
+entity "IndoorPath" as IndoorPath {
+    node_ids: VARCHAR[]
+}
+
+entity "FloorTransition" as FloorTransition {
+    transition_type: ENUM
+}
+
+entity "Room" as Room {
+    number: VARCHAR
+    type: VARCHAR
+}
+
+entity "Campus" as Campus {
+    name: VARCHAR
+}
+
+entity "Building" as Building {
+    name: VARCHAR
+    address: VARCHAR
+    description: TEXT
+    polygon_shape: ?
+    opening_hours: VARCHAR
+}
+
+entity "Floor" as Floor {
+    number: INT
+    is_wheelchair_accessible: BOOLEAN
+    has_elevator_access: BOOLEAN
+    has_ramp_access: BOOLEAN
+}
+
+entity "Floorplan" as Floorplan {
+    data: ?
+}
+
+entity "POI" as POI {
+    type: VARCHAR
+    name: VARCHAR
+    category: ENUM
+    description: TEXT
+}
+
+
+' --- Relationships ---
+User }--{ Calendar : subscribes
+Calendar  --{ Event : contains
+Planner  --{ Task : contains
+User  --  Planner : owns
+User }--o{ Location : "current location"
+Event }--  Location : occurs at
+Task }--  Location : assigned to
+
+Route  --{ RouteSegment : composed of
+RouteSegment  --  Location : starts at
+RouteSegment  --  Location : ends at
+RouteSegment  --o{ IndoorPath : uses
+IndoorPath }--{ FloorTransition : contains
+
+Campus  --{ Building : contains
+Campus  --  OutdoorLocation : located at
+Building  --  OutdoorLocation : located at
+Building  --{ Floor : contains
+Floor  --{ Room : contains
+Floor  --  Floorplan : has
+Floorplan  --{ FloorplanLocation : defines
+Room  --  FloorplanLocation : positioned at
+
+POI }--  Location : located at
+
+' --- Enum Usage ---
+RouteSegment .. TransportationMode
+FloorTransition .. TransportationMode
+POI .. POICategory
+Location .. LocationType
+
+@enduml
