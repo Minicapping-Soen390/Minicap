@@ -11,11 +11,10 @@ import {
 import MapView, { Marker, Region, Polygon, LatLng } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import * as Location from "expo-location";
-import { globalStyles, mainEdges } from "../styles/globalStyles";
+import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
-//import { ObjectId } from "mongodb";
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
@@ -180,10 +179,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       const isSelected = selectedBuildingId === building._id;
 
       const colorSettings = {
-        insideSelected: { fill: "#FFA50080", stroke: "#1E4F05" },
-        inside: { fill: "#2E760A69", stroke: "#1E4F05" },
-        selected: { fill: "#FFA50080", stroke: "#A52323" },
-        default: { fill: "#B4101080", stroke: "#A52323" },
+        insideSelected: { fill: brandColors.orangeTransparent, stroke: brandColors.darkGreen },
+        inside: { fill: brandColors.darkGreenTransparent, stroke: brandColors.darkGreen },
+        selected: { fill: brandColors.orangeTransparent, stroke: brandColors.concordiaRed },
+        default: { fill: brandColors.concordiaRedTransparent, stroke: brandColors.concordiaRed },
       };
 
       const { fill, stroke } =
