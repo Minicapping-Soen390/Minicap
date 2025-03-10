@@ -18,6 +18,7 @@ import { globalStyles, mainEdges } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
+import Constants from 'expo-constants';
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
@@ -294,6 +295,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       const destination = `${buildingInfo.latitude},${buildingInfo.longitude}`;
 
       try {
+        console.log(`Fetching directions from ${origin} to ${destination} via ${mode}`);
+        
         const response = await axios.get(
           "https://maps.googleapis.com/maps/api/directions/json",
           {
@@ -301,15 +304,33 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               origin,
               destination,
               mode,
-              key: "1234",
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
             },
           }
         );
 
+        // Check if we got a valid response with routes
+        if (!response.data.routes || response.data.routes.length === 0) {
+          console.error("No routes found in the API response");
+          setLocationError("No route found. Please try a different transportation mode.");
+          return;
+        }
+
         const route = response.data.routes[0];
+        
+        if (!route.overview_polyline) {
+          console.error("No overview_polyline found in the route");
+          return;
+        }
+        
         const polyline = route.overview_polyline.points;
         const decodedRoute = decodePolyline(polyline);
         setNewRoute(decodedRoute);
+
+        if (!route.legs || route.legs.length === 0 || !route.legs[0].steps) {
+          console.error("No valid legs or steps found in the route");
+          return;
+        }
 
         const steps = route.legs[0].steps.map((step: any) => ({
           instruction: sanitizeHtml(step.html_instructions, { allowedTags: [], allowedAttributes: {} }),
@@ -318,8 +339,12 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         }));
 
         setDirections(steps);
+        setLocationError(null);
       } catch (error) {
         console.error("Error fetching directions:", error);
+        setLocationError("Failed to fetch directions. Please try again later.");
+        setNewRoute(null);
+        setDirections([]);
       }
     }
   };
@@ -336,7 +361,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     fetchDirections("walking");
     handleNavigationPopup();
   };
-
 
   const decodePolyline = (encoded: string) => {
     let index = 0;
@@ -394,19 +418,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setDestinationAddress("");
     setNewRoute(null);
     setDirections([]);
-  };
-
-  const handleNavigationPopup = () => {
-    if (buildingInfo) {
-      setStartingAddress("My Location");
-      setDestinationAddress(buildingInfo.address);
-      setShowNavigationPopup(true);
-    }
-  };
-
-  const handleGoToBuilding = () => {
-    handleGoToNavigation();
-    handleNavigationPopup();
   };
 
   const handleClosePopup = () => {
