@@ -1,41 +1,28 @@
-# **Meeting:** PO meeting
+# Product Owner Meeting
 
 **Date:** 2025-03-10
-**Time:** 18h00 - 18h60
-**Purpose:** Sprint Retrospective Review + PO meeting
-**Attendees:** All except absent
-**Absent: Azal, Younes**
+**Time:** 18h00-18h45
+**Purpose:** Product Owner Meeting
+**Attendees:** All except noted below
+**Absent:** Azal, Younes
 
-## Agenda Items
+## Agenda & Discussion Points
 
-### 1. PO meeting
-2.6 not accepted Shuttle bus:
+### User Story Status Review
 
-- Change the logo for the shuttle bus to be more visible
-Accepted US: 2.1, 2.4 
+#### Not Accepted:
+- **US 2.6 (Shuttle Bus)**
+  - Feedback: Change the logo for the shuttle bus to be more visible
 
-Todo: send him demo for US 1.4, 2.2 and 
+- **US 2.4 (Transportation Modes)**
+  - Unique color overlays per transportation mode
+        - My personal opinion is ignoring it for style consistenvy with gmaps but ok  
 
-### **1. Sprint Review**
+#### Accepted:
+- US 2.1
+- US 2.4
 
-
-### **2. Discussion Points**
-
-#### **What Went Well**
-
-
-
-#### **What Could Be Improved**
-
-
-
-#### **Action Items**
-
-
-### **3. Next Sprint Planning**
-
-#### **Priority Items**
-
-
-
-### **4. Action Items/To-Do**
+## Action Items
+- Send demo for outstanding user stories:
+  - US 1.4
+  - US 2.2
