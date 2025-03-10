@@ -3,8 +3,9 @@ import { shuttleService, SHUTTLE_STOPS } from '@/services/ShuttleService';
 import { LatLng } from 'react-native-maps';
 import { ShuttlePoint, ShuttleDepartureInfo, CampusType, ShuttleRoute } from '@/models/Shuttle';
 import { makeAutoObservable, runInAction } from 'mobx';
-import { ShuttleRepository } from '@/repositories/ShuttleRepository';
+import { ShuttleRepository, IShuttleRepository, ShuttlePosition, ShuttleStop } from '@/repositories/ShuttleRepository';
 import { Audit } from '@/models/Audit';
+import { useState, useEffect } from 'react';
 
 interface ShuttleState extends Audit {
   locations: ShuttlePoint[];
@@ -18,12 +19,13 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
   private _estimatedWaitTime: number | null = null;
   private _isLoading: boolean = false;
   private _error: string | null = null;
-  private readonly repository: ShuttleRepository;
+  private readonly repository: IShuttleRepository;
+  private updateInterval: NodeJS.Timeout | null = null;
 
-  constructor() {
+  constructor(repository: IShuttleRepository) {
     super();
     makeAutoObservable(this);
-    this.repository = ShuttleRepository.getInstance();
+    this.repository = repository;
   }
 
   protected mapToDTO(doc: any): ShuttleState {
@@ -147,5 +149,76 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
   dispose(): void {
     this.reset();
     super.dispose();
+  }
+
+  async startTracking(
+    onPositionsUpdate: (positions: ShuttlePosition[]) => void,
+    onError: (error: Error) => void,
+    interval: number = 15000
+  ): Promise<void> {
+    const updatePositions = async () => {
+      try {
+        const positions = await this.repository.getShuttlePositions();
+        onPositionsUpdate(positions);
+      } catch (error) {
+        onError(error as Error);
+      }
+    };
+
+    // Initial update
+    await updatePositions();
+
+    // Set up interval
+    this.updateInterval = setInterval(updatePositions, interval);
+  }
+
+  stopTracking(): void {
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+      this.updateInterval = null;
+    }
+  }
+
+  async getRouteForShuttles(shuttles: ShuttlePosition[]): Promise<LatLng[]> {
+    const stops = this.repository.getShuttleStops();
+    const validShuttles = shuttles.filter(shuttle => {
+      const lat = parseFloat(shuttle.Latitude);
+      const lng = parseFloat(shuttle.Longitude);
+      // Filter out buses that are too far from the route
+      return lat >= 45.45 && lat <= 45.51 && lng >= -73.65 && lng <= -73.57;
+    });
+
+    if (validShuttles.length === 0) return [];
+
+    // Sort shuttles west to east
+    const sortedShuttles = validShuttles.sort((a, b) => 
+      parseFloat(a.Longitude) - parseFloat(b.Longitude)
+    );
+
+    // Create route through all active shuttles
+    return [
+      { latitude: stops.LOYOLA.latitude, longitude: stops.LOYOLA.longitude },
+      ...sortedShuttles.map(shuttle => ({
+        latitude: parseFloat(shuttle.Latitude),
+        longitude: parseFloat(shuttle.Longitude)
+      })),
+      { latitude: stops.SGW.latitude, longitude: stops.SGW.longitude }
+    ];
+  }
+
+  async getNextDepartureInfo(fromCampus: 'SGW' | 'LOYOLA', shuttles: ShuttlePosition[]): Promise<{
+    departureTime: string;
+    waitTime: number;
+    nearestShuttle: ShuttlePosition | null;
+  }> {
+    const stops = this.repository.getShuttleStops();
+    const stop = stops[fromCampus];
+    const nearestShuttle = this.repository.getClosestShuttle(shuttles, stop);
+    const departureInfo = await this.repository.getNextDeparture(fromCampus);
+
+    return {
+      ...departureInfo,
+      nearestShuttle
+    };
   }
 } 

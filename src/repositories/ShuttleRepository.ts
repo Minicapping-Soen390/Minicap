@@ -1,5 +1,31 @@
 import axios from 'axios';
 import { ShuttlePoint, ShuttleRoute } from '@/models/Shuttle';
+import { LatLng } from "react-native-maps";
+
+export interface ShuttleStop {
+  name: string;
+  latitude: number;
+  longitude: number;
+}
+
+export interface ShuttlePosition {
+  ID: string;
+  Latitude: number;
+  Longitude: number;
+}
+
+export interface DepartureInfo {
+  departureTime: string;
+  waitTime: number;
+}
+
+export interface IShuttleRepository {
+  getShuttlePositions(): Promise<ShuttlePosition[]>;
+  getNextDeparture(fromCampus: 'SGW' | 'LOYOLA'): Promise<DepartureInfo>;
+  getShuttleStops(): { [key: string]: ShuttleStop };
+  estimateWaitTime(shuttle: ShuttlePosition, stop: ShuttleStop): number;
+  getClosestShuttle(shuttles: ShuttlePosition[], stop: ShuttleStop): ShuttlePosition | null;
+}
 
 export class ShuttleRepository {
   private static instance: ShuttleRepository;

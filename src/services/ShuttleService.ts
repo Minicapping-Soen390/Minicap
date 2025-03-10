@@ -1,104 +1,90 @@
 import axios from 'axios';
-import { shuttleSchedule, shuttleInfo } from '@/data/shuttleSchedule';
+import { IShuttleRepository, ShuttlePosition, ShuttleStop, DepartureInfo } from '@/repositories/ShuttleRepository';
 
-interface ShuttlePoint {
-  ID: string;
-  Latitude: number;
-  Longitude: number;
-  IconImage: string;
-}
-
-interface ShuttleResponse {
-  d: {
-    Points: ShuttlePoint[];
-  };
-}
-
-interface ShuttleSchedule {
-  weekday: {
-    firstDeparture: string;
-    lastDeparture: string;
-    frequency: number; // in minutes
-  };
-  weekend: {
-    firstDeparture: string;
-    lastDeparture: string;
-    frequency: number;
-  };
-}
-
-export const SHUTTLE_STOPS = {
+export const SHUTTLE_STOPS: { [key: string]: ShuttleStop } = {
   SGW: {
     name: 'SGW Campus Shuttle Stop',
-    address: 'Hall Building, 1455 De Maisonneuve Blvd. W.',
-    latitude: 45.4972,
-    longitude: -73.5789
+    latitude: 45.497247,
+    longitude: -73.578433,
   },
   LOYOLA: {
     name: 'Loyola Campus Shuttle Stop',
-    address: 'Loyola Chapel, 7137 Sherbrooke St. W.',
-    latitude: 45.4581,
-    longitude: -73.6405
-  }
+    latitude: 45.458375,
+    longitude: -73.640593,
+  },
 };
 
-class ShuttleService {
-  private sessionInitialized: boolean = false;
+export class ShuttleService implements IShuttleRepository {
+  private readonly baseUrl = 'https://shuttle.concordia.ca/concordiabusmap';
 
-  private async initializeSession(): Promise<void> {
+  async getShuttlePositions(): Promise<ShuttlePosition[]> {
     try {
-      await axios.get('https://shuttle.concordia.ca/concordiabusmap/Map.aspx', {
-        headers: {
-          'Host': 'shuttle.concordia.ca'
-        }
+      // Get session cookies first
+      await axios.get(`${this.baseUrl}/Map.aspx`, {
+        headers: { Host: 'shuttle.concordia.ca' }
       });
-      this.sessionInitialized = true;
-    } catch (error) {
-      console.error('Failed to initialize shuttle session:', error);
-      throw new Error('Failed to initialize shuttle tracking');
-    }
-  }
 
-  async getShuttleLocations(): Promise<ShuttlePoint[]> {
-    if (!this.sessionInitialized) {
-      await this.initializeSession();
-    }
-
-    try {
-      const response = await axios.post<ShuttleResponse>(
-        'https://shuttle.concordia.ca/concordiabusmap/WebService/GService.asmx/GetGoogleObject',
+      // Then get shuttle positions
+      const response = await axios.post(
+        `${this.baseUrl}/WebService/GService.asmx/GetGoogleObject`,
         {},
         {
           headers: {
-            'Host': 'shuttle.concordia.ca',
+            Host: 'shuttle.concordia.ca',
             'Content-Type': 'application/json; charset=UTF-8'
           }
         }
       );
 
-      return response.data.d.Points.filter(point => point.ID.startsWith('BUS'));
+      const shuttleData = response.data.d;
+      return shuttleData.Points.filter((point: any) => point.ID.startsWith('BUS'));
     } catch (error) {
-      console.error('Failed to fetch shuttle locations:', error);
-      throw new Error('Failed to get shuttle locations');
+      console.error('Error fetching shuttle positions:', error);
+      return [];
     }
   }
 
-  getClosestShuttle(shuttleLocations: any[], stop: typeof SHUTTLE_STOPS.SGW): any {
-    if (!shuttleLocations || shuttleLocations.length === 0) return null;
+  getNextDeparture(fromCampus: 'SGW' | 'LOYOLA'): Promise<DepartureInfo> {
+    // This would ideally fetch from an API, but for now we'll simulate
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const nextDeparture = Math.ceil(minutes / 15) * 15;
+    const waitTime = nextDeparture - minutes;
 
-    return shuttleLocations.reduce((closest, current) => {
+    return Promise.resolve({
+      departureTime: `${now.getHours()}:${nextDeparture.toString().padStart(2, '0')}`,
+      waitTime: waitTime <= 0 ? 15 + waitTime : waitTime
+    });
+  }
+
+  getShuttleStops(): { [key: string]: ShuttleStop } {
+    return SHUTTLE_STOPS;
+  }
+
+  estimateWaitTime(shuttle: ShuttlePosition, stop: ShuttleStop): number {
+    // Calculate distance and estimate time based on average speed
+    const distance = this.calculateDistance(
+      { latitude: parseFloat(shuttle.Latitude), longitude: parseFloat(shuttle.Longitude) },
+      stop
+    );
+    const averageSpeedKmH = 30; // Average speed in city
+    return Math.round((distance / averageSpeedKmH) * 60); // Convert to minutes
+  }
+
+  getClosestShuttle(shuttles: ShuttlePosition[], stop: ShuttleStop): ShuttlePosition | null {
+    if (!shuttles.length) return null;
+
+    return shuttles.reduce((closest, current) => {
+      const closestDistance = this.calculateDistance(
+        { latitude: parseFloat(closest.Latitude), longitude: parseFloat(closest.Longitude) },
+        stop
+      );
       const currentDistance = this.calculateDistance(
         { latitude: parseFloat(current.Latitude), longitude: parseFloat(current.Longitude) },
-        { latitude: stop.latitude, longitude: stop.longitude }
+        stop
       );
-
-      const closestDistance = closest ? this.calculateDistance(
-        { latitude: parseFloat(closest.Latitude), longitude: parseFloat(closest.Longitude) },
-        { latitude: stop.latitude, longitude: stop.longitude }
-      ) : Infinity;
-
       return currentDistance < closestDistance ? current : closest;
-    }, null);
+    });
   }
 
   private calculateDistance(point1: { latitude: number; longitude: number }, point2: { latitude: number; longitude: number }): number {
@@ -116,59 +102,4 @@ class ShuttleService {
   private deg2rad(deg: number): number {
     return deg * (Math.PI / 180);
   }
-
-  getNextDepartureTime(fromCampus: 'SGW' | 'LOYOLA'): { departureTime: string; waitTime: number } {
-    const schedule = fromCampus === 'SGW' ? shuttleSchedule.SGW : shuttleSchedule.LOY;
-    const now = new Date();
-    const currentTime = now.getHours() * 60 + now.getMinutes(); // Convert current time to minutes
-
-    // Find the next departure time
-    const nextDeparture = schedule.find(time => {
-      const [hours, minutes] = time.split(':').map(Number);
-      const departureInMinutes = hours * 60 + minutes;
-      return departureInMinutes > currentTime;
-    });
-
-    if (!nextDeparture) {
-      // If no more departures today, return first departure of next day
-      const firstDeparture = schedule[0];
-      return {
-        departureTime: firstDeparture,
-        waitTime: this.calculateWaitTime(firstDeparture, true)
-      };
-    }
-
-    return {
-      departureTime: nextDeparture,
-      waitTime: this.calculateWaitTime(nextDeparture, false)
-    };
-  }
-
-  private calculateWaitTime(departureTime: string, isNextDay: boolean): number {
-    const now = new Date();
-    const [hours, minutes] = departureTime.split(':').map(Number);
-    const departure = new Date();
-    departure.setHours(hours, minutes, 0);
-
-    if (isNextDay) {
-      departure.setDate(departure.getDate() + 1);
-    }
-
-    const waitTimeMs = departure.getTime() - now.getTime();
-    return Math.round(waitTimeMs / 60000); // Convert to minutes
-  }
-
-  estimateWaitingTime(shuttle: any, stop: typeof SHUTTLE_STOPS.SGW): number {
-    if (!shuttle) return this.getNextDepartureTime(stop === SHUTTLE_STOPS.SGW ? 'SGW' : 'LOYOLA').waitTime;
-
-    const distanceToStop = this.calculateDistance(
-      { latitude: parseFloat(shuttle.Latitude), longitude: parseFloat(shuttle.Longitude) },
-      { latitude: stop.latitude, longitude: stop.longitude }
-    );
-
-    // Rough estimate: 1km = 2 minutes (30km/h average speed)
-    return Math.round(distanceToStop * 2);
-  }
-}
-
-export const shuttleService = new ShuttleService(); 
+} 

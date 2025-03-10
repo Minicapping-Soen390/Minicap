@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,9 @@ import { globalStyles, mainEdges } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
+import { ShuttleService } from '@/services/ShuttleService';
+import { ShuttleViewModel } from '@/viewmodels/ShuttleViewModel';
+import { ShuttlePosition } from '@/repositories/ShuttleRepository';
 //import { ObjectId } from "mongodb";
 
 // Define outdoor locations
@@ -82,6 +85,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     useState<boolean>(false); // Controls popup that shows navigation addresses or building info pop ups
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
+  const [shuttlePositions, setShuttlePositions] = useState<ShuttlePosition[]>([]);
+  const [shuttleError, setShuttleError] = useState<string | null>(null);
+  const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[]>([]);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [nextDeparture, setNextDeparture] = useState<string | null>(null);
+  const [waitTime, setWaitTime] = useState<number | null>(null);
+  const [nearestShuttle, setNearestShuttle] = useState<ShuttlePosition | null>(null);
+  const [startPoint, setStartPoint] = useState<any>(null);
+  const [endPoint, setEndPoint] = useState<any>(null);
+  const [isShuttleRequired, setIsShuttleRequired] = useState(false);
+  const shuttleViewModel = useMemo(() => new ShuttleViewModel(new ShuttleService()), []);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -118,6 +132,27 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       mapRef.current.animateToRegion(region, 1000);
     }
   }, [region]);
+
+  useEffect(() => {
+    // Start tracking shuttle positions
+    shuttleViewModel.startTracking(
+      (positions) => setShuttlePositions(positions),
+      (error) => setShuttleError(error.message)
+    );
+
+    return () => {
+      shuttleViewModel.stopTracking();
+    };
+  }, [shuttleViewModel]);
+
+  useEffect(() => {
+    if (shuttlePositions.length > 0) {
+      // Update shuttle route based on current positions
+      shuttleViewModel.getRouteForShuttles(shuttlePositions)
+        .then(route => setShuttlePolyline(route))
+        .catch(error => setShuttleError(error.message));
+    }
+  }, [shuttlePositions, shuttleViewModel]);
 
   // Function to check if a point is inside a polygon
   const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
@@ -347,6 +382,29 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setStartingAddress("");
     setDestinationAddress("");
   };
+
+  const handleStartNavigation = useCallback(async () => {
+    if (!startPoint || !endPoint) return;
+
+    setIsNavigating(true);
+    setBuildingInfo(null);
+
+    if (isShuttleRequired) {
+      const departureInfo = await shuttleViewModel.getNextDepartureInfo(
+        startPoint.campus as 'SGW' | 'LOYOLA',
+        shuttlePositions
+      );
+
+      // Update UI with departure info
+      setNextDeparture(departureInfo.departureTime);
+      setWaitTime(departureInfo.waitTime);
+      if (departureInfo.nearestShuttle) {
+        setNearestShuttle(departureInfo.nearestShuttle);
+      }
+    }
+
+    // ... rest of navigation logic ...
+  }, [startPoint, endPoint, isShuttleRequired, shuttlePositions, shuttleViewModel]);
 
   return (
     <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
