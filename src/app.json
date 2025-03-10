@@ -18,7 +18,12 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.dsagfh364h.src"
+      "package": "com.dsagfh364h.src",
+      "config": {
+      "googleMaps": {
+      "apiKey": "AIzaSyAJ8SgIjfadd5GVEhcdvY8WhRVc20Ff1Ks"
+      }
+      }
 
     },
     "web": {
