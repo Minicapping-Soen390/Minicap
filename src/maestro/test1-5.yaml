@@ -1,0 +1,14 @@
+appId: com.dsagfh364h.src
+---
+# Step 1: Launch the app and navigate to Campus Map
+- launchApp
+- tapOn: "Campus Map"
+- doubleTapOn:
+    point: 540,1200
+
+- tapOn:
+    point: 700,1500
+
+- assertVisible: "LB Building"
+- assertVisible: "1400 DeMaisonneuve W"
+- assertVisible: "Mon-Fri: 9:00 AM - 6:00 PM"

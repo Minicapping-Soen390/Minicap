@@ -1,0 +1,16 @@
+appId: com.dsagfh364h.src
+---
+# Launch the app
+- launchApp
+
+# Tap the Campus Map tab
+- tapOn: "Campus Map"
+# Verify that the map is displayed by checking the MapView element.
+- assertVisible:
+    id: "campus-map"
+
+# Toogle between Campuses
+- tapOn: { id: "campus-switch" }
+- assertVisible: { text: "Loyola Campus" }
+- tapOn: { id: "campus-switch" }
+- assertVisible: { text: "SGW Campus" }
