@@ -1,0 +1,10 @@
+appId: com.dsagfh364h.src
+---
+# Step 1: Launch the app and navigate to Campus Map
+- launchApp
+- tapOn: "Campus Map"
+- doubleTapOn:
+    point: 540,1200
+
+- tapOn:
+    point: 700,1500
