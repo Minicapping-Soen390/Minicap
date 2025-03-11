@@ -15,7 +15,7 @@
 
 ### **1. Sprint Review**
 
-![1794583940148](image/2025-03-10SprintRetrospective/1794583940148.png)
+![1794583940148](image/2025-03-10 SprintRetrospective/1794583940148.png)
 
 ### **2. Discussion Points**
 
