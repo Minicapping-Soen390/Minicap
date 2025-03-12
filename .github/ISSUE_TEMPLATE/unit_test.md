@@ -3,7 +3,7 @@ name: 'Unit Test'
 about: Template for unit testing requirements
 title: 'UT-[task number]: [component name]'
 labels: unit tests
-assignees: azalmashta, HudsonLu, Younesbhb
+assignees: HudsonLu, Younesbhb
 ---
 ## Related Items
 
