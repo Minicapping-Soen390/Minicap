@@ -6,25 +6,16 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "development"
     },
     "preview": {
-      "distribution": "internal"
-    },
-    "production-apk": {
-      "android": {
-        "buildType": "apk"
-      }
+      "distribution": "internal",
+      "channel": "preview"
     },
     "production": {
-      "android": {
-        "image": "latest"
-      }
-    },
-    "production-aab": {
-      "android": {
-        "buildType": "app-bundle"
-      }
+      "autoIncrement": true,
+      "channel": "production"
     }
   },
   "submit": {
