@@ -6,11 +6,11 @@
 
 <div align="center">
 
-[![React Native](https://img.shields.io/badge/React%20Native-Latest-blue?style=for-the-badge&logo=react)](https://reactnative.dev/)
-[![Expo](https://img.shields.io/badge/Expo-Latest-white?style=for-the-badge&logo=expo)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.76.7-blue?style=for-the-badge&logo=react)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-52.0.37-white?style=for-the-badge&logo=expo)](https://expo.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-LTS-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Latest-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Jest](https://img.shields.io/badge/Testing-Jest-red?style=for-the-badge&logo=jest)](https://jestjs.io/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Jest](https://img.shields.io/badge/Testing-Jest%2029.7.0-red?style=for-the-badge&logo=jest)](https://jestjs.io/)
 
 
 </div>
