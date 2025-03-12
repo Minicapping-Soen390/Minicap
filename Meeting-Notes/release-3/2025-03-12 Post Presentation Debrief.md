@@ -17,7 +17,7 @@
  - Persistant "polygon shape invalid" error
  - UI freezing points
 
-### **Action Items**
+## **Action Items**
 
 - Facade pattern should be used when refactoring CampusMaps.tsx
 - Stragety pattern should be implemented for transportation method functions
