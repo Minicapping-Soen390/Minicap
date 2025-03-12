@@ -12,10 +12,10 @@
 
 ## **Discussion Points**
 
-- Pattern usage for CampusMap.tsx refactoring
-- New procedure for QA team
-- Persistant "polygon shape invalid" error
-- UI freezing points
+ - Pattern usage for CampusMap.tsx refactoring
+ - New procedure for QA team
+ - Persistant "polygon shape invalid" error
+ - UI freezing points
 
 ### **Action Items**
 
