@@ -14,7 +14,7 @@ import MapView, { Marker, Region, LatLng, Polygon, Polyline } from "react-native
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import axios from "axios";
-import { globalStyles, mainEdges, colors } from "../styles/globalStyles";
+import { globalStyles, mainEdges, brandColors, colors } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
@@ -29,6 +29,7 @@ const sanitizeHtmlContent = (html: string): string => {
     allowedAttributes: {} // Remove all attributes
   }).trim();
 };
+import Constants from 'expo-constants';
 
 // Define outdoor locations
 const outdoorLocationSGW: OutdoorLocation = {
@@ -214,10 +215,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       const isSelected = selectedBuildingId === building._id;
 
       const colorSettings = {
-        insideSelected: { fill: "#FFFF00A0", stroke: "#FFD700" },
-        inside: { fill: "#2E760A69", stroke: "#1E4F05" },
-        selected: { fill: "#FFFF00A0", stroke: "#FFD700" },
-        default: { fill: "#B4101080", stroke: "#A52323" },
+        insideSelected: { fill: brandColors.orangeTransparent, stroke: brandColors.darkGreen },
+        inside: { fill: brandColors.darkGreenTransparent, stroke: brandColors.darkGreen },
+        selected: { fill: brandColors.orangeTransparent, stroke: brandColors.concordiaRed },
+        default: { fill: brandColors.concordiaRedTransparent, stroke: brandColors.concordiaRed },
       };
 
       const { fill, stroke } =
@@ -254,6 +255,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 campus: building.campus,
               });
               setSelectedBuildingId(building._id);
+              if (!destinationAddress) {
+                setDestinationAddress(building.address);
+                setStartingAddress("My Location");
+
+              }
               setShowNavigationPopup(false);
             }}
             anchor={{ x: 0.5, y: 0.5 }}
@@ -660,7 +666,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               origin: `${startPoint.latitude},${startPoint.longitude}`,
               destination: `${endPoint.latitude},${endPoint.longitude}`,
               mode,
-              key: "AIzaSyAJ8SgIjfadd5GVEhcdvY8WhRVc20Ff1Ks",
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
             },
           }
         ).catch(error => {
@@ -673,9 +679,20 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         }
 
         const route = response.data.routes[0];
+        
+        if (!route.overview_polyline) {
+          console.error("No overview_polyline found in the route");
+          return;
+        }
+        
         const polyline = route.overview_polyline.points;
         const decodedRoute = decodePolyline(polyline);
         setNewRoute(decodedRoute);
+
+        if (!route.legs || route.legs.length === 0 || !route.legs[0].steps) {
+          console.error("No valid legs or steps found in the route");
+          return;
+        }
 
         const steps = route.legs[0].steps.map((step: any) => ({
           instruction: sanitizeHtmlContent(step.html_instructions),
@@ -766,6 +783,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         latitude: latitude / 1e5,
         longitude: longitude / 1e5,
       });
+
     }
 
     return path;
@@ -790,6 +808,27 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setShuttleLocations([]);
   };
 
+  const handleClosePopup = () => {
+    setBuildingInfo(null);
+    setSelectedBuildingId(null);
+    setShowNavigationPopup(false);
+    setStartingAddress("");
+    setDestinationAddress("");
+<<<<<<<<< Temporary merge branch 1
+    setNewRoute(null);
+    setDirections([]);
+    setIsNavigationStarted(false);
+    setShuttleLocations([]);
+  };
+
+  const handleClosePopup = () => {
+    setBuildingInfo(null);
+    setSelectedBuildingId(null);
+    setShowNavigationPopup(false);
+    setStartingAddress("");
+    setDestinationAddress("");
+  };
+
   return (
       <View style={globalStyles.mapContainer}>
         {locationError ? (
@@ -799,6 +838,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         ) : null}
 
       <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
+
         <MapView
           ref={(ref) => (mapRef.current = ref)}
           style={globalStyles.map}
@@ -808,6 +848,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           zoomEnabled={true}
           zoomControlEnabled={true}
         >
+
           {permissionGranted && userLocation && (
             <Marker
               coordinate={userLocation}

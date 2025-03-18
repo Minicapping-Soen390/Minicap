@@ -1,0 +1,13 @@
+appId: com.dsagfh364h.src
+---
+# Launch the app
+- launchApp
+
+# Navigate to the Campus Map screen
+- tapOn: "Campus Map"
+
+# Simulate refreshing the map data by tapping "My Location"
+- tapOn: "My Location"
+
+# Verify that the user's location marker appears, indicating that the map updated
+- assertVisible: "Your Location"
