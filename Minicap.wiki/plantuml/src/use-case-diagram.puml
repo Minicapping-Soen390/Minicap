@@ -1,0 +1,128 @@
+@startuml
+title Use Case Diagram (updated 2025-02-03)
+
+left to right direction
+skinparam packageStyle rectangle
+skinparam groupInheritance 2
+
+' Colors
+skinparam actor {
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam usecase {
+    BorderColor black
+    BackgroundColor white
+}
+
+' Color definitions for actors and their connections
+skinparam actor<<guest>> {
+    BorderColor #2E8B57
+    BackgroundColor #98FB98
+}
+
+skinparam actor<<user>> {
+    BorderColor #4169E1
+    BackgroundColor #87CEEB
+}
+
+skinparam actor<<admin>> {
+    BorderColor #8B0000
+    BackgroundColor #FFA07A
+}
+
+' Actors with stereotypes for coloring
+actor "Guest" as guest <<guest>>
+actor "User" as user <<user>>
+actor "Administrator" as admin <<admin>>
+
+' Main package
+rectangle "Campus Guide System" {
+
+rectangle "Guest Features" #E8F5E9 {
+  usecase "login" as login
+  usecase "register" as register
+}
+
+rectangle "Registered User Features" #E3F2FD {
+      usecase "viewTasks" as viewTasks
+      usecase "createTasks" as createTasks
+      usecase "deleteTask" as deleteTask
+      usecase "viewEvents" as viewEvents
+      usecase "createEvent" as createEvent
+      usecase "deleteEvent" as deleteEvent
+      usecase "manageProfile" as manageProfile
+      usecase "managePlanner" as managePlanner
+      usecase "manageCalendar" as manageCalendar
+    ' Sub use cases
+      usecase "viewClassSchedule" as viewClassSchedule
+      usecase "importExternalCalendar" as importExternalCalendar
+      usecase "getOptimizedNavigation" as getOptimizedNavigation
+}
+
+rectangle "All Users"{
+  usecase "getNavigation" as getNavigation
+  usecase "viewCampusMap" as viewCampusMap
+  usecase "viewFloorplan" as viewFloorplan
+  usecase "checkWeather" as checkWeather
+  usecase "viewBuildingDetails" as viewBuildingDetails
+  usecase "searchPOIs" as searchPOIs
+  
+  ' Navigation sub use cases
+  usecase "findIndoorRoute" as findIndoorRoute
+  usecase "findOutdoorRoute" as findOutdoorRoute
+  usecase "findAccessibleRoute" as findAccessibleRoute
+}
+
+  rectangle "Admin Features" #FFF3E0 {
+    usecase "manageBuildingInfo" as manageBuildingInfo
+    usecase "updatePOIData" as updatePOIData
+    usecase "manageSystem" as manageSystem
+    usecase "manageUserData" as manageUserData
+  }
+}
+
+' Guest connections (green)
+guest -[#2E8B57]-> login
+guest -[#2E8B57]-> register
+guest -[#2E8B57]-> getNavigation
+guest -[#2E8B57]-> viewCampusMap
+
+' User connections (blue)
+user -[#4169E1]-> getOptimizedNavigation
+user -[#4169E1]-> manageProfile
+user -[#4169E1]-> viewCampusMap
+
+' Admin connections (red)
+admin -[#8B0000]-> manageBuildingInfo
+admin -[#8B0000]-> updatePOIData
+admin -[#8B0000]-> manageSystem
+admin -[#8B0000]-> manageUserData
+
+' Include relationships (colored in blue)
+manageProfile ..> managePlanner : include
+manageProfile ..> manageCalendar : include
+managePlanner ..> createTasks : include
+managePlanner ..> viewTasks : include
+managePlanner ..> deleteTask : include
+manageCalendar ..> viewEvents : include
+manageCalendar ..> createEvent : include
+manageCalendar ..> deleteEvent : include
+manageCalendar ..> viewClassSchedule : include
+manageCalendar ..> importExternalCalendar : include
+
+viewCampusMap ..> searchPOIs : include
+viewCampusMap ..> checkWeather : include
+viewCampusMap ..> viewBuildingDetails : include
+viewCampusMap ..> viewFloorplan : include
+
+getOptimizedNavigation ..> viewTasks : include
+
+' Extend relationships (colored in brown)
+findIndoorRoute ..[#8B4513]> getNavigation : extends
+findOutdoorRoute ..[#8B4513]> getNavigation : extends
+findAccessibleRoute ..[#8B4513]> getNavigation : extends
+getOptimizedNavigation ..[#8B4513]> getNavigation : extends
+
+@enduml
