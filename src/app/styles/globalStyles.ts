@@ -318,7 +318,7 @@ const viewStyles = StyleSheet.create({
     marginHorizontal: 4,
   },
   activeModeTab: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.concordiaRed,
   },
   shuttleStopMarker: {
     backgroundColor: colors.white,

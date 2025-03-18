@@ -14,7 +14,7 @@ import MapView, { Marker, Region, LatLng, Polygon, Polyline } from "react-native
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import axios from "axios";
-import { globalStyles, mainEdges, brandColors, colors } from "../styles/globalStyles";
+import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
@@ -559,7 +559,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               origin: `${startPoint.latitude},${startPoint.longitude}`,
               destination: `${SHUTTLE_STOPS[startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].latitude},${SHUTTLE_STOPS[startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].longitude}`,
               mode: 'walking',
-              key: "AIzaSyAJ8SgIjfadd5GVEhcdvY8WhRVc20Ff1Ks",
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
             },
           }
         ).catch(error => {
@@ -580,7 +580,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               origin: `${SHUTTLE_STOPS[startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].latitude},${SHUTTLE_STOPS[startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].longitude}`,
               destination: `${SHUTTLE_STOPS[endPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].latitude},${SHUTTLE_STOPS[endPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].longitude}`,
               mode: 'driving',
-              key: "AIzaSyAJ8SgIjfadd5GVEhcdvY8WhRVc20Ff1Ks",
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
             },
           }
         ).catch(error => {
@@ -601,7 +601,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               origin: `${SHUTTLE_STOPS[endPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].latitude},${SHUTTLE_STOPS[endPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].longitude}`,
               destination: `${endPoint.latitude},${endPoint.longitude}`,
               mode: 'walking',
-              key: "AIzaSyAJ8SgIjfadd5GVEhcdvY8WhRVc20Ff1Ks",
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
             },
           }
         ).catch(error => {
@@ -708,11 +708,15 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       console.error('Error in fetchDirections:', error);
       let errorMessage = 'Failed to fetch route details. ';
       
-      if (error.response?.status === 403) {
-        errorMessage += 'API key may be invalid or restricted.';
-      } else if (error.response?.status === 429) {
-        errorMessage += 'Too many requests. Please try again later.';
-      } else if (error.message) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 403) {
+          errorMessage += 'API key may be invalid or restricted.';
+        } else if (error.response?.status === 429) {
+          errorMessage += 'Too many requests. Please try again later.';
+        } else if (error.message) {
+          errorMessage += error.message;
+        }
+      } else if (error instanceof Error) {
         errorMessage += error.message;
       }
 
@@ -814,19 +818,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setShowNavigationPopup(false);
     setStartingAddress("");
     setDestinationAddress("");
-<<<<<<<<< Temporary merge branch 1
     setNewRoute(null);
     setDirections([]);
     setIsNavigationStarted(false);
     setShuttleLocations([]);
-  };
-
-  const handleClosePopup = () => {
-    setBuildingInfo(null);
-    setSelectedBuildingId(null);
-    setShowNavigationPopup(false);
-    setStartingAddress("");
-    setDestinationAddress("");
   };
 
   return (
@@ -862,7 +857,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           ) : (
             <Polyline 
               coordinates={shuttlePolyline || []} 
-              strokeColor={colors.concordiaRed} 
+              strokeColor={brandColors.concordiaRed} 
               strokeWidth={5}
               lineDashPattern={[10, 5]}
             />
@@ -888,11 +883,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             description="Concordia Shuttle Stop"
           >
             <View style={[globalStyles.shuttleStopMarker, { 
-              backgroundColor: colors.white,
+              backgroundColor: brandColors.white,
               padding: 15,
               borderRadius: 30,
               borderWidth: 3,
-              borderColor: colors.concordiaRed,
+              borderColor: brandColors.concordiaRed,
               shadowColor: '#000',
               shadowOffset: { width: 0, height: 2 },
               shadowOpacity: 0.25,
@@ -900,7 +895,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               elevation: 5,
             }]}>
               <Text style={[globalStyles.shuttleStopText, { fontSize: 32 }]}>🚌</Text>
-              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: colors.concordiaRed }]}>SGW</Text>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: brandColors.concordiaRed }]}>SGW</Text>
             </View>
           </Marker>
           <Marker
@@ -912,11 +907,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             description="Concordia Shuttle Stop"
           >
             <View style={[globalStyles.shuttleStopMarker, { 
-              backgroundColor: colors.white,
+              backgroundColor: brandColors.white,
               padding: 15,
               borderRadius: 30,
               borderWidth: 3,
-              borderColor: colors.concordiaRed,
+              borderColor: brandColors.concordiaRed,
               shadowColor: '#000',
               shadowOffset: { width: 0, height: 2 },
               shadowOpacity: 0.25,
@@ -924,7 +919,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               elevation: 5,
             }]}>
               <Text style={[globalStyles.shuttleStopText, { fontSize: 32 }]}>🚌</Text>
-              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: colors.concordiaRed }]}>LOY</Text>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: brandColors.concordiaRed }]}>LOY</Text>
             </View>
           </Marker>
           {/* Show active shuttles */}
@@ -938,11 +933,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               title={`Shuttle ${shuttle.ID}`}
             >
               <View style={[globalStyles.shuttleStopMarker, { 
-                backgroundColor: colors.concordiaRed,
+                backgroundColor: brandColors.concordiaRed,
                 padding: 15,
                 borderRadius: 30,
                 borderWidth: 3,
-                borderColor: colors.white,
+                borderColor: brandColors.white,
                 shadowColor: '#000',
                 shadowOffset: { width: 0, height: 3 },
                 shadowOpacity: 0.35,
@@ -951,7 +946,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               }]}>
                 <Text style={[globalStyles.shuttleStopText, { 
                   fontSize: 35,
-                  color: colors.white 
+                  color: brandColors.white 
                 }]}>🚌</Text>
               </View>
             </Marker>

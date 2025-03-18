@@ -20,11 +20,10 @@
       },
       "package": "com.dsagfh364h.src",
       "config": {
-      "googleMaps": {
-      "apiKey": "AIzaSyAJ8SgIjfadd5GVEhcdvY8WhRVc20Ff1Ks"
+        "googleMaps": {
+          "apiKey": "${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}"
+        }
       }
-      }
-
     },
     "web": {
       "bundler": "metro",
@@ -50,7 +49,8 @@
       },
       "eas": {
         "projectId": "92f30c5f-d3ef-44f9-9e80-531920c1e5db"
-      }
+      },
+      "googleMapsApiKey": "${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}"
     },
     "updates": {
       "url": "https://u.expo.dev/92f30c5f-d3ef-44f9-9e80-531920c1e5db"
