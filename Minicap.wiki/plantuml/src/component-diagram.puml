@@ -1,0 +1,42 @@
+@startuml
+skinparam componentStyle uml2
+
+' Define Components
+component "User" <<Component>>
+component "Location" <<Infrastructure>>
+component "TransportationMode" <<Infrastructure>>
+component "Route" <<Component>>
+component "Campus" <<Component>>
+component "Building" <<Component>>
+component "MapAPI" <<Component>>
+component "Calendar" <<Component>>
+component "Event" <<DB>>
+component "Task" <<Component>>
+component "POI" <<Component>>
+component "Floor" <<Infrastructure>>
+component "AccessibilityInfo" <<Component>>
+component "Room" <<Infrastructure>>
+
+' Arrange components in a grid to ensure straight connections
+User -right-> Location : "locates"
+User -down-> TransportationMode 
+TransportationMode -down-> Route 
+User -right-> Campus : "accesses"
+Campus -right-> Building 
+User -right-> MapAPI : "uses"
+User -down-> Calendar : "schedules"
+Calendar -right-> Event 
+Building -down-> Room 
+Building -down-> Floor 
+Floor -down-> AccessibilityInfo : "supports"
+AccessibilityInfo -right-> Building
+User -right-> Task 
+User -down-> POI 
+POI -right-> Route : "leads to"
+POI -right-> Building
+MapAPI -right-> Campus 
+
+' Simplify connections to avoid overlaps and zigzags
+skinparam linetype ortho
+
+@enduml

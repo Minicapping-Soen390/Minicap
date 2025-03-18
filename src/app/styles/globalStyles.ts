@@ -311,7 +311,54 @@ const viewStyles = StyleSheet.create({
     borderBottomColor: "#ccc",
     paddingBottom: 10,
   },
-
+  modeTab: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginHorizontal: 4,
+  },
+  activeModeTab: {
+    backgroundColor: colors.concordiaRed,
+  },
+  shuttleStopMarker: {
+    backgroundColor: colors.white,
+    padding: 8,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  shuttleStopText: {
+    textAlign: 'center',
+    fontWeight: '600',
+  },
+  shuttleDirectionStep: {
+    backgroundColor: '#f0f8ff', // Light blue background
+    borderLeftWidth: 3,
+    borderLeftColor: colors.concordiaRed,
+    padding: 12,
+  },
+  shuttleInstruction: {
+    fontWeight: 'bold',
+    color: colors.concordiaRed,
+  },
+  shuttleInfo: {
+    marginTop: 8,
+    padding: 8,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  shuttleScheduleText: {
+    color: colors.darkGray,
+    fontSize: 14,
+    marginVertical: 2,
+  },
 });
 
 // Text styles
