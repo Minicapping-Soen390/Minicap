@@ -20,31 +20,14 @@ import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import { shuttleService, SHUTTLE_STOPS } from '@/services/ShuttleService';
 
-// Safe HTML sanitization function with proper tag and entity handling
+// Safe HTML sanitization function using sanitize-html library
+import sanitizeHtml from 'sanitize-html';
+
 const sanitizeHtmlContent = (html: string): string => {
-  return html
-    .replace(/<[^>]+>/g, '') // Remove HTML tags more thoroughly
-    .replace(/&([^;]+);/g, (match, entity) => {
-      // Handle HTML entities in a safe way
-      const entities: { [key: string]: string } = {
-        'nbsp': ' ',
-        'amp': '&',
-        'lt': '<',
-        'gt': '>',
-        'quot': '"',
-        'apos': "'",
-        '#39': "'",
-        '#x27': "'",
-        '#x2F': '/',
-        '#x2f': '/',
-        'ldquo': '"',
-        'rdquo': '"',
-        'lsquo': "'",
-        'rsquo': "'"
-      };
-      return entities[entity] || '';  // Return empty string for unknown entities
-    })
-    .trim();
+  return sanitizeHtml(html, {
+    allowedTags: [], // Remove all HTML tags
+    allowedAttributes: {} // Remove all attributes
+  }).trim();
 };
 
 // Define outdoor locations
