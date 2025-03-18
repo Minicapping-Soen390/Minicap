@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import sanitizeHtml from "sanitize-html";
 import {
   View,
   Text,
@@ -9,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   ViewStyle,
   ScrollView,
+  Alert,
 } from "react-native";
 import MapView, { Marker, Region, LatLng, Polygon, Polyline } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
@@ -18,6 +18,17 @@ import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
+import { shuttleService, SHUTTLE_STOPS } from '@/services/ShuttleService';
+
+// Safe HTML sanitization function using sanitize-html library
+import sanitizeHtml from 'sanitize-html';
+
+const sanitizeHtmlContent = (html: string): string => {
+  return sanitizeHtml(html, {
+    allowedTags: [], // Remove all HTML tags
+    allowedAttributes: {} // Remove all attributes
+  }).trim();
+};
 import Constants from 'expo-constants';
 
 // Define outdoor locations
@@ -76,6 +87,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     openingHours: string;
     latitude: number;
     longitude: number;
+    campus: string;
   } | null>(null);
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
   const [newRoute, setNewRoute] = useState<LatLng[] | null>(null);
@@ -86,7 +98,25 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [startingAddress, setStartingAddress] = useState<string>("");
   const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false);
   const [isFullScreenDirections, setIsFullScreenDirections] = useState<boolean>(false); // New state for full screen directions
-
+  const [isCrossCampusNavigation, setIsCrossCampusNavigation] = useState<boolean>(false);
+  const [startPoint, setStartPoint] = useState<{
+    name: string;
+    latitude: number;
+    longitude: number;
+    campus: string;
+  } | null>(null);
+  const [endPoint, setEndPoint] = useState<{
+    name: string;
+    latitude: number;
+    longitude: number;
+    campus: string;
+  } | null>(null);
+  const [isNavigationStarted, setIsNavigationStarted] = useState<boolean>(false);
+  const [shuttleLocations, setShuttleLocations] = useState<any[]>([]);
+  const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(null);
+  const [isLoadingShuttles, setIsLoadingShuttles] = useState(false);
+  const [shuttleRoute, setShuttleRoute] = useState<LatLng[] | null>(null);
+  const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[] | null>(null);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -195,10 +225,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         isInside && isSelected
           ? colorSettings.insideSelected
           : isInside
-            ? colorSettings.inside
-            : isSelected
-              ? colorSettings.selected
-              : colorSettings.default;
+          ? colorSettings.inside
+          : isSelected
+          ? colorSettings.selected
+          : colorSettings.default;
 
       const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
 
@@ -211,7 +241,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             fillColor={fill}
           />
           <Marker
-            testID={`building-marker-${building._id}`}
             coordinate={center}
             onPress={() => {
               if (showNavigationPopup) {
@@ -223,6 +252,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 openingHours: building.openingHours,
                 latitude: center.latitude,
                 longitude: center.longitude,
+                campus: building.campus,
               });
               setSelectedBuildingId(building._id);
               if (!destinationAddress) {
@@ -289,31 +319,363 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
-  const fetchDirections = async (mode: string) => {
-    if (buildingInfo && userLocation) {
-      const origin = `${userLocation?.latitude},${userLocation?.longitude}`;
-      const destination = `${buildingInfo.latitude},${buildingInfo.longitude}`;
+  const handleBuildingSelection = (building: any, selectionType: 'start' | 'end') => {
+    if (!building || !building.name) {
+      console.error('Invalid building data:', building);
+      Alert.alert('Error', 'Invalid building data');
+      return;
+    }
 
+    const buildingInfo = {
+      name: building.name,
+      address: building.address,
+      openingHours: building.openingHours,
+      latitude: building.latitude || 0,
+      longitude: building.longitude || 0,
+      campus: building.campus,
+    };
+
+    if (selectionType === 'start') {
+      setStartPoint(buildingInfo);
+      setBuildingInfo(buildingInfo);
+      setSelectedBuildingId(building._id);
+      Alert.alert("Start Point Selected", `Selected ${building.name} as start point. Now select your destination.`);
+    } else {
+      // When setting end point, use current location as start if not already set
+      if (!startPoint && userLocation) {
+        const userLocationInfo = {
+          name: "My Location",
+          address: "Current Location",
+          openingHours: "",
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+          campus: building.campus, // We'll determine the campus based on proximity
+        };
+        setStartPoint(userLocationInfo);
+      } else if (!startPoint && !userLocation) {
+        // If no start point and no user location, request location permission
+        Alert.alert(
+          "Location Required",
+          "Please enable location services to use your current location as the starting point.",
+          [
+            {
+              text: "Enable Location",
+              onPress: async () => {
+                await updateUserLocation();
+                if (userLocation) {
+                  handleBuildingSelection(building, 'end'); // Retry after getting location
+                }
+              }
+            },
+            {
+              text: "Cancel",
+              style: "cancel"
+            }
+          ]
+        );
+        return;
+      }
+
+      setEndPoint(buildingInfo);
+      setBuildingInfo(buildingInfo);
+      setSelectedBuildingId(building._id);
+      
+      // Check if we should use shuttle service (cross-campus)
+      const effectiveStartPoint = startPoint || (userLocation ? {
+        name: "My Location",
+        campus: determineUserCampus(userLocation),
+      } : null);
+
+      if (effectiveStartPoint && effectiveStartPoint.campus !== building.campus) {
+        setIsCrossCampusNavigation(true);
+        Alert.alert(
+          "Cross-Campus Route",
+          `Route from ${effectiveStartPoint.name} to ${building.name} will use the shuttle service.`,
+          [
+            {
+              text: "Start Navigation",
+              onPress: () => fetchDirections("transit")
+            },
+            {
+              text: "Cancel",
+              style: "cancel"
+            }
+          ]
+        );
+      } else {
+        setIsCrossCampusNavigation(false);
+        Alert.alert(
+          "Route Selected",
+          `Route from ${effectiveStartPoint ? effectiveStartPoint.name : 'current location'} to ${building.name}`,
+          [
+            {
+              text: "Start Navigation",
+              onPress: () => fetchDirections("walking")
+            },
+            {
+              text: "Cancel",
+              style: "cancel"
+            }
+          ]
+        );
+      }
+    }
+  };
+
+  // Helper function to determine which campus the user is closer to
+  const determineUserCampus = (location: Region): string => {
+    const sgwDistance = Math.sqrt(
+      Math.pow(location.latitude - SHUTTLE_STOPS.SGW.latitude, 2) +
+      Math.pow(location.longitude - SHUTTLE_STOPS.SGW.longitude, 2)
+    );
+    const loyolaDistance = Math.sqrt(
+      Math.pow(location.latitude - SHUTTLE_STOPS.LOYOLA.latitude, 2) +
+      Math.pow(location.longitude - SHUTTLE_STOPS.LOYOLA.longitude, 2)
+    );
+    return sgwDistance < loyolaDistance ? 'SGW' : 'LOYOLA';
+  };
+
+  // Add function to fetch shuttle data
+  const fetchShuttleData = async () => {
+    try {
+      // First get session cookies
+      await axios.get('https://shuttle.concordia.ca/concordiabusmap/Map.aspx', {
+        headers: {
+          Host: 'shuttle.concordia.ca'
+        }
+      });
+
+      // Then get shuttle positions
+      const response = await axios.post(
+        'https://shuttle.concordia.ca/concordiabusmap/WebService/GService.asmx/GetGoogleObject',
+        {},
+        {
+          headers: {
+            Host: 'shuttle.concordia.ca',
+            'Content-Type': 'application/json; charset=UTF-8'
+          }
+        }
+      );
+
+      const shuttleData = response.data.d;
+      const busPoints = shuttleData.Points.filter((point: any) => point.ID.startsWith('BUS'));
+      
+      // Update shuttle locations
+      setShuttleLocations(busPoints);
+
+      // Create route from active shuttle positions
+      if (busPoints.length > 0) {
+        const validBusPoints = busPoints.filter((bus: any) => {
+          const lat = parseFloat(bus.Latitude);
+          const lng = parseFloat(bus.Longitude);
+          // Filter out buses that are too far from the route (might be parked or out of service)
+          return lat >= 45.45 && lat <= 45.51 && lng >= -73.65 && lng <= -73.57;
+        });
+
+        if (validBusPoints.length > 0) {
+          // Sort buses by their position along Sherbrooke street (west to east)
+          const sortedBuses = validBusPoints.sort((a: any, b: any) => a.Longitude - b.Longitude);
+          
+          // Create route through all active buses
+          const routePoints = [
+            { latitude: SHUTTLE_STOPS.LOYOLA.latitude, longitude: SHUTTLE_STOPS.LOYOLA.longitude },
+            ...sortedBuses.map((bus: any) => ({
+              latitude: parseFloat(bus.Latitude),
+              longitude: parseFloat(bus.Longitude)
+            })),
+            { latitude: SHUTTLE_STOPS.SGW.latitude, longitude: SHUTTLE_STOPS.SGW.longitude }
+          ];
+
+          setShuttlePolyline(routePoints);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching shuttle data:', error);
+    }
+  };
+
+  // Update useEffect for shuttle tracking
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    const trackShuttles = async () => {
       try {
-        console.log(`Fetching directions from ${origin} to ${destination} via ${mode}`);
+        setIsLoadingShuttles(true);
+        await fetchShuttleData();
+
+        // Only update wait times if we have start and end points
+        if (startPoint && endPoint) {
+          const nearestShuttle = shuttleService.getClosestShuttle(
+            shuttleLocations,
+            startPoint.campus === 'SGW' ? SHUTTLE_STOPS.SGW : SHUTTLE_STOPS.LOYOLA
+          );
+          
+          if (nearestShuttle) {
+            const waitTime = shuttleService.estimateWaitingTime(
+              nearestShuttle,
+              startPoint.campus === 'SGW' ? SHUTTLE_STOPS.SGW : SHUTTLE_STOPS.LOYOLA
+            );
+            setEstimatedWaitTime(waitTime);
+          }
+        }
+      } catch (error) {
+        console.error('Error tracking shuttles:', error);
+        // Don't clear existing route/data on error
+      } finally {
+        setIsLoadingShuttles(false);
+      }
+    };
+
+    // Start tracking if we're in cross-campus navigation and using transit mode
+    if (isCrossCampusNavigation && activeTab === 'transit') {
+      trackShuttles(); // Initial fetch
+      intervalId = setInterval(trackShuttles, 15000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [isCrossCampusNavigation, activeTab, startPoint, endPoint]);
+
+  // Update the fetchDirections function to include shuttle stops
+  const fetchDirections = async (mode: string) => {
+    if (!startPoint || !endPoint) {
+      console.error('Start or end point is missing');
+      return;
+    }
+
+    try {
+      if (startPoint.campus !== endPoint.campus && mode === 'transit') {
+        console.log('Fetching cross-campus route with shuttle service');
         
+        // Get directions to shuttle stop
+        console.log('Fetching route to shuttle stop...');
+        const toShuttleStop = await axios.get(
+          "https://maps.googleapis.com/maps/api/directions/json",
+          {
+            params: {
+              origin: `${startPoint.latitude},${startPoint.longitude}`,
+              destination: `${SHUTTLE_STOPS[startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].latitude},${SHUTTLE_STOPS[startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].longitude}`,
+              mode: 'walking',
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+            },
+          }
+        ).catch(error => {
+          console.error('Error fetching route to shuttle stop:', error.response?.data || error.message);
+          throw new Error('Failed to get directions to shuttle stop');
+        });
+
+        if (!toShuttleStop.data.routes?.[0]?.legs?.[0]) {
+          throw new Error('Invalid route data received for path to shuttle stop');
+        }
+
+        // Get the shuttle route between stops
+        console.log('Fetching shuttle route between stops...');
+        const shuttleRoute = await axios.get(
+          "https://maps.googleapis.com/maps/api/directions/json",
+          {
+            params: {
+              origin: `${SHUTTLE_STOPS[startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].latitude},${SHUTTLE_STOPS[startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].longitude}`,
+              destination: `${SHUTTLE_STOPS[endPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].latitude},${SHUTTLE_STOPS[endPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].longitude}`,
+              mode: 'driving',
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+            },
+          }
+        ).catch(error => {
+          console.error('Error fetching shuttle route:', error.response?.data || error.message);
+          throw new Error('Failed to get shuttle route');
+        });
+
+        if (!shuttleRoute.data.routes?.[0]?.legs?.[0]) {
+          throw new Error('Invalid shuttle route data received');
+        }
+
+        // Get directions from other shuttle stop to destination
+        console.log('Fetching route from shuttle stop to destination...');
+        const fromShuttleStop = await axios.get(
+          "https://maps.googleapis.com/maps/api/directions/json",
+          {
+            params: {
+              origin: `${SHUTTLE_STOPS[endPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].latitude},${SHUTTLE_STOPS[endPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA'].longitude}`,
+              destination: `${endPoint.latitude},${endPoint.longitude}`,
+              mode: 'walking',
+              key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+            },
+          }
+        ).catch(error => {
+          console.error('Error fetching route from shuttle stop:', error.response?.data || error.message);
+          throw new Error('Failed to get directions from shuttle stop');
+        });
+
+        if (!fromShuttleStop.data.routes?.[0]?.legs?.[0]) {
+          throw new Error('Invalid route data received for path from shuttle stop');
+        }
+
+        // Get next departure information
+        console.log('Getting shuttle departure information...');
+        const departureInfo = shuttleService.getNextDepartureTime(startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA');
+
+        // Start tracking shuttles immediately
+        console.log('Fetching real-time shuttle positions...');
+        await fetchShuttleData();
+
+        // Set initial route from Google Directions API
+        console.log('Processing route data...');
+        const initialRoute = decodePolyline(shuttleRoute.data.routes[0].overview_polyline.points);
+        setShuttlePolyline(initialRoute);
+        setNewRoute(null);
+
+        const combinedSteps = [
+          ...toShuttleStop.data.routes[0].legs[0].steps.map((step: any) => ({
+            instruction: sanitizeHtmlContent(step.html_instructions),
+            distance: step.distance.text,
+            duration: step.duration.text,
+          })),
+          {
+            instruction: `Walk to ${startPoint.campus} Campus shuttle stop`,
+            distance: toShuttleStop.data.routes[0].legs[0].distance.text,
+            duration: toShuttleStop.data.routes[0].legs[0].duration.text,
+          },
+          {
+            instruction: `🚌 Take Concordia Shuttle Bus to ${endPoint.campus} Campus`,
+            distance: shuttleRoute.data.routes[0].legs[0].distance.text,
+            duration: `Next departure: ${departureInfo.departureTime} (${departureInfo.waitTime} min wait)`,
+            isShuttle: true,
+            departureInfo
+          },
+          ...fromShuttleStop.data.routes[0].legs[0].steps.map((step: any) => ({
+            instruction: sanitizeHtmlContent(step.html_instructions),
+            distance: step.distance.text,
+            duration: step.duration.text,
+          })),
+        ];
+
+        setDirections(combinedSteps);
+        setIsNavigationStarted(true);
+        setBuildingInfo(null);
+      } else {
+        // For non-shuttle routes, clear shuttle route and show only the regular route
+        console.log('Fetching regular route...');
+        setShuttlePolyline(null);
         const response = await axios.get(
           "https://maps.googleapis.com/maps/api/directions/json",
           {
             params: {
-              origin,
-              destination,
+              origin: `${startPoint.latitude},${startPoint.longitude}`,
+              destination: `${endPoint.latitude},${endPoint.longitude}`,
               mode,
               key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
             },
           }
-        );
+        ).catch(error => {
+          console.error('Error fetching regular route:', error.response?.data || error.message);
+          throw new Error('Failed to get directions');
+        });
 
-        // Check if we got a valid response with routes
-        if (!response.data.routes || response.data.routes.length === 0) {
-          console.error("No routes found in the API response");
-          setLocationError("No route found. Please try a different transportation mode.");
-          return;
+        if (!response.data.routes?.[0]?.legs?.[0]) {
+          throw new Error('Invalid route data received');
         }
 
         const route = response.data.routes[0];
@@ -333,19 +695,46 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         }
 
         const steps = route.legs[0].steps.map((step: any) => ({
-          instruction: sanitizeHtml(step.html_instructions, { allowedTags: [], allowedAttributes: {} }),
+          instruction: sanitizeHtmlContent(step.html_instructions),
           distance: step.distance.text,
           duration: step.duration.text,
         }));
 
         setDirections(steps);
-        setLocationError(null);
-      } catch (error) {
-        console.error("Error fetching directions:", error);
-        setLocationError("Failed to fetch directions. Please try again later.");
-        setNewRoute(null);
-        setDirections([]);
+        setIsNavigationStarted(true);
+        setBuildingInfo(null);
       }
+    } catch (error) {
+      console.error('Error in fetchDirections:', error);
+      let errorMessage = 'Failed to fetch route details. ';
+      
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 403) {
+          errorMessage += 'API key may be invalid or restricted.';
+        } else if (error.response?.status === 429) {
+          errorMessage += 'Too many requests. Please try again later.';
+        } else if (error.message) {
+          errorMessage += error.message;
+        }
+      } else if (error instanceof Error) {
+        errorMessage += error.message;
+      }
+
+      Alert.alert(
+        "Error",
+        errorMessage,
+        [
+          {
+            text: "Retry",
+            onPress: () => fetchDirections(mode)
+          },
+          {
+            text: "Cancel",
+            style: "cancel",
+            onPress: () => resetNavigation()
+          }
+        ]
+      );
     }
   };
 
@@ -410,14 +799,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     fetchDirections(mode);
   };
 
-  const resetPopupAndDirections = () => {
+  const resetNavigation = () => {
+    setStartPoint(null);
+    setEndPoint(null);
+    setIsCrossCampusNavigation(false);
     setBuildingInfo(null);
     setSelectedBuildingId(null);
-    setShowNavigationPopup(false);
-    setStartingAddress("");
-    setDestinationAddress("");
     setNewRoute(null);
+    setShuttlePolyline(null);
     setDirections([]);
+    setIsNavigationStarted(false);
+    setShuttleLocations([]);
   };
 
   const handleClosePopup = () => {
@@ -426,15 +818,19 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setShowNavigationPopup(false);
     setStartingAddress("");
     setDestinationAddress("");
+    setNewRoute(null);
+    setDirections([]);
+    setIsNavigationStarted(false);
+    setShuttleLocations([]);
   };
 
   return (
-    <View style={globalStyles.mapContainer}>
-      {locationError ? (
-        <View style={globalStyles.errorContainer}>
-          <Text style={globalStyles.errorText}>{locationError}</Text>
-        </View>
-      ) : null}
+      <View style={globalStyles.mapContainer}>
+        {locationError ? (
+          <View style={globalStyles.errorContainer}>
+            <Text style={globalStyles.errorText}>{locationError}</Text>
+          </View>
+        ) : null}
 
       <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
 
@@ -446,7 +842,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           rotateEnabled={false}
           zoomEnabled={true}
           zoomControlEnabled={true}
-          testID="campus-map"
         >
 
           {permissionGranted && userLocation && (
@@ -454,80 +849,189 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               coordinate={userLocation}
               title="Your Location"
               pinColor="green"
-              testID="user-location-marker"
             />
           )}
-          {newRoute && (
-            <>
-              <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={4} />
-              {buildingInfo && (
-                <Marker
-                  coordinate={{
-                    latitude: buildingInfo.latitude,
-                    longitude: buildingInfo.longitude,
-                  }}
-                  title={buildingInfo.name}
-                  pinColor="orange"
-                />
-              )}
-            </>
+          {/* Show either regular route or shuttle route based on mode */}
+          {activeTab !== 'transit' ? (
+            newRoute && <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={5} />
+          ) : (
+            <Polyline 
+              coordinates={shuttlePolyline || []} 
+              strokeColor={brandColors.concordiaRed} 
+              strokeWidth={5}
+              lineDashPattern={[10, 5]}
+            />
+          )}
+          {buildingInfo && (
+            <Marker
+              coordinate={{
+                latitude: buildingInfo.latitude,
+                longitude: buildingInfo.longitude,
+              }}
+              title={buildingInfo.name}
+              pinColor="orange"
+            />
           )}
           {renderBuildings()}
+          {/* Add Shuttle Stop Markers */}
+          <Marker
+            coordinate={{
+              latitude: SHUTTLE_STOPS.SGW.latitude,
+              longitude: SHUTTLE_STOPS.SGW.longitude,
+            }}
+            title={SHUTTLE_STOPS.SGW.name}
+            description="Concordia Shuttle Stop"
+          >
+            <View style={[globalStyles.shuttleStopMarker, { 
+              backgroundColor: brandColors.white,
+              padding: 15,
+              borderRadius: 30,
+              borderWidth: 3,
+              borderColor: brandColors.concordiaRed,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }]}>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 32 }]}>🚌</Text>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: brandColors.concordiaRed }]}>SGW</Text>
+            </View>
+          </Marker>
+          <Marker
+            coordinate={{
+              latitude: SHUTTLE_STOPS.LOYOLA.latitude,
+              longitude: SHUTTLE_STOPS.LOYOLA.longitude,
+            }}
+            title={SHUTTLE_STOPS.LOYOLA.name}
+            description="Concordia Shuttle Stop"
+          >
+            <View style={[globalStyles.shuttleStopMarker, { 
+              backgroundColor: brandColors.white,
+              padding: 15,
+              borderRadius: 30,
+              borderWidth: 3,
+              borderColor: brandColors.concordiaRed,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }]}>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 32 }]}>🚌</Text>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: brandColors.concordiaRed }]}>LOY</Text>
+            </View>
+          </Marker>
+          {/* Show active shuttles */}
+          {isCrossCampusNavigation && shuttleLocations.map((shuttle) => (
+            <Marker
+              key={shuttle.ID}
+              coordinate={{
+                latitude: shuttle.Latitude,
+                longitude: shuttle.Longitude,
+              }}
+              title={`Shuttle ${shuttle.ID}`}
+            >
+              <View style={[globalStyles.shuttleStopMarker, { 
+                backgroundColor: brandColors.concordiaRed,
+                padding: 15,
+                borderRadius: 30,
+                borderWidth: 3,
+                borderColor: brandColors.white,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: 0.35,
+                shadowRadius: 4.84,
+                elevation: 7,
+              }]}>
+                <Text style={[globalStyles.shuttleStopText, { 
+                  fontSize: 35,
+                  color: brandColors.white 
+                }]}>🚌</Text>
+              </View>
+            </Marker>
+          ))}
         </MapView>
       </TouchableWithoutFeedback>
 
-      {buildingInfo && (
-        <View style={globalStyles.popupContainer}>
-          {showNavigationPopup ? (
-            <>
-              <View style={globalStyles.popupRow}>
-                <View style={globalStyles.greenDot} />
-                <Text style={globalStyles.popupText}>{startingAddress}</Text>
-              </View>
-              <View style={globalStyles.separator} />
-              <View style={globalStyles.popupRow}>
-                <View style={globalStyles.goldDot} />
-                <Text style={globalStyles.popupText}>{destinationAddress}</Text>
-              </View>
-            </>
-          ) : (
+      {buildingInfo && !isNavigationStarted && (
+          <View style={globalStyles.buildingInfoContainer}>
+          {isCrossCampusNavigation && startPoint && endPoint ? (
             <>
               <Text style={globalStyles.buildingNameText}>
-                {buildingInfo.name}
+                Cross-Campus Navigation
               </Text>
-              <Text style={globalStyles.openingHoursText}>
-                {buildingInfo.openingHours}
+              <Text style={globalStyles.addressText}>
+                From: {startPoint.name} ({startPoint.campus})
               </Text>
-              <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
+              <Text style={globalStyles.addressText}>
+                To: {endPoint.name} ({endPoint.campus})
+              </Text>
               <TouchableOpacity
-                onPress={handleGoToBuilding}
+                onPress={() => fetchDirections("transit")}
                 style={globalStyles.addButton}
               >
                 <Text style={globalStyles.refreshButtonText}>
-                  Go to {buildingInfo.name}
+                  Start Navigation
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={resetNavigation}
+                style={[globalStyles.addButton, { marginTop: 10, backgroundColor: "#555" }]}
+              >
+                <Text style={globalStyles.refreshButtonText}>
+                  Reset
                 </Text>
               </TouchableOpacity>
             </>
+          ) : (
+            <>
+            <Text style={globalStyles.buildingNameText}>
+              {buildingInfo.name}
+            </Text>
+            <Text style={globalStyles.openingHoursText}>
+              {buildingInfo.openingHours}
+            </Text>
+            <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
+            <View style={globalStyles.buttonContainer}>
+              <TouchableOpacity
+                onPress={() => handleBuildingSelection(buildingInfo, 'start')}
+                style={[globalStyles.addButton, { marginRight: 10 }]}
+              >
+                <Text style={globalStyles.refreshButtonText}>
+                  Set as Start
+                </Text>
+              </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => handleBuildingSelection(buildingInfo, 'end')}
+              style={globalStyles.addButton}
+            >
+              <Text style={globalStyles.refreshButtonText}>
+                  Set as Destination
+              </Text>
+            </TouchableOpacity>
+            </View>
+            </>
           )}
-        </View>
-      )}
-
-      <TouchableOpacity
-        style={[
-          globalStyles.refreshButton,
-          isRefreshing
-            ? (globalStyles.refreshButtonDisabled as ViewStyle)
-            : {},
-        ]}
-        onPress={updateUserLocation}
-        disabled={isRefreshing}
-      >
-        {isRefreshing ? (
-          <ActivityIndicator color="white" size="small" />
-        ) : (
-          <Text style={globalStyles.refreshButtonText}>My Location</Text>
+          </View>
         )}
-      </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            globalStyles.refreshButton,
+            isRefreshing
+              ? (globalStyles.refreshButtonDisabled as ViewStyle)
+              : {},
+          ]}
+          onPress={updateUserLocation}
+          disabled={isRefreshing}
+        >
+          {isRefreshing ? (
+            <ActivityIndicator color="white" size="small" />
+          ) : (
+            <Text style={globalStyles.refreshButtonText}>My Location</Text>
+          )}
+        </TouchableOpacity>
       {directions.length > 0 && (
         <View style={[globalStyles.directionsContainer, isFullScreenDirections && globalStyles.fullScreenDirections]}>
           <TouchableOpacity onPress={() => {
@@ -538,17 +1042,24 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
           <View style={globalStyles.directionsHeader}>
             <Text style={globalStyles.directionsTitle}>Directions</Text>
-            <TouchableOpacity onPress={resetPopupAndDirections} style={globalStyles.cancelButton}>
+            <TouchableOpacity onPress={resetNavigation} style={globalStyles.cancelButton}>
               <Text style={globalStyles.cancelButtonText}>×</Text>
             </TouchableOpacity>
-
           </View>
 
           <View style={globalStyles.transportModes}>
-            {['walking', 'driving', 'transit', 'bicycling'].map((mode) => (
-              <TouchableOpacity key={mode} onPress={() => handleTransportModeChange(mode)}>
-                <Text style={activeTab === mode ? globalStyles.activeModeTabText : globalStyles.modeTabText}>
-                  {mode.charAt(0).toUpperCase() + mode.slice(1)}
+            {(isCrossCampusNavigation ? ['shuttle', 'walking', 'driving', 'bicycling'] : ['walking', 'driving', 'transit', 'bicycling']).map((mode) => (
+              <TouchableOpacity 
+                key={mode} 
+                onPress={() => handleTransportModeChange(mode === 'shuttle' ? 'transit' : mode)}
+                style={[
+                  globalStyles.modeTab,
+                  activeTab === (mode === 'shuttle' ? 'transit' : mode) && globalStyles.activeModeTab
+                ]}
+              >
+                <Text style={activeTab === (mode === 'shuttle' ? 'transit' : mode) ? globalStyles.activeModeTabText : globalStyles.modeTabText}>
+                  {mode === 'shuttle' ? 'Shuttle Bus' : mode.charAt(0).toUpperCase() + mode.slice(1)}
+                  {mode === 'shuttle' && estimatedWaitTime ? ` (${estimatedWaitTime}min wait)` : ''}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -556,16 +1067,30 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
           <ScrollView style={globalStyles.directionsScroll}>
             {directions.map((step, index) => (
-              <View key={index} style={globalStyles.directionStep}>
-                <Text>{step.instruction}</Text>
+              <View key={index} style={[
+                globalStyles.directionStep,
+                step.isShuttle && globalStyles.shuttleDirectionStep
+              ]}>
+                <Text style={step.isShuttle ? globalStyles.shuttleInstruction : undefined}>
+                  {step.instruction}
+                </Text>
                 <Text>{step.distance} | {step.duration}</Text>
+                {step.isShuttle && step.departureInfo && (
+                  <View style={globalStyles.shuttleInfo}>
+                    <Text style={globalStyles.shuttleScheduleText}>
+                      🕒 Next departure: {step.departureInfo.departureTime}
+                    </Text>
+                    <Text style={globalStyles.shuttleScheduleText}>
+                      ⏱️ Estimated wait: {step.departureInfo.waitTime} minutes
+                    </Text>
+                  </View>
+                )}
               </View>
             ))}
           </ScrollView>
         </View>
       )}
-    </View>
-
+      </View>
   );
 };
 
@@ -577,19 +1102,14 @@ const CampusSwitcher: React.FC = () => {
     <SafeAreaView
       style={globalStyles.container}
       edges={mainEdges as readonly Edge[]}
-      testID="campus-switcher-container"
     >
       <View style={globalStyles.switchHeaderContainer}>
         <View style={globalStyles.campusSwitchHeader}>
-          <View
-            style={globalStyles.switchContainer}
-            testID="campus-switch-container"
-          >
+          <View style={globalStyles.switchContainer}>
             <Text style={globalStyles.switchText}>SGW</Text>
             <Switch
               value={!isSGWCampus}
               onValueChange={() => setIsSGWCampus(!isSGWCampus)}
-              testID="campus-switch"
             />
             <Text style={globalStyles.switchText}>LOY</Text>
           </View>
