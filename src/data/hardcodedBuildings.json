@@ -363,7 +363,14 @@
     "outdoorLocation": null,
     "openingHours": "Mon-Fri: 9:00 AM - 6:00 PM",
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
-    "updatedAtUTC": "2025-02-11T01:45:45.509Z"
+    "updatedAtUTC": "2025-02-11T01:45:45.509Z",
+    "floors": [
+      {
+        "floorLevel": 1,
+        "floorName": "CC1",
+        "floorMap": "/svgFloorMaps/CC1.png"
+      }
+    ]
   },
   {
     "_id": "67aaabc9a89802f0176bad6c",
@@ -2525,7 +2532,29 @@
     "outdoorLocation": null,
     "openingHours": "Mon-Fri: 9:00 AM - 6:00 PM",
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
-    "updatedAtUTC": "2025-02-11T01:45:45.509Z"
+    "updatedAtUTC": "2025-02-11T01:45:45.509Z",
+    "floors": [
+      {
+        "floorLevel": 1,
+        "floorName": "Hall-1",
+        "floorMap": "/svgFloorMaps/Hall-1.png"
+      },
+      {
+        "floorLevel": 2,
+        "floorName": "Hall-2",
+        "floorMap": "/svgFloorMaps/Hall-2.png"
+      },
+      {
+        "floorLevel": 8,
+        "floorName": "Hall-8",
+        "floorMap": "/svgFloorMaps/Hall-8.svg"
+      },
+      {
+        "floorLevel": 9,
+        "floorName": "Hall-9",
+        "floorMap": "/svgFloorMaps/Hall-9.svg"
+      }
+    ]
   },
   {
     "_id": "67aaabc9a89802f0176bad84",
@@ -3063,7 +3092,19 @@
     "outdoorLocation": null,
     "openingHours": "Mon-Fri: 9:00 AM - 6:00 PM",
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
-    "updatedAtUTC": "2025-02-11T01:45:45.509Z"
+    "updatedAtUTC": "2025-02-11T01:45:45.509Z",
+    "floors": [
+      {
+        "floorLevel": -2,
+        "floorName": "MB-S2",
+        "floorMap": "/svgFloorMaps/MB-S2.svg"
+      },
+      {
+        "floorLevel": 1,
+        "floorName": "MB-1",
+        "floorMap": "/svgFloorMaps/MB-1.svg"
+      }
+    ]
   },
   {
     "_id": "67aaabc9a89802f0176bad8f",
@@ -4547,7 +4588,19 @@
     "outdoorLocation": null,
     "openingHours": "Mon-Fri: 9:00 AM - 6:00 PM",
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
-    "updatedAtUTC": "2025-02-11T01:45:45.509Z"
+    "updatedAtUTC": "2025-02-11T01:45:45.509Z",
+    "floors": [
+      {
+        "floorLevel": 1,
+        "floorName": "VE-1",
+        "floorMap": "/svgFloorMaps/VE-1.svg"
+      },
+      {
+        "floorLevel": 2,
+        "floorName": "VE-2",
+        "floorMap": "/svgFloorMaps/VE-2.svg"
+      }
+    ]
   },
   {
     "_id": "67aaabc9a89802f0176badae",
@@ -4649,7 +4702,19 @@
     "outdoorLocation": null,
     "openingHours": "Mon-Fri: 9:00 AM - 6:00 PM",
     "createdAtUTC": "2025-02-11T01:45:45.509Z",
-    "updatedAtUTC": "2025-02-11T01:45:45.509Z"
+    "updatedAtUTC": "2025-02-11T01:45:45.509Z",
+    "floors": [
+      {
+        "floorLevel": 1,
+        "floorName": "VL-1",
+        "floorMap": "/svgFloorMaps/VL-1.svg"
+      },
+      {
+        "floorLevel": 2,
+        "floorName": "VL-2",
+        "floorMap": "/svgFloorMaps/VL-2.svg"
+      }
+    ]
   },
   {
     "_id": "67aaabc9a89802f0176badaf",
