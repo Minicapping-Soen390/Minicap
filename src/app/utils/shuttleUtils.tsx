@@ -1,7 +1,6 @@
 import axios from "axios";
 import { View, Text } from "react-native";
 import { Marker, LatLng } from "react-native-maps";
-import Constants from "expo-constants";
 import { shuttleService, SHUTTLE_STOPS } from "@/services/ShuttleService";
 
 export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
