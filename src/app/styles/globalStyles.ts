@@ -20,6 +20,7 @@ export const brandColors = {
   orangeTransparent: "#FFA00180",
   darkGreen: "#1E4F05",
   darkGreenTransparent: "#1E4F0580",
+  lightBlue: "#f0f8ff",
 };
 
 // Use brandColors in place of the colors object
@@ -326,7 +327,7 @@ const viewStyles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
@@ -337,7 +338,7 @@ const viewStyles = StyleSheet.create({
     fontWeight: '600',
   },
   shuttleDirectionStep: {
-    backgroundColor: '#f0f8ff', // Light blue background
+    backgroundColor: colors.lightBlue,
     borderLeftWidth: 3,
     borderLeftColor: colors.concordiaRed,
     padding: 12,
