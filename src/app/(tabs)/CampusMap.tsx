@@ -10,13 +10,10 @@ import {
 } from "react-native";
 import MapView, { Marker, Polyline, Region, LatLng } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
-import * as Location from "expo-location";
-import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import campusCenters from "@/data/campusCenters.json";
 import { Campus } from "@/models/Campus";
-import { OutdoorLocation } from "@/models/Location";
 import { createMapFacade } from "../utils/mapUtils";
 import { createShuttleFacade, renderShuttleMarkers } from "../utils/shuttleUtils";
 
@@ -51,17 +48,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [buildingInfo, setBuildingInfo] = useState<any>(null);
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
   const [newRoute, setNewRoute] = useState<LatLng[] | null>(null);
-  const [directions, setDirections] = useState<any[]>([]);
-  const [transportMode, setTransportMode] = useState<string>("walking");
-  const [activeTab, setActiveTab] = useState<string>("walking");
+  const [setDirections] = useState<any[]>([]);
+  const [transportMode] = useState<string>("walking");
+  const [activeTab] = useState<string>("walking");
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
   const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false);
   const [isNavigationStarted, setIsNavigationStarted] = useState<boolean>(false);
   const [startPoint, setStartPoint] = useState<any>(null);
   const [endPoint, setEndPoint] = useState<any>(null);
-  const [shuttleLocations, setShuttleLocations] = useState<any[]>([]);
-  const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(null);
+  const [setShuttleLocations] = useState<any[]>([]);
+  const [setEstimatedWaitTime] = useState<number | null>(null);
   const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[] | null>(null);
 
   const shuttleFacade = createShuttleFacade({
