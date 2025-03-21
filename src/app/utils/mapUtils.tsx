@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import MapView, { Polygon, Marker, LatLng, Region } from "react-native-maps";
+import { Polygon, Marker, LatLng, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import axios from "axios";
 import sanitizeHtml from "sanitize-html"; // Safe HTML sanitization function using sanitize-html library
@@ -89,7 +89,6 @@ export const createMapFacade = (params: {
   destinationAddress: string;
   startPoint: any;
   setShowNavigationPopup: (flag: boolean) => void;
-  showNavigationPopup: boolean;
   setIsNavigationStarted: (flag: boolean) => void;
   setNewRoute: (route: LatLng[] | null) => void;
   setDirections: (steps: any[]) => void;
