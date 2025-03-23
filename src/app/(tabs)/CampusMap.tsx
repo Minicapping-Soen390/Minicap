@@ -747,8 +747,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   const handleGoToBuilding = () => {
-    fetchDirections("walking");
     handleNavigationPopup();
+    fetchDirections("walking");
   };
 
   const decodePolyline = (encoded: string) => {
