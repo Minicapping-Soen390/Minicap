@@ -48,7 +48,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [buildingInfo, setBuildingInfo] = useState<any>(null);
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
   const [newRoute, setNewRoute] = useState<LatLng[] | null>(null);
-  const [setDirections] = useState<any[]>([]);
+  const [directions, setDirections] = useState<any[]>([]);
   const [transportMode] = useState<string>("walking");
   const [activeTab] = useState<string>("walking");
   const [destinationAddress, setDestinationAddress] = useState<string>("");
@@ -57,8 +57,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [isNavigationStarted, setIsNavigationStarted] = useState<boolean>(false);
   const [startPoint, setStartPoint] = useState<any>(null);
   const [endPoint, setEndPoint] = useState<any>(null);
-  const [setShuttleLocations] = useState<any[]>([]);
-  const [setEstimatedWaitTime] = useState<number | null>(null);
+  const [shuttleLocations, setShuttleLocations] = useState<any[]>([]);
+  const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(null);
   const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[] | null>(null);
 
   const shuttleFacade = createShuttleFacade({
@@ -82,31 +82,35 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     Alert,
     destinationAddress,
     startPoint,
+    endPoint,
     setShowNavigationPopup,
     showNavigationPopup,
     setIsNavigationStarted,
     setNewRoute,
     setDirections,
+    setShuttlePolyline,
     shuttleFacade,
   });
 
   useEffect(() => {
+    console.log("Fetching user location...");
     mapFacade.getUserLocation();
   }, []);
 
   useEffect(() => {
     if (mapRef.current) {
+      console.log("Animating to region:", region);
       mapRef.current.animateToRegion(region, 1000);
     }
   }, [region]);
 
   return (
-      <View style={globalStyles.mapContainer}>
-        {locationError ? (
-          <View style={globalStyles.errorContainer}>
-            <Text style={globalStyles.errorText}>{locationError}</Text>
-          </View>
-        ) : null}
+    <View style={globalStyles.mapContainer}>
+      {locationError ? (
+        <View style={globalStyles.errorContainer}>
+          <Text style={globalStyles.errorText}>{locationError}</Text>
+        </View>
+      ) : null}
 
       <TouchableWithoutFeedback onPress={mapFacade.handleMapPress} accessible={false}>
 
@@ -156,6 +160,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         style={globalStyles.refreshButton}
         onPress={async () => {
           setIsRefreshing(true);
+          console.log("Refreshing user location...");
           await mapFacade.getUserLocation();
           setIsRefreshing(false);
         }}
@@ -182,7 +187,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 To: {endPoint.name} ({endPoint.campus})
               </Text>
               <TouchableOpacity
-                onPress={() => mapFacade.fetchDirections("transit")}
+                onPress={() => {
+                  console.log("Starting navigation...");
+                  mapFacade.fetchDirections("transit");
+                }}
                 style={globalStyles.addButton}
               >
                 <Text style={globalStyles.refreshButtonText}>
@@ -190,7 +198,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => mapFacade.resetNavigation()}
+                onPress={() => {
+                  console.log("Resetting navigation...");
+                  mapFacade.resetNavigation();
+                }}
                 style={[globalStyles.addButton, { marginTop: 10, backgroundColor: "#555" }]}
               >
                 <Text style={globalStyles.refreshButtonText}>
@@ -200,20 +211,26 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             </>
           ) : (
             <>
-            <Text style={globalStyles.buildingNameText}>
-              {buildingInfo.name}
-            </Text>
+              <Text style={globalStyles.buildingNameText}>
+                {buildingInfo.name}
+              </Text>
               <Text style={globalStyles.openingHoursText}>{buildingInfo.openingHours}</Text>
               <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
               <View style={globalStyles.buttonContainer}>
                 <TouchableOpacity
-                  onPress={() => mapFacade.handleBuildingSelection(buildingInfo, "start")}
+                  onPress={() => {
+                    console.log(`Setting ${buildingInfo.name} as start point`);
+                    mapFacade.handleBuildingSelection(buildingInfo, "start");
+                  }}
                   style={[globalStyles.addButton, { marginRight: 10 }]}
                 >
                   <Text style={globalStyles.refreshButtonText}>Set as Start</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => mapFacade.handleBuildingSelection(buildingInfo, "end")}
+                  onPress={() => {
+                    console.log(`Setting ${buildingInfo.name} as destination`);
+                    mapFacade.handleBuildingSelection(buildingInfo, "end");
+                  }}
                   style={globalStyles.addButton}
                 >
                   <Text style={globalStyles.refreshButtonText}>Set as Destination</Text>
@@ -223,7 +240,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           )}
         </View>
       )}
-      </View>
+    </View>
   );
 };
 
@@ -242,7 +259,10 @@ const CampusSwitcher: React.FC = () => {
             <Text style={globalStyles.switchText}>SGW</Text>
             <Switch
               value={!isSGWCampus}
-              onValueChange={() => setIsSGWCampus(!isSGWCampus)}
+              onValueChange={() => {
+                console.log("Switching campus...");
+                setIsSGWCampus(!isSGWCampus);
+              }}
             />
             <Text style={globalStyles.switchText}>LOY</Text>
           </View>

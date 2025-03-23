@@ -2,6 +2,7 @@ import axios from "axios";
 import { View, Text } from "react-native";
 import { Marker, LatLng } from "react-native-maps";
 import { shuttleService, SHUTTLE_STOPS } from "@/services/ShuttleService";
+import Constants from 'expo-constants';
 
 export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
   return (
@@ -15,21 +16,9 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
         title={SHUTTLE_STOPS.SGW.name}
         description="Concordia Shuttle Stop"
       >
-        <View
-          style={[
-            globalStyles.shuttleStopMarker,
-          ]}
-        >
-          <Text style={[globalStyles.shuttleStopText]}>
-            🚌
-          </Text>
-          <Text
-            style={[
-              globalStyles.shuttleStopText,
-            ]}
-          >
-            SGW
-          </Text>
+        <View style={[globalStyles.shuttleStopMarker]}>
+          <Text style={[globalStyles.shuttleStopText]}>🚌</Text>
+          <Text style={[globalStyles.shuttleStopText]}>SGW</Text>
         </View>
       </Marker>
 
@@ -42,21 +31,9 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
         title={SHUTTLE_STOPS.LOYOLA.name}
         description="Concordia Shuttle Stop"
       >
-        <View
-          style={[
-            globalStyles.shuttleStopMarker,
-          ]}
-        >
-          <Text style={[globalStyles.shuttleStopText]}>
-            🚌
-          </Text>
-          <Text
-            style={[
-              globalStyles.shuttleStopText,
-            ]}
-          >
-            LOY
-          </Text>
+        <View style={[globalStyles.shuttleStopMarker]}>
+          <Text style={[globalStyles.shuttleStopText]}>🚌</Text>
+          <Text style={[globalStyles.shuttleStopText]}>LOY</Text>
         </View>
       </Marker>
     </>
@@ -68,10 +45,11 @@ export const fetchShuttleData = async (): Promise<{
   routePoints?: LatLng[];
 }> => {
   try {
-    await axios.get("https://shuttle.concordia.ca/concordiabusmap/Map.aspx", {
+    console.log("Fetching shuttle data...");
+    const response = await axios.get("https://shuttle.concordia.ca/concordiabusmap/Map.aspx", {
       headers: { Host: "shuttle.concordia.ca" },
     });
-    const response = await axios.post(
+    const shuttleResponse = await axios.post(
       "https://shuttle.concordia.ca/concordiabusmap/WebService/GService.asmx/GetGoogleObject",
       {},
       {
@@ -81,7 +59,7 @@ export const fetchShuttleData = async (): Promise<{
         },
       }
     );
-    const shuttleData = response.data.d;
+    const shuttleData = shuttleResponse.data.d;
     const busPoints = shuttleData.Points.filter((point: any) =>
       point.ID.startsWith("BUS")
     );
@@ -130,6 +108,7 @@ export const createShuttleFacade = ({
     sanitizeHtmlContent: (html: string) => string
   ): Promise<{ shuttlePolyline: LatLng[]; directions: any[] }> => {
     // Get directions to shuttle stop
+    console.log("Fetching shuttle directions...");
     const toShuttleStop = await axios.get(
       "https://maps.googleapis.com/maps/api/directions/json",
       {
@@ -137,10 +116,11 @@ export const createShuttleFacade = ({
           origin: `${startPoint.latitude},${startPoint.longitude}`,
           destination: `${SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude},${SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"].longitude}`,
           mode: "walking",
-          key: googleMapsApiKey,
+          key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
         },
       }
     );
+    console.log("To shuttle stop response:", toShuttleStop.data);
     if (!toShuttleStop.data.routes?.[0]?.legs?.[0]) {
       throw new Error("Invalid route data for path to shuttle stop");
     }
@@ -152,10 +132,11 @@ export const createShuttleFacade = ({
           origin: `${SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude},${SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"].longitude}`,
           destination: `${SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude},${SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"].longitude}`,
           mode: "driving",
-          key: googleMapsApiKey,
+          key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
         },
       }
     );
+    console.log("Shuttle route response:", shuttleRoute.data);
     if (!shuttleRoute.data.routes?.[0]?.legs?.[0]) {
       throw new Error("Invalid shuttle route data");
     }
@@ -171,6 +152,7 @@ export const createShuttleFacade = ({
         },
       }
     );
+    console.log("From shuttle stop response:", fromShuttleStop.data);
     if (!fromShuttleStop.data.routes?.[0]?.legs?.[0]) {
       throw new Error("Invalid route data from shuttle stop");
     }
