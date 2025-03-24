@@ -956,6 +956,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         </MapView>
       </TouchableWithoutFeedback>
 
+      {renderPOIList()}
+
       {buildingInfo && !isNavigationStarted && (
           <View style={globalStyles.buildingInfoContainer}>
           {isCrossCampusNavigation && startPoint && endPoint ? (
@@ -1017,6 +1019,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           )}
           </View>
         )}
+        
+        {renderDirectionsPanel()}
 
         <TouchableOpacity
           style={[
@@ -1126,101 +1130,252 @@ const CampusSwitcher: React.FC = () => {
   );
 };
 
-const [selectedPOI, setSelectedPOI] = useState<{ name: string; latitude: number; longitude: number } | null>(null);
+const [selectedPOI, setSelectedPOI] = useState<POI | null>(null);
 const [poiDirections, setPOIDirections] = useState<LatLng[] | null>(null);
 const [poiTransportMode, setPOITransportMode] = useState<string>("walking");
 const [allPOIs, setAllPOIs] = useState<POI[]>([]);
-const [userLocation, setUserLocation] = useState<Region | null>(null);
+const [currentUserLocation, setCurrentUserLocation] = useState<Region | null>(null);
+const [isLoadingPOIs, setIsLoadingPOIs] = useState<boolean>(false);
+const [poiError, setPoiError] = useState<string | null>(null);
+
+const POICategoryColors: Record<POICategory, string> = {
+  [POICategory.RESTAURANT]: '#FF5733',
+  [POICategory.COFFEE_SHOP]: '#6F4E37',
+  [POICategory.BATHROOM]: '#5D8AA8',
+  [POICategory.LIBRARY]: '#B87333',
+  [POICategory.OTHER]: '#50C878',
+};
 
 const decodePolyline = (encoded: string): LatLng[] => {
-  let index = 0, lat = 0, lng = 0;
-  const coordinates: LatLng[] = [];
+  let index = 0;
+  const path: LatLng[] = [];
+  let latitude = 0;
+  let longitude = 0;
+
   while (index < encoded.length) {
-    let result = 0, shift = 0, byte;
+    let byte;
+    let shift = 0;
+    let result = 0;
+
     do {
       byte = encoded.charCodeAt(index++) - 63;
       result |= (byte & 0x1f) << shift;
       shift += 5;
     } while (byte >= 0x20);
-    const deltaLat = (result & 1) ? ~(result >> 1) : result >> 1;
-    lat += deltaLat;
 
-    result = shift = 0;
+    const deltaLat = ((result & 0x01) ? ~(result >> 1) : result >> 1);
+    latitude += deltaLat;
+
+    shift = 0;
+    result = 0;
+
     do {
       byte = encoded.charCodeAt(index++) - 63;
       result |= (byte & 0x1f) << shift;
       shift += 5;
     } while (byte >= 0x20);
-    const deltaLng = (result & 1) ? ~(result >> 1) : result >> 1;
-    lng += deltaLng;
 
-    coordinates.push({ latitude: lat / 1e5, longitude: lng / 1e5 });
+    const deltaLng = ((result & 0x01) ? ~(result >> 1) : result >> 1);
+    longitude += deltaLng;
+
+    path.push({
+      latitude: latitude / 1e5,
+      longitude: longitude / 1e5,
+    });
   }
-  return coordinates;
+
+  return path;
 };
 
 useEffect(() => {
-  const fetchPOIs = async () => {
+  const getLocation = async () => {
     try {
-      const poiViewModel = new POIViewModel();
-      const pois = await poiViewModel.getAllPOIs();
-      setAllPOIs(pois);
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied');
+        return;
+      }
+
+      const location = await Location.getCurrentPositionAsync({});
+      setCurrentUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
     } catch (error) {
-      console.error("Error fetching POIs:", error);
+      console.error("Error getting location:", error);
     }
   };
+
+  getLocation();
+}, []);
+
+useEffect(() => {
+  const fetchPOIs = async () => {
+    setIsLoadingPOIs(true);
+    setPoiError(null);
+    try {
+      const response = await axios.get('/api/pois');
+      setAllPOIs(response.data);
+      
+      if (response.data.length === 0) {
+        try {
+          const poiViewModel = new POIViewModel();
+          const pois = await poiViewModel.getAllPOIs?.();
+          if (pois) setAllPOIs(pois);
+        } catch (mobxError) {
+          console.warn("MobX POIViewModel failed, using direct API instead");
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching POIs:", error);
+      setPoiError("Failed to load points of interest");
+      
+      const fallbackPOIs: POI[] = [
+        {
+          _id: "poi-1",
+          type: "point",
+          name: "Library Entrance",
+          category: POICategory.LIBRARY,
+          description: "Main library entrance",
+          location: "45.497215,-73.579036",
+        },
+        {
+          _id: "poi-2",
+          type: "point", 
+          name: "Cafeteria",
+          category: POICategory.RESTAURANT,
+          description: "Main campus cafeteria",
+          location: "45.496500,-73.578000",
+        },
+      ];
+      setAllPOIs(fallbackPOIs);
+    } finally {
+      setIsLoadingPOIs(false);
+    }
+  };
+
   fetchPOIs();
 }, []);
 
-const handlePOISelection = (poi: POI) => {
-  setSelectedPOI({ name: poi.name, latitude: parseFloat(poi.location.split(",")[0]), longitude: parseFloat(poi.location.split(",")[1]) });
-  fetchPOIDirections(poiTransportMode);
-};
-
-const fetchPOIDirections = async (mode: string) => {
-  if (!userLocation || !selectedPOI) return;
-  try {
-    const response = await axios.get("https://maps.googleapis.com/maps/api/directions/json", {
-      params: {
-        origin: `${userLocation.latitude},${userLocation.longitude}`,
-        destination: `${selectedPOI.latitude},${selectedPOI.longitude}`,
-        mode,
-        key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
-      },
-    });
-
-    if (response.data.routes?.length > 0) {
-      const polyline = response.data.routes[0].overview_polyline.points;
-      setPOIDirections(decodePolyline(polyline));
-    }
-  } catch (error) {
-    console.error("Error fetching POI directions:", error);
+const renderPOIList = () => {
+  if (isLoadingPOIs) {
+    return (
+      <View style={{ alignItems: 'center', padding: 20 }}>
+        <ActivityIndicator size="large" color={brandColors.concordiaRed} />
+      </View>
+    );
   }
+
+  if (poiError) {
+    return (
+      <View style={{ alignItems: 'center', padding: 20 }}>
+        <Text style={{ color: brandColors.brightRed }}>{poiError}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={{ marginTop: 20 }}>
+      <Text style={globalStyles.directionsTitle}>Points of Interest</Text>
+      {allPOIs.map((poi) => {
+        const categoryColor = POICategoryColors[poi.category] || brandColors.blue;
+        
+        return (
+          <TouchableOpacity
+            key={poi._id}
+            onPress={() => handlePOISelection(poi)}
+            style={[
+              globalStyles.buildingInfoContainer, 
+              { marginBottom: 10 },
+              selectedPOI?._id === poi._id && { 
+                borderColor: categoryColor, 
+                borderWidth: 2 
+              }
+            ]}
+          >
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={[globalStyles.buildingNameText, { color: categoryColor }]}>
+                {poi.name}
+              </Text>
+              <View style={[
+                globalStyles.poiCategoryBadge,
+                { backgroundColor: categoryColor }
+              ]}>
+                <Text style={globalStyles.poiCategoryText}>
+                  {poi.category.toLowerCase().replace('_', ' ')}
+                </Text>
+              </View>
+            </View>
+            <Text style={globalStyles.poiDescriptionText}>{poi.description}</Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
 };
 
-const renderPOIs = () => {
-  return allPOIs.map((poi) => (
-    <Marker
-      key={poi.name}
-      coordinate={{ latitude: parseFloat(poi.location.split(",")[0]), longitude: parseFloat(poi.location.split(",")[1]) }}
-      title={poi.name}
-      onPress={() => handlePOISelection(poi)}
-    />
-  ));
+const renderDirectionsPanel = () => {
+  if (!selectedPOI) return null;
+
+  return (
+    <View style={globalStyles.poiDirectionsContainer}>
+      <View style={globalStyles.poiDirectionsHeader}>
+        <Text style={globalStyles.directionsTitle}>
+          Directions to {selectedPOI.name}
+        </Text>
+        <TouchableOpacity 
+          onPress={() => {
+            setSelectedPOI(null);
+            setPOIDirections(null);
+          }}
+          style={globalStyles.cancelButton}
+        >
+          <Text style={globalStyles.cancelButtonText}>×</Text>
+        </TouchableOpacity>
+      </View>
+      
+      {renderTransportModes()}
+      
+      {poiDirections && (
+        <View style={{ marginTop: 10 }}>
+          <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Route Overview</Text>
+          <View style={{ 
+            height: 100,
+            backgroundColor: brandColors.lightBlue,
+            borderRadius: 5,
+            padding: 10,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <Text>Directions will be displayed here</Text>
+            <Text>Distance: Calculating...</Text>
+          </View>
+        </View>
+      )}
+    </View>
+  );
 };
 
-const renderPOITransportModes = () => (
-  <View style={globalStyles.transportModes}>
+const renderTransportModes = () => (
+  <View style={globalStyles.transportModeContainer}>
     {["walking", "bicycling", "transit"].map((mode) => (
       <TouchableOpacity
         key={mode}
         onPress={() => {
           setPOITransportMode(mode);
-          fetchPOIDirections(mode);
+          if (selectedPOI) handlePOISelection(selectedPOI);
         }}
-        style={[globalStyles.modeTab, poiTransportMode === mode && globalStyles.activeModeTab]}
+        style={[
+          globalStyles.transportModeTab,
+          poiTransportMode === mode && globalStyles.activeTransportModeTab
+        ]}
       >
-        <Text style={poiTransportMode === mode ? globalStyles.activeModeTabText : globalStyles.modeTabText}>
+        <Text style={[
+          globalStyles.transportModeText,
+          poiTransportMode === mode && globalStyles.activeTransportModeText
+        ]}>
           {mode.charAt(0).toUpperCase() + mode.slice(1)}
         </Text>
       </TouchableOpacity>
@@ -1228,20 +1383,36 @@ const renderPOITransportModes = () => (
   </View>
 );
 
-<>
-  {poiDirections && <Polyline coordinates={poiDirections} strokeColor="#186DEE" strokeWidth={5} />}
-  {renderPOIs()}
-</>
+const handlePOISelection = async (poi: POI) => {
+  setSelectedPOI(poi);
+  
+  if (!currentUserLocation) {
+    Alert.alert("Error", "Could not get your current location");
+    return;
+  }
 
-{selectedPOI && (
-  <View style={globalStyles.directionsContainer}>
-    <Text style={globalStyles.directionsTitle}>Directions to {selectedPOI.name}</Text>
-    {renderPOITransportModes()}
-    <TouchableOpacity onPress={() => setSelectedPOI(null)} style={globalStyles.cancelButton}>
-      <Text style={globalStyles.cancelButtonText}>×</Text>
-    </TouchableOpacity>
-  </View>
-)}
+  try {
+    const [latitude, longitude] = poi.location.split(',').map(parseFloat);
+    
+    const response = await axios.get(
+      "https://maps.googleapis.com/maps/api/directions/json",
+      {
+        params: {
+          origin: `${currentUserLocation.latitude},${currentUserLocation.longitude}`,
+          destination: `${latitude},${longitude}`,
+          mode: poiTransportMode,
+          key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+        },
+      }
+    );
 
+    if (response.data.routes?.length > 0 && response.data.routes[0].overview_polyline) {
+      setPOIDirections(decodePolyline(response.data.routes[0].overview_polyline.points));
+    }
+  } catch (error) {
+    console.error("Error fetching directions:", error);
+    Alert.alert("Error", "Failed to get directions");
+  }
+};
 
 export default CampusSwitcher;
