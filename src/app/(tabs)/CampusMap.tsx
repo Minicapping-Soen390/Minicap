@@ -19,6 +19,8 @@ import { Campus } from "@/models/Campus";
 import { OutdoorLocation } from "@/models/Location";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import { shuttleService, SHUTTLE_STOPS } from '@/services/ShuttleService';
+import { POIViewModel } from "@/viewmodels/POIViewModel";
+import { POI, POICategory } from "@/models/POI";
 
 // Safe HTML sanitization function using sanitize-html library
 import sanitizeHtml from 'sanitize-html';
@@ -1123,5 +1125,123 @@ const CampusSwitcher: React.FC = () => {
     </SafeAreaView>
   );
 };
+
+const [selectedPOI, setSelectedPOI] = useState<{ name: string; latitude: number; longitude: number } | null>(null);
+const [poiDirections, setPOIDirections] = useState<LatLng[] | null>(null);
+const [poiTransportMode, setPOITransportMode] = useState<string>("walking");
+const [allPOIs, setAllPOIs] = useState<POI[]>([]);
+const [userLocation, setUserLocation] = useState<Region | null>(null);
+
+const decodePolyline = (encoded: string): LatLng[] => {
+  let index = 0, lat = 0, lng = 0;
+  const coordinates: LatLng[] = [];
+  while (index < encoded.length) {
+    let result = 0, shift = 0, byte;
+    do {
+      byte = encoded.charCodeAt(index++) - 63;
+      result |= (byte & 0x1f) << shift;
+      shift += 5;
+    } while (byte >= 0x20);
+    const deltaLat = (result & 1) ? ~(result >> 1) : result >> 1;
+    lat += deltaLat;
+
+    result = shift = 0;
+    do {
+      byte = encoded.charCodeAt(index++) - 63;
+      result |= (byte & 0x1f) << shift;
+      shift += 5;
+    } while (byte >= 0x20);
+    const deltaLng = (result & 1) ? ~(result >> 1) : result >> 1;
+    lng += deltaLng;
+
+    coordinates.push({ latitude: lat / 1e5, longitude: lng / 1e5 });
+  }
+  return coordinates;
+};
+
+useEffect(() => {
+  const fetchPOIs = async () => {
+    try {
+      const poiViewModel = new POIViewModel();
+      const pois = await poiViewModel.getAllPOIs();
+      setAllPOIs(pois);
+    } catch (error) {
+      console.error("Error fetching POIs:", error);
+    }
+  };
+  fetchPOIs();
+}, []);
+
+const handlePOISelection = (poi: POI) => {
+  setSelectedPOI({ name: poi.name, latitude: parseFloat(poi.location.split(",")[0]), longitude: parseFloat(poi.location.split(",")[1]) });
+  fetchPOIDirections(poiTransportMode);
+};
+
+const fetchPOIDirections = async (mode: string) => {
+  if (!userLocation || !selectedPOI) return;
+  try {
+    const response = await axios.get("https://maps.googleapis.com/maps/api/directions/json", {
+      params: {
+        origin: `${userLocation.latitude},${userLocation.longitude}`,
+        destination: `${selectedPOI.latitude},${selectedPOI.longitude}`,
+        mode,
+        key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+      },
+    });
+
+    if (response.data.routes?.length > 0) {
+      const polyline = response.data.routes[0].overview_polyline.points;
+      setPOIDirections(decodePolyline(polyline));
+    }
+  } catch (error) {
+    console.error("Error fetching POI directions:", error);
+  }
+};
+
+const renderPOIs = () => {
+  return allPOIs.map((poi) => (
+    <Marker
+      key={poi.name}
+      coordinate={{ latitude: parseFloat(poi.location.split(",")[0]), longitude: parseFloat(poi.location.split(",")[1]) }}
+      title={poi.name}
+      onPress={() => handlePOISelection(poi)}
+    />
+  ));
+};
+
+const renderPOITransportModes = () => (
+  <View style={globalStyles.transportModes}>
+    {["walking", "bicycling", "transit"].map((mode) => (
+      <TouchableOpacity
+        key={mode}
+        onPress={() => {
+          setPOITransportMode(mode);
+          fetchPOIDirections(mode);
+        }}
+        style={[globalStyles.modeTab, poiTransportMode === mode && globalStyles.activeModeTab]}
+      >
+        <Text style={poiTransportMode === mode ? globalStyles.activeModeTabText : globalStyles.modeTabText}>
+          {mode.charAt(0).toUpperCase() + mode.slice(1)}
+        </Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+);
+
+<>
+  {poiDirections && <Polyline coordinates={poiDirections} strokeColor="#186DEE" strokeWidth={5} />}
+  {renderPOIs()}
+</>
+
+{selectedPOI && (
+  <View style={globalStyles.directionsContainer}>
+    <Text style={globalStyles.directionsTitle}>Directions to {selectedPOI.name}</Text>
+    {renderPOITransportModes()}
+    <TouchableOpacity onPress={() => setSelectedPOI(null)} style={globalStyles.cancelButton}>
+      <Text style={globalStyles.cancelButtonText}>×</Text>
+    </TouchableOpacity>
+  </View>
+)}
+
 
 export default CampusSwitcher;
