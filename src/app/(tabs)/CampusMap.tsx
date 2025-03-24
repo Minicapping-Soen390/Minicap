@@ -339,7 +339,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       setStartPoint(buildingInfo);
       setBuildingInfo(buildingInfo);
       setSelectedBuildingId(building._id);
-      Alert.alert("Start Point Selected", `Selected ${building.name} as start point. Now select your destination.`);
     } else {
       // When setting end point, use current location as start if not already set
       if (!startPoint && userLocation) {
@@ -388,36 +387,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
       if (effectiveStartPoint && effectiveStartPoint.campus !== building.campus) {
         setIsCrossCampusNavigation(true);
-        Alert.alert(
-          "Cross-Campus Route",
-          `Route from ${effectiveStartPoint.name} to ${building.name} will use the shuttle service.`,
-          [
-            {
-              text: "Start Navigation",
-              onPress: () => fetchDirections("transit")
-            },
-            {
-              text: "Cancel",
-              style: "cancel"
-            }
-          ]
-        );
+        fetchDirections("transit");
       } else {
         setIsCrossCampusNavigation(false);
-        Alert.alert(
-          "Route Selected",
-          `Route from ${effectiveStartPoint ? effectiveStartPoint.name : 'current location'} to ${building.name}`,
-          [
-            {
-              text: "Start Navigation",
-              onPress: () => fetchDirections("walking")
-            },
-            {
-              text: "Cancel",
-              style: "cancel"
-            }
-          ]
-        );
+        fetchDirections("walking");
       }
     }
   };
