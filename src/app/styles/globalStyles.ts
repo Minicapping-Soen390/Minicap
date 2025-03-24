@@ -5,6 +5,8 @@ import { rem } from "../utils";
 export const brandColors = {
   concordiaRed: "#922338",
   white: "#FFFFFF",
+  blue: '#186DEE',
+  lightBlue: '#E6F0FD',
   blueSemiTransparent: "#0000ffb3",
   blueMoreTransparent: "#0000ff66",
   black: "#000",
@@ -359,6 +361,60 @@ const viewStyles = StyleSheet.create({
     fontSize: 14,
     marginVertical: 2,
   },
+  poiMarker: {
+    backgroundColor: brandColors.blue,
+    padding: rem(8),
+    borderRadius: rem(20),
+    borderWidth: rem(2),
+    borderColor: brandColors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  selectedPoiMarker: {
+    backgroundColor: brandColors.orange,
+    padding: rem(10),
+    borderRadius: rem(25),
+  },
+  poiDirectionsContainer: {
+    position: 'absolute',
+    bottom: rem(20),
+    left: rem(20),
+    right: rem(20),
+    backgroundColor: brandColors.white,
+    borderRadius: rem(10),
+    padding: rem(15),
+    shadowColor: brandColors.black,
+    shadowOffset: { width: 0, height: rem(2) },
+    shadowOpacity: 0.25,
+    shadowRadius: rem(3.84),
+    elevation: 5,
+  },
+  poiDirectionsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: rem(10),
+  },
+  poiCategoryBadge: {
+    padding: rem(4),
+    borderRadius: rem(4),
+  },
+  transportModeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: rem(10),
+  },
+  transportModeTab: {
+    padding: rem(8),
+    borderRadius: rem(5),
+  },
+  activeTransportModeTab: {
+    backgroundColor: brandColors.concordiaRed,
+  },
+  poiMarkerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 // Text styles
@@ -428,7 +484,29 @@ const textStyles = StyleSheet.create({
     textAlign: "center",
     top:0
   },
-
+  poiMarkerText: {
+    color: brandColors.white,
+    fontWeight: 'bold',
+    fontSize: rem(16),
+  },
+  poiCategoryText: {
+    color: brandColors.white,
+    fontSize: rem(12),
+    textTransform: 'capitalize',
+  },
+  transportModeText: {
+    color: brandColors.black,
+    fontSize: rem(14),
+  },
+  activeTransportModeText: {
+    color: brandColors.white,
+    fontSize: rem(14),
+  },
+  poiDescriptionText: {
+    color: brandColors.darkGray,
+    fontSize: rem(14),
+    marginBottom: rem(8),
+  },
 });
 
 // Image styles
