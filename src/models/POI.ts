@@ -6,6 +6,7 @@ export interface POI extends Audit {
   category: POICategory;
   description: string;
   location: string;
+  campus?: string;
 }
 
 export enum POICategory {

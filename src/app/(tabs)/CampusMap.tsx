@@ -21,6 +21,7 @@ import buildingsData from "@/data/hardcodedBuildings.json";
 import { shuttleService, SHUTTLE_STOPS } from '@/services/ShuttleService';
 import { POIViewModel } from "@/viewmodels/POIViewModel";
 import { POI, POICategory } from "@/models/POI";
+import { decode } from '@mapbox/polyline';
 
 // Safe HTML sanitization function using sanitize-html library
 import sanitizeHtml from 'sanitize-html';
@@ -99,7 +100,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
   const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false);
-  const [isFullScreenDirections, setIsFullScreenDirections] = useState<boolean>(false); // New state for full screen directions
+  const [isFullScreenDirections, setIsFullScreenDirections] = useState<boolean>(false);
   const [isCrossCampusNavigation, setIsCrossCampusNavigation] = useState<boolean>(false);
   const [startPoint, setStartPoint] = useState<{
     name: string;
@@ -119,6 +120,41 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [isLoadingShuttles, setIsLoadingShuttles] = useState(false);
   const [shuttleRoute, setShuttleRoute] = useState<LatLng[] | null>(null);
   const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[] | null>(null);
+  const [selectedPOI, setSelectedPOI] = useState<POI | null>(null);
+  const [poiRoute, setPoiRoute] = useState<LatLng[]>([]);
+  const [poiTransportMode, setPOITransportMode] = useState<string>("walking");
+  const [allPOIs, setAllPOIs] = useState<POI[]>([]);
+  const [currentUserLocation, setCurrentUserLocation] = useState<Region | null>(null);
+  const [isLoadingPOIs, setIsLoadingPOIs] = useState<boolean>(false);
+  const [poiError, setPoiError] = useState<string | null>(null);
+
+  const POICategoryColors: Record<POICategory, string> = {
+    [POICategory.RESTAURANT]: '#FF5733',
+    [POICategory.COFFEE_SHOP]: '#6F4E37',
+    [POICategory.BATHROOM]: '#5D8AA8',
+    [POICategory.LIBRARY]: '#B87333',
+    [POICategory.OTHER]: '#50C878',
+  };
+
+  // Function to check if a point is inside a polygon
+  const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
+    let inside = false;
+    const x = point.longitude,
+      y = point.latitude;
+
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const xi = polygon[i].longitude,
+        yi = polygon[i].latitude;
+      const xj = polygon[j].longitude,
+        yj = polygon[j].latitude;
+
+      const intersect =
+        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+      if (intersect) inside = !inside;
+    }
+
+    return inside;
+  };
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -141,6 +177,12 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         });
+        setCurrentUserLocation({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        });
       } catch (err) {
         console.error("Error getting location:", err);
         setLocationError("Error getting location");
@@ -156,25 +198,64 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   }, [region]);
 
-  // Function to check if a point is inside a polygon
-  const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
-    let inside = false;
-    const x = point.longitude,
-      y = point.latitude;
+  useEffect(() => {
+    const fetchPOIs = async () => {
+      setIsLoadingPOIs(true);
+      setPoiError(null);
+      try {
+        const response = await axios.get('/api/pois');
+        setAllPOIs(response.data);
+        
+        if (response.data.length === 0) {
+          try {
+            const poiViewModel = new POIViewModel();
+            const pois = await poiViewModel.getAllPOIs?.();
+            if (pois) setAllPOIs(pois);
+          } catch (mobxError) {
+            console.warn("MobX POIViewModel failed, using direct API instead");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching POIs:", error);
+        setPoiError("Failed to load points of interest");
+        
+        const fallbackPOIs: POI[] = [
+          {
+            _id: "poi-1",
+            type: "outdoor",
+            name: "Quadrangle",
+            category: POICategory.OTHER,
+            description: "Main outdoor gathering space",
+            location: "45.497215,-73.579036",
+            campus: "SGW"
+          },
+          {
+            _id: "poi-2",
+            type: "outdoor", 
+            name: "Peace Garden",
+            category: POICategory.OTHER,
+            description: "Quiet outdoor garden space",
+            location: "45.496500,-73.578000",
+            campus: "SGW"
+          },
+          {
+            _id: "poi-3",
+            type: "outdoor",
+            name: "Loyola Quad",
+            category: POICategory.OTHER,
+            description: "Main outdoor space at Loyola",
+            location: "45.4581,-73.6405",
+            campus: "LOYOLA"
+          }
+        ];
+        setAllPOIs(fallbackPOIs);
+      } finally {
+        setIsLoadingPOIs(false);
+      }
+    };
 
-    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-      const xi = polygon[i].longitude,
-        yi = polygon[i].latitude;
-      const xj = polygon[j].longitude,
-        yj = polygon[j].latitude;
-
-      const intersect =
-        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
-      if (intersect) inside = !inside;
-    }
-
-    return inside;
-  };
+    fetchPOIs();
+  }, []);
 
   const renderBuildings = () => {
     return buildingsData.map((building) => {
@@ -260,7 +341,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               if (!destinationAddress) {
                 setDestinationAddress(building.address);
                 setStartingAddress("My Location");
-
               }
               setShowNavigationPopup(false);
             }}
@@ -305,6 +385,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       };
 
       setUserLocation(newRegion);
+      setCurrentUserLocation(newRegion);
       mapRef.current?.animateToRegion(newRegion, 1000);
     } catch (error) {
       console.error("Error updating location:", error);
@@ -318,6 +399,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     if (!showNavigationPopup && buildingInfo) {
       setBuildingInfo(null);
       setSelectedBuildingId(null);
+    }
+    if (selectedPOI) {
+      setSelectedPOI(null);
+      setPoiRoute([]);
+      setDirections([]);
     }
   };
 
@@ -343,7 +429,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       setSelectedBuildingId(building._id);
       Alert.alert("Start Point Selected", `Selected ${building.name} as start point. Now select your destination.`);
     } else {
-      // When setting end point, use current location as start if not already set
       if (!startPoint && userLocation) {
         const userLocationInfo = {
           name: "My Location",
@@ -351,11 +436,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           openingHours: "",
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
-          campus: building.campus, // We'll determine the campus based on proximity
+          campus: building.campus,
         };
         setStartPoint(userLocationInfo);
       } else if (!startPoint && !userLocation) {
-        // If no start point and no user location, request location permission
         Alert.alert(
           "Location Required",
           "Please enable location services to use your current location as the starting point.",
@@ -365,7 +449,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               onPress: async () => {
                 await updateUserLocation();
                 if (userLocation) {
-                  handleBuildingSelection(building, 'end'); // Retry after getting location
+                  handleBuildingSelection(building, 'end');
                 }
               }
             },
@@ -382,7 +466,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       setBuildingInfo(buildingInfo);
       setSelectedBuildingId(building._id);
       
-      // Check if we should use shuttle service (cross-campus)
       const effectiveStartPoint = startPoint || (userLocation ? {
         name: "My Location",
         campus: determineUserCampus(userLocation),
@@ -424,7 +507,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
-  // Helper function to determine which campus the user is closer to
   const determineUserCampus = (location: Region): string => {
     const sgwDistance = Math.sqrt(
       Math.pow(location.latitude - SHUTTLE_STOPS.SGW.latitude, 2) +
@@ -437,17 +519,14 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     return sgwDistance < loyolaDistance ? 'SGW' : 'LOYOLA';
   };
 
-  // Add function to fetch shuttle data
   const fetchShuttleData = async () => {
     try {
-      // First get session cookies
       await axios.get('https://shuttle.concordia.ca/concordiabusmap/Map.aspx', {
         headers: {
           Host: 'shuttle.concordia.ca'
         }
       });
 
-      // Then get shuttle positions
       const response = await axios.post(
         'https://shuttle.concordia.ca/concordiabusmap/WebService/GService.asmx/GetGoogleObject',
         {},
@@ -462,23 +541,18 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       const shuttleData = response.data.d;
       const busPoints = shuttleData.Points.filter((point: any) => point.ID.startsWith('BUS'));
       
-      // Update shuttle locations
       setShuttleLocations(busPoints);
 
-      // Create route from active shuttle positions
       if (busPoints.length > 0) {
         const validBusPoints = busPoints.filter((bus: any) => {
           const lat = parseFloat(bus.Latitude);
           const lng = parseFloat(bus.Longitude);
-          // Filter out buses that are too far from the route (might be parked or out of service)
           return lat >= 45.45 && lat <= 45.51 && lng >= -73.65 && lng <= -73.57;
         });
 
         if (validBusPoints.length > 0) {
-          // Sort buses by their position along Sherbrooke street (west to east)
           const sortedBuses = validBusPoints.sort((a: any, b: any) => a.Longitude - b.Longitude);
           
-          // Create route through all active buses
           const routePoints = [
             { latitude: SHUTTLE_STOPS.LOYOLA.latitude, longitude: SHUTTLE_STOPS.LOYOLA.longitude },
             ...sortedBuses.map((bus: any) => ({
@@ -496,7 +570,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
-  // Update useEffect for shuttle tracking
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -505,7 +578,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         setIsLoadingShuttles(true);
         await fetchShuttleData();
 
-        // Only update wait times if we have start and end points
         if (startPoint && endPoint) {
           const nearestShuttle = shuttleService.getClosestShuttle(
             shuttleLocations,
@@ -522,15 +594,13 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         }
       } catch (error) {
         console.error('Error tracking shuttles:', error);
-        // Don't clear existing route/data on error
       } finally {
         setIsLoadingShuttles(false);
       }
     };
 
-    // Start tracking if we're in cross-campus navigation and using transit mode
     if (isCrossCampusNavigation && activeTab === 'transit') {
-      trackShuttles(); // Initial fetch
+      trackShuttles();
       intervalId = setInterval(trackShuttles, 15000);
     }
 
@@ -541,7 +611,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     };
   }, [isCrossCampusNavigation, activeTab, startPoint, endPoint]);
 
-  // Update the fetchDirections function to include shuttle stops
   const fetchDirections = async (mode: string) => {
     if (!startPoint || !endPoint) {
       console.error('Start or end point is missing');
@@ -550,10 +619,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
     try {
       if (startPoint.campus !== endPoint.campus && mode === 'transit') {
-        console.log('Fetching cross-campus route with shuttle service');
-        
-        // Get directions to shuttle stop
-        console.log('Fetching route to shuttle stop...');
         const toShuttleStop = await axios.get(
           "https://maps.googleapis.com/maps/api/directions/json",
           {
@@ -573,8 +638,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           throw new Error('Invalid route data received for path to shuttle stop');
         }
 
-        // Get the shuttle route between stops
-        console.log('Fetching shuttle route between stops...');
         const shuttleRoute = await axios.get(
           "https://maps.googleapis.com/maps/api/directions/json",
           {
@@ -594,8 +657,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           throw new Error('Invalid shuttle route data received');
         }
 
-        // Get directions from other shuttle stop to destination
-        console.log('Fetching route from shuttle stop to destination...');
         const fromShuttleStop = await axios.get(
           "https://maps.googleapis.com/maps/api/directions/json",
           {
@@ -615,16 +676,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           throw new Error('Invalid route data received for path from shuttle stop');
         }
 
-        // Get next departure information
-        console.log('Getting shuttle departure information...');
         const departureInfo = shuttleService.getNextDepartureTime(startPoint.campus === 'SGW' ? 'SGW' : 'LOYOLA');
 
-        // Start tracking shuttles immediately
-        console.log('Fetching real-time shuttle positions...');
         await fetchShuttleData();
 
-        // Set initial route from Google Directions API
-        console.log('Processing route data...');
         const initialRoute = decodePolyline(shuttleRoute.data.routes[0].overview_polyline.points);
         setShuttlePolyline(initialRoute);
         setNewRoute(null);
@@ -658,8 +713,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         setIsNavigationStarted(true);
         setBuildingInfo(null);
       } else {
-        // For non-shuttle routes, clear shuttle route and show only the regular route
-        console.log('Fetching regular route...');
         setShuttlePolyline(null);
         const response = await axios.get(
           "https://maps.googleapis.com/maps/api/directions/json",
@@ -740,22 +793,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   };
 
-  const handleNavigationPopup = () => {
-    if (buildingInfo) {
-      setStartingAddress("My Location");
-      setDestinationAddress(buildingInfo.address);
-      setShowNavigationPopup(true);
-    }
-  };
-
-  const handleGoToBuilding = () => {
-    fetchDirections("walking");
-    handleNavigationPopup();
-  };
-
-  const decodePolyline = (encoded: string) => {
+  const decodePolyline = (encoded: string): LatLng[] => {
     let index = 0;
-    const path = [];
+    const path: LatLng[] = [];
     let latitude = 0;
     let longitude = 0;
 
@@ -789,256 +829,180 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         latitude: latitude / 1e5,
         longitude: longitude / 1e5,
       });
-
     }
 
     return path;
   };
 
-  const handleTransportModeChange = (mode: string) => {
-    setTransportMode(mode);
-    setActiveTab(mode);
-    fetchDirections(mode);
-  };
+  const handlePOISelection = async (poi: POI) => {
+    setSelectedPOI(poi);
+    
+    if (!currentUserLocation) {
+      Alert.alert("Error", "Could not get your current location");
+      return;
+    }
 
-  const resetNavigation = () => {
-    setStartPoint(null);
-    setEndPoint(null);
-    setIsCrossCampusNavigation(false);
-    setBuildingInfo(null);
-    setSelectedBuildingId(null);
-    setNewRoute(null);
-    setShuttlePolyline(null);
-    setDirections([]);
-    setIsNavigationStarted(false);
-    setShuttleLocations([]);
-  };
+    try {
+      const [latitude, longitude] = poi.location.split(',').map(parseFloat);
+      
+      setBuildingInfo(null);
+      setSelectedBuildingId(null);
+      
+      const response = await axios.get(
+        "https://maps.googleapis.com/maps/api/directions/json",
+        {
+          params: {
+            origin: `${currentUserLocation.latitude},${currentUserLocation.longitude}`,
+            destination: `${latitude},${longitude}`,
+            mode: poiTransportMode,
+            key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+          },
+        }
+      );
 
-  const handleClosePopup = () => {
-    setBuildingInfo(null);
-    setSelectedBuildingId(null);
-    setShowNavigationPopup(false);
-    setStartingAddress("");
-    setDestinationAddress("");
-    setNewRoute(null);
-    setDirections([]);
-    setIsNavigationStarted(false);
-    setShuttleLocations([]);
-  };
-
-  return (
-      <View style={globalStyles.mapContainer}>
-        {locationError ? (
-          <View style={globalStyles.errorContainer}>
-            <Text style={globalStyles.errorText}>{locationError}</Text>
-          </View>
-        ) : null}
-
-      <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
-
-        <MapView
-          ref={(ref) => (mapRef.current = ref)}
-          style={globalStyles.map}
-          initialRegion={region}
-          pitchEnabled={false}
-          rotateEnabled={false}
-          zoomEnabled={true}
-          zoomControlEnabled={true}
-        >
-
-          {permissionGranted && userLocation && (
-            <Marker
-              coordinate={userLocation}
-              title="Your Location"
-              pinColor="green"
-            />
-          )}
-          {/* Show either regular route or shuttle route based on mode */}
-          {activeTab !== 'transit' ? (
-            newRoute && <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={5} />
-          ) : (
-            <Polyline 
-              coordinates={shuttlePolyline || []} 
-              strokeColor={brandColors.concordiaRed} 
-              strokeWidth={5}
-              lineDashPattern={[10, 5]}
-            />
-          )}
-          {buildingInfo && (
-            <Marker
-              coordinate={{
-                latitude: buildingInfo.latitude,
-                longitude: buildingInfo.longitude,
-              }}
-              title={buildingInfo.name}
-              pinColor="orange"
-            />
-          )}
-          {renderBuildings()}
-          {/* Add Shuttle Stop Markers */}
-          <Marker
-            coordinate={{
-              latitude: SHUTTLE_STOPS.SGW.latitude,
-              longitude: SHUTTLE_STOPS.SGW.longitude,
-            }}
-            title={SHUTTLE_STOPS.SGW.name}
-            description="Concordia Shuttle Stop"
-          >
-            <View style={[globalStyles.shuttleStopMarker, { 
-              backgroundColor: brandColors.white,
-              padding: 15,
-              borderRadius: 30,
-              borderWidth: 3,
-              borderColor: brandColors.concordiaRed,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-            }]}>
-              <Text style={[globalStyles.shuttleStopText, { fontSize: 32 }]}>🚌</Text>
-              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: brandColors.concordiaRed }]}>SGW</Text>
-            </View>
-          </Marker>
-          <Marker
-            coordinate={{
-              latitude: SHUTTLE_STOPS.LOYOLA.latitude,
-              longitude: SHUTTLE_STOPS.LOYOLA.longitude,
-            }}
-            title={SHUTTLE_STOPS.LOYOLA.name}
-            description="Concordia Shuttle Stop"
-          >
-            <View style={[globalStyles.shuttleStopMarker, { 
-              backgroundColor: brandColors.white,
-              padding: 15,
-              borderRadius: 30,
-              borderWidth: 3,
-              borderColor: brandColors.concordiaRed,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-            }]}>
-              <Text style={[globalStyles.shuttleStopText, { fontSize: 32 }]}>🚌</Text>
-              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: brandColors.concordiaRed }]}>LOY</Text>
-            </View>
-          </Marker>
-          {/* Show active shuttles */}
-          {isCrossCampusNavigation && shuttleLocations.map((shuttle) => (
-            <Marker
-              key={shuttle.ID}
-              coordinate={{
-                latitude: shuttle.Latitude,
-                longitude: shuttle.Longitude,
-              }}
-              title={`Shuttle ${shuttle.ID}`}
-            >
-              <View style={[globalStyles.shuttleStopMarker, { 
-                backgroundColor: brandColors.concordiaRed,
-                padding: 15,
-                borderRadius: 30,
-                borderWidth: 3,
-                borderColor: brandColors.white,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 3 },
-                shadowOpacity: 0.35,
-                shadowRadius: 4.84,
-                elevation: 7,
-              }]}>
-                <Text style={[globalStyles.shuttleStopText, { 
-                  fontSize: 35,
-                  color: brandColors.white 
-                }]}>🚌</Text>
-              </View>
-            </Marker>
-          ))}
-        </MapView>
-      </TouchableWithoutFeedback>
-
-      {renderPOIList()}
-
-      {buildingInfo && !isNavigationStarted && (
-          <View style={globalStyles.buildingInfoContainer}>
-          {isCrossCampusNavigation && startPoint && endPoint ? (
-            <>
-              <Text style={globalStyles.buildingNameText}>
-                Cross-Campus Navigation
-              </Text>
-              <Text style={globalStyles.addressText}>
-                From: {startPoint.name} ({startPoint.campus})
-              </Text>
-              <Text style={globalStyles.addressText}>
-                To: {endPoint.name} ({endPoint.campus})
-              </Text>
-              <TouchableOpacity
-                onPress={() => fetchDirections("transit")}
-                style={globalStyles.addButton}
-              >
-                <Text style={globalStyles.refreshButtonText}>
-                  Start Navigation
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={resetNavigation}
-                style={[globalStyles.addButton, { marginTop: 10, backgroundColor: "#555" }]}
-              >
-                <Text style={globalStyles.refreshButtonText}>
-                  Reset
-                </Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-            <Text style={globalStyles.buildingNameText}>
-              {buildingInfo.name}
-            </Text>
-            <Text style={globalStyles.openingHoursText}>
-              {buildingInfo.openingHours}
-            </Text>
-            <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
-            <View style={globalStyles.buttonContainer}>
-              <TouchableOpacity
-                onPress={() => handleBuildingSelection(buildingInfo, 'start')}
-                style={[globalStyles.addButton, { marginRight: 10 }]}
-              >
-                <Text style={globalStyles.refreshButtonText}>
-                  Set as Start
-                </Text>
-              </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => handleBuildingSelection(buildingInfo, 'end')}
-              style={globalStyles.addButton}
-            >
-              <Text style={globalStyles.refreshButtonText}>
-                  Set as Destination
-              </Text>
-            </TouchableOpacity>
-            </View>
-            </>
-          )}
-          </View>
-        )}
+      if (response.data.routes?.length > 0 && response.data.routes[0].overview_polyline) {
+        const newRoute = decodePolyline(response.data.routes[0].overview_polyline.points);
+        setPoiRoute(newRoute);
         
-        {renderDirectionsPanel()}
+        const steps = response.data.routes[0].legs[0].steps.map((step: any) => ({
+          instruction: sanitizeHtmlContent(step.html_instructions),
+          distance: step.distance.text,
+          duration: step.duration.text,
+        }));
+        setDirections(steps);
+      }
+    } catch (error) {
+      console.error("Error fetching directions:", error);
+      Alert.alert("Error", "Failed to get directions");
+    }
+  };
 
+  const renderPOIList = () => {
+    if (isLoadingPOIs) {
+      return (
+        <View style={{ alignItems: 'center', padding: 20 }}>
+          <ActivityIndicator size="large" color={brandColors.concordiaRed} />
+        </View>
+      );
+    }
+
+    if (poiError) {
+      return (
+        <View style={{ alignItems: 'center', padding: 20 }}>
+          <Text style={{ color: brandColors.brightRed }}>{poiError}</Text>
+        </View>
+      );
+    }
+
+    return (
+      <View style={{ marginTop: 20 }}>
+        <Text style={globalStyles.directionsTitle}>Points of Interest</Text>
+        {allPOIs.map((poi) => {
+          const categoryColor = POICategoryColors[poi.category] || brandColors.blue;
+          
+          return (
+            <TouchableOpacity
+              key={poi._id}
+              onPress={() => handlePOISelection(poi)}
+              style={[
+                globalStyles.buildingInfoContainer, 
+                { marginBottom: 10 },
+                selectedPOI?._id === poi._id && { 
+                  borderColor: categoryColor, 
+                  borderWidth: 2 
+                }
+              ]}
+            >
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={[globalStyles.buildingNameText, { color: categoryColor }]}>
+                  {poi.name}
+                </Text>
+                <View style={[
+                  globalStyles.poiCategoryBadge,
+                  { backgroundColor: categoryColor }
+                ]}>
+                  <Text style={globalStyles.poiCategoryText}>
+                    {poi.category.toLowerCase().replace('_', ' ')}
+                  </Text>
+                </View>
+              </View>
+              <Text style={globalStyles.poiDescriptionText}>{poi.description}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  };
+
+  const renderTransportModes = () => (
+    <View style={globalStyles.transportModeContainer}>
+      {["walking", "bicycling", "transit"].map((mode) => (
         <TouchableOpacity
+          key={mode}
+          onPress={() => {
+            setPOITransportMode(mode);
+            if (selectedPOI) handlePOISelection(selectedPOI);
+          }}
           style={[
-            globalStyles.refreshButton,
-            isRefreshing
-              ? (globalStyles.refreshButtonDisabled as ViewStyle)
-              : {},
+            globalStyles.transportModeTab,
+            poiTransportMode === mode && globalStyles.activeTransportModeTab
           ]}
-          onPress={updateUserLocation}
-          disabled={isRefreshing}
         >
-          {isRefreshing ? (
-            <ActivityIndicator color="white" size="small" />
-          ) : (
-            <Text style={globalStyles.refreshButtonText}>My Location</Text>
-          )}
+          <Text style={[
+            globalStyles.transportModeText,
+            poiTransportMode === mode && globalStyles.activeTransportModeText
+          ]}>
+            {mode.charAt(0).toUpperCase() + mode.slice(1)}
+          </Text>
         </TouchableOpacity>
-      {directions.length > 0 && (
+      ))}
+    </View>
+  );
+
+  const renderDirectionsPanel = () => {
+    if (selectedPOI) {
+      return (
+        <View style={[globalStyles.directionsContainer, isFullScreenDirections && globalStyles.fullScreenDirections]}>
+          <TouchableOpacity onPress={() => {
+            setIsFullScreenDirections(!isFullScreenDirections);
+          }}>
+            <Text style={globalStyles.fullScreenToggleText}>
+              {isFullScreenDirections ? "Exit Full Screen" : "Full Screen"}
+            </Text>
+          </TouchableOpacity>
+
+          <View style={globalStyles.directionsHeader}>
+            <Text style={globalStyles.directionsTitle}>
+              Directions to {selectedPOI.name}
+            </Text>
+            <TouchableOpacity 
+              onPress={() => {
+                setSelectedPOI(null);
+                setPoiRoute([]);
+                setDirections([]);
+              }}
+              style={globalStyles.cancelButton}
+            >
+              <Text style={globalStyles.cancelButtonText}>×</Text>
+            </TouchableOpacity>
+          </View>
+
+          {renderTransportModes()}
+
+          <ScrollView style={globalStyles.directionsScroll}>
+            {directions.map((step, index) => (
+              <View key={index} style={globalStyles.directionStep}>
+                <Text>{step.instruction}</Text>
+                <Text>{step.distance} | {step.duration}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (directions.length > 0) {
+      return (
         <View style={[globalStyles.directionsContainer, isFullScreenDirections && globalStyles.fullScreenDirections]}>
           <TouchableOpacity onPress={() => {
             setIsFullScreenDirections(!isFullScreenDirections);
@@ -1095,8 +1059,299 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             ))}
           </ScrollView>
         </View>
+      );
+    }
+
+    return null;
+  };
+
+  const handleTransportModeChange = (mode: string) => {
+    setTransportMode(mode);
+    setActiveTab(mode);
+    fetchDirections(mode);
+  };
+
+  const handleNavigationPopup = () => {
+    if (buildingInfo) {
+      setStartingAddress("My Location");
+      setDestinationAddress(buildingInfo.address);
+      setShowNavigationPopup(true);
+    }
+  };
+
+  const handleGoToBuilding = () => {
+    fetchDirections("walking");
+    handleNavigationPopup();
+  };
+
+  const resetNavigation = () => {
+    setStartPoint(null);
+    setEndPoint(null);
+    setIsCrossCampusNavigation(false);
+    setBuildingInfo(null);
+    setSelectedBuildingId(null);
+    setNewRoute(null);
+    setShuttlePolyline(null);
+    setDirections([]);
+    setIsNavigationStarted(false);
+    setShuttleLocations([]);
+    setSelectedPOI(null);
+    setPoiRoute([]);
+  };
+
+  const handleClosePopup = () => {
+    setBuildingInfo(null);
+    setSelectedBuildingId(null);
+    setShowNavigationPopup(false);
+    setStartingAddress("");
+    setDestinationAddress("");
+    setNewRoute(null);
+    setDirections([]);
+    setIsNavigationStarted(false);
+    setShuttleLocations([]);
+    setSelectedPOI(null);
+    setPoiRoute([]);
+  };
+
+  return (
+    <View style={globalStyles.mapContainer}>
+      {locationError ? (
+        <View style={globalStyles.errorContainer}>
+          <Text style={globalStyles.errorText}>{locationError}</Text>
+        </View>
+      ) : null}
+
+      <TouchableWithoutFeedback onPress={handleMapPress} accessible={false}>
+        <MapView
+          ref={(ref) => (mapRef.current = ref)}
+          style={globalStyles.map}
+          initialRegion={region}
+          pitchEnabled={false}
+          rotateEnabled={false}
+          zoomEnabled={true}
+          zoomControlEnabled={true}
+        >
+          {poiRoute && poiRoute.length > 0 && (
+            <Polyline 
+              coordinates={poiRoute} 
+              strokeColor={brandColors.blue} 
+              strokeWidth={5}
+            />
+          )}
+
+          {selectedPOI && (() => {
+            const [latitude, longitude] = selectedPOI.location.split(',').map(parseFloat);
+            const categoryColor = POICategoryColors[selectedPOI.category] || brandColors.blue;
+            
+            return (
+              <Marker
+                coordinate={{ latitude, longitude }}
+                title={selectedPOI.name}
+                description={selectedPOI.description}
+              >
+                <View style={[
+                  globalStyles.poiMarker,
+                  { backgroundColor: categoryColor }
+                ]}>
+                  <Text style={globalStyles.poiMarkerText}>
+                    {selectedPOI.name.charAt(0)}
+                  </Text>
+                </View>
+              </Marker>
+            );
+          })()}
+
+          {permissionGranted && userLocation && (
+            <Marker
+              coordinate={userLocation}
+              title="Your Location"
+              pinColor="green"
+            />
+          )}
+
+          {activeTab !== 'transit' ? (
+            newRoute && <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={5} />
+          ) : (
+            <Polyline 
+              coordinates={shuttlePolyline || []} 
+              strokeColor={brandColors.concordiaRed} 
+              strokeWidth={5}
+              lineDashPattern={[10, 5]}
+            />
+          )}
+          {buildingInfo && (
+            <Marker
+              coordinate={{
+                latitude: buildingInfo.latitude,
+                longitude: buildingInfo.longitude,
+              }}
+              title={buildingInfo.name}
+              pinColor="orange"
+            />
+          )}
+          {renderBuildings()}
+          <Marker
+            coordinate={{
+              latitude: SHUTTLE_STOPS.SGW.latitude,
+              longitude: SHUTTLE_STOPS.SGW.longitude,
+            }}
+            title={SHUTTLE_STOPS.SGW.name}
+            description="Concordia Shuttle Stop"
+          >
+            <View style={[globalStyles.shuttleStopMarker, { 
+              backgroundColor: brandColors.white,
+              padding: 15,
+              borderRadius: 30,
+              borderWidth: 3,
+              borderColor: brandColors.concordiaRed,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }]}>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 32 }]}>🚌</Text>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: brandColors.concordiaRed }]}>SGW</Text>
+            </View>
+          </Marker>
+          <Marker
+            coordinate={{
+              latitude: SHUTTLE_STOPS.LOYOLA.latitude,
+              longitude: SHUTTLE_STOPS.LOYOLA.longitude,
+            }}
+            title={SHUTTLE_STOPS.LOYOLA.name}
+            description="Concordia Shuttle Stop"
+          >
+            <View style={[globalStyles.shuttleStopMarker, { 
+              backgroundColor: brandColors.white,
+              padding: 15,
+              borderRadius: 30,
+              borderWidth: 3,
+              borderColor: brandColors.concordiaRed,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }]}>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 32 }]}>🚌</Text>
+              <Text style={[globalStyles.shuttleStopText, { fontSize: 16, fontWeight: 'bold', color: brandColors.concordiaRed }]}>LOY</Text>
+            </View>
+          </Marker>
+          {isCrossCampusNavigation && shuttleLocations.map((shuttle) => (
+            <Marker
+              key={shuttle.ID}
+              coordinate={{
+                latitude: shuttle.Latitude,
+                longitude: shuttle.Longitude,
+              }}
+              title={`Shuttle ${shuttle.ID}`}
+            >
+              <View style={[globalStyles.shuttleStopMarker, { 
+                backgroundColor: brandColors.concordiaRed,
+                padding: 15,
+                borderRadius: 30,
+                borderWidth: 3,
+                borderColor: brandColors.white,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: 0.35,
+                shadowRadius: 4.84,
+                elevation: 7,
+              }]}>
+                <Text style={[globalStyles.shuttleStopText, { 
+                  fontSize: 35,
+                  color: brandColors.white 
+                }]}>🚌</Text>
+              </View>
+            </Marker>
+          ))}
+        </MapView>
+      </TouchableWithoutFeedback>
+
+      {renderPOIList()}
+
+      {buildingInfo && !isNavigationStarted && (
+        <View style={globalStyles.buildingInfoContainer}>
+          {isCrossCampusNavigation && startPoint && endPoint ? (
+            <>
+              <Text style={globalStyles.buildingNameText}>
+                Cross-Campus Navigation
+              </Text>
+              <Text style={globalStyles.addressText}>
+                From: {startPoint.name} ({startPoint.campus})
+              </Text>
+              <Text style={globalStyles.addressText}>
+                To: {endPoint.name} ({endPoint.campus})
+              </Text>
+              <TouchableOpacity
+                onPress={() => fetchDirections("transit")}
+                style={globalStyles.addButton}
+              >
+                <Text style={globalStyles.refreshButtonText}>
+                  Start Navigation
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={resetNavigation}
+                style={[globalStyles.addButton, { marginTop: 10, backgroundColor: "#555" }]}
+              >
+                <Text style={globalStyles.refreshButtonText}>
+                  Reset
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <Text style={globalStyles.buildingNameText}>
+                {buildingInfo.name}
+              </Text>
+              <Text style={globalStyles.openingHoursText}>
+                {buildingInfo.openingHours}
+              </Text>
+              <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
+              <View style={globalStyles.buttonContainer}>
+                <TouchableOpacity
+                  onPress={() => handleBuildingSelection(buildingInfo, 'start')}
+                  style={[globalStyles.addButton, { marginRight: 10 }]}
+                >
+                  <Text style={globalStyles.refreshButtonText}>
+                    Set as Start
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleBuildingSelection(buildingInfo, 'end')}
+                  style={globalStyles.addButton}
+                >
+                  <Text style={globalStyles.refreshButtonText}>
+                    Set as Destination
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
+        </View>
       )}
-      </View>
+      
+      {renderDirectionsPanel()}
+
+      <TouchableOpacity
+        style={[
+          globalStyles.refreshButton,
+          isRefreshing
+            ? (globalStyles.refreshButtonDisabled as ViewStyle)
+            : {},
+        ]}
+        onPress={updateUserLocation}
+        disabled={isRefreshing}
+      >
+        {isRefreshing ? (
+          <ActivityIndicator color="white" size="small" />
+        ) : (
+          <Text style={globalStyles.refreshButtonText}>My Location</Text>
+        )}
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -1122,297 +1377,11 @@ const CampusSwitcher: React.FC = () => {
         </View>
       </View>
 
-      {/* Map Container */}
       <View style={globalStyles.mapContainer}>
         <CampusMap campusId={currentCampusId} />
       </View>
     </SafeAreaView>
   );
-};
-
-const [selectedPOI, setSelectedPOI] = useState<POI | null>(null);
-const [poiDirections, setPOIDirections] = useState<LatLng[] | null>(null);
-const [poiTransportMode, setPOITransportMode] = useState<string>("walking");
-const [allPOIs, setAllPOIs] = useState<POI[]>([]);
-const [currentUserLocation, setCurrentUserLocation] = useState<Region | null>(null);
-const [isLoadingPOIs, setIsLoadingPOIs] = useState<boolean>(false);
-const [poiError, setPoiError] = useState<string | null>(null);
-
-const POICategoryColors: Record<POICategory, string> = {
-  [POICategory.RESTAURANT]: '#FF5733',
-  [POICategory.COFFEE_SHOP]: '#6F4E37',
-  [POICategory.BATHROOM]: '#5D8AA8',
-  [POICategory.LIBRARY]: '#B87333',
-  [POICategory.OTHER]: '#50C878',
-};
-
-const decodePolyline = (encoded: string): LatLng[] => {
-  let index = 0;
-  const path: LatLng[] = [];
-  let latitude = 0;
-  let longitude = 0;
-
-  while (index < encoded.length) {
-    let byte;
-    let shift = 0;
-    let result = 0;
-
-    do {
-      byte = encoded.charCodeAt(index++) - 63;
-      result |= (byte & 0x1f) << shift;
-      shift += 5;
-    } while (byte >= 0x20);
-
-    const deltaLat = ((result & 0x01) ? ~(result >> 1) : result >> 1);
-    latitude += deltaLat;
-
-    shift = 0;
-    result = 0;
-
-    do {
-      byte = encoded.charCodeAt(index++) - 63;
-      result |= (byte & 0x1f) << shift;
-      shift += 5;
-    } while (byte >= 0x20);
-
-    const deltaLng = ((result & 0x01) ? ~(result >> 1) : result >> 1);
-    longitude += deltaLng;
-
-    path.push({
-      latitude: latitude / 1e5,
-      longitude: longitude / 1e5,
-    });
-  }
-
-  return path;
-};
-
-useEffect(() => {
-  const getLocation = async () => {
-    try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('Permission to access location was denied');
-        return;
-      }
-
-      const location = await Location.getCurrentPositionAsync({});
-      setCurrentUserLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      });
-    } catch (error) {
-      console.error("Error getting location:", error);
-    }
-  };
-
-  getLocation();
-}, []);
-
-useEffect(() => {
-  const fetchPOIs = async () => {
-    setIsLoadingPOIs(true);
-    setPoiError(null);
-    try {
-      const response = await axios.get('/api/pois');
-      setAllPOIs(response.data);
-      
-      if (response.data.length === 0) {
-        try {
-          const poiViewModel = new POIViewModel();
-          const pois = await poiViewModel.getAllPOIs?.();
-          if (pois) setAllPOIs(pois);
-        } catch (mobxError) {
-          console.warn("MobX POIViewModel failed, using direct API instead");
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching POIs:", error);
-      setPoiError("Failed to load points of interest");
-      
-      const fallbackPOIs: POI[] = [
-        {
-          _id: "poi-1",
-          type: "point",
-          name: "Library Entrance",
-          category: POICategory.LIBRARY,
-          description: "Main library entrance",
-          location: "45.497215,-73.579036",
-        },
-        {
-          _id: "poi-2",
-          type: "point", 
-          name: "Cafeteria",
-          category: POICategory.RESTAURANT,
-          description: "Main campus cafeteria",
-          location: "45.496500,-73.578000",
-        },
-      ];
-      setAllPOIs(fallbackPOIs);
-    } finally {
-      setIsLoadingPOIs(false);
-    }
-  };
-
-  fetchPOIs();
-}, []);
-
-const renderPOIList = () => {
-  if (isLoadingPOIs) {
-    return (
-      <View style={{ alignItems: 'center', padding: 20 }}>
-        <ActivityIndicator size="large" color={brandColors.concordiaRed} />
-      </View>
-    );
-  }
-
-  if (poiError) {
-    return (
-      <View style={{ alignItems: 'center', padding: 20 }}>
-        <Text style={{ color: brandColors.brightRed }}>{poiError}</Text>
-      </View>
-    );
-  }
-
-  return (
-    <View style={{ marginTop: 20 }}>
-      <Text style={globalStyles.directionsTitle}>Points of Interest</Text>
-      {allPOIs.map((poi) => {
-        const categoryColor = POICategoryColors[poi.category] || brandColors.blue;
-        
-        return (
-          <TouchableOpacity
-            key={poi._id}
-            onPress={() => handlePOISelection(poi)}
-            style={[
-              globalStyles.buildingInfoContainer, 
-              { marginBottom: 10 },
-              selectedPOI?._id === poi._id && { 
-                borderColor: categoryColor, 
-                borderWidth: 2 
-              }
-            ]}
-          >
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={[globalStyles.buildingNameText, { color: categoryColor }]}>
-                {poi.name}
-              </Text>
-              <View style={[
-                globalStyles.poiCategoryBadge,
-                { backgroundColor: categoryColor }
-              ]}>
-                <Text style={globalStyles.poiCategoryText}>
-                  {poi.category.toLowerCase().replace('_', ' ')}
-                </Text>
-              </View>
-            </View>
-            <Text style={globalStyles.poiDescriptionText}>{poi.description}</Text>
-          </TouchableOpacity>
-        );
-      })}
-    </View>
-  );
-};
-
-const renderDirectionsPanel = () => {
-  if (!selectedPOI) return null;
-
-  return (
-    <View style={globalStyles.poiDirectionsContainer}>
-      <View style={globalStyles.poiDirectionsHeader}>
-        <Text style={globalStyles.directionsTitle}>
-          Directions to {selectedPOI.name}
-        </Text>
-        <TouchableOpacity 
-          onPress={() => {
-            setSelectedPOI(null);
-            setPOIDirections(null);
-          }}
-          style={globalStyles.cancelButton}
-        >
-          <Text style={globalStyles.cancelButtonText}>×</Text>
-        </TouchableOpacity>
-      </View>
-      
-      {renderTransportModes()}
-      
-      {poiDirections && (
-        <View style={{ marginTop: 10 }}>
-          <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Route Overview</Text>
-          <View style={{ 
-            height: 100,
-            backgroundColor: brandColors.lightBlue,
-            borderRadius: 5,
-            padding: 10,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <Text>Directions will be displayed here</Text>
-            <Text>Distance: Calculating...</Text>
-          </View>
-        </View>
-      )}
-    </View>
-  );
-};
-
-const renderTransportModes = () => (
-  <View style={globalStyles.transportModeContainer}>
-    {["walking", "bicycling", "transit"].map((mode) => (
-      <TouchableOpacity
-        key={mode}
-        onPress={() => {
-          setPOITransportMode(mode);
-          if (selectedPOI) handlePOISelection(selectedPOI);
-        }}
-        style={[
-          globalStyles.transportModeTab,
-          poiTransportMode === mode && globalStyles.activeTransportModeTab
-        ]}
-      >
-        <Text style={[
-          globalStyles.transportModeText,
-          poiTransportMode === mode && globalStyles.activeTransportModeText
-        ]}>
-          {mode.charAt(0).toUpperCase() + mode.slice(1)}
-        </Text>
-      </TouchableOpacity>
-    ))}
-  </View>
-);
-
-const handlePOISelection = async (poi: POI) => {
-  setSelectedPOI(poi);
-  
-  if (!currentUserLocation) {
-    Alert.alert("Error", "Could not get your current location");
-    return;
-  }
-
-  try {
-    const [latitude, longitude] = poi.location.split(',').map(parseFloat);
-    
-    const response = await axios.get(
-      "https://maps.googleapis.com/maps/api/directions/json",
-      {
-        params: {
-          origin: `${currentUserLocation.latitude},${currentUserLocation.longitude}`,
-          destination: `${latitude},${longitude}`,
-          mode: poiTransportMode,
-          key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
-        },
-      }
-    );
-
-    if (response.data.routes?.length > 0 && response.data.routes[0].overview_polyline) {
-      setPOIDirections(decodePolyline(response.data.routes[0].overview_polyline.points));
-    }
-  } catch (error) {
-    console.error("Error fetching directions:", error);
-    Alert.alert("Error", "Failed to get directions");
-  }
 };
 
 export default CampusSwitcher;
