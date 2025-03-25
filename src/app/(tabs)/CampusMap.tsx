@@ -7,9 +7,11 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   Alert,
+  ScrollView,
 } from "react-native";
 import MapView, { Marker, Polyline, Region, LatLng } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
+import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import campusCenters from "@/data/campusCenters.json";
@@ -17,7 +19,7 @@ import { Campus } from "@/models/Campus";
 import { createMapFacade } from "../utils/mapUtils";
 import { createShuttleFacade, renderShuttleMarkers } from "../utils/shuttleUtils";
 
-//CampusMap Component
+// CampusMap Component Props
 interface CampusMapProps {
   campusId: string;
 }
@@ -41,25 +43,34 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region = campusCenters[campus.outdoorLocation];
   const mapRef = useRef<MapView | null>(null);
+
+  // Core states
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Building selection and navigation states
   const [buildingInfo, setBuildingInfo] = useState<any>(null);
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
   const [newRoute, setNewRoute] = useState<LatLng[] | null>(null);
   const [directions, setDirections] = useState<any[]>([]);
-  const [transportMode] = useState<string>("walking");
-  const [activeTab] = useState<string>("walking");
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
-  const [showNavigationPopup, setShowNavigationPopup] = useState<boolean>(false);
   const [isNavigationStarted, setIsNavigationStarted] = useState<boolean>(false);
   const [startPoint, setStartPoint] = useState<any>(null);
   const [endPoint, setEndPoint] = useState<any>(null);
+
+  // Shuttle states
   const [shuttleLocations, setShuttleLocations] = useState<any[]>([]);
   const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(null);
   const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[] | null>(null);
+
+  // Directions popup and Transport mode
+  const [isFullScreenDirections, setIsFullScreenDirections] = useState<boolean>(false);
+  const [isCrossCampusNavigation, setIsCrossCampusNavigation] = useState<boolean>(false);
+  const [transportMode, setTransportMode] = useState<string>("walking");
+  const [activeTab, setActiveTab] = useState<string>("walking");
 
   const shuttleFacade = createShuttleFacade({
     setShuttleLocations,
@@ -83,12 +94,14 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     destinationAddress,
     startPoint,
     endPoint,
-    setShowNavigationPopup,
-    showNavigationPopup,
+    setShowNavigationPopup: () => {},
     setIsNavigationStarted,
     setNewRoute,
     setDirections,
     setShuttlePolyline,
+    setTransportMode,
+    setActiveTab,
+    setIsCrossCampusNavigation,
     shuttleFacade,
   });
 
@@ -104,6 +117,31 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   }, [region]);
 
+  // Dynamic Shuttle Tracking
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    const trackShuttles = async () => {
+      try {
+        await shuttleFacade.trackShuttles(startPoint);
+      } catch (error) {
+        console.error("Error tracking shuttles:", error);
+      }
+    };
+
+    // Start tracking if in cross-campus navigation and transit mode
+    if (isCrossCampusNavigation && activeTab === "transit") {
+      trackShuttles();
+      intervalId = setInterval(trackShuttles, 15000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [isCrossCampusNavigation, activeTab, startPoint]);
+
   return (
     <View style={globalStyles.mapContainer}>
       {locationError ? (
@@ -113,7 +151,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       ) : null}
 
       <TouchableWithoutFeedback onPress={mapFacade.handleMapPress} accessible={false}>
-
         <MapView
           ref={(ref) => (mapRef.current = ref)}
           style={globalStyles.map}
@@ -123,16 +160,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           zoomEnabled={true}
           zoomControlEnabled={true}
         >
-
           {permissionGranted && userLocation && (
-            <Marker
-              coordinate={userLocation}
-              title="Your Location"
-              pinColor="green"
-            />
+            <Marker coordinate={userLocation} title="Your Location" pinColor="green" />
           )}
-          {/* Show either regular route or shuttle route based on mode */}
-          {activeTab !== 'transit' ? (
+          {activeTab !== "transit" ? (
             newRoute && <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={5} />
           ) : (
             <Polyline
@@ -154,8 +185,31 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           )}
           {mapFacade.renderBuildings(buildingsData, globalStyles, brandColors)}
           {renderShuttleMarkers(globalStyles, brandColors)}
+          {isCrossCampusNavigation && shuttleLocations && shuttleLocations.length > 0 &&
+            shuttleLocations.map((shuttle: any) => (
+              <Marker
+                key={shuttle.ID}
+                coordinate={{
+                  latitude: parseFloat(shuttle.Latitude),
+                  longitude: parseFloat(shuttle.Longitude),
+                }}
+                title={`Shuttle ${shuttle.ID}`}
+              >
+                <View
+                  style={[
+                    globalStyles.shuttleStopMarker,
+                  ]}
+                >
+                  <Text style={[globalStyles.shuttleStopText, { fontSize: 35, color: brandColors.white }]}>
+                    🚌
+                  </Text>
+                </View>
+              </Marker>
+            ))
+          }
         </MapView>
       </TouchableWithoutFeedback>
+
       <TouchableOpacity
         style={globalStyles.refreshButton}
         onPress={async () => {
@@ -172,14 +226,13 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           <Text style={globalStyles.refreshButtonText}>My Location</Text>
         )}
       </TouchableOpacity>
-      {/* Popup UI – rendered when buildingInfo is set and navigation hasn't started */}
+
+      {/* Building Info Popup (when a building is selected but navigation hasn't started) */}
       {buildingInfo && !isNavigationStarted && (
         <View style={globalStyles.buildingInfoContainer}>
           {startPoint && endPoint ? (
             <>
-              <Text style={globalStyles.buildingNameText}>
-                Cross-Campus Navigation
-              </Text>
+              <Text style={globalStyles.buildingNameText}>Cross-Campus Navigation</Text>
               <Text style={globalStyles.addressText}>
                 From: {startPoint.name} ({startPoint.campus})
               </Text>
@@ -189,13 +242,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               <TouchableOpacity
                 onPress={() => {
                   console.log("Starting navigation...");
-                  mapFacade.fetchDirections("transit");
+                  mapFacade.fetchDirections("transit", Constants.expoConfig?.extra?.googleMapsApiKey || "");
                 }}
                 style={globalStyles.addButton}
               >
-                <Text style={globalStyles.refreshButtonText}>
-                  Start Navigation
-                </Text>
+                <Text style={globalStyles.refreshButtonText}>Start Navigation</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -204,16 +255,12 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 }}
                 style={[globalStyles.addButton, { marginTop: 10, backgroundColor: "#555" }]}
               >
-                <Text style={globalStyles.refreshButtonText}>
-                  Reset
-                </Text>
+                <Text style={globalStyles.refreshButtonText}>Reset</Text>
               </TouchableOpacity>
             </>
           ) : (
             <>
-              <Text style={globalStyles.buildingNameText}>
-                {buildingInfo.name}
-              </Text>
+              <Text style={globalStyles.buildingNameText}>{buildingInfo.name}</Text>
               <Text style={globalStyles.openingHoursText}>{buildingInfo.openingHours}</Text>
               <Text style={globalStyles.addressText}>{buildingInfo.address}</Text>
               <View style={globalStyles.buttonContainer}>
@@ -240,6 +287,89 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           )}
         </View>
       )}
+
+      {/* Navigation Directions Popup now rendered even if directions are not available */}
+      {(isNavigationStarted) && (
+        <View
+          style={[
+            globalStyles.directionsContainer,
+            isFullScreenDirections && globalStyles.fullScreenDirections,
+          ]}
+        >
+          <TouchableOpacity onPress={() => setIsFullScreenDirections(!isFullScreenDirections)}>
+            <Text style={globalStyles.fullScreenToggleText}>
+              {isFullScreenDirections ? "Exit Full Screen" : "Full Screen"}
+            </Text>
+          </TouchableOpacity>
+
+          <View style={globalStyles.directionsHeader}>
+            <Text style={globalStyles.directionsTitle}>Directions</Text>
+            <TouchableOpacity onPress={mapFacade.resetNavigation} style={globalStyles.cancelButton}>
+              <Text style={globalStyles.cancelButtonText}>×</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={globalStyles.transportModes}>
+            {(isCrossCampusNavigation
+              ? ["shuttle", "walking", "driving", "bicycling"]
+              : ["walking", "driving", "transit", "bicycling"]
+            ).map((mode) => (
+              <TouchableOpacity
+                key={mode}
+                onPress={() => mapFacade.handleTransportModeChange(mode === "shuttle" ? "transit" : mode)}
+                style={[
+                  globalStyles.modeTab,
+                  activeTab === (mode === "shuttle" ? "transit" : mode) && globalStyles.activeModeTab,
+                ]}
+              >
+                <Text
+                  style={
+                    activeTab === (mode === "shuttle" ? "transit" : mode)
+                      ? globalStyles.activeModeTabText
+                      : globalStyles.modeTabText
+                  }
+                >
+                  {mode === "shuttle" ? "Shuttle Bus" : mode.charAt(0).toUpperCase() + mode.slice(1)}
+                  {mode === "shuttle" && estimatedWaitTime ? ` (${estimatedWaitTime}min wait)` : ""}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <ScrollView style={globalStyles.directionsScroll}>
+            {directions.length > 0 ? (
+              directions.map((step, index) => (
+                <View
+                  key={index}
+                  style={[
+                    globalStyles.directionStep,
+                    step.isShuttle && globalStyles.shuttleDirectionStep,
+                  ]}
+                >
+                  <Text style={step.isShuttle ? globalStyles.shuttleInstruction : undefined}>
+                    {step.instruction}
+                  </Text>
+                  <Text>
+                    {step.distance} | {step.duration}
+                  </Text>
+                  {step.isShuttle && step.departureInfo && (
+                    <View style={globalStyles.shuttleInfo}>
+                      <Text style={globalStyles.shuttleScheduleText}>
+                        🕒 Next departure: {step.departureInfo.departureTime}
+                      </Text>
+                      <Text style={globalStyles.shuttleScheduleText}>
+                        ⏱️ Estimated wait: {step.departureInfo.waitTime} minutes
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              ))
+            ) : (
+              <Text style={{ padding: 10, textAlign: "center" }}>Directions loading...</Text>
+            )}
+          </ScrollView>
+        </View>
+      )}
     </View>
   );
 };
@@ -249,10 +379,7 @@ const CampusSwitcher: React.FC = () => {
   const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
 
   return (
-    <SafeAreaView
-      style={globalStyles.container}
-      edges={mainEdges as readonly Edge[]}
-    >
+    <SafeAreaView style={globalStyles.container} edges={mainEdges as readonly Edge[]}>
       <View style={globalStyles.switchHeaderContainer}>
         <View style={globalStyles.campusSwitchHeader}>
           <View style={globalStyles.switchContainer}>

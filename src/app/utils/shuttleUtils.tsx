@@ -1,8 +1,20 @@
 import axios from "axios";
 import { View, Text } from "react-native";
-import { Marker, LatLng } from "react-native-maps";
+import { Marker, LatLng, Region } from "react-native-maps";
 import { shuttleService, SHUTTLE_STOPS } from "@/services/ShuttleService";
 import Constants from 'expo-constants';
+
+export const determineUserCampus = (location: Region): string => {
+  const sgwDistance = Math.sqrt(
+    Math.pow(location.latitude - SHUTTLE_STOPS.SGW.latitude, 2) +
+    Math.pow(location.longitude - SHUTTLE_STOPS.SGW.longitude, 2)
+  );
+  const loyolaDistance = Math.sqrt(
+    Math.pow(location.latitude - SHUTTLE_STOPS.LOYOLA.latitude, 2) +
+    Math.pow(location.longitude - SHUTTLE_STOPS.LOYOLA.longitude, 2)
+  );
+  return sgwDistance < loyolaDistance ? "SGW" : "LOYOLA";
+};
 
 export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
   return (

@@ -4,7 +4,8 @@ import { Polygon, Marker, LatLng, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import axios from "axios";
 import sanitizeHtml from "sanitize-html"; // Safe HTML sanitization function using sanitize-html library
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
+import { determineUserCampus } from "./shuttleUtils";
 
 export const sanitizeHtmlContent = (html: string): string => {
   return sanitizeHtml(html, {
@@ -54,7 +55,6 @@ export const decodePolyline = (encoded: string) => {
   return path;
 };
 
-// Function to check if a point is inside a polygon
 export const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
   let inside = false;
   const x = point.longitude,
@@ -94,6 +94,9 @@ export const createMapFacade = (params: {
   setNewRoute: (route: LatLng[] | null) => void;
   setDirections: (steps: any[]) => void;
   setShuttlePolyline: (polyline: LatLng[] | null) => void;
+  setTransportMode: (mode: string) => void;
+  setActiveTab: (mode: string) => void;
+  setIsCrossCampusNavigation: (flag: boolean) => void;
   shuttleFacade: {
     fetchShuttleDirections: (
       startPoint: any,
@@ -103,6 +106,8 @@ export const createMapFacade = (params: {
       sanitizeHtmlContent: (html: string) => string
     ) => Promise<{ shuttlePolyline: LatLng[]; directions: any[] }>;
   };
+  setTransportMode: (mode: string) => void;
+  setActiveTab: (mode: string) => void;
 }) => {
   const {
     setUserLocation,
@@ -121,11 +126,13 @@ export const createMapFacade = (params: {
     startPoint,
     endPoint,
     setShowNavigationPopup,
-    showNavigationPopup,
     setIsNavigationStarted,
     setNewRoute,
     setDirections,
     setShuttlePolyline,
+    setTransportMode,
+    setActiveTab,
+    setIsCrossCampusNavigation,
     shuttleFacade,
   } = params;
 
@@ -156,6 +163,7 @@ export const createMapFacade = (params: {
       setLocationError("Error getting location");
     }
   };
+
   // Clears building selection.
   const handleMapPress = () => {
     console.log("Map pressed. Clearing building selection.");
@@ -169,7 +177,6 @@ export const createMapFacade = (params: {
     brandColors: any
   ) => {
     return buildingsData.map((building) => {
-
       if (!Array.isArray(building.polygonShape)) {
         console.warn(`Building ${building._id} does not have a valid polygonShape`);
         return null;
@@ -196,7 +203,6 @@ export const createMapFacade = (params: {
         },
         { latitude: 0, longitude: 0 }
       );
-
       center.latitude /= coordinates.length;
       center.longitude /= coordinates.length;
 
@@ -275,6 +281,7 @@ export const createMapFacade = (params: {
       longitude: building.longitude || 0,
       campus: building.campus,
     };
+
     if (selectionType === "start") {
       console.log(`Setting ${building.name} as start point.`);
       setStartPoint(info);
@@ -282,7 +289,6 @@ export const createMapFacade = (params: {
       setSelectedBuildingId(building._id);
       Alert.alert("Start Point Selected", `Selected ${building.name} as start point. Now select your destination.`);
     } else {
-      // When setting end point, use current location as start if not already set
       console.log(`Setting ${building.name} as end point.`);
       if (!startPoint) {
         if (userLocation) {
@@ -292,10 +298,10 @@ export const createMapFacade = (params: {
             openingHours: "",
             latitude: userLocation.latitude,
             longitude: userLocation.longitude,
-            campus: building.campus, // We'll determine the campus based on proximity
+            campus: determineUserCampus(userLocation),
           };
           setStartPoint(userLocationInfo);
-        } else if (!startPoint && !userLocation) {
+        } else {
           Alert.alert("Location Required", "Please enable location services to use your current location as the starting point.");
           return;
         }
@@ -303,11 +309,48 @@ export const createMapFacade = (params: {
       setEndPoint(info);
       setBuildingInfo(info);
       setSelectedBuildingId(building._id);
-      Alert.alert("Destination Selected", `Selected ${building.name} as destination. Starting navigation.`);
+
+      const effectiveStartPoint = startPoint || (userLocation ? {
+        name: "My Location",
+        campus: determineUserCampus(userLocation),
+      } : null);
+
+      if (effectiveStartPoint && effectiveStartPoint.campus !== building.campus) {
+        setIsCrossCampusNavigation(true);
+        Alert.alert(
+          "Cross-Campus Route",
+          `Route from ${effectiveStartPoint.name} to ${building.name} will use the shuttle service.`,
+          [
+            {
+              text: "Start Navigation",
+              onPress: () => fetchDirections("transit")
+            },
+            {
+              text: "Cancel",
+              style: "cancel"
+            }
+          ]
+        );
+      } else {
+        setIsCrossCampusNavigation(false);
+        Alert.alert(
+          "Route Selected",
+          `Route from ${effectiveStartPoint ? effectiveStartPoint.name : 'current location'} to ${building.name}`,
+          [
+            {
+              text: "Start Navigation",
+              onPress: () => fetchDirections("walking")
+            },
+            {
+              text: "Cancel",
+              style: "cancel"
+            }
+          ]
+        );
+      }
     }
   };
 
-  // Fetch regular directions using Google Directions API.
   const fetchRegularDirections = async (
     startPoint: any,
     endPoint: any,
@@ -350,7 +393,6 @@ export const createMapFacade = (params: {
 
   const fetchDirections = async (mode: string, googleMapsApiKey: string) => {
     console.log("Fetching directions...");
-
     console.log("Start Point:", startPoint);
     console.log("End Point:", endPoint);
 
@@ -361,19 +403,16 @@ export const createMapFacade = (params: {
     }
 
     try {
-      // Check if campus is different for transit mode
       if (startPoint.campus !== endPoint.campus && mode === "transit") {
         console.log("Fetching shuttle directions...");
         const { shuttlePolyline, directions } = await shuttleFacade.fetchShuttleDirections(
           startPoint,
           endPoint,
-          Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY, decodePolyline,
+          Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+          decodePolyline,
           sanitizeHtmlContent
         );
-
-        // Log the shuttle directions response
         console.log("Shuttle directions received:", { shuttlePolyline, directions });
-
         setShuttlePolyline(shuttlePolyline);
         setNewRoute(null);
         setDirections(directions);
@@ -385,12 +424,9 @@ export const createMapFacade = (params: {
           startPoint,
           endPoint,
           mode,
-          Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+          Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
         );
-
-        // Log the regular directions response
         console.log("Regular directions received:", { decodedRoute, steps });
-
         setShuttlePolyline(null);
         setNewRoute(decodedRoute);
         setDirections(steps);
@@ -399,7 +435,12 @@ export const createMapFacade = (params: {
       }
     } catch (error) {
       console.error("Error in fetchDirections:", error);
-      Alert.alert("Error", "Failed to fetch route details.");
+      // If your nav does not  work, still shows the directions popup but indicates the route could not be fetched
+      setShuttlePolyline(null);
+      setNewRoute([]);
+      setDirections([{ instruction: "Could not fetch route", distance: "", duration: "" }]);
+      setIsNavigationStarted(true);
+      setBuildingInfo(null);
     }
   };
 
@@ -422,6 +463,16 @@ export const createMapFacade = (params: {
     }
   };
 
+const handleTransportModeChange = (mode: string) => {
+    setTransportMode(mode);
+    setActiveTab(mode);
+    const apiKey =
+      Constants.expoConfig?.extra?.googleMapsApiKey ||
+      process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ||
+      "";
+    fetchDirections(mode, apiKey);
+  };
+
   return {
     getUserLocation,
     handleMapPress,
@@ -431,6 +482,7 @@ export const createMapFacade = (params: {
     fetchDirections,
     resetNavigation,
     handleNavigationPopup,
+    handleTransportModeChange,
   };
 };
 
