@@ -20,7 +20,9 @@ export const brandColors = {
   orangeTransparent: "#FFA00180",
   darkGreen: "#1E4F05",
   darkGreenTransparent: "#1E4F0580",
-  lightBlue: "#f0f8ff",
+  lightBlue: "#f0f8ff",       // Light blue
+  lightPink: "#F8BBD0",  // Light pink for tutorials
+  purple: "#B39DDB",     // Purple for labs
 };
 
 // Use brandColors in place of the colors object
@@ -480,12 +482,177 @@ const navigationStyles = {
   },
 };
 
+// Class Schedule styles
+const classScheduleStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 30,
+  },
+  googleButton: {
+    width: 240,
+    height: 48,
+    marginTop: 16,
+  },
+  scheduleContainer: {
+    width: "100%",
+  },
+  scrollView: {
+    marginTop: 20,
+  },
+  scheduleGrid: {
+    flexDirection: "row",
+    position: "relative",
+  },
+  timeColumn: {
+    width: 60,
+    alignItems: "flex-end",
+    paddingRight: 10,
+  },
+  timeLabel: {
+    height: 40,
+    fontSize: 14,
+    color: "#888",
+    textAlign: "right",
+    paddingRight: 10,
+  },
+  eventColumn: {
+    flex: 1,
+    position: "relative",
+  },
+  eventTile: {
+    position: "absolute",
+    left: 10,
+    width: "90%",
+    padding: 8,
+    borderRadius: 5,
+  },
+  eventTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  eventTime: {
+    fontSize: 12,
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  eventLocation: {
+    fontSize: 12,
+    color: "#000",
+    fontStyle: "italic",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  successText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#4CAF50",
+    marginVertical: 10,
+  },
+  userEmail: {
+    fontSize: 14,
+    fontStyle: "italic",
+    color: "#555",
+    marginBottom: 10,
+  },
+  bottomSlider: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 400,
+    backgroundColor: "white",
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    padding: 16,
+  },
+  closeButton: {
+    position: "absolute",
+    left: 1,
+    top: 1,
+    backgroundColor: "white",
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  closeButtonText: {
+    color: "black",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  sliderIcon: {
+    alignSelf: "center",
+    width: 40,
+    height: 4,
+    backgroundColor: "#ccc",
+    borderRadius: 2,
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  sliderTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 8,
+    marginTop: 20,
+    marginLeft: 1,
+  },
+  sliderDateTime: {
+    fontSize: 14,
+    marginBottom: 4,
+    color: "#555",
+  },
+  sliderLocation: {
+    fontSize: 14,
+    marginBottom: 16,
+    color: "#555",
+  },
+  roomRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+    flexWrap: "wrap",
+  },
+  sliderRoom: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+    maxWidth: "85%",
+  },
+  arrowImageInline: {
+    width: 40,
+    height: 40,
+    marginLeft: 30,
+    resizeMode: "contain",
+  },
+});
+
 // Export everything together as globalStyles for backward compatibility
 export const globalStyles = {
   ...viewStyles,
   ...textStyles,
   ...imageStyles,
   ...navigationStyles,
+  ...classScheduleStyles,
 };
 
 export const mainEdges = ["left", "right", "bottom"];
