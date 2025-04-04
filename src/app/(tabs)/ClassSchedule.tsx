@@ -18,7 +18,7 @@ import {
   statusCodes,
 } from "@react-native-google-signin/google-signin";
 import { globalStyles, brandColors } from "@/app/styles/globalStyles";
-import { GOOGLE_WEB_CLIENT_ID, GOOGLE_IOS_CLIENT_ID } from '@env';
+import Constants from 'expo-constants';
 
 const ClassSchedule = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -79,8 +79,8 @@ const ClassSchedule = () => {
         "profile",
         "email",
       ],
-      webClientId: GOOGLE_WEB_CLIENT_ID,
-      iosClientId: GOOGLE_IOS_CLIENT_ID,
+      webClientId: Constants.expoConfig?.extra?.googleWebClientId,
+      iosClientId: Constants.expoConfig?.extra?.googleIosClientId,
       offlineAccess: true,
       forceCodeForRefreshToken: true,
     });
