@@ -27,13 +27,13 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> implements Shu
 
   protected mapToDTO(doc: any): ShuttleState {
     return {
-      locations: doc.locations || [],
-      route: doc.route || null,
-      estimatedWaitTime: doc.estimatedWaitTime || null,
-      isLoading: doc.isLoading || false,
-      error: doc.error || null,
-      createdAt: doc.createdAt || new Date(),
-      updatedAt: doc.updatedAt || new Date(),
+      locations: doc.locations ?? [],
+      route: doc.route ?? null,
+      estimatedWaitTime: doc.estimatedWaitTime ?? null,
+      isLoading: doc.isLoading ?? false,
+      error: doc.error ?? null,
+      createdAt: doc.createdAt ?? new Date(),
+      updatedAt: doc.updatedAt ?? new Date(),
     };
   }
 
