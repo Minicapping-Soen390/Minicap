@@ -304,7 +304,7 @@ export const createMapFacade = (params: {
 
   // Helper: Building Validation
   const isValidBuilding = (building: any): boolean => {
-    if (!building || !building.name) {
+    if (!building ?? !building.name) {
       console.error("Invalid building data:", building);
       Alert.alert("Error", "Invalid building data");
       return false;
@@ -317,8 +317,8 @@ export const createMapFacade = (params: {
     name: building.name,
     address: building.address,
     openingHours: building.openingHours,
-    latitude: building.latitude || 0,
-    longitude: building.longitude || 0,
+    latitude: building.latitude ?? 0,
+    longitude: building.longitude ?? 0,
     campus: building.campus,
   });
 
@@ -338,7 +338,7 @@ export const createMapFacade = (params: {
   const handleEndSelection = (info: any, buildingId: string) => {
     console.log(`Setting ${info.name} as end point.`);
 
-    const start = startPoint || getUserLocationFallback();
+    const start = startPoint ?? getUserLocationFallback();
     if (!start) return;
 
     const effectiveEndPoint = info;
@@ -362,7 +362,7 @@ export const createMapFacade = (params: {
         onPress: () =>
           fetchDirections(
             transportMode,
-            Constants.expoConfig?.extra?.googleMapsApiKey || "",
+            Constants.expoConfig?.extra?.googleMapsApiKey ?? "",
             start,
             effectiveEndPoint
           ),
@@ -409,7 +409,7 @@ export const createMapFacade = (params: {
             destination: `${endPoint.latitude},${endPoint.longitude}`,
             mode,
             key:
-              Constants.expoConfig?.extra?.googleMapsApiKey ||
+              Constants.expoConfig?.extra?.googleMapsApiKey ??
               process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
           },
         }
@@ -444,14 +444,14 @@ export const createMapFacade = (params: {
     customStartPoint?: any,
     customEndPoint?: any
   ) => {
-    const realStart = customStartPoint || startPoint;
-    const realEnd = customEndPoint || endPoint;
+    const realStart = customStartPoint ?? startPoint;
+    const realEnd = customEndPoint ?? endPoint;
 
     console.log("Fetching directions...");
     console.log("Start Point:", realStart);
     console.log("End Point:", realEnd);
 
-    if (!realStart || !realEnd) {
+    if (!realStart ?? !realEnd) {
       Alert.alert("Error", "Both start and end points must be set.");
       return;
     }
@@ -519,8 +519,8 @@ export const createMapFacade = (params: {
     setTransportMode(mode);
     setActiveTab(mode);
     const apiKey =
-      Constants.expoConfig?.extra?.googleMapsApiKey ||
-      process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ||
+      Constants.expoConfig?.extra?.googleMapsApiKey ??
+      process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
       "";
     fetchDirections(mode, apiKey);
   };

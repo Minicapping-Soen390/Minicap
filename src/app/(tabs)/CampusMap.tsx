@@ -191,7 +191,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             )
           ) : (
             <Polyline
-              coordinates={shuttlePolyline || []}
+              coordinates={shuttlePolyline ?? []}
               strokeColor={brandColors.concordiaRed}
               strokeWidth={5}
               lineDashPattern={[10, 5]}
@@ -272,7 +272,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   console.log("Starting navigation...");
                   mapFacade.fetchDirections(
                     "transit",
-                    Constants.expoConfig?.extra?.googleMapsApiKey || ""
+                    Constants.expoConfig?.extra?.googleMapsApiKey ?? ""
                   );
                 }}
                 style={globalStyles.addButton}

@@ -79,8 +79,12 @@ export class ShuttleRepositoryImpl implements ShuttleRepository {
           updatedAt: new Date(),
         },
       ];
-    } catch (error) {
-      throw new ShuttleError('Failed to fetch shuttle locations', 'FETCH_ERROR');
+    } catch (error: any) {
+      console.error("Error in getShuttleLocations:", error);
+      throw new ShuttleError(
+        `Failed to fetch shuttle locations: ${error.message || "Unknown error"}`,
+        'FETCH_ERROR'
+      );
     }
   }
 

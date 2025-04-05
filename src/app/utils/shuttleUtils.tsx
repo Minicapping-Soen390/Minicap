@@ -145,7 +145,7 @@ export const createShuttleFacade = ({
           }`,
           mode: "walking",
           key:
-            Constants.expoConfig?.extra?.googleMapsApiKey ||
+            Constants.expoConfig?.extra?.googleMapsApiKey ??
             process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
         },
       }
@@ -174,7 +174,7 @@ export const createShuttleFacade = ({
           }`,
           mode: "driving",
           key:
-            Constants.expoConfig?.extra?.googleMapsApiKey ||
+            Constants.expoConfig?.extra?.googleMapsApiKey ??
             process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
         },
       }
