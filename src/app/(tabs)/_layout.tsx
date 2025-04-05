@@ -6,7 +6,7 @@ import Loader from "../../components/Loader";
 import { icons, images } from "../../constants";
 import { globalStyles } from "../styles/globalStyles";
 
-// === Tab Icon Component ===
+// === Tab Icon Component (wrapped with label container) ===
 const TabIcon = ({
   icon,
   name,
@@ -43,7 +43,7 @@ const TabIcon = ({
   );
 };
 
-// Icon Render Functions
+// === Icon Render Functions ===
 const CampusMapIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.Campus} focused={focused} name="Campus" />
 );
@@ -56,11 +56,15 @@ const SearchIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.search} focused={focused} name="Search" />
 );
 
-const MenuIcon = ({ focused }: { focused: boolean }) => (
+const HamburgerIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.Hamburger} focused={focused} name="Menu" />
 );
 
-// Main TabLayout Component
+// === External Function for Menu Tab Icon to avoid inline definition
+const MenuTabIcon = (menuVisible: boolean) => () =>
+  <HamburgerIcon focused={menuVisible} />;
+
+// === Tab Layout Component ===
 const TabLayout = () => {
   const [loading, setLoading] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -127,7 +131,7 @@ const TabLayout = () => {
           options={{
             title: "Menu",
             headerShown: false,
-            tabBarIcon: () => <MenuIcon focused={menuVisible} />,
+            tabBarIcon: MenuTabIcon(menuVisible),
           }}
         />
       </Tabs>
@@ -147,7 +151,7 @@ const TabLayout = () => {
         </TouchableWithoutFeedback>
       )}
 
-      {/* Loader */}
+      {/* Loader Overlay */}
       {loading && <Loader isLoading={loading} />}
     </SafeAreaView>
   );
