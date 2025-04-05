@@ -290,115 +290,107 @@ export const createMapFacade = (params: {
     building: any,
     selectionType: "start" | "end"
   ) => {
+    if (!isValidBuilding(building)) return;
+
+    const info = extractBuildingInfo(building);
+
+    if (selectionType === "start") {
+      handleStartSelection(info, building._id);
+      return;
+    }
+
+    handleEndSelection(info, building._id);
+  };
+
+  // Helper: Validate building
+  const isValidBuilding = (building: any): boolean => {
     if (!building || !building.name) {
       console.error("Invalid building data:", building);
       Alert.alert("Error", "Invalid building data");
-      return;
+      return false;
     }
-    const info = {
-      name: building.name,
-      address: building.address,
-      openingHours: building.openingHours,
-      latitude: building.latitude || 0,
-      longitude: building.longitude || 0,
-      campus: building.campus,
-    };
+    return true;
+  };
 
-    if (selectionType === "start") {
-      console.log(`Setting ${building.name} as start point.`);
-      setStartPoint(info);
-      setBuildingInfo(info);
-      setSelectedBuildingId(building._id);
-      Alert.alert(
-        "Start Point Selected",
-        `Selected ${building.name} as start point. Now select your destination.`
-      );
-    } else {
-      console.log(`Setting ${building.name} as end point.`);
-      if (!startPoint) {
-        if (userLocation) {
-          const userLocationInfo = {
-            name: "My Location",
-            address: "Current Location",
-            openingHours: "",
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
-            campus: determineUserCampus(userLocation),
-          };
-          setStartPoint(userLocationInfo);
-        } else {
-          Alert.alert(
-            "Location Required",
-            "Please enable location services to use your current location as the starting point."
-          );
-          return;
-        }
-      }
-      const effectiveEndPoint = info;
-      setEndPoint(effectiveEndPoint);
-      setBuildingInfo(info);
-      setSelectedBuildingId(building._id);
+  // Helper: Extract info object
+  const extractBuildingInfo = (building: any) => ({
+    name: building.name,
+    address: building.address,
+    openingHours: building.openingHours,
+    latitude: building.latitude || 0,
+    longitude: building.longitude || 0,
+    campus: building.campus,
+  });
 
-      const effectiveStartPoint =
-        startPoint ||
-        (userLocation
-          ? {
-              name: "My Location",
-              campus: determineUserCampus(userLocation),
-            }
-          : null);
+  // Helper: Handle setting start
+  const handleStartSelection = (info: any, buildingId: string) => {
+    console.log(`Setting ${info.name} as start point.`);
+    setStartPoint(info);
+    setBuildingInfo(info);
+    setSelectedBuildingId(buildingId);
+    Alert.alert(
+      "Start Point Selected",
+      `Selected ${info.name} as start point. Now select your destination.`
+    );
+  };
 
-      if (
-        effectiveStartPoint &&
-        effectiveStartPoint.campus !== building.campus
-      ) {
-        setIsCrossCampusNavigation(true);
-        Alert.alert(
-          "Cross-Campus Route",
-          `Route from ${effectiveStartPoint.name} to ${building.name} will use the shuttle service.`,
-          [
-            {
-              text: "Start Navigation",
-              onPress: () =>
-                fetchDirections(
-                  "transit",
-                  Constants.expoConfig?.extra?.googleMapsApiKey || "",
-                  effectiveStartPoint,
-                  effectiveEndPoint
-                ),
-            },
-            {
-              text: "Cancel",
-              style: "cancel",
-            },
-          ]
-        );
-      } else {
-        setIsCrossCampusNavigation(false);
-        Alert.alert(
-          "Route Selected",
-          `Route from ${
-            effectiveStartPoint ? effectiveStartPoint.name : "current location"
-          } to ${building.name}`,
-          [
-            {
-              text: "Start Navigation",
-              onPress: () =>
-                fetchDirections(
-                  "walking",
-                  Constants.expoConfig?.extra?.googleMapsApiKey || "",
-                  effectiveStartPoint,
-                  effectiveEndPoint
-                ),
-            },
-            {
-              text: "Cancel",
-              style: "cancel",
-            },
-          ]
-        );
-      }
+  // Helper: Handle setting end
+  const handleEndSelection = (info: any, buildingId: string) => {
+    console.log(`Setting ${info.name} as end point.`);
+
+    const start = startPoint || getUserLocationFallback();
+    if (!start) return;
+
+    const effectiveEndPoint = info;
+    setEndPoint(effectiveEndPoint);
+    setBuildingInfo(info);
+    setSelectedBuildingId(buildingId);
+
+    const isCrossCampus = start.campus !== info.campus;
+    setIsCrossCampusNavigation(isCrossCampus);
+
+    const navText = isCrossCampus ? "Cross-Campus Route" : "Route Selected";
+    const routeMessage = isCrossCampus
+      ? `Route from ${start.name} to ${info.name} will use the shuttle service.`
+      : `Route from ${start.name} to ${info.name}`;
+
+    const transportMode = isCrossCampus ? "transit" : "walking";
+
+    Alert.alert(navText, routeMessage, [
+      {
+        text: "Start Navigation",
+        onPress: () =>
+          fetchDirections(
+            transportMode,
+            Constants.expoConfig?.extra?.googleMapsApiKey || "",
+            start,
+            effectiveEndPoint
+          ),
+      },
+      { text: "Cancel", style: "cancel" },
+    ]);
+  };
+
+  // Helper: Get fallback location if needed
+  const getUserLocationFallback = () => {
+    if (userLocation) {
+      const fallback = {
+        name: "My Location",
+        address: "Current Location",
+        openingHours: "",
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+        campus: determineUserCampus(userLocation),
+      };
+      setStartPoint(fallback);
+      return fallback;
     }
+
+    Alert.alert(
+      "Location Required",
+      "Please enable location services to use your current location as the starting point."
+    );
+    return null;
   };
 
   const fetchRegularDirections = async (
