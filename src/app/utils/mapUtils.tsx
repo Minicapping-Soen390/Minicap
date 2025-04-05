@@ -304,7 +304,7 @@ export const createMapFacade = (params: {
 
   // Helper: Building Validation
   const isValidBuilding = (building: any): boolean => {
-    if (!building ?? !building.name) {
+    if (!building || !building.name) {
       console.error("Invalid building data:", building);
       Alert.alert("Error", "Invalid building data");
       return false;
@@ -451,7 +451,7 @@ export const createMapFacade = (params: {
     console.log("Start Point:", realStart);
     console.log("End Point:", realEnd);
 
-    if (!realStart ?? !realEnd) {
+    if (!realStart || !realEnd) {
       Alert.alert("Error", "Both start and end points must be set.");
       return;
     }
