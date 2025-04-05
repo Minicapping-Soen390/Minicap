@@ -302,7 +302,7 @@ export const createMapFacade = (params: {
     handleEndSelection(info, building._id);
   };
 
-  // Helper: Validate building
+  // Helper: Building Validation
   const isValidBuilding = (building: any): boolean => {
     if (!building || !building.name) {
       console.error("Invalid building data:", building);
@@ -312,7 +312,7 @@ export const createMapFacade = (params: {
     return true;
   };
 
-  // Helper: Extract info object
+  // Helper: Info object
   const extractBuildingInfo = (building: any) => ({
     name: building.name,
     address: building.address,
@@ -322,7 +322,7 @@ export const createMapFacade = (params: {
     campus: building.campus,
   });
 
-  // Helper: Handle setting start
+  // Helper: Startpoint
   const handleStartSelection = (info: any, buildingId: string) => {
     console.log(`Setting ${info.name} as start point.`);
     setStartPoint(info);
@@ -334,7 +334,7 @@ export const createMapFacade = (params: {
     );
   };
 
-  // Helper: Handle setting end
+  // Helper: Endpoint
   const handleEndSelection = (info: any, buildingId: string) => {
     console.log(`Setting ${info.name} as end point.`);
 
