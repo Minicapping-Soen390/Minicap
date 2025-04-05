@@ -6,7 +6,7 @@ import Loader from "../../components/Loader";
 import { icons, images } from "../../constants";
 import { globalStyles } from "../styles/globalStyles";
 
-// === Tab Icon Component (wrapped with label container) ===
+// === Tab Icon Component ===
 const TabIcon = ({
   icon,
   name,
@@ -43,7 +43,7 @@ const TabIcon = ({
   );
 };
 
-// === Externalized Icon Render Functions ===
+// Icon Render Functions
 const CampusMapIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.Campus} focused={focused} name="Campus" />
 );
@@ -56,11 +56,11 @@ const SearchIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.search} focused={focused} name="Search" />
 );
 
-const HamburgerIcon = ({ focused }: { focused: boolean }) => (
+const MenuIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.Hamburger} focused={focused} name="Menu" />
 );
 
-// === Tab Layout Component ===
+// Main TabLayout Component
 const TabLayout = () => {
   const [loading, setLoading] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -70,8 +70,6 @@ const TabLayout = () => {
   const closeMenu = () => {
     if (menuVisible) setMenuVisible(false);
   };
-
-  const MenuIcon = () => <HamburgerIcon focused={menuVisible} />;
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -122,14 +120,14 @@ const TabLayout = () => {
           name="Home"
           listeners={{
             tabPress: (e) => {
-              e.preventDefault(); // Prevent navigation
+              e.preventDefault();
               setMenuVisible(!menuVisible);
             },
           }}
           options={{
             title: "Menu",
             headerShown: false,
-            tabBarIcon: MenuIcon,
+            tabBarIcon: () => <MenuIcon focused={menuVisible} />,
           }}
         />
       </Tabs>
@@ -149,7 +147,7 @@ const TabLayout = () => {
         </TouchableWithoutFeedback>
       )}
 
-      {/* Loader Overlay */}
+      {/* Loader */}
       {loading && <Loader isLoading={loading} />}
     </SafeAreaView>
   );
