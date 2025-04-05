@@ -1,37 +1,905 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="16" failures="0" errors="0" time="5.961">
-  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-04-05T22:46:59" time="5.331" tests="16">
-    <testcase classname="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" name="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" time="0.391">
+<testsuites name="jest tests" tests="17" failures="1" errors="0" time="2.715">
+  <testsuite name="CampusSwitcher Component" errors="0" failures="1" skipped="16" timestamp="2025-04-05T23:01:44" time="2.235" tests="17">
+    <testcase classname="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" name="CampusSwitcher Component renders CampusSwitcher correctly with SGW Campus" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" name="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" time="0.062">
+    <testcase classname="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" name="CampusSwitcher Component toggles between SGW and Loyola campus when the switch is pressed" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component updates the map region when the campus changes" name="CampusSwitcher Component updates the map region when the campus changes" time="0.052">
+    <testcase classname="CampusSwitcher Component updates the map region when the campus changes" name="CampusSwitcher Component updates the map region when the campus changes" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component requests and updates user location" name="CampusSwitcher Component requests and updates user location" time="0.103">
+    <testcase classname="CampusSwitcher Component requests and updates user location" name="CampusSwitcher Component requests and updates user location" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component displays error when location permission is denied" name="CampusSwitcher Component displays error when location permission is denied" time="0.064">
+    <testcase classname="CampusSwitcher Component displays error when location permission is denied" name="CampusSwitcher Component displays error when location permission is denied" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component displays error when fetching location fails" name="CampusSwitcher Component displays error when fetching location fails" time="0.054">
+    <testcase classname="CampusSwitcher Component displays error when fetching location fails" name="CampusSwitcher Component displays error when fetching location fails" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component switches between campuses and verifies map updates" name="CampusSwitcher Component switches between campuses and verifies map updates" time="0.055">
+    <testcase classname="CampusSwitcher Component switches between campuses and verifies map updates" name="CampusSwitcher Component switches between campuses and verifies map updates" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" name="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" time="0.066">
+    <testcase classname="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" name="CampusSwitcher Component ensures user location is updated and not equal to an incorrect location" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component displays building information when clicking on a building SWG" name="CampusSwitcher Component displays building information when clicking on a building SWG" time="0.04">
+    <testcase classname="CampusSwitcher Component displays building information when clicking on a building SWG" name="CampusSwitcher Component displays building information when clicking on a building SWG" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component displays building information when clicking on a building LOY" name="CampusSwitcher Component displays building information when clicking on a building LOY" time="0.043">
+    <testcase classname="CampusSwitcher Component displays building information when clicking on a building LOY" name="CampusSwitcher Component displays building information when clicking on a building LOY" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component hides building information when clicking outside" name="CampusSwitcher Component hides building information when clicking outside" time="0.047">
+    <testcase classname="CampusSwitcher Component hides building information when clicking outside" name="CampusSwitcher Component hides building information when clicking outside" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component handles case where building polygon is invalid" name="CampusSwitcher Component handles case where building polygon is invalid" time="0.04">
+    <testcase classname="CampusSwitcher Component handles case where building polygon is invalid" name="CampusSwitcher Component handles case where building polygon is invalid" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component handles case where user location is outside building polygon" name="CampusSwitcher Component handles case where user location is outside building polygon" time="0.066">
+    <testcase classname="CampusSwitcher Component handles case where user location is outside building polygon" name="CampusSwitcher Component handles case where user location is outside building polygon" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component zooms in and out when pinch gesture is performed" name="CampusSwitcher Component zooms in and out when pinch gesture is performed" time="0.038">
+    <testcase classname="CampusSwitcher Component zooms in and out when pinch gesture is performed" name="CampusSwitcher Component zooms in and out when pinch gesture is performed" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component scrolls left and right to change visible coordinates" name="CampusSwitcher Component scrolls left and right to change visible coordinates" time="0.027">
+    <testcase classname="CampusSwitcher Component scrolls left and right to change visible coordinates" name="CampusSwitcher Component scrolls left and right to change visible coordinates" time="0">
+      <skipped/>
     </testcase>
-    <testcase classname="CampusSwitcher Component scrolls up and down to change visible coordinates" name="CampusSwitcher Component scrolls up and down to change visible coordinates" time="0.026">
+    <testcase classname="CampusSwitcher Component scrolls up and down to change visible coordinates" name="CampusSwitcher Component scrolls up and down to change visible coordinates" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="CampusSwitcher Component selects start and destination buildings for outdoor directions" name="CampusSwitcher Component selects start and destination buildings for outdoor directions" time="0.465">
+      <failure>Error: Unable to find an element with testID: go-to-navigation-button
+
+&lt;RNCSafeAreaView&gt;
+  &lt;View&gt;
+    &lt;View&gt;
+      &lt;View&gt;
+        &lt;Text&gt;
+          SGW
+        &lt;/Text&gt;
+        &lt;RCTSwitch
+          accessibilityRole=&quot;switch&quot;
+          testID=&quot;campus-switch&quot;
+          value={false}
+        /&gt;
+        &lt;Text&gt;
+          LOY
+        &lt;/Text&gt;
+      &lt;/View&gt;
+    &lt;/View&gt;
+  &lt;/View&gt;
+  &lt;View&gt;
+    &lt;View&gt;
+      &lt;div
+        accessible={false}
+        testID=&quot;campus-map&quot;
+      &gt;
+        &lt;div
+          testID=&quot;user-location-marker&quot;
+          title=&quot;Your Location&quot;
+        /&gt;
+        &lt;div
+          testID=&quot;building-info&quot;
+          title=&quot;MB Building&quot;
+        /&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad67&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                AD
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad68&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                B 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad69&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                BB
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad6a&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                BH
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad6b&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                CC
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad6c&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                CI
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad6d&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                CJ
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad6e&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                CJ
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad6f&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                CJ
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad70&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                CL
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad71&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                D 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad72&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                EN
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad73&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                ER
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad76&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                EV
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad77&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                FA
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad78&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                FB
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad79&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                FC
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad7a&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                FG
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad7b&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                GA
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad7c&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                GE
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad7d&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                GM
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad7e&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                GN
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad82&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                GS
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad83&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                H 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad84&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                HA
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad85&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                HB
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad86&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                HC
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad87&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                HU
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad88&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                JR
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad89&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                K 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad8a&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                LB
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad8d&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                M 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad8e&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                MB
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad8f&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                MI
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad94&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                MU
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad95&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                P 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad96&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                PB
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad97&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                PC
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad98&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                PR
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad99&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                PS
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad9a&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                PT
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad9b&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                PY
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad9c&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                Q 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad9d&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                R 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad9e&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                RA
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bad9f&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                RF
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada0&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                RR
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada1&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                S 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada2&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                SB
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada3&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                SC
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada4&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                SH
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada5&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                SP
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada6&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                T 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada7&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                TA
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada8&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                TB
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176bada9&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                TD
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176badab&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                V 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176badac&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                VA
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176badad&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                VE
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176badae&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                VL
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176badaf&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                X 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div /&gt;
+        &lt;div
+          testID=&quot;building-marker-67aaabc9a89802f0176badb0&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;View&gt;
+              &lt;Text&gt;
+                Z 
+              &lt;/Text&gt;
+            &lt;/View&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div
+          title=&quot;SGW Campus Shuttle Stop&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;Text&gt;
+              🚌
+            &lt;/Text&gt;
+            &lt;Text&gt;
+              SGW
+            &lt;/Text&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+        &lt;div
+          title=&quot;Loyola Campus Shuttle Stop&quot;
+        &gt;
+          &lt;View&gt;
+            &lt;Text&gt;
+              🚌
+            &lt;/Text&gt;
+            &lt;Text&gt;
+              LOY
+            &lt;/Text&gt;
+          &lt;/View&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;View
+        accessibilityState={
+          {
+            &quot;disabled&quot;: false,
+          }
+        }
+        accessible={true}
+        testID=&quot;refresh-location-button&quot;
+      &gt;
+        &lt;Text&gt;
+          My Location
+        &lt;/Text&gt;
+      &lt;/View&gt;
+      &lt;View&gt;
+        &lt;Text&gt;
+          MB Building
+        &lt;/Text&gt;
+        &lt;Text&gt;
+          Mon-Fri: 9:00 AM - 6:00 PM
+        &lt;/Text&gt;
+        &lt;Text&gt;
+          1450 Guy Street
+        &lt;/Text&gt;
+        &lt;View&gt;
+          &lt;View
+            accessible={true}
+          &gt;
+            &lt;Text&gt;
+              Set as Start
+            &lt;/Text&gt;
+          &lt;/View&gt;
+          &lt;View
+            accessible={true}
+          &gt;
+            &lt;Text&gt;
+              Set as Destination
+            &lt;/Text&gt;
+          &lt;/View&gt;
+        &lt;/View&gt;
+      &lt;/View&gt;
+    &lt;/View&gt;
+  &lt;/View&gt;
+&lt;/RNCSafeAreaView&gt;
+    at Object.getByTestId (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:396:24)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+    at _next (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)</failure>
     </testcase>
   </testsuite>
 </testsuites>

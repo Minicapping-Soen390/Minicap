@@ -1,3 +1,4 @@
+//shuttleSchedule.ts
 export const shuttleSchedule = {
   LOY: [
     '09:15', '09:30', '09:45', '10:15', '10:45', '11:00', '11:15',
