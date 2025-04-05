@@ -253,6 +253,7 @@ export const createMapFacade = (params: {
             fillColor={fill}
           />
           <Marker
+            testID={`building-marker-${building._id}`}
             coordinate={center}
             onPress={() => {
               console.log(`Building selected: ${building.name}`);

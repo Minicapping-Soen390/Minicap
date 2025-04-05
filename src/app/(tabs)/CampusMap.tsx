@@ -166,6 +166,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         accessible={false}
       >
         <MapView
+          testID="campus-map"
           ref={(ref) => (mapRef.current = ref)}
           style={globalStyles.map}
           initialRegion={region}
@@ -179,6 +180,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               coordinate={userLocation}
               title="Your Location"
               pinColor="green"
+              testID="user-location-marker"
             />
           )}
           {activeTab !== "transit" ? (
@@ -199,6 +201,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           )}
           {buildingInfo && (
             <Marker
+              testID="building-info"
               coordinate={{
                 latitude: buildingInfo.latitude,
                 longitude: buildingInfo.longitude,
@@ -245,6 +248,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           setIsRefreshing(false);
         }}
         disabled={isRefreshing}
+        testID="refresh-location-button"
       >
         {isRefreshing ? (
           <ActivityIndicator color="white" size="small" />
@@ -456,6 +460,7 @@ const CampusSwitcher: React.FC = () => {
           <View style={globalStyles.switchContainer}>
             <Text style={globalStyles.switchText}>SGW</Text>
             <Switch
+              testID="campus-switch"
               value={!isSGWCampus}
               onValueChange={() => {
                 console.log("Switching campus...");
