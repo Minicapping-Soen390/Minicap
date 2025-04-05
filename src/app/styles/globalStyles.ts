@@ -359,6 +359,69 @@ const viewStyles = StyleSheet.create({
     fontSize: 14,
     marginVertical: 2,
   },
+  scheduleContainer: {
+    width: "100%",
+  },
+  scrollView: {
+    marginTop: 20,
+  },
+  scheduleGrid: {
+    flexDirection: "row",
+    position: "relative",
+  },
+  timeColumn: {
+    width: 60,
+    alignItems: "flex-end",
+    paddingRight: 10,
+  },
+  eventColumn: {
+    flex: 1,
+    position: "relative",
+  },
+  eventTile: {
+    position: "absolute",
+    left: 10,
+    width: "90%",
+    backgroundColor: "#d32f2f",
+    padding: 8,
+    borderRadius: 5,
+  },
+  bottomSlider: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 450,
+    backgroundColor: "white",
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    padding: 16,
+  },
+  sliderIcon: {
+    alignSelf: "center",
+    width: 40,
+    height: 4,
+    backgroundColor: "#ccc",
+    borderRadius: 2,
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  roomRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+    flexWrap: "wrap",
+  },
+  googleButton: {
+    width: 240,
+    height: 48,
+    marginTop: 16,
+  },
 });
 
 // Text styles
@@ -428,7 +491,75 @@ const textStyles = StyleSheet.create({
     textAlign: "center",
     top:0
   },
-
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 30,
+  },
+  timeLabel: {
+    height: 40,
+    fontSize: 14,
+    color: "#888",
+    textAlign: "right",
+    paddingRight: 10,
+  },
+  eventTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  eventTime: {
+    fontSize: 12,
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  eventLocation: {
+    fontSize: 12,
+    color: "#000",
+    fontStyle: "italic",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  successText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#4CAF50",
+    marginVertical: 10,
+  },
+  userEmail: {
+    fontSize: 14,
+    fontStyle: "italic",
+    color: "#555",
+    marginBottom: 10,
+  },
+  sliderTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 8,
+    marginTop: 20,
+    marginLeft: 1,
+  },
+  sliderDateTime: {
+    fontSize: 14,
+    marginBottom: 4,
+    color: "#555",
+  },
+  sliderLocation: {
+    fontSize: 14,
+    marginBottom: 16,
+    color: "#555",
+  },
+  sliderRoom: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+    maxWidth: "85%",
+  },
 });
 
 // Image styles
@@ -450,6 +581,12 @@ const imageStyles = StyleSheet.create({
     width: rem(24),
     height: rem(35),
     tintColor: colors.orange,
+  },
+  arrowImageInline: {
+    width: 40,
+    height: 40,
+    marginLeft: 30,
+    resizeMode: "contain",
   },
 });
 

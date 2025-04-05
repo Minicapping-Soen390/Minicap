@@ -3,21 +3,21 @@ import {
   View,
   Text,
   Button,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
   Animated,
   PanResponder,
-  Image, // Import Image component
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import globalStyles from "../styles/globalStyles";
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
+import { fetchCalendarEvents } from "../utils/calendarUtils";
 
 const ClassSchedule = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -93,7 +93,8 @@ const ClassSchedule = () => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setUserInfo(userInfo);
-      fetchCalendarEvents();
+      const eventsData = await fetchCalendarEvents();
+      setEvents(eventsData);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log("User cancelled the sign-in flow");
@@ -121,66 +122,6 @@ const ClassSchedule = () => {
     }
   };
 
-  const fetchCalendarEvents = async () => {
-    try {
-      const tokens = await GoogleSignin.getTokens();
-      const accessToken = tokens.accessToken;
-
-      const now = new Date();
-      const startOfDay = new Date(now);
-      startOfDay.setHours(8, 0, 0, 0);
-      const endOfDay = new Date(now);
-      endOfDay.setHours(23, 0, 0, 0);
-
-      const response = await axios.get(
-        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-          params: {
-            timeMin: startOfDay.toISOString(),
-            timeMax: endOfDay.toISOString(),
-            singleEvents: true,
-            orderBy: "startTime",
-          },
-        }
-      );
-
-      const allEvents = response.data.items;
-
-      const classEvents = allEvents.filter(
-        (event: any) =>
-          event.location &&
-          (event.location.startsWith("Sir George Williams Campus") ||
-            event.location.startsWith("Loyola Campus"))
-      );
-
-      const formatDate = (dateTime: string) => {
-        if (!dateTime) return "No Time Available";
-        const date = new Date(dateTime);
-        return date.toLocaleString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        });
-      };
-
-      const eventsData = classEvents.map((event: any) => ({
-        id: event.id,
-        summary: event.summary || "No Title",
-        start: event.start?.dateTime,
-        startFormatted: formatDate(event.start?.dateTime),
-        end: event.end?.dateTime,
-        endFormatted: formatDate(event.end?.dateTime),
-        location: event.location || "No Location",
-      }));
-
-      setEvents(eventsData);
-      await AsyncStorage.setItem("calendarEvents", JSON.stringify(eventsData));
-    } catch (error) {
-      console.error("Error fetching calendar events:", error);
-    }
-  };
-
   const timeToIndex = (time: string) => {
     const date = new Date(time);
     const startHour = 8;
@@ -198,8 +139,10 @@ const ClassSchedule = () => {
   };  
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Class Schedule</Text>
+    <SafeAreaView style={globalStyles.container}>
+      <Text style={[globalStyles.title, { marginTop: 6, marginBottom: 10, alignSelf: 'center' }]}>
+        Class Schedule
+      </Text>
 
       {!userInfo ? (
         <GoogleSigninButton
@@ -208,41 +151,41 @@ const ClassSchedule = () => {
           color={GoogleSigninButton.Color.Dark}
           onPress={signIn}
           disabled={isSigninInProgress}
-          style={styles.googleButton}
+          style={[globalStyles.googleButton, { alignSelf: "center" }]}
         />
       ) : (
-        <View style={styles.scheduleContainer}>
-          <Text style={styles.successText}>✅ Connected to Google Calendar!</Text>
-          <Text style={styles.userEmail}>Signed in as: {userInfo.data.user?.email}</Text>
+        <View style={globalStyles.scheduleContainer}>
+          <Text style={globalStyles.successText}>✅ Connected to Google Calendar!</Text>
+          <Text style={globalStyles.userEmail}>Signed in as: {userInfo.data.user?.email}</Text>
           <Button
             testID="signout-button"
             title="Sign Out"
             onPress={signOut}
           />
 
-          <ScrollView style={styles.scrollView}>
-            <View style={styles.scheduleGrid}>
-              <View style={styles.timeColumn}>
+          <ScrollView style={globalStyles.scrollView}>
+            <View style={globalStyles.scheduleGrid}>
+              <View style={globalStyles.timeColumn}>
                 {Array.from({ length: 30 }).map((_, index) => {
                   const hour = 8 + Math.floor(index / 2);
                   const minute = index % 2 === 0 ? "00" : "30";
                   const timeLabel = `${hour}:${minute}`;
                   if (hour === 23 && minute === "00") {
                     return (
-                      <Text key={index} style={styles.timeLabel}>
+                      <Text key={index} style={globalStyles.timeLabel}>
                         11:00 PM
                       </Text>
                     );
                   }
                   return (
-                    <Text key={index} style={styles.timeLabel}>
+                    <Text key={index} style={globalStyles.timeLabel}>
                       {timeLabel}
                     </Text>
                   );
                 })}
               </View>
 
-              <View style={styles.eventColumn}>
+              <View style={globalStyles.eventColumn}>
                 {events.map((event) => {
                   const topValue = timeToIndex(event.start) * 40;
                   const eventHeight =
@@ -254,7 +197,7 @@ const ClassSchedule = () => {
                       activeOpacity={0.8}
                       onPress={() => toggleSlider(event)}
                       style={[
-                        styles.eventTile,
+                        globalStyles.eventTile,
                         {
                           top: topValue,
                           height: eventHeight,
@@ -262,11 +205,11 @@ const ClassSchedule = () => {
                         },
                       ]}                      
                     >
-                      <Text style={styles.eventTitle}>{event.summary}</Text>
-                      <Text style={styles.eventTime}>
+                      <Text style={globalStyles.eventTitle}>{event.summary}</Text>
+                      <Text style={globalStyles.eventTime}>
                         {event.startFormatted} - {event.endFormatted}
                       </Text>
-                      <Text style={styles.eventLocation}>{event.location}</Text>
+                      <Text style={globalStyles.eventLocation}>{event.location}</Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -277,7 +220,7 @@ const ClassSchedule = () => {
           {selectedEvent && (
             <Animated.View
               style={[
-                styles.bottomSlider,
+                globalStyles.bottomSlider,
                 { transform: [{ translateY: slideAnim }] },
               ]}
               {...panResponder.panHandlers}
@@ -285,32 +228,32 @@ const ClassSchedule = () => {
               <View>
                 {/* "X" Button on the Left */}
                 <TouchableOpacity
-                  style={styles.closeButton}
+                  style={globalStyles.closeButton}
                   onPress={closeSlider}
                 >
-                  <Text style={styles.closeButtonText}>X</Text>
+                  <Text style={globalStyles.closeButtonText}>X</Text>
                 </TouchableOpacity>
 
                 {/* Icon for the Slider (Simple Line) */}
-                <View style={styles.sliderIcon} />
+                <View style={globalStyles.sliderIcon} />
 
                 {/* Event Details */}
-                <Text style={styles.sliderTitle}>{selectedEvent.summary}</Text>
-                <Text style={styles.sliderDateTime}>
+                <Text style={globalStyles.sliderTitle}>{selectedEvent.summary}</Text>
+                <Text style={globalStyles.sliderDateTime}>
                   {new Date(selectedEvent.start).toLocaleDateString("en-US", {
                     weekday: "short",
                     month: "short",
                     day: "numeric",
                   })} • {selectedEvent.startFormatted} - {selectedEvent.endFormatted}
                 </Text>
-                <Text style={styles.sliderLocation}>{selectedEvent.location}</Text>
-                <View style={styles.roomRow}>
-                  <Text style={styles.sliderRoom} numberOfLines={2}>
+                <Text style={globalStyles.sliderLocation}>{selectedEvent.location}</Text>
+                <View style={globalStyles.roomRow}>
+                  <Text style={globalStyles.sliderRoom} numberOfLines={2}>
                     {selectedEvent.location.split(" - ").pop()?.trim()}
                   </Text>
                   <Image
                     source={require('assets/images/arrow.png')}
-                    style={styles.arrowImageInline}
+                    style={globalStyles.arrowImageInline}
                   />
                 </View>
               </View>
@@ -321,169 +264,5 @@ const ClassSchedule = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 30,
-  },
-  googleButton: {
-    width: 240,
-    height: 48,
-    marginTop: 16,
-  },
-  scheduleContainer: {
-    width: "100%",
-  },
-  scrollView: {
-    marginTop: 20,
-  },
-  scheduleGrid: {
-    flexDirection: "row",
-    position: "relative",
-  },
-  timeColumn: {
-    width: 60,
-    alignItems: "flex-end",
-    paddingRight: 10,
-  },
-  timeLabel: {
-    height: 40,
-    fontSize: 14,
-    color: "#888",
-    textAlign: "right",
-    paddingRight: 10,
-  },
-  eventColumn: {
-    flex: 1,
-    position: "relative",
-  },
-  eventTile: {
-    position: "absolute",
-    left: 10,
-    width: "90%",
-    backgroundColor: "#d32f2f",
-    padding: 8,
-    borderRadius: 5,
-  },
-  eventTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#000",
-    flexShrink: 1,
-    flexWrap: "wrap",
-  },
-  eventTime: {
-    fontSize: 12,
-    color: "#000",
-    flexShrink: 1,
-    flexWrap: "wrap",
-  },
-  eventLocation: {
-    fontSize: 12,
-    color: "#000",
-    fontStyle: "italic",
-    flexShrink: 1,
-    flexWrap: "wrap",
-  },
-  successText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#4CAF50",
-    marginVertical: 10,
-  },
-  userEmail: {
-    fontSize: 14,
-    fontStyle: "italic",
-    color: "#555",
-    marginBottom: 10,
-  },
-  bottomSlider: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 400, // Adjust height as needed
-    backgroundColor: "white",
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-    padding: 16,
-  },
-  closeButton: {
-    position: "absolute",
-    left: 1,
-    top: 1,
-    backgroundColor: "white", // 👉 Changed to white
-    borderRadius: 12,
-    width: 24,
-    height: 24,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1, // Optional: Add a border to make the circle visible
-    borderColor: "#ccc", // Optional: Border color
-  },
-  closeButtonText: {
-    color: "black", // 👉 Changed to black
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  sliderIcon: {
-    alignSelf: "center",
-    width: 40,
-    height: 4,
-    backgroundColor: "#ccc",
-    borderRadius: 2,
-    marginTop: 8,
-    marginBottom: 16,
-  },
-  sliderTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 8,
-    marginTop: 20, // 👉 Increased to create more space
-    marginLeft: 1,
-  },
-  sliderDateTime: {
-    fontSize: 14,
-    marginBottom: 4,
-    color: "#555",
-  },
-  sliderLocation: {
-    fontSize: 14,
-    marginBottom: 16,
-    color: "#555",
-  },
-  roomRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 12,
-    flexWrap: "wrap",
-  },
-  sliderRoom: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#000",
-    flexShrink: 1,
-    flexWrap: "wrap",
-    maxWidth: "85%", // prevents overlap
-  },
-  arrowImageInline: {
-    width: 40,
-    height: 40,
-    marginLeft: 30,
-    resizeMode: "contain",
-  },  
-});
 
 export default ClassSchedule;
