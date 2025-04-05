@@ -3,7 +3,6 @@ import { ShuttleRepository } from '@/repositories/ShuttleRepository';
 import { ShuttleState, ShuttlePoint, ShuttleRoute, ShuttleStop, ShuttleDepartureInfo } from '@/models/Shuttle';
 import { ShuttleService } from '@/services/ShuttleService';
 import { BaseViewModel } from './BaseViewModel';
-import { Audit } from '@/models/Audit';
 
 export class ShuttleViewModel extends BaseViewModel<ShuttleState> implements ShuttleRepository {
   private repository: ShuttleRepository;

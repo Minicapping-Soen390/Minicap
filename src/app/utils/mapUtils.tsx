@@ -1,3 +1,4 @@
+//mapUtils.tsx
 import React from "react";
 import { View, Text, Alert } from "react-native";
 import { Polygon, Marker, LatLng, Region } from "react-native-maps";
@@ -31,7 +32,7 @@ export const decodePolyline = (encoded: string) => {
       shift += 5;
     } while (byte >= 0x20);
 
-    const deltaLat = (result & 0x01) ? ~(result >> 1) : result >> 1;
+    const deltaLat = result & 0x01 ? ~(result >> 1) : result >> 1;
     latitude += deltaLat;
 
     shift = 0;
@@ -43,7 +44,7 @@ export const decodePolyline = (encoded: string) => {
       shift += 5;
     } while (byte >= 0x20);
 
-    const deltaLng = (result & 0x01) ? ~(result >> 1) : result >> 1;
+    const deltaLng = result & 0x01 ? ~(result >> 1) : result >> 1;
     longitude += deltaLng;
 
     path.push({
@@ -66,7 +67,8 @@ export const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
     const xj = polygon[j].longitude,
       yj = polygon[j].latitude;
 
-    const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    const intersect =
+      yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
     if (intersect) inside = !inside;
   }
 
@@ -178,7 +180,9 @@ export const createMapFacade = (params: {
   ) => {
     return buildingsData.map((building) => {
       if (!Array.isArray(building.polygonShape)) {
-        console.warn(`Building ${building._id} does not have a valid polygonShape`);
+        console.warn(
+          `Building ${building._id} does not have a valid polygonShape`
+        );
         return null;
       }
 
@@ -206,24 +210,37 @@ export const createMapFacade = (params: {
       center.latitude /= coordinates.length;
       center.longitude /= coordinates.length;
 
-      const isInside = userLocation && isPointInPolygon(userLocation, coordinates);
+      const isInside =
+        userLocation && isPointInPolygon(userLocation, coordinates);
       const isSelected = selectedBuildingId === building._id;
 
       const colorSettings = {
-        insideSelected: { fill: brandColors.orangeTransparent, stroke: brandColors.darkGreen },
-        inside: { fill: brandColors.darkGreenTransparent, stroke: brandColors.darkGreen },
-        selected: { fill: brandColors.orangeTransparent, stroke: brandColors.concordiaRed },
-        default: { fill: brandColors.concordiaRedTransparent, stroke: brandColors.concordiaRed },
+        insideSelected: {
+          fill: brandColors.orangeTransparent,
+          stroke: brandColors.darkGreen,
+        },
+        inside: {
+          fill: brandColors.darkGreenTransparent,
+          stroke: brandColors.darkGreen,
+        },
+        selected: {
+          fill: brandColors.orangeTransparent,
+          stroke: brandColors.concordiaRed,
+        },
+        default: {
+          fill: brandColors.concordiaRedTransparent,
+          stroke: brandColors.concordiaRed,
+        },
       };
 
       const { fill, stroke } =
         isInside && isSelected
           ? colorSettings.insideSelected
           : isInside
-            ? colorSettings.inside
-            : isSelected
-              ? colorSettings.selected
-              : colorSettings.default;
+          ? colorSettings.inside
+          : isSelected
+          ? colorSettings.selected
+          : colorSettings.default;
 
       const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
 
@@ -258,7 +275,9 @@ export const createMapFacade = (params: {
           >
             <View style={globalStyles.marker}>
               <View style={globalStyles.buildingButton}>
-                <Text style={globalStyles.buildingButtonText}>{buildingNameInitials}</Text>
+                <Text style={globalStyles.buildingButtonText}>
+                  {buildingNameInitials}
+                </Text>
               </View>
             </View>
           </Marker>
@@ -267,7 +286,10 @@ export const createMapFacade = (params: {
     });
   };
 
-  const handleBuildingSelection = (building: any, selectionType: "start" | "end") => {
+  const handleBuildingSelection = (
+    building: any,
+    selectionType: "start" | "end"
+  ) => {
     if (!building || !building.name) {
       console.error("Invalid building data:", building);
       Alert.alert("Error", "Invalid building data");
@@ -287,7 +309,10 @@ export const createMapFacade = (params: {
       setStartPoint(info);
       setBuildingInfo(info);
       setSelectedBuildingId(building._id);
-      Alert.alert("Start Point Selected", `Selected ${building.name} as start point. Now select your destination.`);
+      Alert.alert(
+        "Start Point Selected",
+        `Selected ${building.name} as start point. Now select your destination.`
+      );
     } else {
       console.log(`Setting ${building.name} as end point.`);
       if (!startPoint) {
@@ -302,20 +327,31 @@ export const createMapFacade = (params: {
           };
           setStartPoint(userLocationInfo);
         } else {
-          Alert.alert("Location Required", "Please enable location services to use your current location as the starting point.");
+          Alert.alert(
+            "Location Required",
+            "Please enable location services to use your current location as the starting point."
+          );
           return;
         }
       }
-      setEndPoint(info);
+      const effectiveEndPoint = info;
+      setEndPoint(effectiveEndPoint);
       setBuildingInfo(info);
       setSelectedBuildingId(building._id);
 
-      const effectiveStartPoint = startPoint || (userLocation ? {
-        name: "My Location",
-        campus: determineUserCampus(userLocation),
-      } : null);
+      const effectiveStartPoint =
+        startPoint ||
+        (userLocation
+          ? {
+              name: "My Location",
+              campus: determineUserCampus(userLocation),
+            }
+          : null);
 
-      if (effectiveStartPoint && effectiveStartPoint.campus !== building.campus) {
+      if (
+        effectiveStartPoint &&
+        effectiveStartPoint.campus !== building.campus
+      ) {
         setIsCrossCampusNavigation(true);
         Alert.alert(
           "Cross-Campus Route",
@@ -323,28 +359,42 @@ export const createMapFacade = (params: {
           [
             {
               text: "Start Navigation",
-              onPress: () => fetchDirections("transit")
+              onPress: () =>
+                fetchDirections(
+                  "transit",
+                  Constants.expoConfig?.extra?.googleMapsApiKey || "",
+                  effectiveStartPoint,
+                  effectiveEndPoint
+                ),
             },
             {
               text: "Cancel",
-              style: "cancel"
-            }
+              style: "cancel",
+            },
           ]
         );
       } else {
         setIsCrossCampusNavigation(false);
         Alert.alert(
           "Route Selected",
-          `Route from ${effectiveStartPoint ? effectiveStartPoint.name : 'current location'} to ${building.name}`,
+          `Route from ${
+            effectiveStartPoint ? effectiveStartPoint.name : "current location"
+          } to ${building.name}`,
           [
             {
               text: "Start Navigation",
-              onPress: () => fetchDirections("walking")
+              onPress: () =>
+                fetchDirections(
+                  "walking",
+                  Constants.expoConfig?.extra?.googleMapsApiKey || "",
+                  effectiveStartPoint,
+                  effectiveEndPoint
+                ),
             },
             {
               text: "Cancel",
-              style: "cancel"
-            }
+              style: "cancel",
+            },
           ]
         );
       }
@@ -359,14 +409,19 @@ export const createMapFacade = (params: {
   ): Promise<{ decodedRoute: LatLng[]; steps: any[] }> => {
     console.log("Fetching regular directions...");
     try {
-      const response = await axios.get("https://maps.googleapis.com/maps/api/directions/json", {
-        params: {
-          origin: `${startPoint.latitude},${startPoint.longitude}`,
-          destination: `${endPoint.latitude},${endPoint.longitude}`,
-          mode,
-          key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
-        },
-      });
+      const response = await axios.get(
+        "https://maps.googleapis.com/maps/api/directions/json",
+        {
+          params: {
+            origin: `${startPoint.latitude},${startPoint.longitude}`,
+            destination: `${endPoint.latitude},${endPoint.longitude}`,
+            mode,
+            key:
+              Constants.expoConfig?.extra?.googleMapsApiKey ||
+              process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+          },
+        }
+      );
       console.log("Regular directions response:", response.data);
       if (!response.data.routes?.[0]?.legs?.[0]) {
         throw new Error("Invalid route data received");
@@ -391,42 +446,46 @@ export const createMapFacade = (params: {
     }
   };
 
-  const fetchDirections = async (mode: string, googleMapsApiKey: string) => {
-    console.log("Fetching directions...");
-    console.log("Start Point:", startPoint);
-    console.log("End Point:", endPoint);
+  const fetchDirections = async (
+    mode: string,
+    googleMapsApiKey: string,
+    customStartPoint?: any,
+    customEndPoint?: any
+  ) => {
+    const realStart = customStartPoint || startPoint;
+    const realEnd = customEndPoint || endPoint;
 
-    if (!startPoint || !endPoint) {
-      console.error("Start or end point is missing. Start Point:", startPoint, "End Point:", endPoint);
+    console.log("Fetching directions...");
+    console.log("Start Point:", realStart);
+    console.log("End Point:", realEnd);
+
+    if (!realStart || !realEnd) {
       Alert.alert("Error", "Both start and end points must be set.");
       return;
     }
 
     try {
-      if (startPoint.campus !== endPoint.campus && mode === "transit") {
-        console.log("Fetching shuttle directions...");
-        const { shuttlePolyline, directions } = await shuttleFacade.fetchShuttleDirections(
-          startPoint,
-          endPoint,
-          Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
-          decodePolyline,
-          sanitizeHtmlContent
-        );
-        console.log("Shuttle directions received:", { shuttlePolyline, directions });
+      if (realStart.campus !== realEnd.campus && mode === "transit") {
+        const { shuttlePolyline, directions } =
+          await shuttleFacade.fetchShuttleDirections(
+            realStart,
+            realEnd,
+            googleMapsApiKey,
+            decodePolyline,
+            sanitizeHtmlContent
+          );
         setShuttlePolyline(shuttlePolyline);
         setNewRoute(null);
         setDirections(directions);
         setIsNavigationStarted(true);
         setBuildingInfo(null);
       } else {
-        console.log("Fetching regular directions...");
         const { decodedRoute, steps } = await fetchRegularDirections(
-          startPoint,
-          endPoint,
+          realStart,
+          realEnd,
           mode,
-          Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
+          googleMapsApiKey
         );
-        console.log("Regular directions received:", { decodedRoute, steps });
         setShuttlePolyline(null);
         setNewRoute(decodedRoute);
         setDirections(steps);
@@ -435,10 +494,11 @@ export const createMapFacade = (params: {
       }
     } catch (error) {
       console.error("Error in fetchDirections:", error);
-      // If your nav does not  work, still shows the directions popup but indicates the route could not be fetched
       setShuttlePolyline(null);
       setNewRoute([]);
-      setDirections([{ instruction: "Could not fetch route", distance: "", duration: "" }]);
+      setDirections([
+        { instruction: "Could not fetch route", distance: "", duration: "" },
+      ]);
       setIsNavigationStarted(true);
       setBuildingInfo(null);
     }
@@ -463,7 +523,7 @@ export const createMapFacade = (params: {
     }
   };
 
-const handleTransportModeChange = (mode: string) => {
+  const handleTransportModeChange = (mode: string) => {
     setTransportMode(mode);
     setActiveTab(mode);
     const apiKey =

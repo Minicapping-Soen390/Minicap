@@ -1,5 +1,5 @@
 import { Link, Tabs, usePathname } from "expo-router";
-import { Image, Text, TouchableOpacity, View, TouchableWithoutFeedback } from "react-native";
+import { Image, Text, View, TouchableWithoutFeedback } from "react-native";
 import { useState } from "react";
 import Loader from "../../components/Loader";
 import { icons, images } from "../../constants";
@@ -7,7 +7,17 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../styles/globalStyles";
 
-const TabIcon = ({ icon, name, isOpen, focused }: { icon: any, name?: string, isOpen?: boolean, focused: boolean }) => {
+const TabIcon = ({
+  icon,
+  name,
+  isOpen,
+  focused,
+}: {
+  icon: any;
+  name?: string;
+  isOpen?: boolean;
+  focused: boolean;
+}) => {
   const isActive = isOpen || focused;
 
   return (
@@ -17,7 +27,9 @@ const TabIcon = ({ icon, name, isOpen, focused }: { icon: any, name?: string, is
         resizeMode="contain"
         style={isActive ? globalStyles.tabIconsFocused : globalStyles.tabIcons}
       />
-      <Text style={isActive ? globalStyles.tabTextFocused : globalStyles.tabText}>
+      <Text
+        style={isActive ? globalStyles.tabTextFocused : globalStyles.tabText}
+      >
         {name}
       </Text>
     </SafeAreaView>
@@ -43,7 +55,7 @@ const TabLayout = () => {
             resizeMode="contain"
             style={globalStyles.logo}
           />
-          <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={globalStyles.appName}>APP NAME</Text>
           </View>
         </View>
@@ -51,13 +63,18 @@ const TabLayout = () => {
 
       {/* Main Content */}
       <View style={globalStyles.container}>
-        <Tabs initialRouteName="CampusMap" screenOptions={globalStyles.screenOptions}>
+        <Tabs
+          initialRouteName="CampusMap"
+          screenOptions={globalStyles.screenOptions}
+        >
           <Tabs.Screen
             name="CampusMap"
             options={{
               title: "Campus Map",
               headerShown: false,
-              tabBarIcon: ({ focused }) => <TabIcon icon={icons.Campus} focused={focused} />,
+              tabBarIcon: ({ focused }) => (
+                <TabIcon icon={icons.Campus} focused={focused} />
+              ),
             }}
           />
           <Tabs.Screen
@@ -65,7 +82,9 @@ const TabLayout = () => {
             options={{
               title: "Calendar",
               headerShown: false,
-              tabBarIcon: ({ focused }) => <TabIcon icon={icons.Calendar} focused={focused} />,
+              tabBarIcon: ({ focused }) => (
+                <TabIcon icon={icons.Calendar} focused={focused} />
+              ),
             }}
           />
           <Tabs.Screen
@@ -73,7 +92,9 @@ const TabLayout = () => {
             options={{
               title: "Search",
               headerShown: false,
-              tabBarIcon: ({ focused }) => <TabIcon icon={icons.search} focused={focused} />,
+              tabBarIcon: ({ focused }) => (
+                <TabIcon icon={icons.search} focused={focused} />
+              ),
             }}
           />
           <Tabs.Screen
@@ -87,7 +108,9 @@ const TabLayout = () => {
             options={{
               title: "Menu",
               headerShown: false,
-              tabBarIcon: () => <TabIcon icon={icons.Hamburger} focused={menuVisible} />,
+              tabBarIcon: () => (
+                <TabIcon icon={icons.Hamburger} focused={menuVisible} />
+              ),
             }}
           />
         </Tabs>

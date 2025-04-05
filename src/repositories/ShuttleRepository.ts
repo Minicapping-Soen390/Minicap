@@ -1,6 +1,5 @@
 import { ShuttlePoint, ShuttleRoute, ShuttleDepartureInfo } from '@/models/Shuttle';
-import { ShuttleLocation, ShuttleStop } from '../models/Shuttle';
-import { SHUTTLE_STOPS } from '@/services/ShuttleService';
+import { ShuttleStop } from '../models/Shuttle';
 import { LatLng } from 'react-native-maps';
 
 export class ShuttleError extends Error {

@@ -1,5 +1,5 @@
-import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
-import { rem } from "../utils";
+import { StyleSheet } from "react-native";
+import { rem } from "../../components/utils";
 
 // Define and export brand colors separately
 export const brandColors = {
