@@ -9,10 +9,10 @@ export interface POI extends Audit {
 }
 
 export enum POICategory {
-  RESTAURANT = "RESTAURANT",
-  COFFEE_SHOP = "COFFEE_SHOP",
+  Restaurant = "restaurant",
+  Cafe = "cafe",
+  Bar = "bar",
   BATHROOM = "BATHROOM",
   LIBRARY = "LIBRARY",
-  OTHER = "OTHER"
 }
 

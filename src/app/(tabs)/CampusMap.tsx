@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,9 @@ import {
   TouchableWithoutFeedback,
   Alert,
   ScrollView,
+  Image,
 } from "react-native";
-import MapView, { Marker, Polyline, Region, LatLng } from "react-native-maps";
+import MapView, { Marker, Polyline, Region, LatLng, Circle } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
@@ -18,13 +19,13 @@ import campusCenters from "@/data/campusCenters.json";
 import { Campus } from "@/models/Campus";
 import { createMapFacade } from "../utils/mapUtils";
 import { createShuttleFacade, renderShuttleMarkers } from "../utils/shuttleUtils";
+import { createPOIFacade, POIType } from "@/app/utils/poiUtils";
+import { POICategory } from "@/models/POI";
 
-// CampusMap Component Props
 interface CampusMapProps {
   campusId: string;
 }
 
-// Define campuses
 const SGWCampus: Campus = {
   _id: "sgw-uuid",
   name: "SGW Campus",
@@ -72,6 +73,13 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [transportMode, setTransportMode] = useState<string>("walking");
   const [activeTab, setActiveTab] = useState<string>("walking");
 
+  // POI states
+  const [allPOIs, setAllPOIs] = useState<any[]>([]);
+  const [filteredPOIs, setFilteredPOIs] = useState<any[]>([]);
+  const [selectedPOICategory, setSelectedPOICategory] = useState<POICategory | 'all'>('all');
+  const [showPOIFilters, setShowPOIFilters] = useState<boolean>(false);
+  const [searchRadius, setSearchRadius] = useState<number>(500); // Default radius 500m
+
   const shuttleFacade = createShuttleFacade({
     setShuttleLocations,
     setEstimatedWaitTime,
@@ -105,14 +113,15 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     shuttleFacade,
   });
 
+  // Memoize the POI façade so it's only created once
+  const poiFacade = useMemo(() => createPOIFacade(), []);
+
   useEffect(() => {
-    console.log("Fetching user location...");
     mapFacade.getUserLocation();
   }, []);
 
   useEffect(() => {
     if (mapRef.current) {
-      console.log("Animating to region:", region);
       mapRef.current.animateToRegion(region, 1000);
     }
   }, [region]);
@@ -120,7 +129,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   // Dynamic Shuttle Tracking
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-
     const trackShuttles = async () => {
       try {
         await shuttleFacade.trackShuttles(startPoint);
@@ -129,12 +137,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       }
     };
 
-    // Start tracking if in cross-campus navigation and transit mode
     if (isCrossCampusNavigation && activeTab === "transit") {
       trackShuttles();
       intervalId = setInterval(trackShuttles, 15000);
     }
-
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
@@ -142,13 +148,66 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     };
   }, [isCrossCampusNavigation, activeTab, startPoint]);
 
+  // Fetch nearby POIs when userLocation is available or when searchRadius changes
+  useEffect(() => {
+    if (userLocation) {
+      poiFacade
+        .findNearbyPOIs(userLocation.latitude, userLocation.longitude, searchRadius)
+        .then((results) => {
+          console.log(`Nearby POIs within ${searchRadius}m:`, results);
+          setAllPOIs(results);
+          setFilteredPOIs(results); // Initially show all POIs
+        })
+        .catch((error) => console.error("Error fetching POIs:", error));
+    }
+  }, [userLocation, searchRadius]);
+
+  // Filter POIs when category changes
+  useEffect(() => {
+    if (selectedPOICategory === 'all') {
+      setFilteredPOIs(allPOIs);
+    } else {
+      const filtered = allPOIs.filter(poi => poi.category === selectedPOICategory);
+      setFilteredPOIs(filtered);
+    }
+  }, [selectedPOICategory, allPOIs]);
+
+  // Function to handle POI category filter change
+  const handleCategoryChange = (category: POICategory | 'all') => {
+    setSelectedPOICategory(category);
+  };
+
+  // Function to handle search radius change
+  const handleRadiusChange = (radius: number) => {
+    setSearchRadius(radius);
+  };
+
+  // Function to get marker color based on POI category
+  const getMarkerColorForCategory = (category: POICategory): string => {
+    switch (category) {
+      case POICategory.Restaurant:
+        return "red";
+      case POICategory.Cafe:
+        return "orange";
+      case POICategory.Bar:
+        return "blue";
+      default:
+        return "purple";
+    }
+  };
+
+  // Toggle POI filters visibility
+  const togglePOIFilters = () => {
+    setShowPOIFilters(!showPOIFilters);
+  };
+
   return (
     <View style={globalStyles.mapContainer}>
-      {locationError ? (
+      {locationError && (
         <View style={globalStyles.errorContainer}>
           <Text style={globalStyles.errorText}>{locationError}</Text>
         </View>
-      ) : null}
+      )}
 
       <TouchableWithoutFeedback onPress={mapFacade.handleMapPress} accessible={false}>
         <MapView
@@ -161,7 +220,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           zoomControlEnabled={true}
         >
           {permissionGranted && userLocation && (
-            <Marker coordinate={userLocation} title="Your Location" pinColor="green" />
+            <>
+              <Marker coordinate={userLocation} title="Your Location" pinColor="green" />
+              {/* Search radius circle */}
+              <Circle
+                center={userLocation}
+                radius={searchRadius}
+                strokeWidth={1}
+                strokeColor="rgba(0, 0, 255, 0.3)"
+                fillColor="rgba(0, 0, 255, 0.1)"
+              />
+            </>
           )}
           {activeTab !== "transit" ? (
             newRoute && <Polyline coordinates={newRoute} strokeColor="#186DEE" strokeWidth={5} />
@@ -185,36 +254,156 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           )}
           {mapFacade.renderBuildings(buildingsData, globalStyles, brandColors)}
           {renderShuttleMarkers(globalStyles, brandColors)}
-          {isCrossCampusNavigation && shuttleLocations && shuttleLocations.length > 0 &&
-            shuttleLocations.map((shuttle: any) => (
-              <Marker
-                key={shuttle.ID}
-                coordinate={{
-                  latitude: parseFloat(shuttle.Latitude),
-                  longitude: parseFloat(shuttle.Longitude),
-                }}
-                title={`Shuttle ${shuttle.ID}`}
-              >
-                <View
-                  style={[
-                    globalStyles.shuttleStopMarker,
-                  ]}
-                >
-                  <Text style={[globalStyles.shuttleStopText, { fontSize: 35, color: brandColors.white }]}>
-                    🚌
-                  </Text>
-                </View>
-              </Marker>
-            ))
-          }
+
+          {/* Render filtered POI markers */}
+          {filteredPOIs.map((poi) => (
+            <Marker
+              key={poi.id}
+              coordinate={{
+                latitude: poi.location.latitude,
+                longitude: poi.location.longitude,
+              }}
+              title={poi.name}
+              description={poi.address}
+              pinColor={getMarkerColorForCategory(poi.category)}
+            />
+          ))}
         </MapView>
       </TouchableWithoutFeedback>
+
+      {/* Filter Icon Button in the top right corner */}
+      <TouchableOpacity
+        style={globalStyles.filterIconButton}
+        onPress={togglePOIFilters}
+      >
+        <Image
+          source={require("../../assets/icons/Filter.png")}
+          style={globalStyles.filterIcon}
+        />
+      </TouchableOpacity>
+
+      {/* POI Filter Container */}
+      {showPOIFilters && (
+        <View style={globalStyles.filterContainer}>
+          <Text style={globalStyles.filterTitle}>Filter POIs</Text>
+
+          {/* Category Filter Section */}
+          <Text style={globalStyles.filterSectionTitle}>Categories</Text>
+          <View style={globalStyles.filterOptions}>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                selectedPOICategory === 'all' && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleCategoryChange('all')}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                selectedPOICategory === 'all' && globalStyles.activeFilterText
+              ]}>All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                selectedPOICategory === POICategory.Restaurant && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleCategoryChange(POICategory.Restaurant)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                selectedPOICategory === POICategory.Restaurant && globalStyles.activeFilterText
+              ]}>Restaurants</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                selectedPOICategory === POICategory.Cafe && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleCategoryChange(POICategory.Cafe)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                selectedPOICategory === POICategory.Cafe && globalStyles.activeFilterText
+              ]}>Cafes</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                selectedPOICategory === POICategory.Bar && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleCategoryChange(POICategory.Bar)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                selectedPOICategory === POICategory.Bar && globalStyles.activeFilterText
+              ]}>Bars</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Radius Filter Section */}
+          <Text style={globalStyles.filterSectionTitle}>Search Radius</Text>
+          <View style={globalStyles.filterOptions}>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                searchRadius === 0 && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleRadiusChange(0)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                searchRadius === 0 && globalStyles.activeFilterText
+              ]}>0m</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                searchRadius === 100 && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleRadiusChange(100)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                searchRadius === 100 && globalStyles.activeFilterText
+              ]}>100m</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                searchRadius === 200 && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleRadiusChange(200)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                searchRadius === 200 && globalStyles.activeFilterText
+              ]}>200m</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                searchRadius === 500 && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleRadiusChange(500)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                searchRadius === 500 && globalStyles.activeFilterText
+              ]}>500m</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* POI Count Information */}
+          <Text style={globalStyles.poiCountText}>
+            {filteredPOIs.length} POI{filteredPOIs.length !== 1 ? 's' : ''} found within {searchRadius}m
+          </Text>
+        </View>
+      )}
 
       <TouchableOpacity
         style={globalStyles.refreshButton}
         onPress={async () => {
           setIsRefreshing(true);
-          console.log("Refreshing user location...");
           await mapFacade.getUserLocation();
           setIsRefreshing(false);
         }}
@@ -396,7 +585,6 @@ const CampusSwitcher: React.FC = () => {
         </View>
       </View>
 
-      {/* Map Container */}
       <View style={globalStyles.mapContainer}>
         <CampusMap campusId={currentCampusId} />
       </View>
