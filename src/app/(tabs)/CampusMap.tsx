@@ -427,7 +427,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                       <Text style={globalStyles.shuttleScheduleText}>
                         🕒 Next departure: {step.departureInfo.departureTime}
                       </Text>
-                      <Text style={globalStyles.shuttleScheduleText}>
+                      <Text testID="estimated-wait" style={globalStyles.shuttleScheduleText}>
                         ⏱️ Estimated wait: {step.departureInfo.waitTime} minutes
                       </Text>
                     </View>
