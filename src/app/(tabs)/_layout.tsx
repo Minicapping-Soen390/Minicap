@@ -20,7 +20,7 @@ const TabIcon = ({
 }) => {
   const isActive = isOpen || focused;
 
-  return (
+  return (  
     <View style={globalStyles.tabIconWrapper}>
       <Image
         source={icon}

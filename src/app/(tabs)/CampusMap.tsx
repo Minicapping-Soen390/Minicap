@@ -16,12 +16,12 @@ import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import campusCenters from "@/data/campusCenters.json";
-import { Campus } from "@/models/Campus";
-import { createMapFacade } from "../utils/mapUtils";
+import { Campus } from "@/MVVM/models/Campus";
+import { createMapFacade } from "../../Shared/utils/mapUtils";
 import {
   createShuttleFacade,
   renderShuttleMarkers,
-} from "../utils/shuttleUtils";
+} from "../../Shared/utils/shuttleUtils";
 
 // CampusMap Component Props
 interface CampusMapProps {
