@@ -16,8 +16,7 @@
 
 - **US 2.4 (Transportation Modes)**
   - Unique color overlays per transportation mode
-        - My personal opinion is ignoring it for style consistenvy with gmaps but ok  
-
+        - My personal opinion is ignoring it for style consistency with gmaps but ok
 #### Accepted:
 - US 2.1
 - US 2.4
