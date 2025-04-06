@@ -12,7 +12,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Start the app
 
    ```bash
-   npx expo start --android --clear
+   npx expo install expo-file-system expo-asset
    ```
 
 --android flag will launch your emulator, make sure to create one through android studio. React native maps  does not work on web
