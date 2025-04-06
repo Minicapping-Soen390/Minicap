@@ -1,17 +1,18 @@
+//shuttleUtils.tsx
 import axios from "axios";
 import { View, Text } from "react-native";
 import { Marker, LatLng, Region } from "react-native-maps";
 import { shuttleService, SHUTTLE_STOPS } from "@/services/ShuttleService";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 export const determineUserCampus = (location: Region): string => {
   const sgwDistance = Math.sqrt(
     Math.pow(location.latitude - SHUTTLE_STOPS.SGW.latitude, 2) +
-    Math.pow(location.longitude - SHUTTLE_STOPS.SGW.longitude, 2)
+      Math.pow(location.longitude - SHUTTLE_STOPS.SGW.longitude, 2)
   );
   const loyolaDistance = Math.sqrt(
     Math.pow(location.latitude - SHUTTLE_STOPS.LOYOLA.latitude, 2) +
-    Math.pow(location.longitude - SHUTTLE_STOPS.LOYOLA.longitude, 2)
+      Math.pow(location.longitude - SHUTTLE_STOPS.LOYOLA.longitude, 2)
   );
   return sgwDistance < loyolaDistance ? "SGW" : "LOYOLA";
 };
@@ -21,6 +22,7 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
     <>
       {/* Shuttle Stop Marker for SGW */}
       <Marker
+        testID="sgw-campus-shuttle-stop"
         coordinate={{
           latitude: SHUTTLE_STOPS.SGW.latitude,
           longitude: SHUTTLE_STOPS.SGW.longitude,
@@ -36,6 +38,7 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
 
       {/* Shuttle Stop Marker for Loyola */}
       <Marker
+        testID="loy-campus-shuttle-stop"
         coordinate={{
           latitude: SHUTTLE_STOPS.LOYOLA.latitude,
           longitude: SHUTTLE_STOPS.LOYOLA.longitude,
@@ -58,9 +61,12 @@ export const fetchShuttleData = async (): Promise<{
 }> => {
   try {
     console.log("Fetching shuttle data...");
-    const response = await axios.get("https://shuttle.concordia.ca/concordiabusmap/Map.aspx", {
-      headers: { Host: "shuttle.concordia.ca" },
-    });
+    const response = await axios.get(
+      "https://shuttle.concordia.ca/concordiabusmap/Map.aspx",
+      {
+        headers: { Host: "shuttle.concordia.ca" },
+      }
+    );
     const shuttleResponse = await axios.post(
       "https://shuttle.concordia.ca/concordiabusmap/WebService/GService.asmx/GetGoogleObject",
       {},
@@ -87,12 +93,18 @@ export const fetchShuttleData = async (): Promise<{
           (a: any, b: any) => a.Longitude - b.Longitude
         );
         routePoints = [
-          { latitude: SHUTTLE_STOPS.LOYOLA.latitude, longitude: SHUTTLE_STOPS.LOYOLA.longitude },
+          {
+            latitude: SHUTTLE_STOPS.LOYOLA.latitude,
+            longitude: SHUTTLE_STOPS.LOYOLA.longitude,
+          },
           ...sortedBuses.map((bus: any) => ({
             latitude: parseFloat(bus.Latitude),
             longitude: parseFloat(bus.Longitude),
           })),
-          { latitude: SHUTTLE_STOPS.SGW.latitude, longitude: SHUTTLE_STOPS.SGW.longitude },
+          {
+            latitude: SHUTTLE_STOPS.SGW.latitude,
+            longitude: SHUTTLE_STOPS.SGW.longitude,
+          },
         ];
       }
     }
@@ -126,9 +138,18 @@ export const createShuttleFacade = ({
       {
         params: {
           origin: `${startPoint.latitude},${startPoint.longitude}`,
-          destination: `${SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude},${SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"].longitude}`,
+          destination: `${
+            SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"]
+              .latitude
+          },${
+            SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"]
+              .longitude
+          }`,
           mode: "walking",
-          key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+          key:
+            Constants.expoConfig?.extra?.googleMapsApiKey ??
+            process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+            "",
         },
       }
     );
@@ -141,10 +162,24 @@ export const createShuttleFacade = ({
       "https://maps.googleapis.com/maps/api/directions/json",
       {
         params: {
-          origin: `${SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude},${SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"].longitude}`,
-          destination: `${SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude},${SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"].longitude}`,
+          origin: `${
+            SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"]
+              .latitude
+          },${
+            SHUTTLE_STOPS[startPoint.campus === "SGW" ? "SGW" : "LOYOLA"]
+              .longitude
+          }`,
+          destination: `${
+            SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude
+          },${
+            SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"]
+              .longitude
+          }`,
           mode: "driving",
-          key: Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+          key:
+            Constants.expoConfig?.extra?.googleMapsApiKey ??
+            process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+            "",
         },
       }
     );
@@ -157,7 +192,12 @@ export const createShuttleFacade = ({
       "https://maps.googleapis.com/maps/api/directions/json",
       {
         params: {
-          origin: `${SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude},${SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"].longitude}`,
+          origin: `${
+            SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"].latitude
+          },${
+            SHUTTLE_STOPS[endPoint.campus === "SGW" ? "SGW" : "LOYOLA"]
+              .longitude
+          }`,
           destination: `${endPoint.latitude},${endPoint.longitude}`,
           mode: "walking",
           key: googleMapsApiKey,
@@ -174,7 +214,9 @@ export const createShuttleFacade = ({
     );
     // Refresh shuttle positions
     await fetchShuttleData();
-    const initialRoute = decodePolyline(shuttleRoute.data.routes[0].overview_polyline.points);
+    const initialRoute = decodePolyline(
+      shuttleRoute.data.routes[0].overview_polyline.points
+    );
     setShuttlePolyline(initialRoute);
     // Combine step instructions
     const combinedSteps = [
@@ -216,7 +258,9 @@ export const createShuttleFacade = ({
         if (nearestShuttle) {
           const waitTime = shuttleService.estimateWaitingTime(
             nearestShuttle,
-            startPoint.campus === "SGW" ? SHUTTLE_STOPS.SGW : SHUTTLE_STOPS.LOYOLA
+            startPoint.campus === "SGW"
+              ? SHUTTLE_STOPS.SGW
+              : SHUTTLE_STOPS.LOYOLA
           );
           setEstimatedWaitTime(waitTime);
         }

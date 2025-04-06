@@ -1,5 +1,6 @@
+//ShuttleService.ts
 import axios from 'axios';
-import { shuttleSchedule, shuttleInfo } from '@/data/shuttleSchedule';
+import { shuttleSchedule } from '@/data/shuttleSchedule';
 
 interface ShuttlePoint {
   ID: string;

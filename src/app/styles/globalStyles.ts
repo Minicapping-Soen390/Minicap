@@ -1,5 +1,5 @@
-import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
-import { rem } from "../utils";
+import { StyleSheet } from "react-native";
+import { rem } from "../../components/utils";
 
 // Define and export brand colors separately
 export const brandColors = {
@@ -41,6 +41,14 @@ const viewStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  tabIconWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: rem(20),
+    paddingBottom: rem(1),
+    flex: 1,
+    marginBottom: rem(1), 
   },
   switchHeaderContainer: {
     backgroundColor: colors.concordiaRed,
@@ -552,7 +560,9 @@ const navigationStyles = {
       paddingBottom: rem(10),
     },
     tabBarItemStyle: {
-      paddingVertical: rem(5),
+      paddingVertical: rem(10),
+      justifyContent: "center",
+      alignItems: "center",
       flex: 1,
     },
   },

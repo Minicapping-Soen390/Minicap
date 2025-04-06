@@ -3,7 +3,6 @@ import { ShuttleRepository } from '@/repositories/ShuttleRepository';
 import { ShuttleState, ShuttlePoint, ShuttleRoute, ShuttleStop, ShuttleDepartureInfo } from '@/models/Shuttle';
 import { ShuttleService } from '@/services/ShuttleService';
 import { BaseViewModel } from './BaseViewModel';
-import { Audit } from '@/models/Audit';
 
 export class ShuttleViewModel extends BaseViewModel<ShuttleState> implements ShuttleRepository {
   private repository: ShuttleRepository;
@@ -28,13 +27,13 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> implements Shu
 
   protected mapToDTO(doc: any): ShuttleState {
     return {
-      locations: doc.locations || [],
-      route: doc.route || null,
-      estimatedWaitTime: doc.estimatedWaitTime || null,
-      isLoading: doc.isLoading || false,
-      error: doc.error || null,
-      createdAt: doc.createdAt || new Date(),
-      updatedAt: doc.updatedAt || new Date(),
+      locations: doc.locations ?? [],
+      route: doc.route ?? null,
+      estimatedWaitTime: doc.estimatedWaitTime ?? null,
+      isLoading: doc.isLoading ?? false,
+      error: doc.error ?? null,
+      createdAt: doc.createdAt ?? new Date(),
+      updatedAt: doc.updatedAt ?? new Date(),
     };
   }
 

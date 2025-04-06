@@ -17,7 +17,6 @@ import Calendar from "../assets/icons/Calendar.png";
 import searchBuilding from "../assets/icons/searchBuilding.png";
 import Hamburger from "../assets/icons/Hamburger.png";
 
-import CampusMap from "@/app/(tabs)/CampusMap";
 
 export default {
   play,
