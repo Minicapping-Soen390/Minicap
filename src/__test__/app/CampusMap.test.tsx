@@ -48,8 +48,6 @@ describe("CampusSwitcher Component", () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.clearAllMocks();
-    process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY =
-      "AIzaSyCdMpoRN-cWcG-LGTKplqHs3SvTeYy7t0E";
   });
 
   afterEach(() => {
