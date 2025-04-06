@@ -20,5 +20,5 @@ export interface ICalendarRepository {
    * @param userId - The user whose calendars to list
    * @returns Promise resolving to array of connected Calendars
    */
-  getUserConnectedCalendars(userId: string): Promise<any[]>;
+  getUserConnectedCalendars(userId: string): Promise<Calendar[]>;
 }
