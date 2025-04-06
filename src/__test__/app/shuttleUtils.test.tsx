@@ -26,10 +26,17 @@ jest.mock("../../services/ShuttleService", () => ({
 }));
 
 describe("shuttleUtils", () => {
+  const setShuttleLocations = jest.fn();
+  const setEstimatedWaitTime = jest.fn();
+  const setShuttlePolyline = jest.fn();
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("determines closest campus to SGW", () => {
     const location = { latitude: 45.4971, longitude: -73.5792 };
-    const result = determineUserCampus(location);
-    expect(result).toBe("SGW");
+    expect(determineUserCampus(location)).toBe("SGW");
   });
 
   it("fetchShuttleData returns filtered bus points and route", async () => {
@@ -56,7 +63,6 @@ describe("shuttleUtils", () => {
       shuttleStopText: { color: "white" },
     };
     const brandColors = {};
-
     const { getByTestId } = render(
       renderShuttleMarkers(globalStyles, brandColors)
     );
@@ -78,251 +84,188 @@ describe("shuttleUtils", () => {
     expect(result.routePoints).toBeUndefined();
   });
 
-  it("calls tracking logic", async () => {
-    mockedAxios.get.mockResolvedValue({});
-    mockedAxios.post.mockResolvedValue({
-      data: {
-        d: { Points: [{ ID: "BUS1", Latitude: "45.48", Longitude: "-73.61" }] },
-      },
-    });
-
-    const setShuttleLocations = jest.fn();
-    const setEstimatedWaitTime = jest.fn();
-    const setShuttlePolyline = jest.fn();
-
-    const facade = createShuttleFacade({
-      setShuttleLocations,
-      setEstimatedWaitTime,
-      setShuttlePolyline,
-    });
-
-    await facade.trackShuttles({ campus: "SGW" });
-
-    expect(setShuttleLocations).toHaveBeenCalled();
-    expect(setEstimatedWaitTime).toHaveBeenCalledWith(5);
-  });
-
-  it("fetches shuttle directions with mocked dependencies", async () => {
-    mockedAxios.get
-      .mockResolvedValueOnce({
+  describe("trackShuttles", () => {
+    it("tracks shuttle and estimates wait time when shuttle is found", async () => {
+      mockedAxios.get.mockResolvedValueOnce({});
+      mockedAxios.post.mockResolvedValueOnce({
         data: {
-          routes: [
-            {
-              legs: [
-                {
-                  steps: [
-                    {
-                      html_instructions: "step1",
-                      distance: { text: "100m" },
-                      duration: { text: "1min" },
-                    },
-                  ],
-                  distance: { text: "500m" },
-                  duration: { text: "5min" },
-                },
-              ],
-            },
-          ],
-        },
-      })
-      .mockResolvedValueOnce({
-        data: {
-          routes: [
-            {
-              overview_polyline: { points: "abc" },
-              legs: [
-                { distance: { text: "2km" }, duration: { text: "10min" } },
-              ],
-            },
-          ],
-        },
-      })
-      .mockResolvedValueOnce({
-        data: {
-          routes: [
-            {
-              legs: [
-                {
-                  steps: [
-                    {
-                      html_instructions: "step2",
-                      distance: { text: "300m" },
-                      duration: { text: "3min" },
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+          d: {
+            Points: [{ ID: "BUS1", Latitude: "45.48", Longitude: "-73.61" }],
+          },
         },
       });
 
-    const setShuttleLocations = jest.fn();
-    const setEstimatedWaitTime = jest.fn();
-    const setShuttlePolyline = jest.fn();
+      const facade = createShuttleFacade({
+        setShuttleLocations,
+        setEstimatedWaitTime,
+        setShuttlePolyline,
+      });
 
-    const decodePolyline = jest
-      .fn()
-      .mockReturnValue([{ latitude: 45.0, longitude: -73.0 }]);
-    const sanitizeHtmlContent = jest.fn().mockImplementation((html) => html);
-
-    const facade = createShuttleFacade({
-      setShuttleLocations,
-      setEstimatedWaitTime,
-      setShuttlePolyline,
+      await facade.trackShuttles({ campus: "SGW" });
+      expect(setShuttleLocations).toHaveBeenCalled();
+      expect(setEstimatedWaitTime).toHaveBeenCalledWith(5);
     });
 
-    const result = await facade.fetchShuttleDirections(
-      { latitude: 45.4971, longitude: -73.5792, campus: "SGW" },
-      { latitude: 45.458, longitude: -73.6405, campus: "LOYOLA" },
-      "fake-api-key",
-      decodePolyline,
-      sanitizeHtmlContent
-    );
+    it("handles no nearest shuttle found", async () => {
+      const { shuttleService } = require("../../services/ShuttleService");
+      shuttleService.getClosestShuttle.mockReturnValueOnce(null);
 
-    expect(result.directions.length).toBeGreaterThan(0);
-    expect(setShuttlePolyline).toHaveBeenCalledWith(expect.any(Array));
-  });
-
-  it("throws if toShuttleStop has no valid legs", async () => {
-    const setShuttleLocations = jest.fn();
-    const setEstimatedWaitTime = jest.fn();
-    const setShuttlePolyline = jest.fn();
-
-    const facade = createShuttleFacade({
-      setShuttleLocations,
-      setEstimatedWaitTime,
-      setShuttlePolyline,
-    });
-
-    mockedAxios.get.mockResolvedValueOnce({
-      data: { routes: [] }, // no legs
-    });
-
-    await expect(
-      facade.fetchShuttleDirections(
-        { latitude: 45.5, longitude: -73.6, campus: "SGW" },
-        { latitude: 45.45, longitude: -73.64, campus: "LOYOLA" },
-        "fake-api-key",
-        () => [],
-        (html) => html
-      )
-    ).rejects.toThrow("Invalid route data for path to shuttle stop");
-  });
-
-  it("throws if shuttleRoute has no valid legs", async () => {
-    const facade = createShuttleFacade({
-      setShuttleLocations: jest.fn(),
-      setEstimatedWaitTime: jest.fn(),
-      setShuttlePolyline: jest.fn(),
-    });
-
-    // valid toShuttleStop
-    mockedAxios.get.mockResolvedValueOnce({
-      data: { routes: [{ legs: [{}] }] },
-    });
-
-    // invalid shuttleRoute
-    mockedAxios.get.mockResolvedValueOnce({
-      data: { routes: [] },
-    });
-
-    await expect(
-      facade.fetchShuttleDirections(
-        { latitude: 45.5, longitude: -73.6, campus: "SGW" },
-        { latitude: 45.45, longitude: -73.64, campus: "LOYOLA" },
-        "fake-api-key",
-        () => [],
-        (html) => html
-      )
-    ).rejects.toThrow("Invalid shuttle route data");
-  });
-
-  it("throws if fromShuttleStop has no valid legs", async () => {
-    const facade = createShuttleFacade({
-      setShuttleLocations: jest.fn(),
-      setEstimatedWaitTime: jest.fn(),
-      setShuttlePolyline: jest.fn(),
-    });
-
-    // 1st and 2nd requests valid
-    mockedAxios.get.mockResolvedValueOnce({
-      data: { routes: [{ legs: [{}] }] },
-    }); // toShuttleStop
-    mockedAxios.get.mockResolvedValueOnce({
-      data: { routes: [{ legs: [{}], overview_polyline: { points: "abc" } }] },
-    }); // shuttleRoute
-
-    // 3rd response is invalid
-    mockedAxios.get.mockResolvedValueOnce({ data: { routes: [] } }); // fromShuttleStop
-
-    await expect(
-      facade.fetchShuttleDirections(
-        { latitude: 45.5, longitude: -73.6, campus: "SGW" },
-        { latitude: 45.45, longitude: -73.64, campus: "LOYOLA" },
-        "fake-api-key",
-        () => [],
-        (html) => html
-      )
-    ).rejects.toThrow("Invalid route data from shuttle stop");
-  });
-
-  it("throws if fromShuttleStop has no valid legs", async () => {
-    const facade = createShuttleFacade({
-      setShuttleLocations: jest.fn(),
-      setEstimatedWaitTime: jest.fn(),
-      setShuttlePolyline: jest.fn(),
-    });
-
-    // 1st and 2nd requests valid
-    mockedAxios.get.mockResolvedValueOnce({
-      data: { routes: [{ legs: [{}] }] },
-    }); // toShuttleStop
-    mockedAxios.get.mockResolvedValueOnce({
-      data: { routes: [{ legs: [{}], overview_polyline: { points: "abc" } }] },
-    }); // shuttleRoute
-
-    // 3rd response is invalid
-    mockedAxios.get.mockResolvedValueOnce({ data: { routes: [] } }); // fromShuttleStop
-
-    await expect(
-      facade.fetchShuttleDirections(
-        { latitude: 45.5, longitude: -73.6, campus: "SGW" },
-        { latitude: 45.45, longitude: -73.64, campus: "LOYOLA" },
-        "fake-api-key",
-        () => [],
-        (html) => html
-      )
-    ).rejects.toThrow("Invalid route data from shuttle stop");
-  });
-
-  it("handles case where no nearest shuttle is found", async () => {
-    const setShuttleLocations = jest.fn();
-    const setEstimatedWaitTime = jest.fn();
-
-    const setShuttlePolyline = jest.fn();
-    const facade = createShuttleFacade({
-      setShuttleLocations,
-      setEstimatedWaitTime,
-      setShuttlePolyline,
-    });
-
-    // mock return null for getClosestShuttle
-    const { shuttleService } = require("../../services/ShuttleService");
-    shuttleService.getClosestShuttle.mockReturnValueOnce(null);
-
-    mockedAxios.get.mockResolvedValueOnce({});
-    mockedAxios.post.mockResolvedValueOnce({
-      data: {
-        d: {
-          Points: [{ ID: "BUS001", Latitude: "45.48", Longitude: "-73.61" }],
+      mockedAxios.get.mockResolvedValueOnce({});
+      mockedAxios.post.mockResolvedValueOnce({
+        data: {
+          d: {
+            Points: [{ ID: "BUS001", Latitude: "45.48", Longitude: "-73.61" }],
+          },
         },
-      },
+      });
+
+      const facade = createShuttleFacade({
+        setShuttleLocations,
+        setEstimatedWaitTime,
+        setShuttlePolyline,
+      });
+
+      await facade.trackShuttles({ campus: "SGW" });
+      expect(setShuttleLocations).toHaveBeenCalled();
+      expect(setEstimatedWaitTime).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("fetchShuttleDirections", () => {
+    const mockRouteResponse = (legsExist = true, polylineExist = true) => {
+      const legs = legsExist
+        ? [
+            {
+              steps: [
+                {
+                  html_instructions: "<b>Walk</b>",
+                  distance: { text: "100m" },
+                  duration: { text: "1min" },
+                },
+              ],
+              distance: { text: "200m" },
+              duration: { text: "2min" },
+            },
+          ]
+        : [];
+      return {
+        data: {
+          routes: [
+            {
+              legs,
+              ...(polylineExist
+                ? { overview_polyline: { points: "abc" } }
+                : {}),
+            },
+          ],
+        },
+      };
+    };
+
+    const baseArgs = {
+      start: { latitude: 45.4971, longitude: -73.5792, campus: "SGW" },
+      end: { latitude: 45.458, longitude: -73.6405, campus: "LOYOLA" },
+      key: "fake-api-key",
+      decode: jest.fn().mockReturnValue([{ latitude: 45.0, longitude: -73.0 }]),
+      sanitize: jest.fn((html) => html),
+    };
+
+    it("fetches directions and sets shuttle polyline", async () => {
+      mockedAxios.get
+        .mockResolvedValueOnce(mockRouteResponse()) // toShuttleStop
+        .mockResolvedValueOnce(mockRouteResponse()) // shuttleRoute
+        .mockResolvedValueOnce(mockRouteResponse()); // fromShuttleStop
+
+      mockedAxios.get.mockResolvedValueOnce({}); // map.aspx
+      mockedAxios.post.mockResolvedValueOnce({
+        data: {
+          d: {
+            Points: [{ ID: "BUS001", Latitude: "45.48", Longitude: "-73.61" }],
+          },
+        },
+      });
+
+      const facade = createShuttleFacade({
+        setShuttleLocations,
+        setEstimatedWaitTime,
+        setShuttlePolyline,
+      });
+
+      const result = await facade.fetchShuttleDirections(
+        baseArgs.start,
+        baseArgs.end,
+        baseArgs.key,
+        baseArgs.decode,
+        baseArgs.sanitize
+      );
+
+      expect(result.directions.length).toBeGreaterThan(0);
+      expect(setShuttlePolyline).toHaveBeenCalledWith(expect.any(Array));
     });
 
-    await facade.trackShuttles({ campus: "SGW" });
+    it("throws if toShuttleStop has no legs", async () => {
+      mockedAxios.get.mockResolvedValueOnce(mockRouteResponse(false));
 
-    expect(setShuttleLocations).toHaveBeenCalled();
-    expect(setEstimatedWaitTime).not.toHaveBeenCalled();
+      const facade = createShuttleFacade({
+        setShuttleLocations,
+        setEstimatedWaitTime,
+        setShuttlePolyline,
+      });
+
+      await expect(
+        facade.fetchShuttleDirections(
+          baseArgs.start,
+          baseArgs.end,
+          baseArgs.key,
+          baseArgs.decode,
+          baseArgs.sanitize
+        )
+      ).rejects.toThrow("Invalid route data for path to shuttle stop");
+    });
+
+    it("throws if shuttleRoute has no legs", async () => {
+      mockedAxios.get
+        .mockResolvedValueOnce(mockRouteResponse())
+        .mockResolvedValueOnce(mockRouteResponse(false));
+
+      const facade = createShuttleFacade({
+        setShuttleLocations,
+        setEstimatedWaitTime,
+        setShuttlePolyline,
+      });
+
+      await expect(
+        facade.fetchShuttleDirections(
+          baseArgs.start,
+          baseArgs.end,
+          baseArgs.key,
+          baseArgs.decode,
+          baseArgs.sanitize
+        )
+      ).rejects.toThrow("Invalid shuttle route data");
+    });
+
+    it("throws if fromShuttleStop has no legs", async () => {
+      mockedAxios.get
+        .mockResolvedValueOnce(mockRouteResponse())
+        .mockResolvedValueOnce(mockRouteResponse())
+        .mockResolvedValueOnce(mockRouteResponse(false));
+
+      const facade = createShuttleFacade({
+        setShuttleLocations,
+        setEstimatedWaitTime,
+        setShuttlePolyline,
+      });
+
+      await expect(
+        facade.fetchShuttleDirections(
+          baseArgs.start,
+          baseArgs.end,
+          baseArgs.key,
+          baseArgs.decode,
+          baseArgs.sanitize
+        )
+      ).rejects.toThrow("Invalid route data from shuttle stop");
+    });
   });
 });
