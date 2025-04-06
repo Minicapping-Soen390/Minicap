@@ -237,10 +237,10 @@ export const createMapFacade = (params: {
         isInside && isSelected
           ? colorSettings.insideSelected
           : isInside
-          ? colorSettings.inside
-          : isSelected
-          ? colorSettings.selected
-          : colorSettings.default;
+            ? colorSettings.inside
+            : isSelected
+              ? colorSettings.selected
+              : colorSettings.default;
 
       const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
 
@@ -264,6 +264,7 @@ export const createMapFacade = (params: {
                 latitude: center.latitude,
                 longitude: center.longitude,
                 campus: building.campus,
+                floors: building.floors, 
               });
               setSelectedBuildingId(building._id);
               if (!destinationAddress) {
@@ -315,19 +316,19 @@ export const createMapFacade = (params: {
 
   // Helper: Info object
   const extractBuildingInfo = (building: any) => ({
-    name: building.name,
-    address: building.address,
-    openingHours: building.openingHours,
+      name: building.name,
+      address: building.address,
+      openingHours: building.openingHours,
     latitude: building.latitude ?? 0,
     longitude: building.longitude ?? 0,
-    campus: building.campus,
+      campus: building.campus,
   });
-
+  
   // Helper: Startpoint
   const handleStartSelection = (info: any, buildingId: string) => {
     console.log(`Setting ${info.name} as start point.`);
-    setStartPoint(info);
-    setBuildingInfo(info);
+      setStartPoint(info);
+      setBuildingInfo(info);
     setSelectedBuildingId(buildingId);
     Alert.alert(
       "Start Point Selected",
@@ -374,20 +375,20 @@ export const createMapFacade = (params: {
 
   // Helper: Get fallback location if needed
   const getUserLocationFallback = () => {
-    if (userLocation) {
+        if (userLocation) {
       const fallback = {
-        name: "My Location",
-        address: "Current Location",
-        openingHours: "",
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
-        campus: determineUserCampus(userLocation),
-      };
+            name: "My Location",
+            address: "Current Location",
+            openingHours: "",
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
+            campus: determineUserCampus(userLocation),
+          };
       setStartPoint(fallback);
       return fallback;
     }
 
-    Alert.alert(
+        Alert.alert(
       "Location Required",
       "Please enable location services to use your current location as the starting point."
     );
@@ -405,14 +406,14 @@ export const createMapFacade = (params: {
       const response = await axios.get(
         "https://maps.googleapis.com/maps/api/directions/json",
         {
-          params: {
-            origin: `${startPoint.latitude},${startPoint.longitude}`,
-            destination: `${endPoint.latitude},${endPoint.longitude}`,
-            mode,
+        params: {
+          origin: `${startPoint.latitude},${startPoint.longitude}`,
+          destination: `${endPoint.latitude},${endPoint.longitude}`,
+          mode,
             key:
               Constants.expoConfig?.extra?.googleMapsApiKey ??
               process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
-          },
+        },
         }
       );
       console.log("Regular directions response:", response.data);
@@ -464,9 +465,9 @@ export const createMapFacade = (params: {
             realStart,
             realEnd,
             googleMapsApiKey,
-            decodePolyline,
-            sanitizeHtmlContent
-          );
+          decodePolyline,
+          sanitizeHtmlContent
+        );
         setShuttlePolyline(shuttlePolyline);
         setNewRoute(null);
         setDirections(directions);
