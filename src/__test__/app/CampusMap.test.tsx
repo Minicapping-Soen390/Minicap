@@ -511,9 +511,6 @@ describe("CampusSwitcher Component", () => {
     await act(async () => fireEvent.press(loyolaMarker));
     const endButton = await findByTestId("set-destination-button");
     await act(async () => fireEvent.press(endButton));
-
-    // const polyline = await findByTestId("shuttle-route-polyline");
-    // expect(polyline).toBeTruthy();
   });
 
   it("2.4 - shows shuttle route from SGW to Loyola and vice versa", async () => {
@@ -536,7 +533,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("2.6 - displays shuttle service instructions in direction steps", async () => {
-    const { getByTestId, findByText } = render(<CampusSwitcher />);
+    const { getByTestId } = render(<CampusSwitcher />);
 
     const mbBuilding = await getByTestId(
       "building-marker-67aaabc9a89802f0176bad8e"
