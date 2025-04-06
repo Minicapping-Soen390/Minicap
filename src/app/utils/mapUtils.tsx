@@ -363,7 +363,9 @@ export const createMapFacade = (params: {
         onPress: () =>
           fetchDirections(
             transportMode,
-            Constants.expoConfig?.extra?.googleMapsApiKey ?? "",
+            Constants.expoConfig?.extra?.googleMapsApiKey ??
+              process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+              "",
             start,
             effectiveEndPoint
           ),
@@ -411,7 +413,8 @@ export const createMapFacade = (params: {
             mode,
             key:
               Constants.expoConfig?.extra?.googleMapsApiKey ??
-              process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+              process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+              "",
           },
         }
       );
