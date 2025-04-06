@@ -1,0 +1,21 @@
+appId: com.dsagfh364h.src
+---
+#Zoom in
+- tapOn:
+    point: 1000,1930
+
+#seeing your location
+- tapOn:
+    point: 679,1472
+- assertVisible: "Your location"
+
+#Select a building as destination
+- tapOn:
+    point: 563,519
+- tapOn: "Set as Destination"
+- assertVisible: "Route from My Location to LB building"
+- tapOn: "START NAVIGATION"
+
+- swipe:  
+    start: 50%, 35% 
+    end: 53%, 10%

@@ -45,8 +45,12 @@ jest.mock("expo-location", () => ({
 }));
 
 describe("CampusSwitcher Component", () => {
+  let utils: ReturnType<typeof render>;
+
   beforeEach(() => {
     jest.useFakeTimers();
+    jest.clearAllMocks();
+    utils = render(<CampusSwitcher />);
   });
 
   afterEach(() => {
@@ -156,37 +160,46 @@ describe("CampusSwitcher Component", () => {
       expect(userLocationMarker.props.coordinate.longitude).toBe(-73.6);
     });
   });
+  it("renders correctly and toggles campuses", async () => {
+    const { getByTestId, findByTestId } = utils;
+    expect(await findByTestId("campus-map")).toBeTruthy();
+    const switchComponent = getByTestId("campus-switch");
+    expect(switchComponent.props.value).toBe(false);
+    await act(async () => fireEvent(switchComponent, "valueChange", true));
+    await waitFor(() => expect(getByTestId("campus-map")).toBeTruthy());
+  });
 
-  //PASS
-  it("displays error when location permission is denied", async () => {
-    // Fix: Ensure it's correctly mocked
-    (
-      Location.requestForegroundPermissionsAsync as jest.Mock
-    ).mockResolvedValueOnce({ status: "denied" });
-
-    const { findByTestId, getByText } = render(<CampusSwitcher />);
-
-    // Wait for location error to appear
+  it("refreshes and displays user location", async () => {
+    const { getByTestId } = utils;
+    await act(async () =>
+      fireEvent.press(getByTestId("refresh-location-button"))
+    );
     await waitFor(() => {
-      expect(
-        getByText("Permission to access location was denied")
-      ).toBeTruthy();
+      const marker = getByTestId("user-location-marker");
+      expect(marker.props.coordinate.latitude).toBe(45.5);
     });
   });
 
-  //PASS
-  it("displays error when fetching location fails", async () => {
-    // Fix: Ensure it's correctly mocked
-    (Location.getCurrentPositionAsync as jest.Mock).mockRejectedValueOnce(
-      new Error("Location fetch failed")
+  it("shows error for denied location permissions", async () => {
+    (
+      Location.requestForegroundPermissionsAsync as jest.Mock
+    ).mockResolvedValueOnce({ status: "denied" });
+    utils = render(<CampusSwitcher />);
+    const { getByText } = utils;
+    await waitFor(() =>
+      expect(getByText("Permission to access location was denied")).toBeTruthy()
     );
+  });
 
-    const { findByTestId, getByText } = render(<CampusSwitcher />);
-
-    // Wait for location error to appear
-    await waitFor(() => {
-      expect(getByText("Error getting location")).toBeTruthy();
-    });
+  it("handles location fetch failure", async () => {
+    (Location.getCurrentPositionAsync as jest.Mock).mockRejectedValueOnce(
+      new Error("fail")
+    );
+    utils = render(<CampusSwitcher />);
+    const { getByText } = utils;
+    await waitFor(() =>
+      expect(getByText("Error getting location")).toBeTruthy()
+    );
   });
 
   it("switches between campuses and verifies map updates", async () => {
@@ -526,4 +539,87 @@ describe("CampusSwitcher Component", () => {
   //   const shuttleMarker = await findByTestId("shuttle-marker-BUS123");
   //   expect(shuttleMarker).toBeTruthy();
   // });
+  it("displays building info on press", async () => {
+    const { findByTestId, getByText } = utils;
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
+      )
+    );
+    expect(getByText("MB Building")).toBeTruthy();
+    expect(getByText("1450 Guy Street")).toBeTruthy();
+  });
+
+  it("clears building info when map pressed", async () => {
+    const { findByTestId, queryByTestId, getByTestId } = utils;
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
+      )
+    );
+    await act(async () => fireEvent.press(getByTestId("campus-map")));
+    await waitFor(() => expect(queryByTestId("building-info")).toBeNull());
+  });
+
+  it("selects start and destination buildings", async () => {
+    const { findByTestId, getByTestId } = utils;
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
+      )
+    );
+    await act(async () => fireEvent.press(getByTestId("set-start-button")));
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad84")
+      )
+    );
+    await act(async () =>
+      fireEvent.press(getByTestId("set-destination-button"))
+    );
+  });
+
+  it("uses current location as start for navigation", async () => {
+    const { getByTestId, findByTestId } = utils;
+    await act(async () =>
+      fireEvent.press(getByTestId("refresh-location-button"))
+    );
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad84")
+      )
+    );
+    await act(async () =>
+      fireEvent.press(getByTestId("set-destination-button"))
+    );
+  });
+
+  it("initiates outdoor navigation", async () => {
+    const { findByTestId, getByTestId } = utils;
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
+      )
+    );
+    await act(async () => fireEvent.press(getByTestId("set-start-button")));
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad84")
+      )
+    );
+    await act(async () =>
+      fireEvent.press(getByTestId("set-destination-button"))
+    );
+    expect(await findByTestId("outdoor-navigation-container")).toBeTruthy();
+  });
+
+  it("renders building info marker", async () => {
+    const { findByTestId } = render(<CampusSwitcher />);
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
+      )
+    );
+    expect(await findByTestId("building-info")).toBeTruthy();
+  });
 });

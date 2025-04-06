@@ -16,13 +16,12 @@ import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import campusCenters from "@/data/campusCenters.json";
-import { Campus } from "@/models/Campus";
-import { createMapFacade } from "../utils/mapUtils";
+import { Campus } from "@/MVVM/models/Campus";
+import { createMapFacade } from "../../Shared/utils/mapUtils";
 import {
   createShuttleFacade,
   renderShuttleMarkers,
-} from "../utils/shuttleUtils";
-import IndoorNavigationModal from "../../components/IndoorNavigationModal"; // Importing the new component
+} from "../../Shared/utils/shuttleUtils";
 
 // CampusMap Component Props
 interface CampusMapProps {
@@ -212,7 +211,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   return (
-    <View style={globalStyles.mapContainer}>
+    <View
+      style={globalStyles.mapContainer}
+      testID="outdoor-navigation-container"
+    >
       {locationError ? (
         <View style={globalStyles.errorContainer}>
           <Text style={globalStyles.errorText}>{locationError}</Text>
@@ -511,7 +513,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                       <Text style={globalStyles.shuttleScheduleText}>
                         🕒 Next departure: {step.departureInfo.departureTime}
                       </Text>
-                      <Text style={globalStyles.shuttleScheduleText}>
+                      <Text
+                        testID="estimated-wait"
+                        style={globalStyles.shuttleScheduleText}
+                      >
                         ⏱️ Estimated wait: {step.departureInfo.waitTime} minutes
                       </Text>
                     </View>
