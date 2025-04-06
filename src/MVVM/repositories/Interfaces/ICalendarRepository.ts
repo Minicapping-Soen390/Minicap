@@ -13,8 +13,7 @@ export interface ICalendarRepository {
    * @param calendarId - The string of our calendar entry
    * @returns Promise resolving to array of calendar events
    */
-  getGoogleCalendarEvents(calendarId: string): Promise<any[]>;
-
+  getGoogleCalendarEvents(calendarId: string): Promise<Event[]>;
   /**
    * Lists all connected Google Calendars for a user
    * @param userId - The user whose calendars to list
