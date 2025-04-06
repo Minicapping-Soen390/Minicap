@@ -264,6 +264,7 @@ export const createMapFacade = (params: {
                 latitude: center.latitude,
                 longitude: center.longitude,
                 campus: building.campus,
+                floors: building.floors, 
               });
               setSelectedBuildingId(building._id);
               if (!destinationAddress) {
