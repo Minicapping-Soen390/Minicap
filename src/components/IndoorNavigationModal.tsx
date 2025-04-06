@@ -5,11 +5,13 @@ import Hall8 from "../data/svgFloorMaps/Annotated-Hall-8.svg";
 import Hall9 from "../data/svgFloorMaps/Hall-9.svg";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 interface Marker {
   id: string;
   x: number;
   y: number;
 }
+
 interface IndoorNavigationModalProps {
   buildingInfo: any;
   currentFloorIndex: number;
@@ -27,17 +29,6 @@ const toggleStrategies = {
 const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   buildingInfo,
   currentFloorIndex,
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -40,21 +47,28 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
-  
   closeIndoorNavigation,
   changeFloor,
 }) => {
@@ -45,6 +36,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   const [showStairsMarkers, setShowStairsMarkers] = useState(false);
   const [showElevatorMarkers, setShowElevatorMarkers] = useState(false);
   const searchInputRef = useRef<TextInput>(null);
+
   // Hardcoded Indoor POIS
   const stairsLocations: Record<number, Marker[]> = {
     0: [
@@ -80,23 +72,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   };
 
   return (
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -151,15 +165,13 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
-  
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
       if (searchInputRef.current) {
@@ -141,6 +116,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
           {currentFloorIndex === 0 ? (
             <>
               <Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+
               {showStairsMarkers && (
                 <Svg
                   width="700"
@@ -199,21 +175,11 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
           >
             <MaterialIcons
               name="elevator"
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -171,7 +183,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
-  
               size={24}
               color={showElevatorMarkers ? 'purple' : '#fff'}
             />
           </TouchableOpacity>
+
           {/* Toggle for highlighting stairs */}
           <TouchableOpacity
             style={styles.poiButton}
@@ -221,17 +187,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
           >
             <MaterialIcons
               name="stairs"
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -181,7 +193,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
-  
               size={24}
               color={showStairsMarkers ? 'green' : '#fff'}
             />
@@ -242,29 +197,13 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
             style={[styles.accessibilityButton, isAccessibilityEnabled && styles.accessibilityEnabled]}
           >
             <MaterialIcons name="accessible" size={24} color="#fff" />
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -232,7 +244,7 @@ const styles = StyleSheet.create({
-  
           </TouchableOpacity>
         </View>
       </View>
     </TouchableWithoutFeedback>
   );
 };
+
 const styles = StyleSheet.create({
   modalContainer: {
     position: 'absolute',
@@ -309,17 +248,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   floorChanger: {
-
-    
-          
-            
-    
-
-          
-          Expand Down
-    
-    
-  
     marginHorizontal: 10,
     alignItems: 'center',
   },
@@ -364,4 +292,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
   },
 });
+
 export default IndoorNavigationModal;
