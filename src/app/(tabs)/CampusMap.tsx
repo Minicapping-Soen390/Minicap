@@ -189,6 +189,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 coordinates={newRoute}
                 strokeColor="#186DEE"
                 strokeWidth={5}
+                testID="outdoor-route-polyline"
               />
             )
           ) : (
@@ -197,6 +198,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               strokeColor={brandColors.concordiaRed}
               strokeWidth={5}
               lineDashPattern={[10, 5]}
+              testID="shuttle-route-polyline"
             />
           )}
           {buildingInfo && (
@@ -223,6 +225,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   longitude: parseFloat(shuttle.Longitude),
                 }}
                 title={`Shuttle ${shuttle.ID}`}
+                testID={`shuttle-marker-${shuttle.ID}`}
               >
                 <View style={[globalStyles.shuttleStopMarker]}>
                   <Text
@@ -280,6 +283,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   );
                 }}
                 style={globalStyles.addButton}
+                testID="start-navigation-button"
               >
                 <Text style={globalStyles.refreshButtonText}>
                   Start Navigation
@@ -294,6 +298,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   globalStyles.addButton,
                   { marginTop: 10, backgroundColor: "#555" },
                 ]}
+                testID="reset-navigation-button"
               >
                 <Text style={globalStyles.refreshButtonText}>Reset</Text>
               </TouchableOpacity>
@@ -316,6 +321,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                     mapFacade.handleBuildingSelection(buildingInfo, "start");
                   }}
                   style={[globalStyles.addButton, { marginRight: 10 }]}
+                  testID="set-start-button"
                 >
                   <Text style={globalStyles.refreshButtonText}>
                     Set as Start
@@ -327,6 +333,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                     mapFacade.handleBuildingSelection(buildingInfo, "end");
                   }}
                   style={globalStyles.addButton}
+                  testID="set-destination-button"
                 >
                   <Text style={globalStyles.refreshButtonText}>
                     Set as Destination
@@ -371,6 +378,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             ).map((mode) => (
               <TouchableOpacity
                 key={mode}
+                testID={`mode-tab-${mode}`}
                 onPress={() =>
                   mapFacade.handleTransportModeChange(
                     mode === "shuttle" ? "transit" : mode

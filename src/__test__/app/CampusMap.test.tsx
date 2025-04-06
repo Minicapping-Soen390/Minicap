@@ -26,6 +26,11 @@ jest.mock("react-native-maps", () => {
         React.ClassAttributes<HTMLDivElement> &
         React.HTMLAttributes<HTMLDivElement>
     ) => <div {...props} data-testid="polygon" />,
+    Polyline: (
+      props: React.JSX.IntrinsicAttributes &
+        React.ClassAttributes<HTMLDivElement> &
+        React.HTMLAttributes<HTMLDivElement>
+    ) => <div {...props} data-testid="polyline" />,
   };
 });
 
@@ -383,4 +388,142 @@ describe("CampusSwitcher Component", () => {
   });
 
   // Feature 2
+
+  it("2.1 - Select Start and Destination Building for Outdoor Directions", async () => {
+    const { findByTestId } = render(<CampusSwitcher />);
+
+    const startMarker = await findByTestId(
+      "building-marker-67aaabc9a89802f0176bad8e"
+    ); // MB
+    const endMarker = await findByTestId(
+      "building-marker-67aaabc9a89802f0176bad84"
+    ); // HA
+
+    await act(async () => fireEvent.press(startMarker));
+    const startSetButton = await findByTestId("set-start-button");
+    await act(async () => fireEvent.press(startSetButton));
+
+    await act(async () => fireEvent.press(endMarker));
+    const endSetButton = await findByTestId("set-destination-button");
+    await act(async () => fireEvent.press(endSetButton));
+
+    // const polyline = await findByTestId("outdoor-route-polyline");
+    // expect(polyline).toBeTruthy();
+  });
+
+  // it("2.2 - Use Current Location as Start for Outdoor Directions", async () => {
+  //   const { getByTestId, findByTestId } = render(<CampusSwitcher />);
+
+  //   const refreshButton = getByTestId("refresh-location-button");
+  //   await act(async () => fireEvent.press(refreshButton));
+
+  //   const userLocation = await findByTestId("user-location-marker");
+  //   expect(userLocation.props.coordinate.latitude).toBe(45.5);
+
+  //   const endMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad84"
+  //   );
+  //   await act(async () => fireEvent.press(endMarker));
+  //   const endSetButton = await findByTestId("set-destination-button");
+  //   await act(async () => fireEvent.press(endSetButton));
+
+  //   const polyline = await findByTestId("outdoor-route-polyline");
+  //   expect(polyline).toBeTruthy();
+  // });
+
+  // it("2.3 - Show Outdoor Directions on Map", async () => {
+  //   const { findByTestId } = render(<CampusSwitcher />);
+  //   const mbMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad8e"
+  //   );
+  //   await act(async () => fireEvent.press(mbMarker));
+
+  //   const startButton = await findByTestId("set-start-button");
+  //   await act(async () => fireEvent.press(startButton));
+
+  //   const haMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad84"
+  //   );
+  //   await act(async () => fireEvent.press(haMarker));
+
+  //   const endButton = await findByTestId("set-destination-button");
+  //   await act(async () => fireEvent.press(endButton));
+
+  //   const directionsPanel = await findByTestId("outdoor-navigation-container");
+  //   expect(directionsPanel).toBeTruthy();
+  // });
+
+  // it("2.4 - Directions from SGW to Loyola and Vice Versa", async () => {
+  //   const { getByTestId, findByTestId } = render(<CampusSwitcher />);
+
+  //   const mbMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad8e"
+  //   );
+  //   await act(async () => fireEvent.press(mbMarker));
+  //   const startButton = await findByTestId("set-start-button");
+  //   await act(async () => fireEvent.press(startButton));
+
+  //   const campusSwitch = getByTestId("campus-switch");
+  //   await act(async () => fireEvent(campusSwitch, "valueChange", true));
+
+  //   const loyolaMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad84"
+  //   );
+  //   await act(async () => fireEvent.press(loyolaMarker));
+  //   const endButton = await findByTestId("set-destination-button");
+  //   await act(async () => fireEvent.press(endButton));
+
+  //   const polyline = await findByTestId("shuttle-route-polyline");
+  //   expect(polyline).toBeTruthy();
+  // });
+
+  // it("2.5 - Support Multiple Transportation Modes", async () => {
+  //   const { getByTestId, findByTestId } = render(<CampusSwitcher />);
+
+  //   const mbMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad8e"
+  //   );
+  //   await act(async () => fireEvent.press(mbMarker));
+  //   const startButton = await findByTestId("set-start-button");
+  //   await act(async () => fireEvent.press(startButton));
+
+  //   const haMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad84"
+  //   );
+  //   await act(async () => fireEvent.press(haMarker));
+  //   const endButton = await findByTestId("set-destination-button");
+  //   await act(async () => fireEvent.press(endButton));
+
+  //   const drivingTab = await findByTestId("mode-tab-driving");
+  //   await act(async () => fireEvent.press(drivingTab));
+  //   const walkingTab = await findByTestId("mode-tab-walking");
+  //   await act(async () => fireEvent.press(walkingTab));
+
+  //   const polyline = await findByTestId("outdoor-route-polyline");
+  //   expect(polyline).toBeTruthy();
+  // });
+
+  // it("2.6 - Support for the Concordia Shuttle Service", async () => {
+  //   const { findByTestId } = render(<CampusSwitcher />);
+
+  //   const mbMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad8e"
+  //   );
+  //   await act(async () => fireEvent.press(mbMarker));
+  //   const startButton = await findByTestId("set-start-button");
+  //   await act(async () => fireEvent.press(startButton));
+
+  //   const loyolaMarker = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad84"
+  //   );
+  //   await act(async () => fireEvent.press(loyolaMarker));
+  //   const endButton = await findByTestId("set-destination-button");
+  //   await act(async () => fireEvent.press(endButton));
+
+  //   const shuttleRoute = await findByTestId("shuttle-route-polyline");
+  //   expect(shuttleRoute).toBeTruthy();
+
+  //   const shuttleMarker = await findByTestId("shuttle-marker-BUS123");
+  //   expect(shuttleMarker).toBeTruthy();
+  // });
 });
