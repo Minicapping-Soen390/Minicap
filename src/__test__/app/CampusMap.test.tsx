@@ -56,9 +56,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("renders correctly and toggles campuses", async () => {
-    const { getByTestId, findByTestId, getAllByText } = render(
-      <CampusSwitcher />
-    );
+    const { getByTestId, findByTestId } = render(<CampusSwitcher />);
     expect(await findByTestId("campus-map")).toBeTruthy();
     const switchComponent = getByTestId("campus-switch");
     expect(switchComponent.props.value).toBe(false);
@@ -67,7 +65,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("refreshes and displays user location", async () => {
-    const { getByTestId, findByTestId } = render(<CampusSwitcher />);
+    const { getByTestId } = render(<CampusSwitcher />);
     await act(async () =>
       fireEvent.press(getByTestId("refresh-location-button"))
     );
