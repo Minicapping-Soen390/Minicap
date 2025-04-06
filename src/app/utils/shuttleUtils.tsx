@@ -38,6 +38,7 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
 
       {/* Shuttle Stop Marker for Loyola */}
       <Marker
+        testID="loy-campus-shuttle-stop"
         coordinate={{
           latitude: SHUTTLE_STOPS.LOYOLA.latitude,
           longitude: SHUTTLE_STOPS.LOYOLA.longitude,
