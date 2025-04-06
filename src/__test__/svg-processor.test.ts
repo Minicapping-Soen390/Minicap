@@ -1,5 +1,5 @@
-import { SvgProcessorViewModel } from '../viewmodels/SvgProcessorViewModel';
-import { RoomRepository } from '../repositories/RoomRepository';
+import { SvgProcessorViewModel } from '../MVVM/viewmodels/SvgProcessorViewModel';
+import { RoomRepository } from '../MVVM/repositories/RoomRepository';
 import * as fs from 'fs';
 import * as path from 'path';
 

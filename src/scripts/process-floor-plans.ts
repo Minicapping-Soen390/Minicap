@@ -1,4 +1,4 @@
-import { SvgProcessorViewModel } from '../viewmodels/SvgProcessorViewModel';
+import { SvgProcessorViewModel } from '../MVVM/viewmodels/SvgProcessorViewModel';
 import * as fs from 'fs';
 import * as path from 'path';
 

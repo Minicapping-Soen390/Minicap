@@ -1,6 +1,6 @@
 import axios from 'axios';
 import MockDate from 'mockdate';
-import { shuttleService, SHUTTLE_STOPS } from '@/services/ShuttleService';
+import { shuttleService, SHUTTLE_STOPS } from '@/MVVM/services/ShuttleService';
 import { shuttleSchedule } from '@/data/shuttleSchedule';
 
 jest.mock('axios');
@@ -35,8 +35,8 @@ describe('ShuttleService', () => {
         data: {
           d: {
             Points: [
-              { ID: 'BUS001', Latitude: 45.5, Longitude: -73.6, IconImage: 'bus.png' },
-              { ID: 'OTHER', Latitude: 0, Longitude: 0, IconImage: '' }
+              { _id: 'BUS001', Latitude: 45.5, Longitude: -73.6, IconImage: 'bus.png' },
+              { _id: 'OTHER', Latitude: 0, Longitude: 0, IconImage: '' }
             ]
           }
         }
@@ -61,8 +61,8 @@ describe('ShuttleService', () => {
     it('should return the closest shuttle', () => {
       const result = shuttleService.getClosestShuttle(
         [
-          { ID: 'BUS1', Latitude: '45.45', Longitude: '-73.64' },
-          { ID: 'BUS2', Latitude: '45.49', Longitude: '-73.59' }
+          { _id: 'BUS1', Latitude: '45.45', Longitude: '-73.64' },
+          { _id: 'BUS2', Latitude: '45.49', Longitude: '-73.59' }
         ],
         SHUTTLE_STOPS.SGW
       );

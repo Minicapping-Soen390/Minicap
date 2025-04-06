@@ -5,7 +5,7 @@ import {
   determineUserCampus,
   fetchShuttleData,
   renderShuttleMarkers,
-} from "../../app/utils/shuttleUtils";
+} from "../../Shared/utils/shuttleUtils";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
