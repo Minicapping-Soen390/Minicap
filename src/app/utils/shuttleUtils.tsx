@@ -22,7 +22,7 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
     <>
       {/* Shuttle Stop Marker for SGW */}
       <Marker
-              testID="sgw-campus-shuttle-stop"
+        testID="sgw-campus-shuttle-stop"
         coordinate={{
           latitude: SHUTTLE_STOPS.SGW.latitude,
           longitude: SHUTTLE_STOPS.SGW.longitude,
@@ -38,8 +38,6 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
 
       {/* Shuttle Stop Marker for Loyola */}
       <Marker
-              testID="loyola-campus-shuttle-stop"
-
         coordinate={{
           latitude: SHUTTLE_STOPS.LOYOLA.latitude,
           longitude: SHUTTLE_STOPS.LOYOLA.longitude,
@@ -149,7 +147,8 @@ export const createShuttleFacade = ({
           mode: "walking",
           key:
             Constants.expoConfig?.extra?.googleMapsApiKey ??
-            process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+            process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+            "",
         },
       }
     );
@@ -178,7 +177,8 @@ export const createShuttleFacade = ({
           mode: "driving",
           key:
             Constants.expoConfig?.extra?.googleMapsApiKey ??
-            process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+            process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+            "",
         },
       }
     );

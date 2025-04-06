@@ -154,7 +154,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   }, [isCrossCampusNavigation, activeTab, startPoint]);
 
   return (
-    <View style={globalStyles.mapContainer}>
+    <View
+      style={globalStyles.mapContainer}
+      testID="outdoor-navigation-container"
+    >
       {locationError ? (
         <View style={globalStyles.errorContainer}>
           <Text style={globalStyles.errorText}>{locationError}</Text>
@@ -279,7 +282,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   console.log("Starting navigation...");
                   mapFacade.fetchDirections(
                     "transit",
-                    Constants.expoConfig?.extra?.googleMapsApiKey ?? ""
+                    Constants.expoConfig?.extra?.googleMapsApiKey ??
+                      process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+                      "AIzaSyCdMpoRN-cWcG-LGTKplqHs3SvTeYy7t0E"
                   );
                 }}
                 style={globalStyles.addButton}
@@ -378,7 +383,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             ).map((mode) => (
               <TouchableOpacity
                 key={mode}
-                testID={`mode-tab-${mode}`}
+                testID={mode}
                 onPress={() =>
                   mapFacade.handleTransportModeChange(
                     mode === "shuttle" ? "transit" : mode
@@ -435,7 +440,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                       <Text style={globalStyles.shuttleScheduleText}>
                         🕒 Next departure: {step.departureInfo.departureTime}
                       </Text>
-                      <Text testID="estimated-wait" style={globalStyles.shuttleScheduleText}>
+                      <Text
+                        testID="estimated-wait"
+                        style={globalStyles.shuttleScheduleText}
+                      >
                         ⏱️ Estimated wait: {step.departureInfo.waitTime} minutes
                       </Text>
                     </View>
