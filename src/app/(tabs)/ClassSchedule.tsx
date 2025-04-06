@@ -23,7 +23,7 @@ const ClassSchedule = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
   const [isSigninInProgress, setIsSigninInProgress] = useState(false);
   const [events, setEvents] = useState<any[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [slideAnim] = useState(new Animated.Value(-200));
 
   const panResponder = React.useRef(
@@ -132,15 +132,20 @@ const ClassSchedule = () => {
 
   const getEventColor = (title: string) => {
     const summary = title.toLowerCase();
-    if (summary.includes("lec")) return "#FFCC80";   // Light orange
-    if (summary.includes("tut")) return "#F8BBD0";   // Light pink
-    if (summary.includes("lab")) return "#B39DDB";   // Light purple
+    if (summary.includes("lec")) return "#FFCC80"; // Light orange
+    if (summary.includes("tut")) return "#F8BBD0"; // Light pink
+    if (summary.includes("lab")) return "#B39DDB"; // Light purple
     return "#CFD8DC"; // Default gray if type is unknown
-  };  
+  };
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Text style={[globalStyles.title, { marginTop: 6, marginBottom: 10, alignSelf: 'center' }]}>
+      <Text
+        style={[
+          globalStyles.title,
+          { marginTop: 6, marginBottom: 10, alignSelf: "center" },
+        ]}
+      >
         Class Schedule
       </Text>
 
@@ -155,13 +160,13 @@ const ClassSchedule = () => {
         />
       ) : (
         <View style={globalStyles.scheduleContainer}>
-          <Text style={globalStyles.successText}>✅ Connected to Google Calendar!</Text>
-          <Text style={globalStyles.userEmail}>Signed in as: {userInfo.data.user?.email}</Text>
-          <Button
-            testID="signout-button"
-            title="Sign Out"
-            onPress={signOut}
-          />
+          <Text style={globalStyles.successText}>
+            ✅ Connected to Google Calendar!
+          </Text>
+          <Text style={globalStyles.userEmail}>
+            Signed in as: {userInfo.data.user?.email}
+          </Text>
+          <Button testID="signout-button" title="Sign Out" onPress={signOut} />
 
           <ScrollView style={globalStyles.scrollView}>
             <View style={globalStyles.scheduleGrid}>
@@ -172,13 +177,19 @@ const ClassSchedule = () => {
                   const timeLabel = `${hour}:${minute}`;
                   if (hour === 23 && minute === "00") {
                     return (
-                      <Text key={index} style={globalStyles.timeLabel}>
+                      <Text
+                        key={`time-${timeLabel}`}
+                        style={globalStyles.timeLabel}
+                      >
                         11:00 PM
                       </Text>
                     );
                   }
                   return (
-                    <Text key={index} style={globalStyles.timeLabel}>
+                    <Text
+                      key={`time-${timeLabel}`}
+                      style={globalStyles.timeLabel}
+                    >
                       {timeLabel}
                     </Text>
                   );
@@ -203,13 +214,17 @@ const ClassSchedule = () => {
                           height: eventHeight,
                           backgroundColor: getEventColor(event.summary),
                         },
-                      ]}                      
+                      ]}
                     >
-                      <Text style={globalStyles.eventTitle}>{event.summary}</Text>
+                      <Text style={globalStyles.eventTitle}>
+                        {event.summary}
+                      </Text>
                       <Text style={globalStyles.eventTime}>
                         {event.startFormatted} - {event.endFormatted}
                       </Text>
-                      <Text style={globalStyles.eventLocation}>{event.location}</Text>
+                      <Text style={globalStyles.eventLocation}>
+                        {event.location}
+                      </Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -238,21 +253,27 @@ const ClassSchedule = () => {
                 <View style={globalStyles.sliderIcon} />
 
                 {/* Event Details */}
-                <Text style={globalStyles.sliderTitle}>{selectedEvent.summary}</Text>
+                <Text style={globalStyles.sliderTitle}>
+                  {selectedEvent.summary}
+                </Text>
                 <Text style={globalStyles.sliderDateTime}>
                   {new Date(selectedEvent.start).toLocaleDateString("en-US", {
                     weekday: "short",
                     month: "short",
                     day: "numeric",
-                  })} • {selectedEvent.startFormatted} - {selectedEvent.endFormatted}
+                  })}{" "}
+                  • {selectedEvent.startFormatted} -{" "}
+                  {selectedEvent.endFormatted}
                 </Text>
-                <Text style={globalStyles.sliderLocation}>{selectedEvent.location}</Text>
+                <Text style={globalStyles.sliderLocation}>
+                  {selectedEvent.location}
+                </Text>
                 <View style={globalStyles.roomRow}>
                   <Text style={globalStyles.sliderRoom} numberOfLines={2}>
                     {selectedEvent.location.split(" - ").pop()?.trim()}
                   </Text>
                   <Image
-                    source={require('assets/images/arrow.png')}
+                    source={require("assets/images/arrow.png")}
                     style={globalStyles.arrowImageInline}
                   />
                 </View>
