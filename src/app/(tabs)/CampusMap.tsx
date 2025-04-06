@@ -23,12 +23,16 @@ import {
   renderShuttleMarkers,
 } from "../utils/shuttleUtils";
 
-// CampusMap Component Props
+/**
+ * Props interface for CampusMap component
+ */
 interface CampusMapProps {
   campusId: string;
 }
 
-// Define campuses
+/**
+ * Campus model for SGW campus
+ */
 const SGWCampus: Campus = {
   _id: "sgw-uuid",
   name: "SGW Campus",
@@ -36,6 +40,9 @@ const SGWCampus: Campus = {
   buildingIds: [],
 };
 
+/**
+ * Campus model for Loyola campus
+ */
 const LoyolaCampus: Campus = {
   _id: "loyola-uuid",
   name: "Loyola Campus",
@@ -43,6 +50,10 @@ const LoyolaCampus: Campus = {
   buildingIds: [],
 };
 
+/**
+ * Main component for displaying interactive campus map with navigation features
+ * @param campusId - Unique identifier for the campus to display
+ */
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region = campusCenters[campus.outdoorLocation];
@@ -462,6 +473,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   );
 };
 
+/**
+ * Component that allows switching between SGW and Loyola campus views
+ * Wraps the CampusMap component and handles campus selection state
+ */
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState(true);
   const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;

@@ -8,6 +8,11 @@ import sanitizeHtml from "sanitize-html"; // Safe HTML sanitization function usi
 import Constants from "expo-constants";
 import { determineUserCampus } from "./shuttleUtils";
 
+/**
+ * Sanitizes HTML content by removing all HTML tags and attributes.
+ * @param html - Raw HTML string to be sanitized
+ * @returns Clean text string with all HTML tags removed
+ */
 export const sanitizeHtmlContent = (html: string): string => {
   return sanitizeHtml(html, {
     allowedTags: [], // Remove all HTML tags
@@ -15,6 +20,11 @@ export const sanitizeHtmlContent = (html: string): string => {
   }).trim();
 };
 
+/**
+ * Decodes a Google Maps encoded polyline string into an array of coordinates.
+ * @param encoded - Encoded polyline string from Google Maps API
+ * @returns Array of LatLng coordinates representing the decoded path
+ */
 export const decodePolyline = (encoded: string) => {
   let index = 0;
   const path = [];
@@ -56,6 +66,12 @@ export const decodePolyline = (encoded: string) => {
   return path;
 };
 
+/**
+ * Determines if a point lies within a polygon using ray casting algorithm.
+ * @param point - The point to check (LatLng)
+ * @param polygon - Array of LatLng coordinates forming the polygon
+ * @returns boolean indicating if the point is inside the polygon
+ */
 export const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
   let inside = false;
   const x = point.longitude,
@@ -75,6 +91,11 @@ export const isPointInPolygon = (point: LatLng, polygon: LatLng[]): boolean => {
   return inside;
 };
 
+/**
+ * Creates a facade for map-related operations and state management.
+ * @param params - Object containing state setters and current state values
+ * @returns Object containing map utility functions
+ */
 export const createMapFacade = (params: {
   setUserLocation: (region: Region) => void;
   setLocationError: (error: string | null) => void;
@@ -138,6 +159,10 @@ export const createMapFacade = (params: {
     shuttleFacade,
   } = params;
 
+  /**
+   * Requests and updates user's current location.
+   * @returns Promise<Region | void> User's location as a Region object
+   */
   const getUserLocation = async (): Promise<Region | void> => {
     console.log("Requesting user location...");
     try {
@@ -166,13 +191,22 @@ export const createMapFacade = (params: {
     }
   };
 
-  // Clears building selection.
+  /**
+   * Handles map press events by clearing building selection.
+   */
   const handleMapPress = () => {
     console.log("Map pressed. Clearing building selection.");
     setBuildingInfo(null);
     setSelectedBuildingId(null);
   };
 
+  /**
+   * Renders building markers and polygons on the map.
+   * @param buildingsData - Array of building data objects
+   * @param globalStyles - Global styles object
+   * @param brandColors - Brand colors object
+   * @returns Array of React elements representing buildings
+   */
   const renderBuildings = (
     buildingsData: any[],
     globalStyles: any,
@@ -287,6 +321,11 @@ export const createMapFacade = (params: {
     });
   };
 
+  /**
+   * Handles building selection and sets start/end points.
+   * @param building - Building object to be selected
+   * @param selectionType - Either "start" or "end"
+   */
   const handleBuildingSelection = (
     building: any,
     selectionType: "start" | "end"
@@ -303,7 +342,11 @@ export const createMapFacade = (params: {
     handleEndSelection(info, building._id);
   };
 
-  // Helper: Building Validation
+  /**
+   * Validates building data object.
+   * @param building - Building object to validate
+   * @returns boolean indicating if building data is valid
+   */
   const isValidBuilding = (building: any): boolean => {
     if (!building || !building.name) {
       console.error("Invalid building data:", building);
@@ -313,7 +356,11 @@ export const createMapFacade = (params: {
     return true;
   };
 
-  // Helper: Info object
+  /**
+   * Extracts relevant building information into a standardized format.
+   * @param building - Source building object
+   * @returns Formatted building info object
+   */
   const extractBuildingInfo = (building: any) => ({
     name: building.name,
     address: building.address,
@@ -323,7 +370,11 @@ export const createMapFacade = (params: {
     campus: building.campus,
   });
 
-  // Helper: Startpoint
+  /**
+   * Handles selection of starting point building.
+   * @param info - Building information object
+   * @param buildingId - Unique identifier for the building
+   */
   const handleStartSelection = (info: any, buildingId: string) => {
     console.log(`Setting ${info.name} as start point.`);
     setStartPoint(info);
@@ -335,7 +386,11 @@ export const createMapFacade = (params: {
     );
   };
 
-  // Helper: Endpoint
+  /**
+   * Handles selection of destination building.
+   * @param info - Building information object
+   * @param buildingId - Unique identifier for the building
+   */
   const handleEndSelection = (info: any, buildingId: string) => {
     console.log(`Setting ${info.name} as end point.`);
 
@@ -374,7 +429,10 @@ export const createMapFacade = (params: {
     ]);
   };
 
-  // Helper: Get fallback location if needed
+  /**
+   * Creates a fallback location object using current user location.
+   * @returns Location object or null if location services unavailable
+   */
   const getUserLocationFallback = () => {
     if (userLocation) {
       const fallback = {
@@ -396,6 +454,14 @@ export const createMapFacade = (params: {
     return null;
   };
 
+  /**
+   * Fetches walking/driving directions between two points.
+   * @param startPoint - Starting location
+   * @param endPoint - Destination location
+   * @param mode - Transportation mode (walking, driving, etc.)
+   * @param googleMapsApiKey - Google Maps API key
+   * @returns Promise containing route and step-by-step directions
+   */
   const fetchRegularDirections = async (
     startPoint: any,
     endPoint: any,
@@ -442,6 +508,13 @@ export const createMapFacade = (params: {
     }
   };
 
+  /**
+   * Main function for fetching directions based on transport mode.
+   * @param mode - Transportation mode
+   * @param googleMapsApiKey - Google Maps API key
+   * @param customStartPoint - Optional custom start point
+   * @param customEndPoint - Optional custom end point
+   */
   const fetchDirections = async (
     mode: string,
     googleMapsApiKey: string,
@@ -500,6 +573,9 @@ export const createMapFacade = (params: {
     }
   };
 
+  /**
+   * Resets all navigation-related state.
+   */
   const resetNavigation = () => {
     console.log("Resetting navigation...");
     setStartPoint(null);
@@ -511,6 +587,9 @@ export const createMapFacade = (params: {
     setIsNavigationStarted(false);
   };
 
+  /**
+   * Shows navigation popup with building info.
+   */
   const handleNavigationPopup = () => {
     if (buildingInfo) {
       setStartingAddress("My Location");
@@ -519,6 +598,10 @@ export const createMapFacade = (params: {
     }
   };
 
+  /**
+   * Updates transport mode and fetches new directions.
+   * @param mode - New transport mode to set
+   */
   const handleTransportModeChange = (mode: string) => {
     setTransportMode(mode);
     setActiveTab(mode);

@@ -7,6 +7,10 @@ import {
   statusCodes,
 } from "@react-native-google-signin/google-signin";
 
+/**
+ * Component for managing class schedule integration with Google Calendar
+ * Handles Google Sign-in and displays calendar connection status
+ */
 const ClassSchedule = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
   const [isSigninInProgress, setIsSigninInProgress] = useState(false);
@@ -29,7 +33,10 @@ const ClassSchedule = () => {
     });
   }, []);
 
-  // Sign in with Google
+  /**
+   * Initiates Google Sign-in process
+   * Handles various sign-in scenarios and errors
+   */
   const signIn = async () => {
     try {
       setIsSigninInProgress(true);
@@ -51,7 +58,9 @@ const ClassSchedule = () => {
     }
   };
 
-  // Sign out from Google
+  /**
+   * Handles user sign-out and revokes access
+   */
   const signOut = async () => {
     try {
       await GoogleSignin.revokeAccess();
