@@ -3,66 +3,98 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export class RoomRepository {
-  private readonly dataDir: string;
+  private dataDir: string;
+  private buildingsFile: string;
 
-  constructor(dataDir: string = path.join(process.cwd(), 'data')) {
+  constructor(dataDir: string = 'data') {
     this.dataDir = dataDir;
-    this.ensureDataDirectory();
+    this.buildingsFile = path.join(this.dataDir, 'buildings.json');
+    this.ensureDataDirectoryExists();
   }
 
-  private ensureDataDirectory(): void {
+  private ensureDataDirectoryExists(): void {
     if (!fs.existsSync(this.dataDir)) {
       fs.mkdirSync(this.dataDir, { recursive: true });
     }
   }
 
   /**
-   * Saves building data to a JSON file
+   * Saves building data to the JSON storage
    * @param building Building data to save
    */
   async saveBuilding(building: Building): Promise<void> {
     try {
-      const filePath = path.join(this.dataDir, `${building.id}.json`);
-      await fs.promises.writeFile(
-        filePath,
-        JSON.stringify(building, null, 2),
-        'utf-8'
-      );
+      // Load existing buildings
+      const buildings = await this.loadBuildings();
+      
+      // Update or add the building
+      const index = buildings.findIndex(b => b.id === building.id);
+      if (index >= 0) {
+        buildings[index] = building;
+      } else {
+        buildings.push(building);
+      }
+      
+      // Save back to file
+      await fs.promises.writeFile(this.buildingsFile, JSON.stringify(buildings, null, 2));
     } catch (error) {
       console.error('Error saving building data:', error);
-      throw new Error(`Failed to save building data: ${error.message}`);
+      throw new Error(`Failed to save building data: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
   /**
-   * Loads building data from a JSON file
-   * @param buildingId ID of the building to load
-   * @returns Promise<Building> The loaded building data
+   * Loads all buildings from storage
+   * @returns Promise<Building[]> Array of buildings
    */
-  async loadBuilding(buildingId: string): Promise<Building> {
+  async loadBuildings(): Promise<Building[]> {
     try {
-      const filePath = path.join(this.dataDir, `${buildingId}.json`);
-      const data = await fs.promises.readFile(filePath, 'utf-8');
-      return JSON.parse(data) as Building;
+      if (!fs.existsSync(this.buildingsFile)) {
+        return [];
+      }
+      
+      const data = await fs.promises.readFile(this.buildingsFile, 'utf-8');
+      return JSON.parse(data);
     } catch (error) {
       console.error('Error loading building data:', error);
-      throw new Error(`Failed to load building data: ${error.message}`);
+      throw new Error(`Failed to load building data: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
   /**
-   * Lists all available buildings
-   * @returns Promise<string[]> Array of building IDs
+   * Lists all buildings in storage
+   * @returns Promise<Building[]> Array of buildings
    */
-  async listBuildings(): Promise<string[]> {
+  async listBuildings(): Promise<Building[]> {
     try {
-      const files = await fs.promises.readdir(this.dataDir);
-      return files
-        .filter(file => file.endsWith('.json'))
-        .map(file => file.replace('.json', ''));
+      return await this.loadBuildings();
     } catch (error) {
       console.error('Error listing buildings:', error);
-      throw new Error(`Failed to list buildings: ${error.message}`);
+      throw new Error(`Failed to list buildings: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Searches for rooms across all buildings
+   * @param query Search query
+   * @returns Promise<Room[]> Array of matching rooms
+   */
+  async searchRooms(query: string): Promise<Room[]> {
+    try {
+      const buildings = await this.loadBuildings();
+      const normalizedQuery = query.toLowerCase();
+      
+      return buildings.flatMap(building =>
+        building.rooms.filter(room =>
+          room.searchTerms.some(term => term.includes(normalizedQuery))
+        ).map(room => ({
+          ...room,
+          building: building.name
+        }))
+      );
+    } catch (error) {
+      console.error('Error searching rooms:', error);
+      throw new Error(`Failed to search rooms: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 

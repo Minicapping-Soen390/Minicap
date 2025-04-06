@@ -1,0 +1,8004 @@
+[
+  {
+    "id": "unknown-building",
+    "name": "Unknown Building",
+    "floors": [
+      "Floor Plan"
+    ],
+    "rooms": [
+      {
+        "id": "room-3781",
+        "name": "Room 3781",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 220.21933
+          },
+          {
+            "x": 128.750004,
+            "y": 220.21933
+          },
+          {
+            "x": 128.750004,
+            "y": 290.040756
+          },
+          {
+            "x": 33.57143,
+            "y": 290.040756
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3781",
+          "room",
+          "3781",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3781",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 220.21933,
+          "maxX": 128.750004,
+          "maxY": 290.040756
+        },
+        "center": {
+          "x": 81.16071699999999,
+          "y": 255.130043
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3783",
+        "name": "Room 3783",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 128.75,
+            "y": 220.21933
+          },
+          {
+            "x": 189.464279,
+            "y": 220.21933
+          },
+          {
+            "x": 189.464279,
+            "y": 312.362183
+          },
+          {
+            "x": 128.75,
+            "y": 312.362183
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3783",
+          "room",
+          "3783",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3783",
+        "boundingBox": {
+          "minX": 128.75,
+          "minY": 220.21933,
+          "maxX": 189.464279,
+          "maxY": 312.362183
+        },
+        "center": {
+          "x": 159.10713950000002,
+          "y": 266.29075650000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3785",
+        "name": "Room 3785",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 189.46428,
+            "y": 220.21933
+          },
+          {
+            "x": 256.250001,
+            "y": 220.21933
+          },
+          {
+            "x": 256.250001,
+            "y": 312.362183
+          },
+          {
+            "x": 189.46428,
+            "y": 312.362183
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3785",
+          "room",
+          "3785",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3785",
+        "boundingBox": {
+          "minX": 189.46428,
+          "minY": 220.21933,
+          "maxX": 256.250001,
+          "maxY": 312.362183
+        },
+        "center": {
+          "x": 222.8571405,
+          "y": 266.29075650000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3787",
+        "name": "Room 3787",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 256.25,
+            "y": 220.21933
+          },
+          {
+            "x": 311.964287,
+            "y": 220.21933
+          },
+          {
+            "x": 311.964287,
+            "y": 257.540753
+          },
+          {
+            "x": 256.25,
+            "y": 257.540753
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3787",
+          "room",
+          "3787",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3787",
+        "boundingBox": {
+          "minX": 256.25,
+          "minY": 220.21933,
+          "maxX": 311.964287,
+          "maxY": 257.540753
+        },
+        "center": {
+          "x": 284.1071435,
+          "y": 238.8800415
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3789",
+        "name": "Room 3789",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 269.46429,
+            "y": 257.54074
+          },
+          {
+            "x": 311.964282,
+            "y": 257.54074
+          },
+          {
+            "x": 311.964282,
+            "y": 284.68359300000003
+          },
+          {
+            "x": 269.46429,
+            "y": 284.68359300000003
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3789",
+          "room",
+          "3789",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3789",
+        "boundingBox": {
+          "minX": 269.46429,
+          "minY": 257.54074,
+          "maxX": 311.964282,
+          "maxY": 284.68359300000003
+        },
+        "center": {
+          "x": 290.714286,
+          "y": 271.11216650000006
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3791",
+        "name": "Room 3791",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 269.46429,
+            "y": 284.68359
+          },
+          {
+            "x": 311.964282,
+            "y": 284.68359
+          },
+          {
+            "x": 311.964282,
+            "y": 312.36216199999996
+          },
+          {
+            "x": 269.46429,
+            "y": 312.36216199999996
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3791",
+          "room",
+          "3791",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3791",
+        "boundingBox": {
+          "minX": 269.46429,
+          "minY": 284.68359,
+          "maxX": 311.964282,
+          "maxY": 312.36216199999996
+        },
+        "center": {
+          "x": 290.714286,
+          "y": 298.522876
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3797",
+        "name": "Room 3797",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 311.96429,
+            "y": 220.21933
+          },
+          {
+            "x": 375.89286,
+            "y": 220.21933
+          },
+          {
+            "x": 375.89286,
+            "y": 312.362168
+          },
+          {
+            "x": 311.96429,
+            "y": 312.362168
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3797",
+          "room",
+          "3797",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3797",
+        "boundingBox": {
+          "minX": 311.96429,
+          "minY": 220.21933,
+          "maxX": 375.89286,
+          "maxY": 312.362168
+        },
+        "center": {
+          "x": 343.928575,
+          "y": 266.290749
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3803",
+        "name": "Room 3803",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.78571,
+            "y": 220.21933
+          },
+          {
+            "x": 498.214284,
+            "y": 220.21933
+          },
+          {
+            "x": 498.214284,
+            "y": 312.362183
+          },
+          {
+            "x": 431.78571,
+            "y": 312.362183
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3803",
+          "room",
+          "3803",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3803",
+        "boundingBox": {
+          "minX": 431.78571,
+          "minY": 220.21933,
+          "maxX": 498.214284,
+          "maxY": 312.362183
+        },
+        "center": {
+          "x": 464.999997,
+          "y": 266.29075650000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3805",
+        "name": "Room 3805",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 498.21429,
+            "y": 220.21933
+          },
+          {
+            "x": 553.928584,
+            "y": 220.21933
+          },
+          {
+            "x": 553.928584,
+            "y": 312.362183
+          },
+          {
+            "x": 498.21429,
+            "y": 312.362183
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3805",
+          "room",
+          "3805",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3805",
+        "boundingBox": {
+          "minX": 498.21429,
+          "minY": 220.21933,
+          "maxX": 553.928584,
+          "maxY": 312.362183
+        },
+        "center": {
+          "x": 526.0714370000001,
+          "y": 266.29075650000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3811",
+        "name": "Room 3811",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 220.21933
+          },
+          {
+            "x": 715.714334,
+            "y": 220.21933
+          },
+          {
+            "x": 715.714334,
+            "y": 312.005036
+          },
+          {
+            "x": 621.42859,
+            "y": 312.005036
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3811",
+          "room",
+          "3811",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3811",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 220.21933,
+          "maxX": 715.714334,
+          "maxY": 312.005036
+        },
+        "center": {
+          "x": 668.571462,
+          "y": 266.112183
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3813",
+        "name": "Room 3813",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 312.00504
+          },
+          {
+            "x": 715.714311,
+            "y": 312.00504
+          },
+          {
+            "x": 715.714311,
+            "y": 378.076474
+          },
+          {
+            "x": 621.42859,
+            "y": 378.076474
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3813",
+          "room",
+          "3813",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3813",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 312.00504,
+          "maxX": 715.714311,
+          "maxY": 378.076474
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 345.040757
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3815",
+        "name": "Room 3815",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 378.07648
+          },
+          {
+            "x": 715.714311,
+            "y": 378.07648
+          },
+          {
+            "x": 715.714311,
+            "y": 435.576476
+          },
+          {
+            "x": 621.42859,
+            "y": 435.576476
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3815",
+          "room",
+          "3815",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3815",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 378.07648,
+          "maxX": 715.714311,
+          "maxY": 435.576476
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 406.826478
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3817",
+        "name": "Room 3817",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 435.57648
+          },
+          {
+            "x": 715.714311,
+            "y": 435.57648
+          },
+          {
+            "x": 715.714311,
+            "y": 501.64790600000003
+          },
+          {
+            "x": 621.42859,
+            "y": 501.64790600000003
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3817",
+          "room",
+          "3817",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3817",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 435.57648,
+          "maxX": 715.714311,
+          "maxY": 501.64790600000003
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 468.61219300000005
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3819",
+        "name": "Room 3819",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 501.64789
+          },
+          {
+            "x": 715.714311,
+            "y": 501.64789
+          },
+          {
+            "x": 715.714311,
+            "y": 559.147882
+          },
+          {
+            "x": 621.42859,
+            "y": 559.147882
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3819",
+          "room",
+          "3819",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3819",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 501.64789,
+          "maxX": 715.714311,
+          "maxY": 559.147882
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 530.397886
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3821",
+        "name": "Room 3821",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 559.14789
+          },
+          {
+            "x": 715.714311,
+            "y": 559.14789
+          },
+          {
+            "x": 715.714311,
+            "y": 624.1479049999999
+          },
+          {
+            "x": 621.42859,
+            "y": 624.1479049999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3821",
+          "room",
+          "3821",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3821",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 559.14789,
+          "maxX": 715.714311,
+          "maxY": 624.1479049999999
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 591.6478975
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3823",
+        "name": "Room 3823",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 624.14789
+          },
+          {
+            "x": 715.714311,
+            "y": 624.14789
+          },
+          {
+            "x": 715.714311,
+            "y": 687.362169
+          },
+          {
+            "x": 621.42859,
+            "y": 687.362169
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3823",
+          "room",
+          "3823",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3823",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 624.14789,
+          "maxX": 715.714311,
+          "maxY": 687.362169
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 655.7550295
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3825",
+        "name": "Room 3825",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.07141,
+            "y": 748.43359
+          },
+          {
+            "x": 715.714293,
+            "y": 748.43359
+          },
+          {
+            "x": 715.714293,
+            "y": 845.933605
+          },
+          {
+            "x": 621.07141,
+            "y": 845.933605
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3825",
+          "room",
+          "3825",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3825",
+        "boundingBox": {
+          "minX": 621.07141,
+          "minY": 748.43359,
+          "maxX": 715.714293,
+          "maxY": 845.933605
+        },
+        "center": {
+          "x": 668.3928515,
+          "y": 797.1835974999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3827",
+        "name": "Room 3827",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 559.28571,
+            "y": 748.43359
+          },
+          {
+            "x": 621.071404,
+            "y": 748.43359
+          },
+          {
+            "x": 621.071404,
+            "y": 845.933621
+          },
+          {
+            "x": 559.28571,
+            "y": 845.933621
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3827",
+          "room",
+          "3827",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3827",
+        "boundingBox": {
+          "minX": 559.28571,
+          "minY": 748.43359,
+          "maxX": 621.071404,
+          "maxY": 845.933621
+        },
+        "center": {
+          "x": 590.178557,
+          "y": 797.1836055
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3829",
+        "name": "Room 3829",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 496.42856,
+            "y": 748.43359
+          },
+          {
+            "x": 559.285692,
+            "y": 748.43359
+          },
+          {
+            "x": 559.285692,
+            "y": 845.933621
+          },
+          {
+            "x": 496.42856,
+            "y": 845.933621
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3829",
+          "room",
+          "3829",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3829",
+        "boundingBox": {
+          "minX": 496.42856,
+          "minY": 748.43359,
+          "maxX": 559.285692,
+          "maxY": 845.933621
+        },
+        "center": {
+          "x": 527.857126,
+          "y": 797.1836055
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3831",
+        "name": "Room 3831",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 433.21429,
+            "y": 748.43359
+          },
+          {
+            "x": 496.428562,
+            "y": 748.43359
+          },
+          {
+            "x": 496.428562,
+            "y": 845.933621
+          },
+          {
+            "x": 433.21429,
+            "y": 845.933621
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3831",
+          "room",
+          "3831",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3831",
+        "boundingBox": {
+          "minX": 433.21429,
+          "minY": 748.43359,
+          "maxX": 496.428562,
+          "maxY": 845.933621
+        },
+        "center": {
+          "x": 464.821426,
+          "y": 797.1836055
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3833",
+        "name": "Room 3833",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 315.71429,
+            "y": 748.07648
+          },
+          {
+            "x": 375.000003,
+            "y": 748.07648
+          },
+          {
+            "x": 375.000003,
+            "y": 845.933635
+          },
+          {
+            "x": 315.71429,
+            "y": 845.933635
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3833",
+          "room",
+          "3833",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3833",
+        "boundingBox": {
+          "minX": 315.71429,
+          "minY": 748.07648,
+          "maxX": 375.000003,
+          "maxY": 845.933635
+        },
+        "center": {
+          "x": 345.3571465,
+          "y": 797.0050575
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3835",
+        "name": "Room 3835",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 248.57143,
+            "y": 748.07648
+          },
+          {
+            "x": 315.714298,
+            "y": 748.07648
+          },
+          {
+            "x": 315.714298,
+            "y": 845.9336269999999
+          },
+          {
+            "x": 248.57143,
+            "y": 845.9336269999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3835",
+          "room",
+          "3835",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3835",
+        "boundingBox": {
+          "minX": 248.57143,
+          "minY": 748.07648,
+          "maxX": 315.714298,
+          "maxY": 845.9336269999999
+        },
+        "center": {
+          "x": 282.142864,
+          "y": 797.0050534999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3837",
+        "name": "Room 3837",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 192.14285,
+            "y": 748.07648
+          },
+          {
+            "x": 248.57142000000002,
+            "y": 748.07648
+          },
+          {
+            "x": 248.57142000000002,
+            "y": 845.9336269999999
+          },
+          {
+            "x": 192.14285,
+            "y": 845.9336269999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3837",
+          "room",
+          "3837",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3837",
+        "boundingBox": {
+          "minX": 192.14285,
+          "minY": 748.07648,
+          "maxX": 248.57142000000002,
+          "maxY": 845.9336269999999
+        },
+        "center": {
+          "x": 220.35713500000003,
+          "y": 797.0050534999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3839",
+        "name": "Room 3839",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 124.64286,
+            "y": 748.07648
+          },
+          {
+            "x": 192.142852,
+            "y": 748.07648
+          },
+          {
+            "x": 192.142852,
+            "y": 845.9336269999999
+          },
+          {
+            "x": 124.64286,
+            "y": 845.9336269999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3839",
+          "room",
+          "3839",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3839",
+        "boundingBox": {
+          "minX": 124.64286,
+          "minY": 748.07648,
+          "maxX": 192.142852,
+          "maxY": 845.9336269999999
+        },
+        "center": {
+          "x": 158.392856,
+          "y": 797.0050534999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3841",
+        "name": "Room 3841",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 748.07648
+          },
+          {
+            "x": 124.642856,
+            "y": 748.07648
+          },
+          {
+            "x": 124.642856,
+            "y": 845.9336269999999
+          },
+          {
+            "x": 33.57143,
+            "y": 845.9336269999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3841",
+          "room",
+          "3841",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3841",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 748.07648,
+          "maxX": 124.642856,
+          "maxY": 845.9336269999999
+        },
+        "center": {
+          "x": 79.107143,
+          "y": 797.0050534999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3843",
+        "name": "Room 3843",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 716.29077
+          },
+          {
+            "x": 83.92857000000001,
+            "y": 716.29077
+          },
+          {
+            "x": 83.92857000000001,
+            "y": 748.0764929999999
+          },
+          {
+            "x": 33.57143,
+            "y": 748.0764929999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3843",
+          "room",
+          "3843",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3843",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 716.29077,
+          "maxX": 83.92857000000001,
+          "maxY": 748.0764929999999
+        },
+        "center": {
+          "x": 58.75,
+          "y": 732.1836314999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3845",
+        "name": "Room 3845",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 684.50507
+          },
+          {
+            "x": 97.85714300000001,
+            "y": 684.50507
+          },
+          {
+            "x": 97.85714300000001,
+            "y": 716.2908020000001
+          },
+          {
+            "x": 33.57143,
+            "y": 716.2908020000001
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3845",
+          "room",
+          "3845",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3845",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 684.50507,
+          "maxX": 97.85714300000001,
+          "maxY": 716.2908020000001
+        },
+        "center": {
+          "x": 65.7142865,
+          "y": 700.3979360000001
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3847",
+        "name": "Room 3847",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 97.857147,
+            "y": 684.50507
+          },
+          {
+            "x": 128.928575,
+            "y": 684.50507
+          },
+          {
+            "x": 128.928575,
+            "y": 724.8621870000001
+          },
+          {
+            "x": 97.857147,
+            "y": 724.8621870000001
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3847",
+          "room",
+          "3847",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3847",
+        "boundingBox": {
+          "minX": 97.857147,
+          "minY": 684.50507,
+          "maxX": 128.928575,
+          "maxY": 724.8621870000001
+        },
+        "center": {
+          "x": 113.392861,
+          "y": 704.6836285
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3849",
+        "name": "Room 3849",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 622.36218
+          },
+          {
+            "x": 128.928577,
+            "y": 622.36218
+          },
+          {
+            "x": 128.928577,
+            "y": 684.505063
+          },
+          {
+            "x": 33.57143,
+            "y": 684.505063
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3849",
+          "room",
+          "3849",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3849",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 622.36218,
+          "maxX": 128.928577,
+          "maxY": 684.505063
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 653.4336215
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3851",
+        "name": "Room 3851",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 559.50507
+          },
+          {
+            "x": 128.928577,
+            "y": 559.50507
+          },
+          {
+            "x": 128.928577,
+            "y": 622.362213
+          },
+          {
+            "x": 33.57143,
+            "y": 622.362213
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3851",
+          "room",
+          "3851",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3851",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 559.50507,
+          "maxX": 128.928577,
+          "maxY": 622.362213
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 590.9336415
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3853",
+        "name": "Room 3853",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 499.50504
+          },
+          {
+            "x": 128.928577,
+            "y": 499.50504
+          },
+          {
+            "x": 128.928577,
+            "y": 559.505067
+          },
+          {
+            "x": 33.57143,
+            "y": 559.505067
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3853",
+          "room",
+          "3853",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3853",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 499.50504,
+          "maxX": 128.928577,
+          "maxY": 559.505067
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 529.5050535
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3855",
+        "name": "Room 3855",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 437.00504
+          },
+          {
+            "x": 128.928577,
+            "y": 437.00504
+          },
+          {
+            "x": 128.928577,
+            "y": 499.505036
+          },
+          {
+            "x": 33.57143,
+            "y": 499.505036
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3855",
+          "room",
+          "3855",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3855",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 437.00504,
+          "maxX": 128.928577,
+          "maxY": 499.505036
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 468.255038
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3857",
+        "name": "Room 3857",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 375.57648
+          },
+          {
+            "x": 128.928577,
+            "y": 375.57648
+          },
+          {
+            "x": 128.928577,
+            "y": 437.00505
+          },
+          {
+            "x": 33.57143,
+            "y": 437.00505
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3857",
+          "room",
+          "3857",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3857",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 375.57648,
+          "maxX": 128.928577,
+          "maxY": 437.00505
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 406.29076499999996
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3859",
+        "name": "Room 3859",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 290.04077
+          },
+          {
+            "x": 111.42857000000001,
+            "y": 290.04077
+          },
+          {
+            "x": 111.42857000000001,
+            "y": 314.14791
+          },
+          {
+            "x": 33.57143,
+            "y": 314.14791
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3859",
+          "room",
+          "3859",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3859",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 290.04077,
+          "maxX": 111.42857000000001,
+          "maxY": 314.14791
+        },
+        "center": {
+          "x": 72.5,
+          "y": 302.09434
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3865",
+        "name": "Room 3865",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 165.71428,
+            "y": 349.86218
+          },
+          {
+            "x": 227.857137,
+            "y": 349.86218
+          },
+          {
+            "x": 227.857137,
+            "y": 440.21932000000004
+          },
+          {
+            "x": 165.71428,
+            "y": 440.21932000000004
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3865",
+          "room",
+          "3865",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3865",
+        "boundingBox": {
+          "minX": 165.71428,
+          "minY": 349.86218,
+          "maxX": 227.857137,
+          "maxY": 440.21932000000004
+        },
+        "center": {
+          "x": 196.7857085,
+          "y": 395.04075
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3873",
+        "name": "Room 3873",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 227.85713,
+            "y": 349.86218
+          },
+          {
+            "x": 339.28571,
+            "y": 349.86218
+          },
+          {
+            "x": 339.28571,
+            "y": 411.647893
+          },
+          {
+            "x": 227.85713,
+            "y": 411.647893
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3873",
+          "room",
+          "3873",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3873",
+        "boundingBox": {
+          "minX": 227.85713,
+          "minY": 349.86218,
+          "maxX": 339.28571,
+          "maxY": 411.647893
+        },
+        "center": {
+          "x": 283.57142,
+          "y": 380.7550365
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3875",
+        "name": "Room 3875",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 280.35715,
+            "y": 349.86218
+          },
+          {
+            "x": 314.642863,
+            "y": 349.86218
+          },
+          {
+            "x": 314.642863,
+            "y": 384.147893
+          },
+          {
+            "x": 280.35715,
+            "y": 384.147893
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3875",
+          "room",
+          "3875",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3875",
+        "boundingBox": {
+          "minX": 280.35715,
+          "minY": 349.86218,
+          "maxX": 314.642863,
+          "maxY": 384.147893
+        },
+        "center": {
+          "x": 297.5000065,
+          "y": 367.0050365
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3877",
+        "name": "Room 3877",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 227.85713,
+            "y": 411.64789
+          },
+          {
+            "x": 249.642851,
+            "y": 411.64789
+          },
+          {
+            "x": 249.642851,
+            "y": 440.219316
+          },
+          {
+            "x": 227.85713,
+            "y": 440.219316
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3877",
+          "room",
+          "3877",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3877",
+        "boundingBox": {
+          "minX": 227.85713,
+          "minY": 411.64789,
+          "maxX": 249.642851,
+          "maxY": 440.219316
+        },
+        "center": {
+          "x": 238.74999050000002,
+          "y": 425.933603
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3881",
+        "name": "Room 3881",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 249.64285,
+            "y": 411.64789
+          },
+          {
+            "x": 272.142856,
+            "y": 411.64789
+          },
+          {
+            "x": 272.142856,
+            "y": 435.21931800000004
+          },
+          {
+            "x": 249.64285,
+            "y": 435.21931800000004
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3881",
+          "room",
+          "3881",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3881",
+        "boundingBox": {
+          "minX": 249.64285,
+          "minY": 411.64789,
+          "maxX": 272.142856,
+          "maxY": 435.21931800000004
+        },
+        "center": {
+          "x": 260.892853,
+          "y": 423.43360400000006
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3883",
+        "name": "Room 3883",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 272.14285,
+            "y": 411.64789
+          },
+          {
+            "x": 292.14285,
+            "y": 411.64789
+          },
+          {
+            "x": 292.14285,
+            "y": 435.219311
+          },
+          {
+            "x": 272.14285,
+            "y": 435.219311
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3883",
+          "room",
+          "3883",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3883",
+        "boundingBox": {
+          "minX": 272.14285,
+          "minY": 411.64789,
+          "maxX": 292.14285,
+          "maxY": 435.219311
+        },
+        "center": {
+          "x": 282.14285,
+          "y": 423.4336005
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3885",
+        "name": "Room 3885",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 339.28571,
+            "y": 411.64789
+          },
+          {
+            "x": 375.714284,
+            "y": 411.64789
+          },
+          {
+            "x": 375.714284,
+            "y": 439.14789
+          },
+          {
+            "x": 339.28571,
+            "y": 439.14789
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3885",
+          "room",
+          "3885",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3885",
+        "boundingBox": {
+          "minX": 339.28571,
+          "minY": 411.64789,
+          "maxX": 375.714284,
+          "maxY": 439.14789
+        },
+        "center": {
+          "x": 357.499997,
+          "y": 425.39789
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3887",
+        "name": "Room 3887",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 339.28571,
+            "y": 387.00504
+          },
+          {
+            "x": 375.714276,
+            "y": 387.00504
+          },
+          {
+            "x": 375.714276,
+            "y": 411.647889
+          },
+          {
+            "x": 339.28571,
+            "y": 411.647889
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3887",
+          "room",
+          "3887",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3887",
+        "boundingBox": {
+          "minX": 339.28571,
+          "minY": 387.00504,
+          "maxX": 375.714276,
+          "maxY": 411.647889
+        },
+        "center": {
+          "x": 357.499993,
+          "y": 399.32646450000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3889",
+        "name": "Room 3889",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 339.28571,
+            "y": 360.57648
+          },
+          {
+            "x": 375.714268,
+            "y": 360.57648
+          },
+          {
+            "x": 375.714268,
+            "y": 387.005048
+          },
+          {
+            "x": 339.28571,
+            "y": 387.005048
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3889",
+          "room",
+          "3889",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3889",
+        "boundingBox": {
+          "minX": 339.28571,
+          "minY": 360.57648,
+          "maxX": 375.714268,
+          "maxY": 387.005048
+        },
+        "center": {
+          "x": 357.499989,
+          "y": 373.79076399999997
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3891",
+        "name": "Room 3891",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 292.14285,
+            "y": 411.64789
+          },
+          {
+            "x": 339.285703,
+            "y": 411.64789
+          },
+          {
+            "x": 339.285703,
+            "y": 439.14788200000004
+          },
+          {
+            "x": 292.14285,
+            "y": 439.14788200000004
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3891",
+          "room",
+          "3891",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3891",
+        "boundingBox": {
+          "minX": 292.14285,
+          "minY": 411.64789,
+          "maxX": 339.285703,
+          "maxY": 439.14788200000004
+        },
+        "center": {
+          "x": 315.7142765,
+          "y": 425.397886
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3895",
+        "name": "Room 3895",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 313.92856,
+            "y": 474.14789
+          },
+          {
+            "x": 338.92856,
+            "y": 474.14789
+          },
+          {
+            "x": 338.92856,
+            "y": 669.86217
+          },
+          {
+            "x": 313.92856,
+            "y": 669.86217
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3895",
+          "room",
+          "3895",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3895",
+        "boundingBox": {
+          "minX": 313.92856,
+          "minY": 474.14789,
+          "maxX": 338.92856,
+          "maxY": 669.86217
+        },
+        "center": {
+          "x": 326.42856,
+          "y": 572.00503
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3897",
+        "name": "Room 3897",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 338.92856,
+            "y": 639.86218
+          },
+          {
+            "x": 376.785715,
+            "y": 639.86218
+          },
+          {
+            "x": 376.785715,
+            "y": 669.862165
+          },
+          {
+            "x": 338.92856,
+            "y": 669.862165
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3897",
+          "room",
+          "3897",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3897",
+        "boundingBox": {
+          "minX": 338.92856,
+          "minY": 639.86218,
+          "maxX": 376.785715,
+          "maxY": 669.862165
+        },
+        "center": {
+          "x": 357.8571375,
+          "y": 654.8621725
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3899",
+        "name": "Room 3899",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 250.71428,
+            "y": 474.14789
+          },
+          {
+            "x": 313.928552,
+            "y": 474.14789
+          },
+          {
+            "x": 313.928552,
+            "y": 562.3621840000001
+          },
+          {
+            "x": 250.71428,
+            "y": 562.3621840000001
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3899",
+          "room",
+          "3899",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3899",
+        "boundingBox": {
+          "minX": 250.71428,
+          "minY": 474.14789,
+          "maxX": 313.928552,
+          "maxY": 562.3621840000001
+        },
+        "center": {
+          "x": 282.321416,
+          "y": 518.255037
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3901",
+        "name": "Room 3901",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 216.78572,
+            "y": 474.14789
+          },
+          {
+            "x": 250.714286,
+            "y": 474.14789
+          },
+          {
+            "x": 250.714286,
+            "y": 531.290754
+          },
+          {
+            "x": 216.78572,
+            "y": 531.290754
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3901",
+          "room",
+          "3901",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3901",
+        "boundingBox": {
+          "minX": 216.78572,
+          "minY": 474.14789,
+          "maxX": 250.714286,
+          "maxY": 531.290754
+        },
+        "center": {
+          "x": 233.750003,
+          "y": 502.71932200000003
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3903",
+        "name": "Room 3903",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 216.78572,
+            "y": 531.29077
+          },
+          {
+            "x": 250.714278,
+            "y": 531.29077
+          },
+          {
+            "x": 250.714278,
+            "y": 562.3621999999999
+          },
+          {
+            "x": 216.78572,
+            "y": 562.3621999999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3903",
+          "room",
+          "3903",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3903",
+        "boundingBox": {
+          "minX": 216.78572,
+          "minY": 531.29077,
+          "maxX": 250.714278,
+          "maxY": 562.3621999999999
+        },
+        "center": {
+          "x": 233.749999,
+          "y": 546.8264849999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3908",
+        "name": "Room 3908",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 171.78572,
+            "y": 503.43362
+          },
+          {
+            "x": 206.071433,
+            "y": 503.43362
+          },
+          {
+            "x": 206.071433,
+            "y": 531.290763
+          },
+          {
+            "x": 171.78572,
+            "y": 531.290763
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3908",
+          "room",
+          "3908",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3908",
+        "boundingBox": {
+          "minX": 171.78572,
+          "minY": 503.43362,
+          "maxX": 206.071433,
+          "maxY": 531.290763
+        },
+        "center": {
+          "x": 188.92857650000002,
+          "y": 517.3621915
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3913",
+        "name": "Room 3913",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 171.78572,
+            "y": 474.14789
+          },
+          {
+            "x": 206.07146,
+            "y": 474.14789
+          },
+          {
+            "x": 206.07146,
+            "y": 503.43370200000004
+          },
+          {
+            "x": 171.78572,
+            "y": 503.43370200000004
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3913",
+          "room",
+          "3913",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3913",
+        "boundingBox": {
+          "minX": 171.78572,
+          "minY": 474.14789,
+          "maxX": 206.07146,
+          "maxY": 503.43370200000004
+        },
+        "center": {
+          "x": 188.92858999999999,
+          "y": 488.790796
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3919",
+        "name": "Room 3919",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 215.71428,
+            "y": 643.07648
+          },
+          {
+            "x": 251.78571,
+            "y": 643.07648
+          },
+          {
+            "x": 251.78571,
+            "y": 708.790767
+          },
+          {
+            "x": 215.71428,
+            "y": 708.790767
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3919",
+          "room",
+          "3919",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3919",
+        "boundingBox": {
+          "minX": 215.71428,
+          "minY": 643.07648,
+          "maxX": 251.78571,
+          "maxY": 708.790767
+        },
+        "center": {
+          "x": 233.749995,
+          "y": 675.9336235
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3923",
+        "name": "Room 3923",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 171.78572,
+            "y": 643.07642
+          },
+          {
+            "x": 215.714271,
+            "y": 643.07642
+          },
+          {
+            "x": 215.714271,
+            "y": 708.790791
+          },
+          {
+            "x": 171.78572,
+            "y": 708.790791
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3923",
+          "room",
+          "3923",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3923",
+        "boundingBox": {
+          "minX": 171.78572,
+          "minY": 643.07642,
+          "maxX": 215.714271,
+          "maxY": 708.790791
+        },
+        "center": {
+          "x": 193.7499955,
+          "y": 675.9336055
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3931",
+        "name": "Room 3931",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 171.78572,
+            "y": 620.2193
+          },
+          {
+            "x": 224.64289,
+            "y": 620.2193
+          },
+          {
+            "x": 224.64289,
+            "y": 643.0763939999999
+          },
+          {
+            "x": 171.78572,
+            "y": 643.0763939999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3931",
+          "room",
+          "3931",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3931",
+        "boundingBox": {
+          "minX": 171.78572,
+          "minY": 620.2193,
+          "maxX": 224.64289,
+          "maxY": 643.0763939999999
+        },
+        "center": {
+          "x": 198.214305,
+          "y": 631.647847
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3933",
+        "name": "Room 3933",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 251.78571,
+            "y": 684.41412
+          },
+          {
+            "x": 293.449315,
+            "y": 684.41412
+          },
+          {
+            "x": 293.449315,
+            "y": 708.7907660000001
+          },
+          {
+            "x": 251.78571,
+            "y": 708.7907660000001
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3933",
+          "room",
+          "3933",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3933",
+        "boundingBox": {
+          "minX": 251.78571,
+          "minY": 684.41412,
+          "maxX": 293.449315,
+          "maxY": 708.7907660000001
+        },
+        "center": {
+          "x": 272.6175125,
+          "y": 696.602443
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3941",
+        "name": "Room 3941",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.84021,
+            "y": 350.30615
+          },
+          {
+            "x": 496.489975,
+            "y": 350.30615
+          },
+          {
+            "x": 496.489975,
+            "y": 439.704649
+          },
+          {
+            "x": 431.84021,
+            "y": 439.704649
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3941",
+          "room",
+          "3941",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3941",
+        "boundingBox": {
+          "minX": 431.84021,
+          "minY": 350.30615,
+          "maxX": 496.489975,
+          "maxY": 439.704649
+        },
+        "center": {
+          "x": 464.1650925,
+          "y": 395.0053995
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3943",
+        "name": "Room 3943",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 443.57144,
+            "y": 350.30615
+          },
+          {
+            "x": 455.357154,
+            "y": 350.30615
+          },
+          {
+            "x": 455.357154,
+            "y": 363.076464
+          },
+          {
+            "x": 443.57144,
+            "y": 363.076464
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3943",
+          "room",
+          "3943",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3943",
+        "boundingBox": {
+          "minX": 443.57144,
+          "minY": 350.30615,
+          "maxX": 455.357154,
+          "maxY": 363.076464
+        },
+        "center": {
+          "x": 449.464297,
+          "y": 356.691307
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3945",
+        "name": "Room 3945",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 496.48999,
+            "y": 350.30615
+          },
+          {
+            "x": 532.5000299999999,
+            "y": 350.30615
+          },
+          {
+            "x": 532.5000299999999,
+            "y": 439.704633
+          },
+          {
+            "x": 496.48999,
+            "y": 439.704633
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3945",
+          "room",
+          "3945",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3945",
+        "boundingBox": {
+          "minX": 496.48999,
+          "minY": 350.30615,
+          "maxX": 532.5000299999999,
+          "maxY": 439.704633
+        },
+        "center": {
+          "x": 514.49501,
+          "y": 395.0053915
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3947",
+        "name": "Room 3947",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 532.5,
+            "y": 350.30615
+          },
+          {
+            "x": 580.535873,
+            "y": 350.30615
+          },
+          {
+            "x": 580.535873,
+            "y": 420.39788599999997
+          },
+          {
+            "x": 532.5,
+            "y": 420.39788599999997
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3947",
+          "room",
+          "3947",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3947",
+        "boundingBox": {
+          "minX": 532.5,
+          "minY": 350.30615,
+          "maxX": 580.535873,
+          "maxY": 420.39788599999997
+        },
+        "center": {
+          "x": 556.5179365,
+          "y": 385.352018
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3949",
+        "name": "Room 3949",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 532.5,
+            "y": 420.39789
+          },
+          {
+            "x": 580.535843,
+            "y": 420.39789
+          },
+          {
+            "x": 580.535843,
+            "y": 439.70463700000005
+          },
+          {
+            "x": 532.5,
+            "y": 439.70463700000005
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3949",
+          "room",
+          "3949",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3949",
+        "boundingBox": {
+          "minX": 532.5,
+          "minY": 420.39789,
+          "maxX": 580.535843,
+          "maxY": 439.70463700000005
+        },
+        "center": {
+          "x": 556.5179215,
+          "y": 430.0512635
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3951",
+        "name": "Room 3951",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 541.07141,
+            "y": 478.43362
+          },
+          {
+            "x": 580.178553,
+            "y": 478.43362
+          },
+          {
+            "x": 580.178553,
+            "y": 519.147907
+          },
+          {
+            "x": 541.07141,
+            "y": 519.147907
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3951",
+          "room",
+          "3951",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3951",
+        "boundingBox": {
+          "minX": 541.07141,
+          "minY": 478.43362,
+          "maxX": 580.178553,
+          "maxY": 519.147907
+        },
+        "center": {
+          "x": 560.6249815,
+          "y": 498.7907635
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3955",
+        "name": "Room 3955",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 498.21429,
+            "y": 557.7193
+          },
+          {
+            "x": 581.785716,
+            "y": 557.7193
+          },
+          {
+            "x": 581.785716,
+            "y": 643.433587
+          },
+          {
+            "x": 498.21429,
+            "y": 643.433587
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3955",
+          "room",
+          "3955",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3955",
+        "boundingBox": {
+          "minX": 498.21429,
+          "minY": 557.7193,
+          "maxX": 581.785716,
+          "maxY": 643.433587
+        },
+        "center": {
+          "x": 540.000003,
+          "y": 600.5764435
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3957",
+        "name": "Room 3957",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 498.21429,
+            "y": 643.43359
+          },
+          {
+            "x": 534.642852,
+            "y": 643.43359
+          },
+          {
+            "x": 534.642852,
+            "y": 708.612186
+          },
+          {
+            "x": 498.21429,
+            "y": 708.612186
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3957",
+          "room",
+          "3957",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3957",
+        "boundingBox": {
+          "minX": 498.21429,
+          "minY": 643.43359,
+          "maxX": 534.642852,
+          "maxY": 708.612186
+        },
+        "center": {
+          "x": 516.4285709999999,
+          "y": 676.022888
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3959",
+        "name": "Room 3959",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 534.64288,
+            "y": 643.43359
+          },
+          {
+            "x": 581.785744,
+            "y": 643.43359
+          },
+          {
+            "x": 581.785744,
+            "y": 708.612194
+          },
+          {
+            "x": 534.64288,
+            "y": 708.612194
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3959",
+          "room",
+          "3959",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3959",
+        "boundingBox": {
+          "minX": 534.64288,
+          "minY": 643.43359,
+          "maxX": 581.785744,
+          "maxY": 708.612194
+        },
+        "center": {
+          "x": 558.2143120000001,
+          "y": 676.022892
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3961",
+        "name": "Room 3961",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 470,
+            "y": 643.43359
+          },
+          {
+            "x": 498.214294,
+            "y": 643.43359
+          },
+          {
+            "x": 498.214294,
+            "y": 708.612186
+          },
+          {
+            "x": 470,
+            "y": 708.612186
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3961",
+          "room",
+          "3961",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3961",
+        "boundingBox": {
+          "minX": 470,
+          "minY": 643.43359,
+          "maxX": 498.214294,
+          "maxY": 708.612186
+        },
+        "center": {
+          "x": 484.107147,
+          "y": 676.022888
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3965",
+        "name": "Room 3965",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.84021,
+            "y": 622.5423
+          },
+          {
+            "x": 456.84149,
+            "y": 622.5423
+          },
+          {
+            "x": 456.84149,
+            "y": 665.726321
+          },
+          {
+            "x": 431.84021,
+            "y": 665.726321
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3965",
+          "room",
+          "3965",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3965",
+        "boundingBox": {
+          "minX": 431.84021,
+          "minY": 622.5423,
+          "maxX": 456.84149,
+          "maxY": 665.726321
+        },
+        "center": {
+          "x": 444.34085000000005,
+          "y": 644.1343105
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3969",
+        "name": "Room 3969",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.84021,
+            "y": 665.72632
+          },
+          {
+            "x": 456.84149,
+            "y": 665.72632
+          },
+          {
+            "x": 456.84149,
+            "y": 687.719326
+          },
+          {
+            "x": 431.84021,
+            "y": 687.719326
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3969",
+          "room",
+          "3969",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3969",
+        "boundingBox": {
+          "minX": 431.84021,
+          "minY": 665.72632,
+          "maxX": 456.84149,
+          "maxY": 687.719326
+        },
+        "center": {
+          "x": 444.34085000000005,
+          "y": 676.7228230000001
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3971",
+        "name": "Room 3971",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.84021,
+            "y": 687.7193
+          },
+          {
+            "x": 456.84149,
+            "y": 687.7193
+          },
+          {
+            "x": 456.84149,
+            "y": 708.612159
+          },
+          {
+            "x": 431.84021,
+            "y": 708.612159
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3971",
+          "room",
+          "3971",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3971",
+        "boundingBox": {
+          "minX": 431.84021,
+          "minY": 687.7193,
+          "maxX": 456.84149,
+          "maxY": 708.612159
+        },
+        "center": {
+          "x": 444.34085000000005,
+          "y": 698.1657295
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3981",
+        "name": "Room 3981",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 541.07141,
+            "y": 519.14791
+          },
+          {
+            "x": 518.20826,
+            "y": 557.7193
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3981",
+          "room",
+          "3981",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3981",
+        "boundingBox": {
+          "minX": 518.20826,
+          "minY": 519.14791,
+          "maxX": 541.07141,
+          "maxY": 557.7193
+        },
+        "center": {
+          "x": 529.639835,
+          "y": 538.433605
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3983",
+        "name": "Room 3983",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 541.07141,
+            "y": 478.43362
+          },
+          {
+            "x": 517.70318,
+            "y": 439.70464
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3983",
+          "room",
+          "3983",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3983",
+        "boundingBox": {
+          "minX": 517.70318,
+          "minY": 439.70464,
+          "maxX": 541.07141,
+          "maxY": 478.43362
+        },
+        "center": {
+          "x": 529.387295,
+          "y": 459.06913
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      }
+    ],
+    "boundingBox": {
+      "minX": 33.57143,
+      "minY": 220.21933,
+      "maxX": 715.714334,
+      "maxY": 845.933635
+    },
+    "center": {
+      "x": 374.642882,
+      "y": 533.0764825
+    },
+    "metadata": {
+      "dimensions": {
+        "width": 1024,
+        "height": 1024
+      },
+      "sourceFile": "h8.svg",
+      "lastModified": "2025-04-06T20:56:49.370Z"
+    }
+  },
+  {
+    "id": "h8",
+    "name": "H8",
+    "floors": [
+      "Floor Plan"
+    ],
+    "rooms": [
+      {
+        "id": "room-3781",
+        "name": "Room 3781",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 220.21933
+          },
+          {
+            "x": 128.750004,
+            "y": 220.21933
+          },
+          {
+            "x": 128.750004,
+            "y": 290.040756
+          },
+          {
+            "x": 33.57143,
+            "y": 290.040756
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3781",
+          "room",
+          "3781",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3781",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 220.21933,
+          "maxX": 128.750004,
+          "maxY": 290.040756
+        },
+        "center": {
+          "x": 81.16071699999999,
+          "y": 255.130043
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3783",
+        "name": "Room 3783",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 128.75,
+            "y": 220.21933
+          },
+          {
+            "x": 189.464279,
+            "y": 220.21933
+          },
+          {
+            "x": 189.464279,
+            "y": 312.362183
+          },
+          {
+            "x": 128.75,
+            "y": 312.362183
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3783",
+          "room",
+          "3783",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3783",
+        "boundingBox": {
+          "minX": 128.75,
+          "minY": 220.21933,
+          "maxX": 189.464279,
+          "maxY": 312.362183
+        },
+        "center": {
+          "x": 159.10713950000002,
+          "y": 266.29075650000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3785",
+        "name": "Room 3785",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 189.46428,
+            "y": 220.21933
+          },
+          {
+            "x": 256.250001,
+            "y": 220.21933
+          },
+          {
+            "x": 256.250001,
+            "y": 312.362183
+          },
+          {
+            "x": 189.46428,
+            "y": 312.362183
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3785",
+          "room",
+          "3785",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3785",
+        "boundingBox": {
+          "minX": 189.46428,
+          "minY": 220.21933,
+          "maxX": 256.250001,
+          "maxY": 312.362183
+        },
+        "center": {
+          "x": 222.8571405,
+          "y": 266.29075650000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3787",
+        "name": "Room 3787",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 256.25,
+            "y": 220.21933
+          },
+          {
+            "x": 311.964287,
+            "y": 220.21933
+          },
+          {
+            "x": 311.964287,
+            "y": 257.540753
+          },
+          {
+            "x": 256.25,
+            "y": 257.540753
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3787",
+          "room",
+          "3787",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3787",
+        "boundingBox": {
+          "minX": 256.25,
+          "minY": 220.21933,
+          "maxX": 311.964287,
+          "maxY": 257.540753
+        },
+        "center": {
+          "x": 284.1071435,
+          "y": 238.8800415
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3789",
+        "name": "Room 3789",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 269.46429,
+            "y": 257.54074
+          },
+          {
+            "x": 311.964282,
+            "y": 257.54074
+          },
+          {
+            "x": 311.964282,
+            "y": 284.68359300000003
+          },
+          {
+            "x": 269.46429,
+            "y": 284.68359300000003
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3789",
+          "room",
+          "3789",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3789",
+        "boundingBox": {
+          "minX": 269.46429,
+          "minY": 257.54074,
+          "maxX": 311.964282,
+          "maxY": 284.68359300000003
+        },
+        "center": {
+          "x": 290.714286,
+          "y": 271.11216650000006
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3791",
+        "name": "Room 3791",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 269.46429,
+            "y": 284.68359
+          },
+          {
+            "x": 311.964282,
+            "y": 284.68359
+          },
+          {
+            "x": 311.964282,
+            "y": 312.36216199999996
+          },
+          {
+            "x": 269.46429,
+            "y": 312.36216199999996
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3791",
+          "room",
+          "3791",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3791",
+        "boundingBox": {
+          "minX": 269.46429,
+          "minY": 284.68359,
+          "maxX": 311.964282,
+          "maxY": 312.36216199999996
+        },
+        "center": {
+          "x": 290.714286,
+          "y": 298.522876
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3797",
+        "name": "Room 3797",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 311.96429,
+            "y": 220.21933
+          },
+          {
+            "x": 375.89286,
+            "y": 220.21933
+          },
+          {
+            "x": 375.89286,
+            "y": 312.362168
+          },
+          {
+            "x": 311.96429,
+            "y": 312.362168
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3797",
+          "room",
+          "3797",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3797",
+        "boundingBox": {
+          "minX": 311.96429,
+          "minY": 220.21933,
+          "maxX": 375.89286,
+          "maxY": 312.362168
+        },
+        "center": {
+          "x": 343.928575,
+          "y": 266.290749
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3803",
+        "name": "Room 3803",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.78571,
+            "y": 220.21933
+          },
+          {
+            "x": 498.214284,
+            "y": 220.21933
+          },
+          {
+            "x": 498.214284,
+            "y": 312.362183
+          },
+          {
+            "x": 431.78571,
+            "y": 312.362183
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3803",
+          "room",
+          "3803",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3803",
+        "boundingBox": {
+          "minX": 431.78571,
+          "minY": 220.21933,
+          "maxX": 498.214284,
+          "maxY": 312.362183
+        },
+        "center": {
+          "x": 464.999997,
+          "y": 266.29075650000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3805",
+        "name": "Room 3805",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 498.21429,
+            "y": 220.21933
+          },
+          {
+            "x": 553.928584,
+            "y": 220.21933
+          },
+          {
+            "x": 553.928584,
+            "y": 312.362183
+          },
+          {
+            "x": 498.21429,
+            "y": 312.362183
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3805",
+          "room",
+          "3805",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3805",
+        "boundingBox": {
+          "minX": 498.21429,
+          "minY": 220.21933,
+          "maxX": 553.928584,
+          "maxY": 312.362183
+        },
+        "center": {
+          "x": 526.0714370000001,
+          "y": 266.29075650000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3811",
+        "name": "Room 3811",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 220.21933
+          },
+          {
+            "x": 715.714334,
+            "y": 220.21933
+          },
+          {
+            "x": 715.714334,
+            "y": 312.005036
+          },
+          {
+            "x": 621.42859,
+            "y": 312.005036
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3811",
+          "room",
+          "3811",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3811",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 220.21933,
+          "maxX": 715.714334,
+          "maxY": 312.005036
+        },
+        "center": {
+          "x": 668.571462,
+          "y": 266.112183
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3813",
+        "name": "Room 3813",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 312.00504
+          },
+          {
+            "x": 715.714311,
+            "y": 312.00504
+          },
+          {
+            "x": 715.714311,
+            "y": 378.076474
+          },
+          {
+            "x": 621.42859,
+            "y": 378.076474
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3813",
+          "room",
+          "3813",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3813",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 312.00504,
+          "maxX": 715.714311,
+          "maxY": 378.076474
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 345.040757
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3815",
+        "name": "Room 3815",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 378.07648
+          },
+          {
+            "x": 715.714311,
+            "y": 378.07648
+          },
+          {
+            "x": 715.714311,
+            "y": 435.576476
+          },
+          {
+            "x": 621.42859,
+            "y": 435.576476
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3815",
+          "room",
+          "3815",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3815",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 378.07648,
+          "maxX": 715.714311,
+          "maxY": 435.576476
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 406.826478
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3817",
+        "name": "Room 3817",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 435.57648
+          },
+          {
+            "x": 715.714311,
+            "y": 435.57648
+          },
+          {
+            "x": 715.714311,
+            "y": 501.64790600000003
+          },
+          {
+            "x": 621.42859,
+            "y": 501.64790600000003
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3817",
+          "room",
+          "3817",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3817",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 435.57648,
+          "maxX": 715.714311,
+          "maxY": 501.64790600000003
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 468.61219300000005
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3819",
+        "name": "Room 3819",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 501.64789
+          },
+          {
+            "x": 715.714311,
+            "y": 501.64789
+          },
+          {
+            "x": 715.714311,
+            "y": 559.147882
+          },
+          {
+            "x": 621.42859,
+            "y": 559.147882
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3819",
+          "room",
+          "3819",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3819",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 501.64789,
+          "maxX": 715.714311,
+          "maxY": 559.147882
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 530.397886
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3821",
+        "name": "Room 3821",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 559.14789
+          },
+          {
+            "x": 715.714311,
+            "y": 559.14789
+          },
+          {
+            "x": 715.714311,
+            "y": 624.1479049999999
+          },
+          {
+            "x": 621.42859,
+            "y": 624.1479049999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3821",
+          "room",
+          "3821",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3821",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 559.14789,
+          "maxX": 715.714311,
+          "maxY": 624.1479049999999
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 591.6478975
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3823",
+        "name": "Room 3823",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.42859,
+            "y": 624.14789
+          },
+          {
+            "x": 715.714311,
+            "y": 624.14789
+          },
+          {
+            "x": 715.714311,
+            "y": 687.362169
+          },
+          {
+            "x": 621.42859,
+            "y": 687.362169
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3823",
+          "room",
+          "3823",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3823",
+        "boundingBox": {
+          "minX": 621.42859,
+          "minY": 624.14789,
+          "maxX": 715.714311,
+          "maxY": 687.362169
+        },
+        "center": {
+          "x": 668.5714505,
+          "y": 655.7550295
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3825",
+        "name": "Room 3825",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 621.07141,
+            "y": 748.43359
+          },
+          {
+            "x": 715.714293,
+            "y": 748.43359
+          },
+          {
+            "x": 715.714293,
+            "y": 845.933605
+          },
+          {
+            "x": 621.07141,
+            "y": 845.933605
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3825",
+          "room",
+          "3825",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3825",
+        "boundingBox": {
+          "minX": 621.07141,
+          "minY": 748.43359,
+          "maxX": 715.714293,
+          "maxY": 845.933605
+        },
+        "center": {
+          "x": 668.3928515,
+          "y": 797.1835974999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3827",
+        "name": "Room 3827",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 559.28571,
+            "y": 748.43359
+          },
+          {
+            "x": 621.071404,
+            "y": 748.43359
+          },
+          {
+            "x": 621.071404,
+            "y": 845.933621
+          },
+          {
+            "x": 559.28571,
+            "y": 845.933621
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3827",
+          "room",
+          "3827",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3827",
+        "boundingBox": {
+          "minX": 559.28571,
+          "minY": 748.43359,
+          "maxX": 621.071404,
+          "maxY": 845.933621
+        },
+        "center": {
+          "x": 590.178557,
+          "y": 797.1836055
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3829",
+        "name": "Room 3829",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 496.42856,
+            "y": 748.43359
+          },
+          {
+            "x": 559.285692,
+            "y": 748.43359
+          },
+          {
+            "x": 559.285692,
+            "y": 845.933621
+          },
+          {
+            "x": 496.42856,
+            "y": 845.933621
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3829",
+          "room",
+          "3829",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3829",
+        "boundingBox": {
+          "minX": 496.42856,
+          "minY": 748.43359,
+          "maxX": 559.285692,
+          "maxY": 845.933621
+        },
+        "center": {
+          "x": 527.857126,
+          "y": 797.1836055
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3831",
+        "name": "Room 3831",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 433.21429,
+            "y": 748.43359
+          },
+          {
+            "x": 496.428562,
+            "y": 748.43359
+          },
+          {
+            "x": 496.428562,
+            "y": 845.933621
+          },
+          {
+            "x": 433.21429,
+            "y": 845.933621
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3831",
+          "room",
+          "3831",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3831",
+        "boundingBox": {
+          "minX": 433.21429,
+          "minY": 748.43359,
+          "maxX": 496.428562,
+          "maxY": 845.933621
+        },
+        "center": {
+          "x": 464.821426,
+          "y": 797.1836055
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3833",
+        "name": "Room 3833",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 315.71429,
+            "y": 748.07648
+          },
+          {
+            "x": 375.000003,
+            "y": 748.07648
+          },
+          {
+            "x": 375.000003,
+            "y": 845.933635
+          },
+          {
+            "x": 315.71429,
+            "y": 845.933635
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3833",
+          "room",
+          "3833",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3833",
+        "boundingBox": {
+          "minX": 315.71429,
+          "minY": 748.07648,
+          "maxX": 375.000003,
+          "maxY": 845.933635
+        },
+        "center": {
+          "x": 345.3571465,
+          "y": 797.0050575
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3835",
+        "name": "Room 3835",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 248.57143,
+            "y": 748.07648
+          },
+          {
+            "x": 315.714298,
+            "y": 748.07648
+          },
+          {
+            "x": 315.714298,
+            "y": 845.9336269999999
+          },
+          {
+            "x": 248.57143,
+            "y": 845.9336269999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3835",
+          "room",
+          "3835",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3835",
+        "boundingBox": {
+          "minX": 248.57143,
+          "minY": 748.07648,
+          "maxX": 315.714298,
+          "maxY": 845.9336269999999
+        },
+        "center": {
+          "x": 282.142864,
+          "y": 797.0050534999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3837",
+        "name": "Room 3837",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 192.14285,
+            "y": 748.07648
+          },
+          {
+            "x": 248.57142000000002,
+            "y": 748.07648
+          },
+          {
+            "x": 248.57142000000002,
+            "y": 845.9336269999999
+          },
+          {
+            "x": 192.14285,
+            "y": 845.9336269999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3837",
+          "room",
+          "3837",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3837",
+        "boundingBox": {
+          "minX": 192.14285,
+          "minY": 748.07648,
+          "maxX": 248.57142000000002,
+          "maxY": 845.9336269999999
+        },
+        "center": {
+          "x": 220.35713500000003,
+          "y": 797.0050534999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3839",
+        "name": "Room 3839",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 124.64286,
+            "y": 748.07648
+          },
+          {
+            "x": 192.142852,
+            "y": 748.07648
+          },
+          {
+            "x": 192.142852,
+            "y": 845.9336269999999
+          },
+          {
+            "x": 124.64286,
+            "y": 845.9336269999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3839",
+          "room",
+          "3839",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3839",
+        "boundingBox": {
+          "minX": 124.64286,
+          "minY": 748.07648,
+          "maxX": 192.142852,
+          "maxY": 845.9336269999999
+        },
+        "center": {
+          "x": 158.392856,
+          "y": 797.0050534999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3841",
+        "name": "Room 3841",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 748.07648
+          },
+          {
+            "x": 124.642856,
+            "y": 748.07648
+          },
+          {
+            "x": 124.642856,
+            "y": 845.9336269999999
+          },
+          {
+            "x": 33.57143,
+            "y": 845.9336269999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3841",
+          "room",
+          "3841",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3841",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 748.07648,
+          "maxX": 124.642856,
+          "maxY": 845.9336269999999
+        },
+        "center": {
+          "x": 79.107143,
+          "y": 797.0050534999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3843",
+        "name": "Room 3843",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 716.29077
+          },
+          {
+            "x": 83.92857000000001,
+            "y": 716.29077
+          },
+          {
+            "x": 83.92857000000001,
+            "y": 748.0764929999999
+          },
+          {
+            "x": 33.57143,
+            "y": 748.0764929999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3843",
+          "room",
+          "3843",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3843",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 716.29077,
+          "maxX": 83.92857000000001,
+          "maxY": 748.0764929999999
+        },
+        "center": {
+          "x": 58.75,
+          "y": 732.1836314999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3845",
+        "name": "Room 3845",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 684.50507
+          },
+          {
+            "x": 97.85714300000001,
+            "y": 684.50507
+          },
+          {
+            "x": 97.85714300000001,
+            "y": 716.2908020000001
+          },
+          {
+            "x": 33.57143,
+            "y": 716.2908020000001
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3845",
+          "room",
+          "3845",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3845",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 684.50507,
+          "maxX": 97.85714300000001,
+          "maxY": 716.2908020000001
+        },
+        "center": {
+          "x": 65.7142865,
+          "y": 700.3979360000001
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3847",
+        "name": "Room 3847",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 97.857147,
+            "y": 684.50507
+          },
+          {
+            "x": 128.928575,
+            "y": 684.50507
+          },
+          {
+            "x": 128.928575,
+            "y": 724.8621870000001
+          },
+          {
+            "x": 97.857147,
+            "y": 724.8621870000001
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3847",
+          "room",
+          "3847",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3847",
+        "boundingBox": {
+          "minX": 97.857147,
+          "minY": 684.50507,
+          "maxX": 128.928575,
+          "maxY": 724.8621870000001
+        },
+        "center": {
+          "x": 113.392861,
+          "y": 704.6836285
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3849",
+        "name": "Room 3849",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 622.36218
+          },
+          {
+            "x": 128.928577,
+            "y": 622.36218
+          },
+          {
+            "x": 128.928577,
+            "y": 684.505063
+          },
+          {
+            "x": 33.57143,
+            "y": 684.505063
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3849",
+          "room",
+          "3849",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3849",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 622.36218,
+          "maxX": 128.928577,
+          "maxY": 684.505063
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 653.4336215
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3851",
+        "name": "Room 3851",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 559.50507
+          },
+          {
+            "x": 128.928577,
+            "y": 559.50507
+          },
+          {
+            "x": 128.928577,
+            "y": 622.362213
+          },
+          {
+            "x": 33.57143,
+            "y": 622.362213
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3851",
+          "room",
+          "3851",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3851",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 559.50507,
+          "maxX": 128.928577,
+          "maxY": 622.362213
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 590.9336415
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3853",
+        "name": "Room 3853",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 499.50504
+          },
+          {
+            "x": 128.928577,
+            "y": 499.50504
+          },
+          {
+            "x": 128.928577,
+            "y": 559.505067
+          },
+          {
+            "x": 33.57143,
+            "y": 559.505067
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3853",
+          "room",
+          "3853",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3853",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 499.50504,
+          "maxX": 128.928577,
+          "maxY": 559.505067
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 529.5050535
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3855",
+        "name": "Room 3855",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 437.00504
+          },
+          {
+            "x": 128.928577,
+            "y": 437.00504
+          },
+          {
+            "x": 128.928577,
+            "y": 499.505036
+          },
+          {
+            "x": 33.57143,
+            "y": 499.505036
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3855",
+          "room",
+          "3855",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3855",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 437.00504,
+          "maxX": 128.928577,
+          "maxY": 499.505036
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 468.255038
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3857",
+        "name": "Room 3857",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 375.57648
+          },
+          {
+            "x": 128.928577,
+            "y": 375.57648
+          },
+          {
+            "x": 128.928577,
+            "y": 437.00505
+          },
+          {
+            "x": 33.57143,
+            "y": 437.00505
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3857",
+          "room",
+          "3857",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3857",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 375.57648,
+          "maxX": 128.928577,
+          "maxY": 437.00505
+        },
+        "center": {
+          "x": 81.25000349999999,
+          "y": 406.29076499999996
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3859",
+        "name": "Room 3859",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 33.57143,
+            "y": 290.04077
+          },
+          {
+            "x": 111.42857000000001,
+            "y": 290.04077
+          },
+          {
+            "x": 111.42857000000001,
+            "y": 314.14791
+          },
+          {
+            "x": 33.57143,
+            "y": 314.14791
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3859",
+          "room",
+          "3859",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3859",
+        "boundingBox": {
+          "minX": 33.57143,
+          "minY": 290.04077,
+          "maxX": 111.42857000000001,
+          "maxY": 314.14791
+        },
+        "center": {
+          "x": 72.5,
+          "y": 302.09434
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3865",
+        "name": "Room 3865",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 165.71428,
+            "y": 349.86218
+          },
+          {
+            "x": 227.857137,
+            "y": 349.86218
+          },
+          {
+            "x": 227.857137,
+            "y": 440.21932000000004
+          },
+          {
+            "x": 165.71428,
+            "y": 440.21932000000004
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3865",
+          "room",
+          "3865",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3865",
+        "boundingBox": {
+          "minX": 165.71428,
+          "minY": 349.86218,
+          "maxX": 227.857137,
+          "maxY": 440.21932000000004
+        },
+        "center": {
+          "x": 196.7857085,
+          "y": 395.04075
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3873",
+        "name": "Room 3873",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 227.85713,
+            "y": 349.86218
+          },
+          {
+            "x": 339.28571,
+            "y": 349.86218
+          },
+          {
+            "x": 339.28571,
+            "y": 411.647893
+          },
+          {
+            "x": 227.85713,
+            "y": 411.647893
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3873",
+          "room",
+          "3873",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3873",
+        "boundingBox": {
+          "minX": 227.85713,
+          "minY": 349.86218,
+          "maxX": 339.28571,
+          "maxY": 411.647893
+        },
+        "center": {
+          "x": 283.57142,
+          "y": 380.7550365
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3875",
+        "name": "Room 3875",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 280.35715,
+            "y": 349.86218
+          },
+          {
+            "x": 314.642863,
+            "y": 349.86218
+          },
+          {
+            "x": 314.642863,
+            "y": 384.147893
+          },
+          {
+            "x": 280.35715,
+            "y": 384.147893
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3875",
+          "room",
+          "3875",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3875",
+        "boundingBox": {
+          "minX": 280.35715,
+          "minY": 349.86218,
+          "maxX": 314.642863,
+          "maxY": 384.147893
+        },
+        "center": {
+          "x": 297.5000065,
+          "y": 367.0050365
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3877",
+        "name": "Room 3877",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 227.85713,
+            "y": 411.64789
+          },
+          {
+            "x": 249.642851,
+            "y": 411.64789
+          },
+          {
+            "x": 249.642851,
+            "y": 440.219316
+          },
+          {
+            "x": 227.85713,
+            "y": 440.219316
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3877",
+          "room",
+          "3877",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3877",
+        "boundingBox": {
+          "minX": 227.85713,
+          "minY": 411.64789,
+          "maxX": 249.642851,
+          "maxY": 440.219316
+        },
+        "center": {
+          "x": 238.74999050000002,
+          "y": 425.933603
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3881",
+        "name": "Room 3881",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 249.64285,
+            "y": 411.64789
+          },
+          {
+            "x": 272.142856,
+            "y": 411.64789
+          },
+          {
+            "x": 272.142856,
+            "y": 435.21931800000004
+          },
+          {
+            "x": 249.64285,
+            "y": 435.21931800000004
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3881",
+          "room",
+          "3881",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3881",
+        "boundingBox": {
+          "minX": 249.64285,
+          "minY": 411.64789,
+          "maxX": 272.142856,
+          "maxY": 435.21931800000004
+        },
+        "center": {
+          "x": 260.892853,
+          "y": 423.43360400000006
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3883",
+        "name": "Room 3883",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 272.14285,
+            "y": 411.64789
+          },
+          {
+            "x": 292.14285,
+            "y": 411.64789
+          },
+          {
+            "x": 292.14285,
+            "y": 435.219311
+          },
+          {
+            "x": 272.14285,
+            "y": 435.219311
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3883",
+          "room",
+          "3883",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3883",
+        "boundingBox": {
+          "minX": 272.14285,
+          "minY": 411.64789,
+          "maxX": 292.14285,
+          "maxY": 435.219311
+        },
+        "center": {
+          "x": 282.14285,
+          "y": 423.4336005
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3885",
+        "name": "Room 3885",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 339.28571,
+            "y": 411.64789
+          },
+          {
+            "x": 375.714284,
+            "y": 411.64789
+          },
+          {
+            "x": 375.714284,
+            "y": 439.14789
+          },
+          {
+            "x": 339.28571,
+            "y": 439.14789
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3885",
+          "room",
+          "3885",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3885",
+        "boundingBox": {
+          "minX": 339.28571,
+          "minY": 411.64789,
+          "maxX": 375.714284,
+          "maxY": 439.14789
+        },
+        "center": {
+          "x": 357.499997,
+          "y": 425.39789
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3887",
+        "name": "Room 3887",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 339.28571,
+            "y": 387.00504
+          },
+          {
+            "x": 375.714276,
+            "y": 387.00504
+          },
+          {
+            "x": 375.714276,
+            "y": 411.647889
+          },
+          {
+            "x": 339.28571,
+            "y": 411.647889
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3887",
+          "room",
+          "3887",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3887",
+        "boundingBox": {
+          "minX": 339.28571,
+          "minY": 387.00504,
+          "maxX": 375.714276,
+          "maxY": 411.647889
+        },
+        "center": {
+          "x": 357.499993,
+          "y": 399.32646450000004
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3889",
+        "name": "Room 3889",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 339.28571,
+            "y": 360.57648
+          },
+          {
+            "x": 375.714268,
+            "y": 360.57648
+          },
+          {
+            "x": 375.714268,
+            "y": 387.005048
+          },
+          {
+            "x": 339.28571,
+            "y": 387.005048
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3889",
+          "room",
+          "3889",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3889",
+        "boundingBox": {
+          "minX": 339.28571,
+          "minY": 360.57648,
+          "maxX": 375.714268,
+          "maxY": 387.005048
+        },
+        "center": {
+          "x": 357.499989,
+          "y": 373.79076399999997
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3891",
+        "name": "Room 3891",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 292.14285,
+            "y": 411.64789
+          },
+          {
+            "x": 339.285703,
+            "y": 411.64789
+          },
+          {
+            "x": 339.285703,
+            "y": 439.14788200000004
+          },
+          {
+            "x": 292.14285,
+            "y": 439.14788200000004
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3891",
+          "room",
+          "3891",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3891",
+        "boundingBox": {
+          "minX": 292.14285,
+          "minY": 411.64789,
+          "maxX": 339.285703,
+          "maxY": 439.14788200000004
+        },
+        "center": {
+          "x": 315.7142765,
+          "y": 425.397886
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3895",
+        "name": "Room 3895",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 313.92856,
+            "y": 474.14789
+          },
+          {
+            "x": 338.92856,
+            "y": 474.14789
+          },
+          {
+            "x": 338.92856,
+            "y": 669.86217
+          },
+          {
+            "x": 313.92856,
+            "y": 669.86217
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3895",
+          "room",
+          "3895",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3895",
+        "boundingBox": {
+          "minX": 313.92856,
+          "minY": 474.14789,
+          "maxX": 338.92856,
+          "maxY": 669.86217
+        },
+        "center": {
+          "x": 326.42856,
+          "y": 572.00503
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3897",
+        "name": "Room 3897",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 338.92856,
+            "y": 639.86218
+          },
+          {
+            "x": 376.785715,
+            "y": 639.86218
+          },
+          {
+            "x": 376.785715,
+            "y": 669.862165
+          },
+          {
+            "x": 338.92856,
+            "y": 669.862165
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3897",
+          "room",
+          "3897",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3897",
+        "boundingBox": {
+          "minX": 338.92856,
+          "minY": 639.86218,
+          "maxX": 376.785715,
+          "maxY": 669.862165
+        },
+        "center": {
+          "x": 357.8571375,
+          "y": 654.8621725
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3899",
+        "name": "Room 3899",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 250.71428,
+            "y": 474.14789
+          },
+          {
+            "x": 313.928552,
+            "y": 474.14789
+          },
+          {
+            "x": 313.928552,
+            "y": 562.3621840000001
+          },
+          {
+            "x": 250.71428,
+            "y": 562.3621840000001
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3899",
+          "room",
+          "3899",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3899",
+        "boundingBox": {
+          "minX": 250.71428,
+          "minY": 474.14789,
+          "maxX": 313.928552,
+          "maxY": 562.3621840000001
+        },
+        "center": {
+          "x": 282.321416,
+          "y": 518.255037
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3901",
+        "name": "Room 3901",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 216.78572,
+            "y": 474.14789
+          },
+          {
+            "x": 250.714286,
+            "y": 474.14789
+          },
+          {
+            "x": 250.714286,
+            "y": 531.290754
+          },
+          {
+            "x": 216.78572,
+            "y": 531.290754
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3901",
+          "room",
+          "3901",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3901",
+        "boundingBox": {
+          "minX": 216.78572,
+          "minY": 474.14789,
+          "maxX": 250.714286,
+          "maxY": 531.290754
+        },
+        "center": {
+          "x": 233.750003,
+          "y": 502.71932200000003
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3903",
+        "name": "Room 3903",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 216.78572,
+            "y": 531.29077
+          },
+          {
+            "x": 250.714278,
+            "y": 531.29077
+          },
+          {
+            "x": 250.714278,
+            "y": 562.3621999999999
+          },
+          {
+            "x": 216.78572,
+            "y": 562.3621999999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3903",
+          "room",
+          "3903",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3903",
+        "boundingBox": {
+          "minX": 216.78572,
+          "minY": 531.29077,
+          "maxX": 250.714278,
+          "maxY": 562.3621999999999
+        },
+        "center": {
+          "x": 233.749999,
+          "y": 546.8264849999999
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3908",
+        "name": "Room 3908",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 171.78572,
+            "y": 503.43362
+          },
+          {
+            "x": 206.071433,
+            "y": 503.43362
+          },
+          {
+            "x": 206.071433,
+            "y": 531.290763
+          },
+          {
+            "x": 171.78572,
+            "y": 531.290763
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3908",
+          "room",
+          "3908",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3908",
+        "boundingBox": {
+          "minX": 171.78572,
+          "minY": 503.43362,
+          "maxX": 206.071433,
+          "maxY": 531.290763
+        },
+        "center": {
+          "x": 188.92857650000002,
+          "y": 517.3621915
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3913",
+        "name": "Room 3913",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 171.78572,
+            "y": 474.14789
+          },
+          {
+            "x": 206.07146,
+            "y": 474.14789
+          },
+          {
+            "x": 206.07146,
+            "y": 503.43370200000004
+          },
+          {
+            "x": 171.78572,
+            "y": 503.43370200000004
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3913",
+          "room",
+          "3913",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3913",
+        "boundingBox": {
+          "minX": 171.78572,
+          "minY": 474.14789,
+          "maxX": 206.07146,
+          "maxY": 503.43370200000004
+        },
+        "center": {
+          "x": 188.92858999999999,
+          "y": 488.790796
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3919",
+        "name": "Room 3919",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 215.71428,
+            "y": 643.07648
+          },
+          {
+            "x": 251.78571,
+            "y": 643.07648
+          },
+          {
+            "x": 251.78571,
+            "y": 708.790767
+          },
+          {
+            "x": 215.71428,
+            "y": 708.790767
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3919",
+          "room",
+          "3919",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3919",
+        "boundingBox": {
+          "minX": 215.71428,
+          "minY": 643.07648,
+          "maxX": 251.78571,
+          "maxY": 708.790767
+        },
+        "center": {
+          "x": 233.749995,
+          "y": 675.9336235
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3923",
+        "name": "Room 3923",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 171.78572,
+            "y": 643.07642
+          },
+          {
+            "x": 215.714271,
+            "y": 643.07642
+          },
+          {
+            "x": 215.714271,
+            "y": 708.790791
+          },
+          {
+            "x": 171.78572,
+            "y": 708.790791
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3923",
+          "room",
+          "3923",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3923",
+        "boundingBox": {
+          "minX": 171.78572,
+          "minY": 643.07642,
+          "maxX": 215.714271,
+          "maxY": 708.790791
+        },
+        "center": {
+          "x": 193.7499955,
+          "y": 675.9336055
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3931",
+        "name": "Room 3931",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 171.78572,
+            "y": 620.2193
+          },
+          {
+            "x": 224.64289,
+            "y": 620.2193
+          },
+          {
+            "x": 224.64289,
+            "y": 643.0763939999999
+          },
+          {
+            "x": 171.78572,
+            "y": 643.0763939999999
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3931",
+          "room",
+          "3931",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3931",
+        "boundingBox": {
+          "minX": 171.78572,
+          "minY": 620.2193,
+          "maxX": 224.64289,
+          "maxY": 643.0763939999999
+        },
+        "center": {
+          "x": 198.214305,
+          "y": 631.647847
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3933",
+        "name": "Room 3933",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 251.78571,
+            "y": 684.41412
+          },
+          {
+            "x": 293.449315,
+            "y": 684.41412
+          },
+          {
+            "x": 293.449315,
+            "y": 708.7907660000001
+          },
+          {
+            "x": 251.78571,
+            "y": 708.7907660000001
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3933",
+          "room",
+          "3933",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3933",
+        "boundingBox": {
+          "minX": 251.78571,
+          "minY": 684.41412,
+          "maxX": 293.449315,
+          "maxY": 708.7907660000001
+        },
+        "center": {
+          "x": 272.6175125,
+          "y": 696.602443
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3941",
+        "name": "Room 3941",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.84021,
+            "y": 350.30615
+          },
+          {
+            "x": 496.489975,
+            "y": 350.30615
+          },
+          {
+            "x": 496.489975,
+            "y": 439.704649
+          },
+          {
+            "x": 431.84021,
+            "y": 439.704649
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3941",
+          "room",
+          "3941",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3941",
+        "boundingBox": {
+          "minX": 431.84021,
+          "minY": 350.30615,
+          "maxX": 496.489975,
+          "maxY": 439.704649
+        },
+        "center": {
+          "x": 464.1650925,
+          "y": 395.0053995
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3943",
+        "name": "Room 3943",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 443.57144,
+            "y": 350.30615
+          },
+          {
+            "x": 455.357154,
+            "y": 350.30615
+          },
+          {
+            "x": 455.357154,
+            "y": 363.076464
+          },
+          {
+            "x": 443.57144,
+            "y": 363.076464
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3943",
+          "room",
+          "3943",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3943",
+        "boundingBox": {
+          "minX": 443.57144,
+          "minY": 350.30615,
+          "maxX": 455.357154,
+          "maxY": 363.076464
+        },
+        "center": {
+          "x": 449.464297,
+          "y": 356.691307
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3945",
+        "name": "Room 3945",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 496.48999,
+            "y": 350.30615
+          },
+          {
+            "x": 532.5000299999999,
+            "y": 350.30615
+          },
+          {
+            "x": 532.5000299999999,
+            "y": 439.704633
+          },
+          {
+            "x": 496.48999,
+            "y": 439.704633
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3945",
+          "room",
+          "3945",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3945",
+        "boundingBox": {
+          "minX": 496.48999,
+          "minY": 350.30615,
+          "maxX": 532.5000299999999,
+          "maxY": 439.704633
+        },
+        "center": {
+          "x": 514.49501,
+          "y": 395.0053915
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3947",
+        "name": "Room 3947",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 532.5,
+            "y": 350.30615
+          },
+          {
+            "x": 580.535873,
+            "y": 350.30615
+          },
+          {
+            "x": 580.535873,
+            "y": 420.39788599999997
+          },
+          {
+            "x": 532.5,
+            "y": 420.39788599999997
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3947",
+          "room",
+          "3947",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3947",
+        "boundingBox": {
+          "minX": 532.5,
+          "minY": 350.30615,
+          "maxX": 580.535873,
+          "maxY": 420.39788599999997
+        },
+        "center": {
+          "x": 556.5179365,
+          "y": 385.352018
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3949",
+        "name": "Room 3949",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 532.5,
+            "y": 420.39789
+          },
+          {
+            "x": 580.535843,
+            "y": 420.39789
+          },
+          {
+            "x": 580.535843,
+            "y": 439.70463700000005
+          },
+          {
+            "x": 532.5,
+            "y": 439.70463700000005
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3949",
+          "room",
+          "3949",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3949",
+        "boundingBox": {
+          "minX": 532.5,
+          "minY": 420.39789,
+          "maxX": 580.535843,
+          "maxY": 439.70463700000005
+        },
+        "center": {
+          "x": 556.5179215,
+          "y": 430.0512635
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3951",
+        "name": "Room 3951",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 541.07141,
+            "y": 478.43362
+          },
+          {
+            "x": 580.178553,
+            "y": 478.43362
+          },
+          {
+            "x": 580.178553,
+            "y": 519.147907
+          },
+          {
+            "x": 541.07141,
+            "y": 519.147907
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3951",
+          "room",
+          "3951",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3951",
+        "boundingBox": {
+          "minX": 541.07141,
+          "minY": 478.43362,
+          "maxX": 580.178553,
+          "maxY": 519.147907
+        },
+        "center": {
+          "x": 560.6249815,
+          "y": 498.7907635
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3955",
+        "name": "Room 3955",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 498.21429,
+            "y": 557.7193
+          },
+          {
+            "x": 581.785716,
+            "y": 557.7193
+          },
+          {
+            "x": 581.785716,
+            "y": 643.433587
+          },
+          {
+            "x": 498.21429,
+            "y": 643.433587
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3955",
+          "room",
+          "3955",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3955",
+        "boundingBox": {
+          "minX": 498.21429,
+          "minY": 557.7193,
+          "maxX": 581.785716,
+          "maxY": 643.433587
+        },
+        "center": {
+          "x": 540.000003,
+          "y": 600.5764435
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3957",
+        "name": "Room 3957",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 498.21429,
+            "y": 643.43359
+          },
+          {
+            "x": 534.642852,
+            "y": 643.43359
+          },
+          {
+            "x": 534.642852,
+            "y": 708.612186
+          },
+          {
+            "x": 498.21429,
+            "y": 708.612186
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3957",
+          "room",
+          "3957",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3957",
+        "boundingBox": {
+          "minX": 498.21429,
+          "minY": 643.43359,
+          "maxX": 534.642852,
+          "maxY": 708.612186
+        },
+        "center": {
+          "x": 516.4285709999999,
+          "y": 676.022888
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3959",
+        "name": "Room 3959",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 534.64288,
+            "y": 643.43359
+          },
+          {
+            "x": 581.785744,
+            "y": 643.43359
+          },
+          {
+            "x": 581.785744,
+            "y": 708.612194
+          },
+          {
+            "x": 534.64288,
+            "y": 708.612194
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3959",
+          "room",
+          "3959",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3959",
+        "boundingBox": {
+          "minX": 534.64288,
+          "minY": 643.43359,
+          "maxX": 581.785744,
+          "maxY": 708.612194
+        },
+        "center": {
+          "x": 558.2143120000001,
+          "y": 676.022892
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3961",
+        "name": "Room 3961",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 470,
+            "y": 643.43359
+          },
+          {
+            "x": 498.214294,
+            "y": 643.43359
+          },
+          {
+            "x": 498.214294,
+            "y": 708.612186
+          },
+          {
+            "x": 470,
+            "y": 708.612186
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3961",
+          "room",
+          "3961",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3961",
+        "boundingBox": {
+          "minX": 470,
+          "minY": 643.43359,
+          "maxX": 498.214294,
+          "maxY": 708.612186
+        },
+        "center": {
+          "x": 484.107147,
+          "y": 676.022888
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3965",
+        "name": "Room 3965",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.84021,
+            "y": 622.5423
+          },
+          {
+            "x": 456.84149,
+            "y": 622.5423
+          },
+          {
+            "x": 456.84149,
+            "y": 665.726321
+          },
+          {
+            "x": 431.84021,
+            "y": 665.726321
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3965",
+          "room",
+          "3965",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3965",
+        "boundingBox": {
+          "minX": 431.84021,
+          "minY": 622.5423,
+          "maxX": 456.84149,
+          "maxY": 665.726321
+        },
+        "center": {
+          "x": 444.34085000000005,
+          "y": 644.1343105
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3969",
+        "name": "Room 3969",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.84021,
+            "y": 665.72632
+          },
+          {
+            "x": 456.84149,
+            "y": 665.72632
+          },
+          {
+            "x": 456.84149,
+            "y": 687.719326
+          },
+          {
+            "x": 431.84021,
+            "y": 687.719326
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3969",
+          "room",
+          "3969",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3969",
+        "boundingBox": {
+          "minX": 431.84021,
+          "minY": 665.72632,
+          "maxX": 456.84149,
+          "maxY": 687.719326
+        },
+        "center": {
+          "x": 444.34085000000005,
+          "y": 676.7228230000001
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3971",
+        "name": "Room 3971",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 431.84021,
+            "y": 687.7193
+          },
+          {
+            "x": 456.84149,
+            "y": 687.7193
+          },
+          {
+            "x": 456.84149,
+            "y": 708.612159
+          },
+          {
+            "x": 431.84021,
+            "y": 708.612159
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3971",
+          "room",
+          "3971",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3971",
+        "boundingBox": {
+          "minX": 431.84021,
+          "minY": 687.7193,
+          "maxX": 456.84149,
+          "maxY": 708.612159
+        },
+        "center": {
+          "x": 444.34085000000005,
+          "y": 698.1657295
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3981",
+        "name": "Room 3981",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 541.07141,
+            "y": 519.14791
+          },
+          {
+            "x": 518.20826,
+            "y": 557.7193
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3981",
+          "room",
+          "3981",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3981",
+        "boundingBox": {
+          "minX": 518.20826,
+          "minY": 519.14791,
+          "maxX": 541.07141,
+          "maxY": 557.7193
+        },
+        "center": {
+          "x": 529.639835,
+          "y": 538.433605
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      },
+      {
+        "id": "room-3983",
+        "name": "Room 3983",
+        "label": "",
+        "coordinates": [
+          {
+            "x": 541.07141,
+            "y": 478.43362
+          },
+          {
+            "x": 517.70318,
+            "y": 439.70464
+          }
+        ],
+        "floor": "1",
+        "building": "Unknown",
+        "type": "room",
+        "searchTerms": [
+          "room 3983",
+          "room",
+          "3983",
+          "",
+          "hall",
+          "space",
+          "area"
+        ],
+        "roomNumber": "3983",
+        "boundingBox": {
+          "minX": 517.70318,
+          "minY": 439.70464,
+          "maxX": 541.07141,
+          "maxY": 478.43362
+        },
+        "center": {
+          "x": 529.387295,
+          "y": 459.06913
+        },
+        "metadata": {
+          "style": {
+            "fill": "none",
+            "stroke": "#000000",
+            "stroke-width": "3.75000000000000000",
+            "stroke-miterlimit": "4",
+            "stroke-opacity": "1",
+            "stroke-dasharray": "none",
+            "fill-opacity": "1"
+          }
+        }
+      }
+    ],
+    "boundingBox": {
+      "minX": 33.57143,
+      "minY": 220.21933,
+      "maxX": 715.714334,
+      "maxY": 845.933635
+    },
+    "center": {
+      "x": 374.642882,
+      "y": 533.0764825
+    },
+    "metadata": {
+      "dimensions": {
+        "width": 1024,
+        "height": 1024
+      },
+      "sourceFile": "h8.svg",
+      "lastModified": "2025-04-06T20:57:05.182Z"
+    }
+  }
+]

@@ -21,7 +21,7 @@ export class SvgProcessorService {
       const doc = this.parser.parseFromString(svgContent, 'text/xml');
       
       // Extract building information from SVG metadata
-      const buildingName = this.extractBuildingName(doc);
+      const buildingName = this.extractBuildingName(doc, svgFilePath);
       const floor = this.extractFloor(doc);
       const dimensions = this.extractDimensions(doc);
       
@@ -47,11 +47,11 @@ export class SvgProcessorService {
       };
     } catch (error) {
       console.error('Error parsing SVG file:', error);
-      throw new Error(`Failed to parse SVG file: ${error.message}`);
+      throw new Error(`Failed to parse SVG file: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
-  private extractBuildingName(doc: Document): string {
+  private extractBuildingName(doc: Document, svgFilePath: string): string {
     // Try to get building name from title
     const titleElement = doc.getElementsByTagName('title')[0];
     if (titleElement?.textContent) {
@@ -65,7 +65,16 @@ export class SvgProcessorService {
       return buildingName;
     }
 
-    // Fallback to filename
+    // Try to get from filename
+    const fileName = path.basename(svgFilePath, '.svg');
+    if (fileName) {
+      // Clean up the filename to make it more readable
+      return fileName
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, l => l.toUpperCase())
+        .trim();
+    }
+
     return 'Unknown Building';
   }
 
@@ -100,7 +109,7 @@ export class SvgProcessorService {
 
   private extractRooms(doc: Document): Room[] {
     const rooms: Room[] = [];
-    const roomElements = doc.getElementsByTagName('g');
+    const roomElements = doc.getElementsByTagName('rect');
     
     for (let i = 0; i < roomElements.length; i++) {
       const roomElement = roomElements[i];
@@ -110,15 +119,40 @@ export class SvgProcessorService {
       }
     }
     
+    // Also check path elements
+    const pathElements = doc.getElementsByTagName('path');
+    for (let i = 0; i < pathElements.length; i++) {
+      const pathElement = pathElements[i];
+      if (this.isRoomElement(pathElement)) {
+        const room = this.parseRoomElement(pathElement);
+        if (room) rooms.push(room);
+      }
+    }
+    
     return rooms;
   }
 
   private isRoomElement(element: Element): boolean {
-    // Check if element has room-related attributes or classes
+    // Check if element is a rect or path (common room shapes)
+    const isShape = element.tagName === 'rect' || element.tagName === 'path';
+    if (!isShape) return false;
+    
+    // Check if element has room-related attributes
+    const classAttr = element.getAttribute('class');
+    const label = element.getAttribute('inkscape:label');
+    const id = element.getAttribute('id');
+    const style = element.getAttribute('style');
+    
+    // Check if element has room-like style (no fill, stroke present)
+    const isRoomStyle = style ? 
+      style.includes('fill:none') && 
+      style.includes('stroke:#000000') : false;
+    
     return (
-      element.getAttribute('class')?.includes('room') ||
-      element.getAttribute('inkscape:label')?.toLowerCase().includes('room') ||
-      element.getAttribute('id')?.toLowerCase().includes('room')
+      (classAttr?.includes('room') ?? false) ||
+      (label?.toLowerCase().includes('room') ?? false) ||
+      (id?.toLowerCase().includes('room') ?? false) ||
+      isRoomStyle
     );
   }
 
@@ -130,17 +164,12 @@ export class SvgProcessorService {
       const style = this.extractRoomStyle(roomElement);
       
       // Extract coordinates from path or polygon elements
-      const pathElement = roomElement.getElementsByTagName('path')[0];
-      const polygonElement = roomElement.getElementsByTagName('polygon')[0];
-      const rectElement = roomElement.getElementsByTagName('rect')[0];
-      
       let coordinates: Point[] = [];
-      if (pathElement) {
-        coordinates = this.parsePathCoordinates(pathElement.getAttribute('d') || '');
-      } else if (polygonElement) {
-        coordinates = this.parsePolygonCoordinates(polygonElement.getAttribute('points') || '');
-      } else if (rectElement) {
-        coordinates = this.parseRectCoordinates(rectElement);
+      
+      if (roomElement.tagName === 'rect') {
+        coordinates = this.parseRectCoordinates(roomElement);
+      } else if (roomElement.tagName === 'path') {
+        coordinates = this.parsePathCoordinates(roomElement.getAttribute('d') || '');
       }
       
       if (coordinates.length === 0) return null;
@@ -175,38 +204,51 @@ export class SvgProcessorService {
   }
 
   private extractRoomName(element: Element): string {
-    return (
-      element.getAttribute('data-name') ||
-      element.getAttribute('inkscape:label') ||
-      element.getAttribute('id') ||
-      'Unnamed Room'
-    );
+    // Try to get from data attributes
+    const dataName = element.getAttribute('data-name');
+    if (dataName) return dataName;
+    
+    // Try to get from label
+    const label = element.getAttribute('inkscape:label');
+    if (label) return label;
+    
+    // Try to extract from ID
+    const id = element.getAttribute('id');
+    if (id) {
+      // Try to extract room number from ID
+      const roomNumberMatch = id.match(/\d+/);
+      if (roomNumberMatch) {
+        return `Room ${roomNumberMatch[0]}`;
+      }
+      return id;
+    }
+    
+    return 'Unnamed Room';
   }
 
   private extractRoomLabel(element: Element): string {
     return (
       element.getAttribute('data-label') ||
       element.getAttribute('aria-label') ||
-      this.extractRoomName(element)
+      element.getAttribute('inkscape:label') ||
+      ''
     );
   }
 
   private extractRoomType(element: Element): string {
-    return (
-      element.getAttribute('data-type') ||
-      element.getAttribute('class')?.split(' ').find(c => c !== 'room') ||
-      'room'
-    );
+    const classAttr = element.getAttribute('class');
+    const roomType = classAttr?.split(' ').find(c => c !== 'room');
+    return element.getAttribute('data-type') || roomType || 'room';
   }
 
   private extractRoomStyle(element: Element): { [key: string]: string } {
     const style: { [key: string]: string } = {};
     const styleAttr = element.getAttribute('style');
     if (styleAttr) {
-      styleAttr.split(';').forEach(property => {
-        const [key, value] = property.split(':');
+      styleAttr.split(';').forEach(prop => {
+        const [key, value] = prop.split(':').map(s => s.trim());
         if (key && value) {
-          style[key.trim()] = value.trim();
+          style[key] = value;
         }
       });
     }
@@ -214,29 +256,35 @@ export class SvgProcessorService {
   }
 
   private parsePathCoordinates(pathData: string): Point[] {
-    const points: Point[] = [];
-    const commands = pathData.split(/(?=[A-Za-z])/);
+    // Basic path parsing (handles M and L commands)
+    const coordinates: Point[] = [];
+    const commands = pathData.match(/[MLZ][^MLZ]*/g) || [];
     
-    for (const command of commands) {
-      const [cmd, ...coords] = command.trim().split(/\s+/);
-      if (cmd === 'M' || cmd === 'L') {
-        for (let i = 0; i < coords.length; i += 2) {
-          points.push({
-            x: parseFloat(coords[i]),
-            y: parseFloat(coords[i + 1])
-          });
+    commands.forEach(cmd => {
+      const type = cmd[0];
+      const points = cmd.slice(1).trim().split(/[\s,]+/).map(Number);
+      
+      for (let i = 0; i < points.length; i += 2) {
+        if (type !== 'Z' && !isNaN(points[i]) && !isNaN(points[i + 1])) {
+          coordinates.push({ x: points[i], y: points[i + 1] });
         }
       }
-    }
+    });
     
-    return points;
+    return coordinates;
   }
 
   private parsePolygonCoordinates(pointsData: string): Point[] {
-    return pointsData.split(/\s+/).map(point => {
-      const [x, y] = point.split(',').map(parseFloat);
-      return { x, y };
-    });
+    const points = pointsData.trim().split(/[\s,]+/).map(Number);
+    const coordinates: Point[] = [];
+    
+    for (let i = 0; i < points.length; i += 2) {
+      if (!isNaN(points[i]) && !isNaN(points[i + 1])) {
+        coordinates.push({ x: points[i], y: points[i + 1] });
+      }
+    }
+    
+    return coordinates;
   }
 
   private parseRectCoordinates(rectElement: Element): Point[] {
@@ -244,7 +292,7 @@ export class SvgProcessorService {
     const y = parseFloat(rectElement.getAttribute('y') || '0');
     const width = parseFloat(rectElement.getAttribute('width') || '0');
     const height = parseFloat(rectElement.getAttribute('height') || '0');
-
+    
     return [
       { x, y },
       { x: x + width, y },
@@ -260,7 +308,7 @@ export class SvgProcessorService {
     for (let i = 0; i < attributes.length; i++) {
       const attr = attributes[i];
       if (attr.name.startsWith('data-')) {
-        const key = attr.name.substring(5); // Remove 'data-' prefix
+        const key = attr.name.slice(5);
         metadata[key] = attr.value;
       }
     }
@@ -269,50 +317,7 @@ export class SvgProcessorService {
   }
 
   private generateId(name: string): string {
-    return name.toLowerCase().replace(/\s+/g, '-');
-  }
-
-  private calculateBoundingBox(coordinates: Point[]): BoundingBox {
-    if (coordinates.length === 0) {
-      throw new Error('Cannot calculate bounding box for empty coordinates');
-    }
-
-    return coordinates.reduce((bbox, point) => ({
-      minX: Math.min(bbox.minX, point.x),
-      minY: Math.min(bbox.minY, point.y),
-      maxX: Math.max(bbox.maxX, point.x),
-      maxY: Math.max(bbox.maxY, point.y)
-    }), {
-      minX: coordinates[0].x,
-      minY: coordinates[0].y,
-      maxX: coordinates[0].x,
-      maxY: coordinates[0].y
-    });
-  }
-
-  private calculateBuildingBoundingBox(rooms: Room[]): BoundingBox {
-    if (rooms.length === 0) {
-      throw new Error('Cannot calculate building bounding box for empty rooms');
-    }
-
-    return rooms.reduce((bbox, room) => ({
-      minX: Math.min(bbox.minX, room.boundingBox.minX),
-      minY: Math.min(bbox.minY, room.boundingBox.minY),
-      maxX: Math.max(bbox.maxX, room.boundingBox.maxX),
-      maxY: Math.max(bbox.maxY, room.boundingBox.maxY)
-    }), {
-      minX: rooms[0].boundingBox.minX,
-      minY: rooms[0].boundingBox.minY,
-      maxX: rooms[0].boundingBox.maxX,
-      maxY: rooms[0].boundingBox.maxY
-    });
-  }
-
-  private calculateCenter(bbox: BoundingBox): Point {
-    return {
-      x: (bbox.minX + bbox.maxX) / 2,
-      y: (bbox.minY + bbox.maxY) / 2
-    };
+    return name.toLowerCase().replace(/[^a-z0-9]/g, '-');
   }
 
   private generateSearchTerms(name: string, label: string, type: string): string[] {
@@ -320,35 +325,95 @@ export class SvgProcessorService {
     
     // Add name variations
     terms.add(name.toLowerCase());
-    terms.add(name.replace(/\s+/g, '').toLowerCase());
+    name.split(/[\s-]+/).forEach(part => terms.add(part.toLowerCase()));
     
     // Add label variations
-    terms.add(label.toLowerCase());
-    terms.add(label.replace(/\s+/g, '').toLowerCase());
+    if (label) {
+      terms.add(label.toLowerCase());
+      label.split(/[\s-]+/).forEach(part => terms.add(part.toLowerCase()));
+    }
     
     // Add type
     terms.add(type.toLowerCase());
     
-    // Extract potential room numbers
+    // Add room number if present
     const roomNumber = this.extractRoomNumber(name, label);
     if (roomNumber) {
       terms.add(roomNumber);
-      terms.add(roomNumber.replace(/\s+/g, ''));
+      // Add variations of room number
+      terms.add(roomNumber.replace(/\D/g, '')); // Just numbers
+      terms.add(roomNumber.replace(/\d/g, '')); // Just letters
     }
+    
+    // Add common room-related terms
+    terms.add('room');
+    terms.add('hall');
+    terms.add('space');
+    terms.add('area');
     
     return Array.from(terms);
   }
 
   private extractRoomNumber(name: string, label: string): string | undefined {
-    // Try to extract room number from name or label
-    const roomNumberPattern = /(?:room|rm|#)?\s*([A-Za-z0-9-]+)/i;
+    // Try to find room number in name or label
+    const text = `${name} ${label}`;
+    const match = text.match(/\b[A-Z]?-?\d+\b/);
+    return match ? match[0] : undefined;
+  }
+
+  private calculateBoundingBox(points: Point[]): BoundingBox {
+    if (points.length === 0) {
+      return {
+        minX: 0,
+        minY: 0,
+        maxX: 0,
+        maxY: 0
+      };
+    }
     
-    const nameMatch = name.match(roomNumberPattern);
-    if (nameMatch) return nameMatch[1];
+    const bbox = {
+      minX: points[0].x,
+      minY: points[0].y,
+      maxX: points[0].x,
+      maxY: points[0].y
+    };
     
-    const labelMatch = label.match(roomNumberPattern);
-    if (labelMatch) return labelMatch[1];
+    points.forEach(point => {
+      bbox.minX = Math.min(bbox.minX, point.x);
+      bbox.minY = Math.min(bbox.minY, point.y);
+      bbox.maxX = Math.max(bbox.maxX, point.x);
+      bbox.maxY = Math.max(bbox.maxY, point.y);
+    });
     
-    return undefined;
+    return bbox;
+  }
+
+  private calculateBuildingBoundingBox(rooms: Room[]): BoundingBox {
+    if (rooms.length === 0) {
+      return {
+        minX: 0,
+        minY: 0,
+        maxX: 0,
+        maxY: 0
+      };
+    }
+    
+    const bbox = { ...rooms[0].boundingBox };
+    
+    rooms.forEach(room => {
+      bbox.minX = Math.min(bbox.minX, room.boundingBox.minX);
+      bbox.minY = Math.min(bbox.minY, room.boundingBox.minY);
+      bbox.maxX = Math.max(bbox.maxX, room.boundingBox.maxX);
+      bbox.maxY = Math.max(bbox.maxY, room.boundingBox.maxY);
+    });
+    
+    return bbox;
+  }
+
+  private calculateCenter(bbox: BoundingBox): Point {
+    return {
+      x: (bbox.minX + bbox.maxX) / 2,
+      y: (bbox.minY + bbox.maxY) / 2
+    };
   }
 } 
