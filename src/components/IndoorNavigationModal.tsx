@@ -19,6 +19,13 @@ interface IndoorNavigationModalProps {
   changeFloor: (direction: 'up' | 'down') => void;
 }
 
+// Toggle strategies
+const toggleStrategies = {
+  stairs: (currentState: boolean) => !currentState,
+  elevators: (currentState: boolean) => !currentState,
+  accessibility: (currentState: boolean) => !currentState,
+};
+
 const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   buildingInfo,
   currentFloorIndex,
@@ -40,6 +47,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     ],
     1: [] // Add floor 1 locations when needed
   };
+
   const elevatorLocations: Record<number, Marker[]> = {
     0: [
       { id: 'rect3881', x: 240, y: 200 },
@@ -47,14 +55,20 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     ],
     1: [] // Add floor 1 locations when needed
   };
-  const toggleStairsMarkers = () => {
-    setShowStairsMarkers(!showStairsMarkers);
-  };
-  const toggleElevatorMarkers = () => {
-    setShowElevatorMarkers(!showElevatorMarkers);
-  };
-  const toggleAccessibility = () => {
-    setAccessibilityEnabled(!isAccessibilityEnabled);
+
+  // Toggle functions using strategy pattern
+  const handleToggle = (type: 'stairs' | 'elevators' | 'accessibility') => {
+    switch (type) {
+      case 'stairs':
+        setShowStairsMarkers(toggleStrategies.stairs(showStairsMarkers));
+        break;
+      case 'elevators':
+        setShowElevatorMarkers(toggleStrategies.elevators(showElevatorMarkers));
+        break;
+      case 'accessibility':
+        setAccessibilityEnabled(toggleStrategies.accessibility(isAccessibilityEnabled));
+        break;
+    }
   };
 
   return (
@@ -151,15 +165,13 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
         <View style={styles.poiButtons}>
           {/* Toggle for highlighting washrooms. Currently no washrooms tagged in this building*/}
           <TouchableOpacity style={styles.poiButton}>
-            <MaterialIcons name="wc"
-              size={20}
-              color="#fff" />
+            <MaterialIcons name="wc" size={20} color="#fff" />
           </TouchableOpacity>
 
           {/* Toggle for highlighting elevators */}
           <TouchableOpacity
             style={styles.poiButton}
-            onPress={toggleElevatorMarkers}
+            onPress={() => handleToggle('elevators')}
           >
             <MaterialIcons
               name="elevator"
@@ -171,7 +183,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
           {/* Toggle for highlighting stairs */}
           <TouchableOpacity
             style={styles.poiButton}
-            onPress={toggleStairsMarkers}
+            onPress={() => handleToggle('stairs')}
           >
             <MaterialIcons
               name="stairs"
@@ -181,7 +193,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={toggleAccessibility}
+            onPress={() => handleToggle('accessibility')}
             style={[styles.accessibilityButton, isAccessibilityEnabled && styles.accessibilityEnabled]}
           >
             <MaterialIcons name="accessible" size={24} color="#fff" />
@@ -232,7 +244,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: 'absolute',
     top: 0,
-    left:135,
+    left: 135,
     flexDirection: 'row',
   },
   floorChanger: {
