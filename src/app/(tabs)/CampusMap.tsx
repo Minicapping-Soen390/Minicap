@@ -154,7 +154,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   }, [isCrossCampusNavigation, activeTab, startPoint]);
 
   return (
-    <View style={globalStyles.mapContainer}>
+    <View
+      style={globalStyles.mapContainer}
+      testID="outdoor-navigation-container"
+    >
       {locationError ? (
         <View style={globalStyles.errorContainer}>
           <Text style={globalStyles.errorText}>{locationError}</Text>
