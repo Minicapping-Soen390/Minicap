@@ -48,12 +48,12 @@
         "origin": false
       },
       "eas": {
-        "projectId": "92f30c5f-d3ef-44f9-9e80-531920c1e5db"
+        "projectId": "${process.env.EXPO_PROJECT_ID}"
       },
       "googleMapsApiKey": "${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}"
     },
     "updates": {
-      "url": "https://u.expo.dev/92f30c5f-d3ef-44f9-9e80-531920c1e5db"
+      "url": "https://u.expo.dev/${process.env.EXPO_PROJECT_ID}"
     }
   }
 }

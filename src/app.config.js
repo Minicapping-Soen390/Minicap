@@ -14,5 +14,13 @@ module.exports = {
   extra: {
     ...appJson.expo.extra,
     googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+    eas: {
+      ...appJson.expo.extra?.eas,
+      projectId: process.env.EXPO_PROJECT_ID,
+    },
   },
+  updates: {
+    ...appJson.expo.updates,
+    url: `https://u.expo.dev/${process.env.EXPO_PROJECT_ID}`
+  }
 };
