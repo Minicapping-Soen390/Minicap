@@ -7,8 +7,7 @@ export interface ICalendarRepository {
    * @param userId - The user connecting the calendar
    * @returns Promise resolving to the connected Calendar
    */
-  connectGoogleCalendar(googleCalendarId: string, userId: string): Promise<any>;
-
+  connectGoogleCalendar(googleCalendarId: string, userId: string): Promise<Calendar>;
   /**
    * Gets events from a connected Google Calendar
    * @param calendarId - The string of our calendar entry
