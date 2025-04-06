@@ -1,17 +1,34 @@
-import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Svg, Rect } from 'react-native-svg';
+import React, { useState, useRef } from "react";
 import Hall8 from "../data/svgFloorMaps/Annotated-Hall-8.svg";
 import Hall9 from "../data/svgFloorMaps/Hall-9.svg";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+interface Marker {
+  id: string;
+  x: number;
+  y: number;
+}
+
 interface IndoorNavigationModalProps {
   buildingInfo: any;
   currentFloorIndex: number;
+
+    
+        
+          
+    
+
+        
+        Expand All
+    
+    @@ -19,17 +26,37 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
+  
   closeIndoorNavigation: () => void;
   changeFloor: (direction: 'up' | 'down') => void;
 }
-
 const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   buildingInfo,
   currentFloorIndex,
@@ -19,7 +36,27 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   changeFloor,
 }) => {
   const [isAccessibilityEnabled, setAccessibilityEnabled] = useState(false);
+  const [showStairsMarkers, setShowStairsMarkers] = useState(false);
+  const [showElevatorMarkers, setShowElevatorMarkers] = useState(false);
   const searchInputRef = useRef<TextInput>(null);
+
+  // Hardcoded Indoor POIS
+  const stairsLocations: Record<number, Marker[]> = {
+    0: [
+      { id: 'rect3865', x: 166, y: 349 },
+      { id: 'rect3945', x: 495, y: 350 },
+      { id: 'rect3957', x: 498, y: 643 },
+      { id: 'rect3919', x: 207, y: 643 }
+    ],
+    1: [] // Add floor 1 locations when needed
+  };
+  const elevatorLocations: Record<number, Marker[]> = {
+    0: [
+      { id: 'rect3881', x: 240, y: 200 },
+      { id: 'rect3883', x: 245, y: 411 }
+    ],
+    1: [] // Add floor 1 locations when needed
+  };
 
   const toggleAccessibility = () => {
     setAccessibilityEnabled(!isAccessibilityEnabled);
@@ -27,12 +64,29 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
 
   return (
     <TouchableWithoutFeedback onPress={() => {
-      Keyboard.dismiss(); 
+      Keyboard.dismiss();
       if (searchInputRef.current) {
-        searchInputRef.current.blur(); 
+        searchInputRef.current.blur();
       }
     }}>
       <View style={styles.modalContainer}>
+
+    
+          
+            
+    
+
+          
+          Expand Down
+          
+            
+    
+
+          
+          Expand Up
+    
+    @@ -61,14 +88,14 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
+  
         <View style={styles.header}>
           <Text style={styles.floorName}>
             {buildingInfo.floors[currentFloorIndex].floorName}
@@ -61,17 +115,28 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
           </TouchableOpacity>
         </View>
         <TextInput
-          ref={searchInputRef} 
+          ref={searchInputRef}
           style={styles.searchInput}
           placeholder="Search Room"
           placeholderTextColor="#ccc"
         />
         <View style={styles.indoorContainer}>
           {currentFloorIndex === 0 ? (
-            <Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              <Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
           ) : currentFloorIndex === 1 ? (
             <Hall9 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
           ) : null}
+
+    
+          
+            
+    
+
+          
+          Expand Down
+    
+    
+  
         </View>
         <View style={styles.poiButtons}>
           <TouchableOpacity style={styles.poiButton}>
@@ -94,7 +159,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     </TouchableWithoutFeedback>
   );
 };
-
 const styles = StyleSheet.create({
   modalContainer: {
     position: 'absolute',
@@ -183,5 +247,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
   },
 });
-
 export default IndoorNavigationModal;
