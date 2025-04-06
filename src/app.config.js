@@ -1,4 +1,8 @@
+const path = require('path');
 const appJson = require('./app.json');
+
+// Try to get project ID from environment first, then fall back to default
+const projectId = process.env.EXPO_PROJECT_ID || '4cdf29b3-adbf-4241-aeb2-cbdcefcbc659';
 
 module.exports = {
   ...appJson.expo,
@@ -16,11 +20,11 @@ module.exports = {
     googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
     eas: {
       ...appJson.expo.extra?.eas,
-      projectId: process.env.EXPO_PROJECT_ID,
+      projectId, // Use the variable defined above
     },
   },
   updates: {
     ...appJson.expo.updates,
-    url: `https://u.expo.dev/${process.env.EXPO_PROJECT_ID}`
+    url: `https://u.expo.dev/${projectId}`
   }
 };
