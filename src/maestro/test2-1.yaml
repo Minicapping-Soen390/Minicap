@@ -1,0 +1,24 @@
+appId: com.dsagfh364h.src
+---
+
+#select a building
+- tapOn:
+    point: 471,1429
+#Select the building as a start location
+- tapOn: "Set as Start"
+- tapOn: "OK"
+
+#Select another building
+- tapOn:
+    point: 785,1324
+
+#Select the building as destination
+- tapOn: "Set as Destination"
+
+#Set off on the road.
+- tapOn: "START NAVIGATION"
+
+#move a bit to show the route
+- swipe:  
+    start: 50%, 35% 
+    end: 53%, 25%

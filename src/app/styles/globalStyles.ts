@@ -1,7 +1,8 @@
-import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
-import { rem } from "../utils";
+import { StyleSheet } from "react-native";
+import { rem } from "../../components/utils";
 
-const colors = {
+// Define and export brand colors separately
+export const brandColors = {
   concordiaRed: "#922338",
   white: "#FFFFFF",
   blueSemiTransparent: "#0000ffb3",
@@ -13,7 +14,17 @@ const colors = {
   brightRed: "#ff0000b3",
   darkGray: "#555",
   transparent: "transparent",
+  green: "green",
+  // Transparent versions for map polygons
+  concordiaRedTransparent: "#92233880",
+  orangeTransparent: "#FFA00180",
+  darkGreen: "#1E4F05",
+  darkGreenTransparent: "#1E4F0580",
+  lightBlue: "#f0f8ff",
 };
+
+// Use brandColors in place of the colors object
+const colors = brandColors;
 
 // View styles
 const viewStyles = StyleSheet.create({
@@ -21,14 +32,22 @@ const viewStyles = StyleSheet.create({
     position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center", // Added to ensure proper centering
+    justifyContent: "center",
     padding: rem(10),
     backgroundColor: colors.concordiaRed,
     zIndex: 10,
-    height: rem(70), // Add specific height for proper sizing
+    height: rem(70),
   },
   container: {
     flex: 1,
+  },
+  tabIconWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: rem(20),
+    paddingBottom: rem(1),
+    flex: 1,
+    marginBottom: rem(1), 
   },
   switchHeaderContainer: {
     backgroundColor: colors.concordiaRed,
@@ -68,7 +87,7 @@ const viewStyles = StyleSheet.create({
   addButton: {
     marginTop: 10,
     backgroundColor: colors.concordiaRed,
-    padding: 10,
+    padding: rem(10),
     borderRadius: 5,
     alignItems: "center",
   },
@@ -154,6 +173,201 @@ const viewStyles = StyleSheet.create({
     borderRadius: rem(5),
     zIndex: 2,
   },
+  navigationPopup: {
+    position: "absolute",
+    bottom: 100,
+    left: "10%",
+    right: "10%",
+    backgroundColor: colors.white,
+    borderRadius: rem(8),
+    padding: rem(16),
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  popupContainer: {
+    position: "absolute",
+    top: rem(10),
+    left: "2%",
+    right: "2%",
+
+    backgroundColor: colors.white,
+    borderRadius: rem(8),
+    paddingRight: rem(18),
+    paddingLeft: rem(18),
+    paddingTop: rem(10),
+    paddingBottom: rem(10),
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: rem(2) },
+    shadowOpacity: 0.3,
+    shadowRadius: rem(4),
+    elevation: 5,
+  },
+  popupText: {
+    fontSize: rem(16),
+    color: colors.darkGray,
+  },
+  popupRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: rem(3),
+
+  },
+  greenDot: {
+    width: rem(12),
+    height: rem(12),
+    borderRadius: rem(6),
+    backgroundColor: colors.green,
+    marginRight: rem(8),
+  },
+  goldDot: {
+    width: rem(12),
+    height: rem(12),
+    borderRadius: rem(6),
+    backgroundColor: colors.orange,
+    marginRight: rem(8),
+  },
+  closeButton: {
+    position: "absolute",
+    top: rem(-10),
+    left: rem(-10),
+    backgroundColor: colors.white,
+    borderRadius: rem(12),
+    padding: rem(4),
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: rem(2) },
+    shadowOpacity: 0.3,
+    shadowRadius: rem(4),
+    elevation: 5,
+  },
+  closeButtonText: {
+    fontSize: rem(14),
+    fontWeight: "bold",
+    color: colors.darkGray,
+  },
+  separator: {
+    borderBottomWidth: rem(1),
+    borderBottomColor: colors.lightGray,
+    marginVertical: rem(8),
+  },
+  directionsContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 300,
+    backgroundColor: "#f9f9f9",
+    borderTopColor: "#ccc",
+    borderRadius: 10,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  
+  fullScreenDirections: {
+    position: "absolute",
+    top: 120,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 0,
+  },
+
+  directionsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 3,
+  },
+  directionsTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  cancelButton: {
+    padding: 2,
+    paddingLeft:10,
+    paddingRight:10,
+    borderRadius: 100,
+    backgroundColor: "lightgrey",
+    height:25
+    },
+  cancelButtonText: {
+    color: "black",
+  },
+  transportModes: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 18,
+  },
+  activeModeTabText: {
+    fontWeight: "bold",
+  },
+  modeTabText: {
+    fontWeight: "normal",
+  },
+  directionsScroll: {
+    paddingHorizontal: 0,
+  },
+  directionStep: {
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    paddingBottom: 10,
+  },
+  modeTab: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginHorizontal: 4,
+  },
+  activeModeTab: {
+    backgroundColor: colors.concordiaRed,
+  },
+  shuttleStopMarker: {
+    backgroundColor: colors.white,
+    padding: 8,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  shuttleStopText: {
+    textAlign: 'center',
+    fontWeight: '600',
+  },
+  shuttleDirectionStep: {
+    backgroundColor: colors.lightBlue,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.concordiaRed,
+    padding: 12,
+  },
+  shuttleInstruction: {
+    fontWeight: 'bold',
+    color: colors.concordiaRed,
+  },
+  shuttleInfo: {
+    marginTop: 8,
+    padding: 8,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  shuttleScheduleText: {
+    color: colors.darkGray,
+    fontSize: 14,
+    marginVertical: 2,
+  },
 });
 
 // Text styles
@@ -163,7 +377,6 @@ const textStyles = StyleSheet.create({
     fontFamily: "Poppins-Bold",
     color: colors.white,
     textAlign: "center",
-    // Remove absolute positioning and flex: 1
   },
   switchText: {
     color: colors.white,
@@ -192,16 +405,17 @@ const textStyles = StyleSheet.create({
   },
   buildingNameText: {
     fontWeight: "bold",
-    fontSize: rem(18),
+    fontSize: rem(20),
     marginBottom: rem(5),
   },
   openingHoursText: {
+    fontSize: rem(12),
     color: colors.lightGray,
     marginBottom: rem(5),
   },
   addressText: {
     color: colors.darkGray,
-    fontSize: rem(14),
+    fontSize: rem(16),
   },
   buildingButtonText: {
     color: colors.white,
@@ -212,6 +426,18 @@ const textStyles = StyleSheet.create({
     color: colors.white,
     textAlign: "center",
   },
+  navAddressText: {
+    fontSize: rem(16),
+    color: colors.black,
+    marginBottom: 4,
+  },
+  fullScreenToggleText: {
+    color: colors.orange,
+    fontWeight: 'bold',
+    textAlign: "center",
+    top:0
+  },
+
 });
 
 // Image styles
@@ -222,7 +448,7 @@ const imageStyles = StyleSheet.create({
     width: rem(50),
     height: rem(50),
     resizeMode: "contain",
-    alignSelf: "center", // Add to ensure vertical centering
+    alignSelf: "center",
   },
   tabIcons: {
     width: rem(24),
@@ -256,7 +482,9 @@ const navigationStyles = {
       paddingBottom: rem(10),
     },
     tabBarItemStyle: {
-      paddingVertical: rem(5),
+      paddingVertical: rem(10),
+      justifyContent: "center",
+      alignItems: "center",
       flex: 1,
     },
   },

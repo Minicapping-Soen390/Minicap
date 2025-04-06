@@ -1,0 +1,67 @@
+appId: com.dsagfh364h.src
+---
+#Select a building as start location
+- tapOn:
+    point: 457,1330
+- tapOn: "Set as Start"
+- tapOn: "OK"
+
+- tapOn: { id: "campus-switch" }
+
+#Select a building as destination
+- tapOn:
+    point: 457,1330
+- tapOn: "Set as Destination"
+- tapOn: "START NAVIGATION"
+
+#Verify the shuttle bus route visibility 
+- assertVisible: "Shuttle Bus"
+- tapOn: "Shuttle Bus"
+- swipe:  
+    start: 50%, 85% # From (50% of width, 85% of height)
+    end: 50%, 65% # To (50% of width, 65% of height)
+
+#Verify the estimated waiting times visibility
+- assertVisible: 
+    id: "estimated-wait"
+
+#tap on exit to see the map
+- tapOn:
+    point: 999,1338
+
+#Zoom in
+- tapOn:
+    point: 1000,1930
+- tapOn:
+    point: 1000,1930
+
+#tap on the shuttle bus stop
+- tapOn:
+    point: 858,928
+
+- assertVisible: "Loyola Campus Shuttle Stop"
+
+# Step 4: Zoom Out - tap the minus button
+- doubleTapOn:
+    point: 1000,2020
+- doubleTapOn:
+    point: 1000,2020
+- doubleTapOn:
+    point: 1000,2020
+
+#change campus
+- tapOn: { id: "campus-switch" }
+
+- swipe:  
+    start: 50%, 50% 
+    end: 50%, 60%
+#zoom in
+- doubleTapOn:
+    point: 1000,1930
+- tapOn:
+    point: 1000,1930
+
+#tap on the shuttle bus stop
+- tapOn:
+    point: 550,1221
+- assertVisible: "SGW Campus Shuttle Stop"

@@ -1,0 +1,25 @@
+appId: com.dsagfh364h.src
+---
+# Launch the app
+- launchApp
+
+# Navigate to the Campus Map screen
+- tapOn: "Campus Map"
+
+# Verify that the map is displayed by checking the MapView element.
+- assertVisible:
+    id: "campus-map"
+
+# Interact with the map: simulate panning (these swipe directions can be adjusted)
+- swipe: { direction: "left", percent: 0.3 }
+- swipe: { direction: "right", percent: 0.3 }
+- swipe: { direction: "up", percent: 0.6 }
+# Step 4: Zoom In - tap the plus button
+- doubleTapOn:
+    point: 1000,1930
+
+- swipe: { direction: "down", percent: 0.6 }
+
+# Step 4: Zoom Out - tap the minus button
+- doubleTapOn:
+    point: 1000,2020

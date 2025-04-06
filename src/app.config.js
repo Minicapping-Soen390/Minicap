@@ -1,59 +1,18 @@
-import 'dotenv/config';
+const appJson = require('./app.json');
 
-export default {
-  expo: {
-    name: "Concordia",
-    slug: "src",
-    version: "1.1.0",
-    orientation: "portrait",
-    owner: "minicappin",
-    icon: "./assets/images/logo.png",
-    scheme: "myapp",
-    userInterfaceStyle: "automatic",
-    newArchEnabled: true,
-    ios: {
-      supportsTablet: true
-    },
-    android: {
-      adaptiveIcon: {
-        foregroundImage: "./assets/images/adaptive-icon.png",
-        backgroundColor: "#ffffff"
+module.exports = {
+  ...appJson.expo,
+  android: {
+    ...appJson.expo.android,
+    config: {
+      ...appJson.expo.android.config,
+      googleMaps: {
+        apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
       },
-      config: {
-        googleMaps: {
-          apiKey: process.env.GOOGLE_MAPS_API_KEY || ""
-        }
-      },
-      package: "com.hudson22.src"
     },
-    web: {
-      bundler: "metro",
-      output: "static",
-      favicon: "./assets/images/favicon.png"
-    },
-    plugins: [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          image: "./assets/images/logo.png",
-          imageWidth: 200,
-          resizeMode: "contain",
-          backgroundColor: "#ffffff"
-        }
-      ],
-      "expo-font"
-    ],
-    experiments: {
-      typedRoutes: true
-    },
-    extra: {
-      router: {
-        origin: false
-      },
-      eas: {
-     "projectId": "4cdf29b3-adbf-4241-aeb2-cbdcefcbc659"
-      }
-    }
-  }
+  },
+  extra: {
+    ...appJson.expo.extra,
+    googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+  },
 };

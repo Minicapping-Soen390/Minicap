@@ -1,0 +1,163 @@
+@startuml
+skinparam linetype ortho
+skinparam groupInheritance 2
+
+title UML domain model (updated 2024-02-12)
+' --- Base Classes ---
+abstract class AuditableEntity {
+  - _id: string
+  - createdAtUTC: Date
+  - updatedAtUTC: Date
+  - createdBy: string
+  - updatedBy: string
+}
+
+note "All classes extend AuditableEntity" as N1
+
+
+abstract class Location  {
+    - locationType: LocationType
+    + getLocation(): Location
+}
+
+class OutdoorLocation extends Location {
+    - latitude: Double
+    - longitude: Double
+    - latitudeDelta: Double
+    - longitudeDelta: Double
+    + getCoordinates(): Coordinates
+}
+
+class FloorplanLocation extends Location {
+    - x: Int
+    - y: Int
+    + getCoordinates(): Point
+}
+
+' --- User Management ---
+class User  {
+    - email: String
+    - password: String
+    - name: String
+    + login(email: String, password: String): AuthToken
+    + logout(token: String): void
+}
+
+class Administrator extends User {
+    - dateGranted: Date
+}
+
+' --- Calendar & Events ---
+class Calendar  {
+    - googleCalendarId: String
+    + connectGoogleCalendar(): void
+    + disconnectGoogleCalendar(): void
+}
+
+class Event  {
+    - name: String
+    - startTime: DateTime
+    - endTime: DateTime
+    - recurrence: String
+}
+
+class Course extends Event {
+    - courseCode: String
+    - description: String
+}
+
+' --- Planning ---
+class Task  {
+    - description: String
+    - emergencyTask: Boolean
+    - needsDisplay: Boolean
+}
+
+class Planner  {
+}
+
+' --- Routes ---
+class Route  {
+    - accessible: Boolean
+    + calculatePath(): void
+}
+
+class RouteSegment  {
+    - transportationMode: TransportationMode
+    - usageCount: Int
+    - path: String
+    - order: Int
+}
+
+class IndoorPath  {
+    - nodeIds: String
+}
+
+' --- Buildings & Spaces ---
+class Campus  {
+    - name: String
+}
+
+class Building  {
+    - name: String
+    - address: String
+    - description: String
+    - polygonShape: String
+    - openingHours: String
+}
+
+class Floor  {
+    - number: Int
+    - isWheelchairAccessible: Boolean
+    - hasElevatorAccess: Boolean
+    - hasRampAccess: Boolean
+}
+
+class Floorplan  {
+    - data: String
+}
+
+class Room  {
+    - number: String
+    - type: String
+}
+
+class POI  {
+    - name: String
+    - category: POICategory
+    - description: String
+}
+
+' --- Weather ---
+class Weather  {
+    - latitude: Double
+    - longitude: Double
+    - forecast: ForecastData
+}
+
+' --- Relationships ---
+User "1" -- "1" Planner
+User "*" -- "*" Calendar
+Calendar "1" -- "*" Event
+Planner "1" -- "*" Task
+User "*" -- "0..1" Location : current location
+
+Route "1" -- "*" RouteSegment
+RouteSegment "1" -- "1" Location : starts
+RouteSegment "1" -- "1" Location : ends
+RouteSegment "1" -- "0..1" IndoorPath
+
+Campus "1" -- "*" Building
+Building "1" -- "*" Floor
+Floor "1" -- "1" Floorplan
+Floor "1" -- "*" Room
+Room "1" -- "1" FloorplanLocation
+
+POI "*" -- "1" Location
+
+Building "1" -- "1" OutdoorLocation
+Campus "1" -- "1" OutdoorLocation
+Event "*" -- "1" Location
+Task "*" -- "1" Location
+
+@enduml
