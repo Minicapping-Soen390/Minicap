@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="65" failures="0" errors="0" time="10.284">
-  <testsuite name="useColorScheme" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="1.101" tests="1">
-    <testcase classname="useColorScheme should exist" name="useColorScheme should exist" time="0.01">
+<testsuites name="jest tests" tests="66" failures="0" errors="0" time="9.89">
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="0.937" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.009">
     </testcase>
   </testsuite>
-  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="1.103" tests="1">
-    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.014">
+  <testsuite name="useColorScheme" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="0.951" tests="1">
+    <testcase classname="useColorScheme should exist" name="useColorScheme should exist" time="0.011">
     </testcase>
   </testsuite>
-  <testsuite name="shuttleSchedule" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="1.143" tests="6">
+  <testsuite name="shuttleSchedule" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="0.964" tests="6">
     <testcase classname="shuttleSchedule should contain LOY and SGW keys" name="shuttleSchedule should contain LOY and SGW keys" time="0.014">
     </testcase>
-    <testcase classname="shuttleSchedule should have valid time format (HH:MM) for each departure" name="shuttleSchedule should have valid time format (HH:MM) for each departure" time="0.008">
+    <testcase classname="shuttleSchedule should have valid time format (HH:MM) for each departure" name="shuttleSchedule should have valid time format (HH:MM) for each departure" time="0.004">
     </testcase>
-    <testcase classname="shuttleSchedule should have same number of shuttle times on both campuses" name="shuttleSchedule should have same number of shuttle times on both campuses" time="0.001">
+    <testcase classname="shuttleSchedule should have same number of shuttle times on both campuses" name="shuttleSchedule should have same number of shuttle times on both campuses" time="0">
     </testcase>
-    <testcase classname="shuttleInfo should contain required keys" name="shuttleInfo should contain required keys" time="0.003">
+    <testcase classname="shuttleInfo should contain required keys" name="shuttleInfo should contain required keys" time="0.001">
     </testcase>
     <testcase classname="shuttleInfo should include all requirements as strings" name="shuttleInfo should include all requirements as strings" time="0.001">
     </testcase>
-    <testcase classname="shuttleInfo should specify valid first and last departure times" name="shuttleInfo should specify valid first and last departure times" time="0.001">
+    <testcase classname="shuttleInfo should specify valid first and last departure times" name="shuttleInfo should specify valid first and last departure times" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="ShuttleService" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="1.373" tests="10">
-    <testcase classname="ShuttleService initializeSession should initialize session successfully" name="ShuttleService initializeSession should initialize session successfully" time="0.013">
+  <testsuite name="ShuttleService" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="1.204" tests="10">
+    <testcase classname="ShuttleService initializeSession should initialize session successfully" name="ShuttleService initializeSession should initialize session successfully" time="0.014">
     </testcase>
-    <testcase classname="ShuttleService initializeSession should throw error if initialization fails" name="ShuttleService initializeSession should throw error if initialization fails" time="0.073">
+    <testcase classname="ShuttleService initializeSession should throw error if initialization fails" name="ShuttleService initializeSession should throw error if initialization fails" time="0.062">
     </testcase>
-    <testcase classname="ShuttleService getShuttleLocations should fetch and filter shuttle points" name="ShuttleService getShuttleLocations should fetch and filter shuttle points" time="0.003">
+    <testcase classname="ShuttleService getShuttleLocations should fetch and filter shuttle points" name="ShuttleService getShuttleLocations should fetch and filter shuttle points" time="0.004">
     </testcase>
-    <testcase classname="ShuttleService getShuttleLocations should throw error if post fails" name="ShuttleService getShuttleLocations should throw error if post fails" time="0.002">
+    <testcase classname="ShuttleService getShuttleLocations should throw error if post fails" name="ShuttleService getShuttleLocations should throw error if post fails" time="0.001">
     </testcase>
-    <testcase classname="ShuttleService getClosestShuttle should return the closest shuttle" name="ShuttleService getClosestShuttle should return the closest shuttle" time="0.001">
+    <testcase classname="ShuttleService getClosestShuttle should return the closest shuttle" name="ShuttleService getClosestShuttle should return the closest shuttle" time="0">
     </testcase>
     <testcase classname="ShuttleService getClosestShuttle should return null for empty list" name="ShuttleService getClosestShuttle should return null for empty list" time="0.001">
     </testcase>
@@ -39,119 +39,121 @@
     </testcase>
     <testcase classname="ShuttleService getNextDepartureTime should return first departure for next day if none left" name="ShuttleService getNextDepartureTime should return first departure for next day if none left" time="0">
     </testcase>
-    <testcase classname="ShuttleService estimateWaitingTime should estimate wait time based on distance" name="ShuttleService estimateWaitingTime should estimate wait time based on distance" time="0.001">
+    <testcase classname="ShuttleService estimateWaitingTime should estimate wait time based on distance" name="ShuttleService estimateWaitingTime should estimate wait time based on distance" time="0">
     </testcase>
-    <testcase classname="ShuttleService estimateWaitingTime should fallback to next departure time if shuttle is null" name="ShuttleService estimateWaitingTime should fallback to next departure time if shuttle is null" time="0.001">
+    <testcase classname="ShuttleService estimateWaitingTime should fallback to next departure time if shuttle is null" name="ShuttleService estimateWaitingTime should fallback to next departure time if shuttle is null" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="1.474" tests="7">
-    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.141">
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="1.252" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.107">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.003">
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.002">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.002">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.002">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.003">
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.002">
     </testcase>
-    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.002">
+    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.001">
     </testcase>
-    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.001">
+    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="1.618" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.202">
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="1.371" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.049">
     </testcase>
-    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.004">
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.094">
+    </testcase>
+  </testsuite>
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="1.414" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.152">
+    </testcase>
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
     </testcase>
     <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="1.624" tests="2">
-    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.077">
-    </testcase>
-    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.122">
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="1.61" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.089">
     </testcase>
   </testsuite>
-  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="1.863" tests="1">
-    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.09">
+  <testsuite name="shuttleUtils" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="1.989" tests="11">
+    <testcase classname="shuttleUtils determines closest campus to SGW" name="shuttleUtils determines closest campus to SGW" time="0.007">
+    </testcase>
+    <testcase classname="shuttleUtils fetchShuttleData returns filtered bus points and route" name="shuttleUtils fetchShuttleData returns filtered bus points and route" time="0.036">
+    </testcase>
+    <testcase classname="shuttleUtils renders shuttle stop markers" name="shuttleUtils renders shuttle stop markers" time="0.078">
+    </testcase>
+    <testcase classname="shuttleUtils throws on failed axios call" name="shuttleUtils throws on failed axios call" time="0.004">
+    </testcase>
+    <testcase classname="shuttleUtils returns empty results if no bus points" name="shuttleUtils returns empty results if no bus points" time="0.002">
+    </testcase>
+    <testcase classname="shuttleUtils trackShuttles tracks shuttle and estimates wait time when shuttle is found" name="shuttleUtils trackShuttles tracks shuttle and estimates wait time when shuttle is found" time="0.001">
+    </testcase>
+    <testcase classname="shuttleUtils trackShuttles handles no nearest shuttle found" name="shuttleUtils trackShuttles handles no nearest shuttle found" time="0.002">
+    </testcase>
+    <testcase classname="shuttleUtils fetchShuttleDirections fetches directions and sets shuttle polyline" name="shuttleUtils fetchShuttleDirections fetches directions and sets shuttle polyline" time="0.003">
+    </testcase>
+    <testcase classname="shuttleUtils fetchShuttleDirections throws if toShuttleStop has no legs" name="shuttleUtils fetchShuttleDirections throws if toShuttleStop has no legs" time="0.002">
+    </testcase>
+    <testcase classname="shuttleUtils fetchShuttleDirections throws if shuttleRoute has no legs" name="shuttleUtils fetchShuttleDirections throws if shuttleRoute has no legs" time="0.002">
+    </testcase>
+    <testcase classname="shuttleUtils fetchShuttleDirections throws if fromShuttleStop has no legs" name="shuttleUtils fetchShuttleDirections throws if fromShuttleStop has no legs" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="mapUtils" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="2.468" tests="8">
+  <testsuite name="mapUtils" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="2.287" tests="8">
     <testcase classname="mapUtils sanitizeHtmlContent removes all HTML tags and trims the result" name="mapUtils sanitizeHtmlContent removes all HTML tags and trims the result" time="0.009">
     </testcase>
     <testcase classname="mapUtils decodePolyline correctly decodes a simple encoded polyline" name="mapUtils decodePolyline correctly decodes a simple encoded polyline" time="0.001">
     </testcase>
-    <testcase classname="mapUtils isPointInPolygon returns true for a point inside the polygon" name="mapUtils isPointInPolygon returns true for a point inside the polygon" time="0.001">
+    <testcase classname="mapUtils isPointInPolygon returns true for a point inside the polygon" name="mapUtils isPointInPolygon returns true for a point inside the polygon" time="0">
     </testcase>
     <testcase classname="mapUtils isPointInPolygon returns false for a point outside the polygon" name="mapUtils isPointInPolygon returns false for a point outside the polygon" time="0">
     </testcase>
-    <testcase classname="mapUtils isPointInPolygon returns true for a point on the edge of the polygon" name="mapUtils isPointInPolygon returns true for a point on the edge of the polygon" time="0">
+    <testcase classname="mapUtils isPointInPolygon returns true for a point on the edge of the polygon" name="mapUtils isPointInPolygon returns true for a point on the edge of the polygon" time="0.001">
     </testcase>
-    <testcase classname="mapUtils mapUtils - createMapFacade handleMapPress clears selected building" name="mapUtils mapUtils - createMapFacade handleMapPress clears selected building" time="0.082">
+    <testcase classname="mapUtils mapUtils - createMapFacade handleMapPress clears selected building" name="mapUtils mapUtils - createMapFacade handleMapPress clears selected building" time="0.062">
     </testcase>
-    <testcase classname="mapUtils mapUtils - createMapFacade fetchRegularDirections decodes polyline and returns steps" name="mapUtils mapUtils - createMapFacade fetchRegularDirections decodes polyline and returns steps" time="0.01">
+    <testcase classname="mapUtils mapUtils - createMapFacade fetchRegularDirections decodes polyline and returns steps" name="mapUtils mapUtils - createMapFacade fetchRegularDirections decodes polyline and returns steps" time="0.006">
     </testcase>
-    <testcase classname="mapUtils mapUtils - createMapFacade fetchDirections handles cross-campus navigation with shuttle" name="mapUtils mapUtils - createMapFacade fetchDirections handles cross-campus navigation with shuttle" time="0.006">
-    </testcase>
-  </testsuite>
-  <testsuite name="shuttleUtils" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="2.842" tests="11">
-    <testcase classname="shuttleUtils determines closest campus to SGW" name="shuttleUtils determines closest campus to SGW" time="0.009">
-    </testcase>
-    <testcase classname="shuttleUtils fetchShuttleData returns filtered bus points and route" name="shuttleUtils fetchShuttleData returns filtered bus points and route" time="0.01">
-    </testcase>
-    <testcase classname="shuttleUtils renders shuttle stop markers" name="shuttleUtils renders shuttle stop markers" time="0.092">
-    </testcase>
-    <testcase classname="shuttleUtils throws on failed axios call" name="shuttleUtils throws on failed axios call" time="0.005">
-    </testcase>
-    <testcase classname="shuttleUtils returns empty results if no bus points" name="shuttleUtils returns empty results if no bus points" time="0.002">
-    </testcase>
-    <testcase classname="shuttleUtils trackShuttles tracks shuttle and estimates wait time when shuttle is found" name="shuttleUtils trackShuttles tracks shuttle and estimates wait time when shuttle is found" time="0.002">
-    </testcase>
-    <testcase classname="shuttleUtils trackShuttles handles no nearest shuttle found" name="shuttleUtils trackShuttles handles no nearest shuttle found" time="0.002">
-    </testcase>
-    <testcase classname="shuttleUtils fetchShuttleDirections fetches directions and sets shuttle polyline" name="shuttleUtils fetchShuttleDirections fetches directions and sets shuttle polyline" time="0.004">
-    </testcase>
-    <testcase classname="shuttleUtils fetchShuttleDirections throws if toShuttleStop has no legs" name="shuttleUtils fetchShuttleDirections throws if toShuttleStop has no legs" time="0.003">
-    </testcase>
-    <testcase classname="shuttleUtils fetchShuttleDirections throws if shuttleRoute has no legs" name="shuttleUtils fetchShuttleDirections throws if shuttleRoute has no legs" time="0.001">
-    </testcase>
-    <testcase classname="shuttleUtils fetchShuttleDirections throws if fromShuttleStop has no legs" name="shuttleUtils fetchShuttleDirections throws if fromShuttleStop has no legs" time="0.002">
+    <testcase classname="mapUtils mapUtils - createMapFacade fetchDirections handles cross-campus navigation with shuttle" name="mapUtils mapUtils - createMapFacade fetchDirections handles cross-campus navigation with shuttle" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="3.059" tests="9">
-    <testcase classname="CampusSwitcher Component renders correctly and toggles campuses" name="CampusSwitcher Component renders correctly and toggles campuses" time="0.502">
+  <testsuite name="CampusSwitcher Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="3.938" tests="10">
+    <testcase classname="CampusSwitcher Component renders correctly and toggles campuses" name="CampusSwitcher Component renders correctly and toggles campuses" time="0.641">
     </testcase>
-    <testcase classname="CampusSwitcher Component refreshes and displays user location" name="CampusSwitcher Component refreshes and displays user location" time="0.043">
+    <testcase classname="CampusSwitcher Component refreshes and displays user location" name="CampusSwitcher Component refreshes and displays user location" time="0.055">
     </testcase>
-    <testcase classname="CampusSwitcher Component shows error for denied location permissions" name="CampusSwitcher Component shows error for denied location permissions" time="0.081">
+    <testcase classname="CampusSwitcher Component shows error for denied location permissions" name="CampusSwitcher Component shows error for denied location permissions" time="0.112">
     </testcase>
-    <testcase classname="CampusSwitcher Component handles location fetch failure" name="CampusSwitcher Component handles location fetch failure" time="0.059">
+    <testcase classname="CampusSwitcher Component handles location fetch failure" name="CampusSwitcher Component handles location fetch failure" time="0.094">
     </testcase>
-    <testcase classname="CampusSwitcher Component displays building info on press" name="CampusSwitcher Component displays building info on press" time="0.04">
+    <testcase classname="CampusSwitcher Component displays building info on press" name="CampusSwitcher Component displays building info on press" time="0.05">
     </testcase>
-    <testcase classname="CampusSwitcher Component clears building info when map pressed" name="CampusSwitcher Component clears building info when map pressed" time="0.051">
+    <testcase classname="CampusSwitcher Component clears building info when map pressed" name="CampusSwitcher Component clears building info when map pressed" time="0.074">
     </testcase>
-    <testcase classname="CampusSwitcher Component selects start and destination buildings" name="CampusSwitcher Component selects start and destination buildings" time="0.096">
+    <testcase classname="CampusSwitcher Component selects start and destination buildings" name="CampusSwitcher Component selects start and destination buildings" time="0.133">
     </testcase>
-    <testcase classname="CampusSwitcher Component uses current location as start for navigation" name="CampusSwitcher Component uses current location as start for navigation" time="0.066">
+    <testcase classname="CampusSwitcher Component uses current location as start for navigation" name="CampusSwitcher Component uses current location as start for navigation" time="0.089">
     </testcase>
-    <testcase classname="CampusSwitcher Component initiates outdoor navigation" name="CampusSwitcher Component initiates outdoor navigation" time="0.084">
+    <testcase classname="CampusSwitcher Component initiates outdoor navigation" name="CampusSwitcher Component initiates outdoor navigation" time="0.169">
+    </testcase>
+    <testcase classname="CampusSwitcher Component renders building info marker" name="CampusSwitcher Component renders building info marker" time="0.105">
     </testcase>
   </testsuite>
-  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:04:43" time="8.884" tests="6">
-    <testcase classname="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" name="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" time="1.626">
+  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T14:15:12" time="8.681" tests="6">
+    <testcase classname="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" name="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" time="1.714">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" time="1.125">
+    <testcase classname="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" time="1.063">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" name="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" time="1.065">
+    <testcase classname="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" name="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" time="1.075">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results when searching by partial campus name" name="FindBuilding Component renders search results when searching by partial campus name" time="1.09">
+    <testcase classname="FindBuilding Component renders search results when searching by partial campus name" name="FindBuilding Component renders search results when searching by partial campus name" time="1.088">
     </testcase>
-    <testcase classname="FindBuilding Component renders X Building as search result when typing X" name="FindBuilding Component renders X Building as search result when typing X" time="1.076">
+    <testcase classname="FindBuilding Component renders X Building as search result when typing X" name="FindBuilding Component renders X Building as search result when typing X" time="1.075">
     </testcase>
-    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="1.069">
+    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="1.083">
     </testcase>
   </testsuite>
 </testsuites>

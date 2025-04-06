@@ -45,9 +45,12 @@ jest.mock("expo-location", () => ({
 }));
 
 describe("CampusSwitcher Component", () => {
+  let utils: ReturnType<typeof render>;
+
   beforeEach(() => {
     jest.useFakeTimers();
     jest.clearAllMocks();
+    utils = render(<CampusSwitcher />);
   });
 
   afterEach(() => {
@@ -56,7 +59,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("renders correctly and toggles campuses", async () => {
-    const { getByTestId, findByTestId } = render(<CampusSwitcher />);
+    const { getByTestId, findByTestId } = utils;
     expect(await findByTestId("campus-map")).toBeTruthy();
     const switchComponent = getByTestId("campus-switch");
     expect(switchComponent.props.value).toBe(false);
@@ -65,7 +68,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("refreshes and displays user location", async () => {
-    const { getByTestId } = render(<CampusSwitcher />);
+    const { getByTestId } = utils;
     await act(async () =>
       fireEvent.press(getByTestId("refresh-location-button"))
     );
@@ -79,7 +82,8 @@ describe("CampusSwitcher Component", () => {
     (
       Location.requestForegroundPermissionsAsync as jest.Mock
     ).mockResolvedValueOnce({ status: "denied" });
-    const { getByText } = render(<CampusSwitcher />);
+    utils = render(<CampusSwitcher />);
+    const { getByText } = utils;
     await waitFor(() =>
       expect(getByText("Permission to access location was denied")).toBeTruthy()
     );
@@ -89,14 +93,15 @@ describe("CampusSwitcher Component", () => {
     (Location.getCurrentPositionAsync as jest.Mock).mockRejectedValueOnce(
       new Error("fail")
     );
-    const { getByText } = render(<CampusSwitcher />);
+    utils = render(<CampusSwitcher />);
+    const { getByText } = utils;
     await waitFor(() =>
       expect(getByText("Error getting location")).toBeTruthy()
     );
   });
 
   it("displays building info on press", async () => {
-    const { findByTestId, getByText } = render(<CampusSwitcher />);
+    const { findByTestId, getByText } = utils;
     await act(async () =>
       fireEvent.press(
         await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
@@ -107,9 +112,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("clears building info when map pressed", async () => {
-    const { findByTestId, queryByTestId, getByTestId } = render(
-      <CampusSwitcher />
-    );
+    const { findByTestId, queryByTestId, getByTestId } = utils;
     await act(async () =>
       fireEvent.press(
         await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
@@ -120,7 +123,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("selects start and destination buildings", async () => {
-    const { findByTestId, getByTestId } = render(<CampusSwitcher />);
+    const { findByTestId, getByTestId } = utils;
     await act(async () =>
       fireEvent.press(
         await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
@@ -138,7 +141,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("uses current location as start for navigation", async () => {
-    const { getByTestId, findByTestId } = render(<CampusSwitcher />);
+    const { getByTestId, findByTestId } = utils;
     await act(async () =>
       fireEvent.press(getByTestId("refresh-location-button"))
     );
@@ -153,7 +156,7 @@ describe("CampusSwitcher Component", () => {
   });
 
   it("initiates outdoor navigation", async () => {
-    const { findByTestId, getByTestId } = render(<CampusSwitcher />);
+    const { findByTestId, getByTestId } = utils;
     await act(async () =>
       fireEvent.press(
         await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
@@ -169,5 +172,15 @@ describe("CampusSwitcher Component", () => {
       fireEvent.press(getByTestId("set-destination-button"))
     );
     expect(await findByTestId("outdoor-navigation-container")).toBeTruthy();
+  });
+
+  it("renders building info marker", async () => {
+    const { findByTestId } = render(<CampusSwitcher />);
+    await act(async () =>
+      fireEvent.press(
+        await findByTestId("building-marker-67aaabc9a89802f0176bad8e")
+      )
+    );
+    expect(await findByTestId("building-info")).toBeTruthy();
   });
 });
