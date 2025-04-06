@@ -27,3 +27,8 @@ appId: com.dsagfh364h.src
     start: 50%, 35% 
     end: 40%, 24%
 
+#Show the estimated travel time for each turn
+- swipe:  
+    start: 50%, 85% # From (50% of width, 85% of height)
+    end: 50%, 65% # To (50% of width, 65% of height)
+
