@@ -1,4 +1,7 @@
-import { determineUserCampus, fetchShuttleData } from "../utils/shuttleUtils";
+import {
+  determineUserCampus,
+  fetchShuttleData,
+} from "../../app/utils/shuttleUtils";
 import axios from "axios";
 
 jest.mock("axios");
