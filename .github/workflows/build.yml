@@ -17,7 +17,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          with:
+        with:
           args: >
             -Dsonar.projectKey=Minicapping-Soen390_Minicap 
             -Dsonar.organization=minicapping-soen390
