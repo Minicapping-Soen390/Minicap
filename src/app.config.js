@@ -6,6 +6,9 @@ const projectId = process.env.EXPO_PROJECT_ID || '4cdf29b3-adbf-4241-aeb2-cbdcef
 
 module.exports = {
   ...appJson.expo,
+  owner: "minicappin",
+  // Specify the Android directory path
+  androidManifestPath: "./android/app/src/main/AndroidManifest.xml",
   android: {
     ...appJson.expo.android,
     config: {
@@ -14,6 +17,8 @@ module.exports = {
         apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
       },
     },
+    // Explicitly set the gradle path
+    gradleWrapperPath: "./android/gradlew",
   },
   extra: {
     ...appJson.expo.extra,
