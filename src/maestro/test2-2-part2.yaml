@@ -1,0 +1,17 @@
+appId: com.dsagfh364h.src
+---
+#seeing your location
+- tapOn:
+    point: 341,1129
+- assertVisible: "Your location"
+
+#Zoom in
+- tapOn:
+    point: 1000,1930
+
+#Manually selecting a building
+- tapOn:
+    point: 436,988
+- tapOn: "Set as Start"
+- assertVisible: "Selected GS Building as start point. Now select your destination."
+- tapOn: "OK"
