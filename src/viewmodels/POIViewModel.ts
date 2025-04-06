@@ -4,17 +4,15 @@ import { POI, POICategory } from "@/models/POI";
 import { MapRepository } from "@/repositories/POIRepository";
 import { fetchNearbyRestaurants } from "@/app/utils/RestaurantService";
 import uuid from 'react-native-uuid';
+import Constants from 'expo-constants';
 
 export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
   private readonly COLLECTION_NAME = "pois";
-  // Define pois without makeAutoObservable
   pois: POI[] = [];
 
   constructor() {
     super();
-    // Initialize the observable state - but don't call makeAutoObservable again
     this.pois = [];
-    // No makeAutoObservable or makeObservable call here
   }
 
   async findPOIById(_id: string): Promise<POI> {
@@ -34,17 +32,12 @@ export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
 
   async findNearbyPOIs(latitude: number, longitude: number, radius: number): Promise<POI[]> {
     this.assertNotDisposed();
-    // Get the API key from configuration or environment variables
-    const apiKey = process.env.GOOGLE_PLACES_API_KEY || "AIzaSyCdMpoRN-cWcG-LGTKplqHs3SvTeYy7t0E";
+    const apiKey = Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
 
     try {
-      // Fetch the raw restaurant data
       const rawResults = await fetchNearbyRestaurants({ latitude, longitude }, radius, apiKey);
-
-      // Map each raw result to a POI using mapToDTO
       const mappedPOIs = rawResults.map(doc => this.mapToDTO(doc));
 
-      // Use runInAction to update our observable state
       runInAction(() => {
         this.pois = mappedPOIs;
       });

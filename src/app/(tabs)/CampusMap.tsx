@@ -151,12 +151,28 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   // Fetch nearby POIs when userLocation is available or when searchRadius changes
   useEffect(() => {
     if (userLocation) {
+      // Create a cache key based on location and radius
+      const lat = userLocation.latitude.toFixed(4);
+      const long = userLocation.longitude.toFixed(4);
+      const cacheKey = `${lat}-${long}-${searchRadius}`;
+
+      // Check if we have this data in cache
+      if (poiCache.current[cacheKey]) {
+        console.log("Using cached POI data");
+        setAllPOIs(poiCache.current[cacheKey]);
+        // We'll let the other useEffect handle filtering by category
+        return;
+      }
+
+      // If not in cache, fetch from API
+      console.log(`Fetching POIs at ${lat},${long} with radius: ${searchRadius}m`);
       poiFacade
         .findNearbyPOIs(userLocation.latitude, userLocation.longitude, searchRadius)
         .then((results) => {
-          console.log(`Nearby POIs within ${searchRadius}m:`, results);
+          // Store in cache
+          poiCache.current[cacheKey] = results;
+          console.log(`Found ${results.length} POIs`);
           setAllPOIs(results);
-          setFilteredPOIs(results); // Initially show all POIs
         })
         .catch((error) => console.error("Error fetching POIs:", error));
     }
@@ -172,17 +188,14 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   }, [selectedPOICategory, allPOIs]);
 
-  // Function to handle POI category filter change
   const handleCategoryChange = (category: POICategory | 'all') => {
     setSelectedPOICategory(category);
   };
 
-  // Function to handle search radius change
   const handleRadiusChange = (radius: number) => {
     setSearchRadius(radius);
   };
 
-  // Function to get marker color based on POI category
   const getMarkerColorForCategory = (category: POICategory): string => {
     switch (category) {
       case POICategory.Restaurant:
@@ -200,6 +213,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const togglePOIFilters = () => {
     setShowPOIFilters(!showPOIFilters);
   };
+
+  const poiCache = useRef({});
 
   return (
     <View style={globalStyles.mapContainer}>
@@ -390,6 +405,18 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 globalStyles.filterText,
                 searchRadius === 500 && globalStyles.activeFilterText
               ]}>500m</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                searchRadius === 1000 && globalStyles.activeFilterOption
+              ]}
+              onPress={() => handleRadiusChange(1000)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                searchRadius === 1000 && globalStyles.activeFilterText
+              ]}>1000m</Text>
             </TouchableOpacity>
           </View>
 
