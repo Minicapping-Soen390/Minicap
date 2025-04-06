@@ -1,4 +1,3 @@
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -32,8 +31,8 @@ export const fetchCalendarEvents = async () => {
     const classEvents = allEvents.filter(
       (event: any) =>
         event.location &&
-        (event.location.startsWith("Sir George Williams Campus") ||
-         event.location.startsWith("Loyola Campus"))
+        (event.location.startsWith("Sir George Williams Campus") ??
+          event.location.startsWith("Loyola Campus"))
     );
 
     const formatDate = (dateTime: string) => {
@@ -48,17 +47,16 @@ export const fetchCalendarEvents = async () => {
 
     const eventsData = classEvents.map((event: any) => ({
       id: event.id,
-      summary: event.summary || "No Title",
+      summary: event.summary ?? "No Title",
       start: event.start?.dateTime,
       startFormatted: formatDate(event.start?.dateTime),
       end: event.end?.dateTime,
       endFormatted: formatDate(event.end?.dateTime),
-      location: event.location || "No Location",
+      location: event.location ?? "No Location",
     }));
 
     await AsyncStorage.setItem("calendarEvents", JSON.stringify(eventsData));
     return eventsData;
-
   } catch (error) {
     console.error("Error fetching calendar events:", error);
     return [];
