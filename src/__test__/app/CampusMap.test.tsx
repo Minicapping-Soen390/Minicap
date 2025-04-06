@@ -49,6 +49,8 @@ describe("CampusSwitcher Component", () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.clearAllMocks();
+    process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY =
+      "AIzaSyCdMpoRN-cWcG-LGTKplqHs3SvTeYy7t0E";
   });
 
   afterEach(() => {
@@ -570,58 +572,59 @@ describe("CampusSwitcher Component", () => {
     // expect(polyline).toBeTruthy();
   });
 
+  // it("2.5 - switches between transportation modes", async () => {
+  //   const { findByTestId, getByTestId } = render(<CampusSwitcher />);
+
+  //   const mbBuilding = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad8e"
+  //   );
+  //   const haBuilding = await findByTestId(
+  //     "building-marker-67aaabc9a89802f0176bad84"
+  //   );
+
+  //   await act(async () => fireEvent.press(mbBuilding));
+  //   await act(async () => fireEvent.press(getByTestId("set-start-button")));
+
+  //   await act(async () => fireEvent.press(haBuilding));
+  //   await act(async () =>
+  //     fireEvent.press(getByTestId("set-destination-button"))
+  //   );
+
+  //   await act(async () =>
+  //     fireEvent.press(getByTestId("start-navigation-button"))
+  //   );
+
+  //   const modes = ["walking", "driving", "bicycling", "transit"];
+  //   for (const mode of modes) {
+  //     const tab = await waitFor(() => getByTestId(mode));
+  //     await act(async () => fireEvent.press(tab));
+  //     expect(tab).toBeTruthy();
+  //   }
+  // });
+
   it("2.5 - switches between transportation modes", async () => {
-    const { findByTestId, getByTestId } = render(<CampusSwitcher />);
+    const { findByTestId } = render(<CampusSwitcher />);
 
-    // Select a building as start
-    const mbBuilding = await findByTestId(
-      "building-marker-67aaabc9a89802f0176bad8e"
-    );
+    // Select start and destination
+    const mb = await findByTestId("building-marker-67aaabc9a89802f0176bad8e");
+    await act(async () => fireEvent.press(mb));
 
-    const haBuilding = await findByTestId(
-      "building-marker-67aaabc9a89802f0176bad84"
-    );
-    await act(async () => fireEvent.press(mbBuilding));
-    await act(async () => fireEvent.press(getByTestId("set-start-button")));
+    const startBtn = await findByTestId("set-start-button");
+    await act(async () => fireEvent.press(startBtn));
 
-    // Select different building as destination
-    await act(async () => fireEvent.press(haBuilding));
-    await act(async () =>
-      fireEvent.press(getByTestId("set-destination-button"))
-    );
+    const ha = await findByTestId("building-marker-67aaabc9a89802f0176bad84");
+    await act(async () => fireEvent.press(ha));
 
-    // Start navigation
-    await act(async () =>
-      fireEvent.press(getByTestId("start-navigation-button"))
-    );
-    jest.mock("axios");
-    (axios.get as jest.Mock).mockResolvedValue({
-      data: {
-        routes: [
-          {
-            legs: [
-              {
-                steps: [
-                  {
-                    html_instructions: "Head north on Guy St",
-                    distance: { text: "0.2 km" },
-                    duration: { text: "2 mins" },
-                  },
-                ],
-                distance: { text: "0.2 km" },
-                duration: { text: "2 mins" },
-              },
-            ],
-          },
-        ],
-        status: "OK",
-      },
-    });
+    const destBtn = await findByTestId("set-destination-button");
+    await act(async () => fireEvent.press(destBtn));
 
-    // Wait for transport mode tabs to show up
+    const navBtn = await findByTestId("start-navigation-button");
+    await act(async () => fireEvent.press(navBtn));
+
+    // Switch modes
     const modes = ["walking", "driving", "bicycling", "transit"];
     for (const mode of modes) {
-      const tab = await waitFor(() => getByTestId(`mode-tab-${mode}`));
+      const tab = await findByTestId(mode);
       await act(async () => fireEvent.press(tab));
       expect(tab).toBeTruthy();
     }
