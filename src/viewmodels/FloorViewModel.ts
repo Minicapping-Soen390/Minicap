@@ -1,6 +1,5 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Floor } from "@/models/Floor";
-import { Audit } from "@/models/Audit";
 import { FloorRepository } from "@/repositories/FloorRepository";
 
 export class FloorViewModel extends BaseViewModel<Floor> implements FloorRepository {
