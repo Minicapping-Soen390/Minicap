@@ -1,6 +1,5 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { Campus } from "@/models/Campus";
-import { Audit } from "@/models/Audit";
 import { CampusRepository } from "@/repositories/CampusRepository";
 
 export class CampusViewModel extends BaseViewModel<Campus> implements CampusRepository {

@@ -1,5 +1,5 @@
-import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
-import { rem } from "../utils";
+import { StyleSheet } from "react-native";
+import { rem } from "../../components/utils";
 
 // Define and export brand colors separately
 export const brandColors = {
@@ -20,6 +20,7 @@ export const brandColors = {
   orangeTransparent: "#FFA00180",
   darkGreen: "#1E4F05",
   darkGreenTransparent: "#1E4F0580",
+  lightBlue: "#f0f8ff",
 };
 
 // Use brandColors in place of the colors object
@@ -39,6 +40,14 @@ const viewStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  tabIconWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: rem(20),
+    paddingBottom: rem(1),
+    flex: 1,
+    marginBottom: rem(1), 
   },
   switchHeaderContainer: {
     backgroundColor: colors.concordiaRed,
@@ -311,7 +320,54 @@ const viewStyles = StyleSheet.create({
     borderBottomColor: "#ccc",
     paddingBottom: 10,
   },
-
+  modeTab: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginHorizontal: 4,
+  },
+  activeModeTab: {
+    backgroundColor: colors.concordiaRed,
+  },
+  shuttleStopMarker: {
+    backgroundColor: colors.white,
+    padding: 8,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  shuttleStopText: {
+    textAlign: 'center',
+    fontWeight: '600',
+  },
+  shuttleDirectionStep: {
+    backgroundColor: colors.lightBlue,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.concordiaRed,
+    padding: 12,
+  },
+  shuttleInstruction: {
+    fontWeight: 'bold',
+    color: colors.concordiaRed,
+  },
+  shuttleInfo: {
+    marginTop: 8,
+    padding: 8,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  shuttleScheduleText: {
+    color: colors.darkGray,
+    fontSize: 14,
+    marginVertical: 2,
+  },
 });
 
 // Text styles
@@ -426,7 +482,9 @@ const navigationStyles = {
       paddingBottom: rem(10),
     },
     tabBarItemStyle: {
-      paddingVertical: rem(5),
+      paddingVertical: rem(10),
+      justifyContent: "center",
+      alignItems: "center",
       flex: 1,
     },
   },

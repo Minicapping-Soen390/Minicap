@@ -1,9 +1,17 @@
-import React from "react";
+import React, { createContext } from "react";
 import { CampusViewModel } from "./CampusViewModel";
+import { BuildingViewModel } from './BuildingViewModel';
+import { RouteViewModel } from './RouteViewModel';
+import { ShuttleViewModel } from './ShuttleViewModel';
 
-export const ViewModelContext = React.createContext<CampusViewModel | null>(
-  null
-);
+export interface ViewModelContextType {
+  buildingViewModel: BuildingViewModel;
+  campusViewModel: CampusViewModel;
+  routeViewModel: RouteViewModel;
+  shuttleViewModel: ShuttleViewModel;
+}
+
+export const ViewModelContext = createContext<ViewModelContextType | null>(null);
 
 export const useViewModel = <T>(ViewModelClass: new () => T): T => {
   const context = React.useContext(ViewModelContext);

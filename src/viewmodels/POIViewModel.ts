@@ -1,8 +1,7 @@
 import { BaseViewModel } from "@/viewmodels/BaseViewModel";
 import { POI, POICategory } from "@/models/POI";
-import { Audit } from "@/models/Audit";
 import { MapRepository } from "@/repositories/POIRepository";
-import uuid from 'react-native-uuid';
+
 
 export class POIViewModel extends BaseViewModel<POI> implements MapRepository {
     private readonly COLLECTION_NAME = "pois";
