@@ -23,9 +23,9 @@ const mapToPOI = (doc: any): POI => {
   let category = POICategory.RESTAURANT; // Default
 
   if (doc.types) {
-    if (doc.types.includes("CAFE")) {
+    if (doc.types.includes("cafe")) {
       category = POICategory.CAFE;
-    } else if (doc.types.includes("BAR")) {
+    } else if (doc.types.includes("bar")) {
       category = POICategory.BAR;
     }
   }
@@ -84,7 +84,7 @@ export const createPOIFacade = () => {
       radius: number
     ): Promise<POI[]> => {
       try {
-        const apiKey = Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
+        const apiKey = "AIzaSyCdMpoRN-cWcG-LGTKplqHs3SvTeYy7t0E" || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
 
         // Fetch the raw restaurant data
         const rawResults = await fetchNearbyRestaurants(

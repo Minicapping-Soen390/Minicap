@@ -216,32 +216,40 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
   // Fetch nearby POIs when userLocation is available or when searchRadius changes
   useEffect(() => {
-    if (userLocation) {
-      // Create a cache key based on location and radius
-      const lat = userLocation.latitude.toFixed(4);
-      const long = userLocation.longitude.toFixed(4);
-      const cacheKey = `${lat}-${long}-${searchRadius}`;
+    if (!userLocation) return;
 
-      // Check if we have this data in cache
-      if (poiCache.current[cacheKey]) {
-        console.log("Using cached POI data");
-        setAllPOIs(poiCache.current[cacheKey]);
-        // We'll let the other useEffect handle filtering by category
-        return;
-      }
-
-      // If not in cache, fetch from API
-      console.log(`Fetching POIs at ${lat},${long} with radius: ${searchRadius}m`);
-      poiFacade
-        .findNearbyPOIs(userLocation.latitude, userLocation.longitude, searchRadius)
-        .then((results) => {
-          // Store in cache
-          poiCache.current[cacheKey] = results;
-          console.log(`Found ${results.length} POIs`);
-          setAllPOIs(results);
-        })
-        .catch((error) => console.error("Error fetching POIs:", error));
+    // Skip POI search when radius is 0
+    if (searchRadius === 0) {
+      console.log("Search radius is 0m, not fetching POIs");
+      setAllPOIs([]);
+      setFilteredPOIs([]);
+      return;
     }
+
+    // Create a cache key based on location and radius
+    const lat = userLocation.latitude.toFixed(4);
+    const long = userLocation.longitude.toFixed(4);
+    const cacheKey = `${lat}-${long}-${searchRadius}`;
+
+    // Check if we have this data in cache
+    if (poiCache.current[cacheKey]) {
+      console.log("Using cached POI data");
+      setAllPOIs(poiCache.current[cacheKey]);
+      // We'll let the other useEffect handle filtering by category
+      return;
+    }
+
+    // If not in cache, fetch from API
+    console.log(`Fetching POIs at ${lat},${long} with radius: ${searchRadius}m`);
+    poiFacade
+      .findNearbyPOIs(userLocation.latitude, userLocation.longitude, searchRadius)
+      .then((results) => {
+        // Store in cache
+        poiCache.current[cacheKey] = results;
+        console.log(`Found ${results.length} POIs`);
+        setAllPOIs(results);
+      })
+      .catch((error) => console.error("Error fetching POIs:", error));
   }, [userLocation, searchRadius]);
 
   // Filter POIs when category changes
@@ -259,8 +267,12 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   const handleRadiusChange = (radius: number) => {
-    setSearchRadius(radius);
-  };
+      setSearchRadius(radius);
+      if (radius === 0) {
+        // Add some user feedback that POIs are being hidden
+        console.log("POIs hidden (0m radius selected)");
+      }
+    };
 
   const getMarkerColorForCategory = (category: POICategory): string => {
     switch (category) {
@@ -354,13 +366,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           {/* Render filtered POI markers */}
           {filteredPOIs.map((poi) => (
             <Marker
-              key={poi.id}
+              key={poi._id || poi.id} // Use _id if it exists, otherwise fall back to id
               coordinate={{
-                latitude: poi.location.latitude,
-                longitude: poi.location.longitude,
+                latitude: typeof poi.location === 'string'
+                  ? parseFloat(poi.location.split(',')[0])
+                  : poi.location.latitude,
+                longitude: typeof poi.location === 'string'
+                  ? parseFloat(poi.location.split(',')[1])
+                  : poi.location.longitude,
               }}
               title={poi.name}
-              description={poi.address}
+              description={poi.address || poi.description}
               pinColor={getMarkerColorForCategory(poi.category)}
             />
           ))}

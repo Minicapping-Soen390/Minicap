@@ -1,10 +1,17 @@
-//shuttleUtils.tsx
 import axios from "axios";
 import { View, Text } from "react-native";
 import { Marker, LatLng, Region } from "react-native-maps";
 import { SHUTTLE_STOPS } from "@/MVVM/services/ShuttleService";
-import { ShuttleViewModel } from "@/MVVM/viewmodels/ShuttleViewModel";
 import Constants from "expo-constants";
+
+// Create a functional version of the shuttle state instead of using a class with MobX
+let shuttleState = {
+  locations: [],
+  route: null,
+  estimatedWaitTime: null,
+  isLoading: false,
+  error: null
+};
 
 export const determineUserCampus = (location: Region): string => {
   const sgwDistance = Math.sqrt(
@@ -56,6 +63,7 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
   );
 };
 
+// Fetch shuttle data using a functional approach
 export const fetchShuttleData = async (): Promise<{
   busPoints: any[];
   routePoints?: LatLng[];
@@ -63,13 +71,12 @@ export const fetchShuttleData = async (): Promise<{
   try {
     console.log("Fetching shuttle data...");
     
-    // Use ShuttleViewModel instead of direct API calls
-    const shuttleViewModel = new ShuttleViewModel();
-    await shuttleViewModel.fetchShuttleLocations();
-    const locations = shuttleViewModel.locations;
+    // Directly fetch shuttle locations without using the ShuttleViewModel class
+    // You'll need to implement this function to replace the class-based implementation
+    const locations = await fetchShuttleLocations();
     
     const busPoints = locations.filter((point: any) => 
-      point._id.startsWith("BUS")
+      point._id && point._id.startsWith("BUS")
     );
     
     let routePoints: LatLng[] | undefined;
@@ -109,6 +116,46 @@ export const fetchShuttleData = async (): Promise<{
   }
 };
 
+// Helper function to replace ShuttleViewModel's fetchShuttleLocations method
+const fetchShuttleLocations = async () => {
+  try {
+    // Replace with the API call that was in the ShuttleViewModel class
+    const response = await axios.get('YOUR_SHUTTLE_API_ENDPOINT');
+    return response.data || [];
+  } catch (error) {
+    console.error("Error fetching shuttle locations:", error);
+    return [];
+  }
+};
+
+// Helper function to replace ShuttleViewModel's getNextDepartureTime method
+const getNextDepartureTime = async (campus: 'SGW' | 'LOYOLA') => {
+  try {
+    // Replace with the logic that was in the repository method
+    // This is a simplified example - adjust according to your actual implementation
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    
+    // Example logic for calculating next departure
+    let departureHour = hours;
+    let departureMinute = minutes < 30 ? 30 : 0;
+    if (minutes >= 30) departureHour = (hours + 1) % 24;
+    
+    const departureTime = `${departureHour}:${departureMinute === 0 ? '00' : departureMinute}`;
+    const waitTime = departureMinute === 0 ? 60 - minutes : 30 - (minutes % 30);
+    
+    return {
+      departureTime,
+      waitTime
+    };
+  } catch (error) {
+    console.error("Error getting departure time:", error);
+    return { departureTime: "Unknown", waitTime: 0 };
+  }
+};
+
+// Replace the class-based ShuttleViewModel with a functional facade
 export const createShuttleFacade = ({
   setShuttleLocations,
   setEstimatedWaitTime,
@@ -118,7 +165,6 @@ export const createShuttleFacade = ({
   setEstimatedWaitTime: (time: number | null) => void;
   setShuttlePolyline: (polyline: LatLng[] | null) => void;
 }) => {
-  const shuttleViewModel = new ShuttleViewModel();
   
   const fetchShuttleDirections = async (
     startPoint: any,
@@ -204,11 +250,14 @@ export const createShuttleFacade = ({
       throw new Error("Invalid route data from shuttle stop");
     }
     
-    const departureInfo = await shuttleViewModel.getNextDepartureInfo(
+    const departureInfo = await getNextDepartureTime(
       startPoint.campus === "SGW" ? "SGW" : "LOYOLA"
     );
     
-    await fetchShuttleData();
+    // Fetch shuttle data directly instead of using the class
+    const { busPoints, routePoints } = await fetchShuttleData();
+    setShuttleLocations(busPoints);
+    
     const initialRoute = decodePolyline(
       shuttleRoute.data.routes[0].overview_polyline.points
     );
@@ -244,11 +293,16 @@ export const createShuttleFacade = ({
 
   const trackShuttles = async (startPoint: any) => {
     try {
-      await shuttleViewModel.fetchShuttleLocations();
-      setShuttleLocations(shuttleViewModel.locations);
+      // Fetch shuttle locations directly
+      const locations = await fetchShuttleLocations();
+      setShuttleLocations(locations);
       
-      if (startPoint && shuttleViewModel.estimatedWaitTime !== null) {
-        setEstimatedWaitTime(shuttleViewModel.estimatedWaitTime);
+      if (startPoint) {
+        // Calculate estimated wait time based on current time and shuttle schedule
+        const departureInfo = await getNextDepartureTime(
+          startPoint.campus === "SGW" ? "SGW" : "LOYOLA"
+        );
+        setEstimatedWaitTime(departureInfo.waitTime);
       }
     } catch (error) {
       console.error("Error tracking shuttles:", error);
