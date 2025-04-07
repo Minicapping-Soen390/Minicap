@@ -108,7 +108,8 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
 
     if (!showPath || !isMultifloorPath) return null;
 
-    const buttonProps = {
+    // Define separate button props for stairs and elevator
+    const stairsButtonProps = {
       style: {
         position: 'absolute',
         right: 95,
@@ -116,13 +117,25 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
         zIndex: 1000,
         padding: 8,
         borderRadius: 4,
-        backgroundColor: isAccessibilityEnabled ? '#4CAF50' : '#4B0082',
+        backgroundColor: isAccessibilityEnabled ?  '#4B0082': '#4CAF50',
+      },
+    };
+
+    const elevatorButtonProps = {
+      style: {
+        position: 'absolute',
+        right: 224,
+        bottom: 290,
+        zIndex: 1000,
+        padding: 5,
+        borderRadius: 4,
+        backgroundColor: isAccessibilityEnabled ? '#4B0082': '#4CAF50',
       },
     };
 
     return (
       <TouchableOpacity
-        {...buttonProps}
+        {...(isAccessibilityEnabled ? elevatorButtonProps : stairsButtonProps)}
         onPress={() => changeFloor('up')}
       >
         <Icon
@@ -403,7 +416,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   accessibilityEnabled: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'lightblue',
   },
 });
 
