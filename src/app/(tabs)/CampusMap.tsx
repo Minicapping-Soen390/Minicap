@@ -24,11 +24,18 @@ import {
   createShuttleFacade,
   renderShuttleMarkers,
 } from "../../Shared/utils/shuttleUtils";
+import IndoorNavigationModal from "../../components/IndoorNavigationModal"; 
 
+/**
+ * Props interface for CampusMap component
+ */
 interface CampusMapProps {
   campusId: string;
 }
 
+/**
+ * Campus model for SGW campus
+ */
 const SGWCampus: Campus = {
   _id: "sgw-uuid",
   name: "SGW Campus",
@@ -36,6 +43,9 @@ const SGWCampus: Campus = {
   buildingIds: [],
 };
 
+/**
+ * Campus model for Loyola campus
+ */
 const LoyolaCampus: Campus = {
   _id: "loyola-uuid",
   name: "Loyola Campus",
@@ -43,6 +53,10 @@ const LoyolaCampus: Campus = {
   buildingIds: [],
 };
 
+/**
+ * Main component for displaying interactive campus map with navigation features
+ * @param campusId - Unique identifier for the campus to display
+ */
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region = campusCenters[campus.outdoorLocation as keyof typeof campusCenters];
@@ -160,7 +174,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       }
     };
   }, [isCrossCampusNavigation, activeTab, startPoint]);
- 
+
   const handleIndoorNavigation = () => {
     console.log("handleIndoorNavigation triggered");
 
@@ -169,10 +183,14 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       console.log("Floor info:", buildingInfo.floors);
 
       if (buildingInfo.floors && buildingInfo.floors.length > 0) {
-        console.log(`Found ${buildingInfo.floors.length} floors for ${buildingInfo.name}.`);
+        console.log(
+          `Found ${buildingInfo.floors.length} floors for ${buildingInfo.name}.`
+        );
         setCurrentFloorIndex(0); // Reset to first floor
         setIsIndoorNavVisible(true);
-        console.log("Indoor navigation modal is now visible. Starting at floor 0.");
+        console.log(
+          "Indoor navigation modal is now visible. Starting at floor 0."
+        );
       } else {
         console.log("No floors data available for this building.");
         Alert.alert("No floor information available for this building.");
@@ -189,21 +207,28 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     console.log("Indoor navigation modal is now closed.");
   };
 
-  const changeFloor = (direction: 'up' | 'down') => {
-    console.log(`Change floor triggered: direction ${direction}, current floor index: ${currentFloorIndex}`);
+  const changeFloor = (direction: "up" | "down") => {
+    console.log(
+      `Change floor triggered: direction ${direction}, current floor index: ${currentFloorIndex}`
+    );
 
     if (buildingInfo && buildingInfo.floors) {
-      console.log(`Building ${buildingInfo.name} has ${buildingInfo.floors.length} floors.`);
-      if (direction === 'up' && currentFloorIndex < buildingInfo.floors.length - 1) {
+      console.log(
+        `Building ${buildingInfo.name} has ${buildingInfo.floors.length} floors.`
+      );
+      if (
+        direction === "up" &&
+        currentFloorIndex < buildingInfo.floors.length - 1
+      ) {
         console.log("Moving up to the next floor...");
         setCurrentFloorIndex(currentFloorIndex + 1);
         console.log(`Current floor index updated to: ${currentFloorIndex}`);
-      } else if (direction === 'down' && currentFloorIndex > 0) {
+      } else if (direction === "down" && currentFloorIndex > 0) {
         console.log("Moving down to the previous floor...");
         setCurrentFloorIndex(currentFloorIndex - 1);
         console.log(`Current floor index updated to: ${currentFloorIndex}`);
       } else {
-        if (direction === 'up') {
+        if (direction === "up") {
           console.log("Already on the top floor.");
         } else {
           console.log("Already on the bottom floor.");
@@ -585,7 +610,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   console.log("Starting navigation...");
                   mapFacade.fetchDirections(
                     "transit",
-                    Constants.expoConfig?.extra?.googleMapsApiKey ?? ""
+                    Constants.expoConfig?.extra?.googleMapsApiKey ??
+                      process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+                      ""
                   );
                 }}
                 style={globalStyles.addButton}
@@ -649,15 +676,19 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               {/* Indoor Navigation button */}
               <TouchableOpacity
                 onPress={handleIndoorNavigation}
-                style={[globalStyles.addButton, { marginTop: 10, backgroundColor: "green" }]} // Nice color for the button
+                style={[
+                  globalStyles.addButton,
+                  { marginTop: 10, backgroundColor: "green" },
+                ]} // Nice color for the button
               >
-                <Text style={globalStyles.refreshButtonText}>Indoor Navigation</Text>
+                <Text style={globalStyles.refreshButtonText}>
+                  Indoor Navigation
+                </Text>
               </TouchableOpacity>
             </>
           )}
         </View>
       )}
-
 
       {/* Indoor Navigation Modal */}
       {isIndoorNavVisible && buildingInfo && buildingInfo.floors && (
@@ -702,7 +733,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             ).map((mode) => (
               <TouchableOpacity
                 key={mode}
-                testID={`mode-tab-${mode}`}
+                testID={mode}
                 onPress={() =>
                   mapFacade.handleTransportModeChange(
                     mode === "shuttle" ? "transit" : mode
@@ -781,6 +812,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   );
 };
 
+/**
+ * Component that allows switching between SGW and Loyola campus views
+ * Wraps the CampusMap component and handles campus selection state
+ */
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState(true);
   const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;

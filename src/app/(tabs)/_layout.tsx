@@ -6,7 +6,9 @@ import Loader from "../../components/Loader";
 import { icons, images } from "../../constants";
 import { globalStyles } from "../styles/globalStyles";
 
-// === Tab Icon Component (wrapped with label container) ===
+/**
+ * Renders tab icon with optional label
+ */
 const TabIcon = ({
   icon,
   name,
@@ -43,28 +45,45 @@ const TabIcon = ({
   );
 };
 
-// === Icon Render Functions ===
+/**
+ * Icon renderer for Campus Map tab
+ */
 const CampusMapIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.Campus} focused={focused} name="Campus" />
 );
 
+/**
+ * Icon renderer for Calendar tab
+ */
 const CalendarIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.Calendar} focused={focused} name="Calendar" />
 );
 
+/**
+ * Icon renderer for Search tab
+ */
 const SearchIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.search} focused={focused} name="Search" />
 );
 
+/**
+ * Icon renderer for Menu tab
+ */
 const HamburgerIcon = ({ focused }: { focused: boolean }) => (
   <TabIcon icon={icons.Hamburger} focused={focused} name="Menu" />
 );
 
-// === External Function for Menu Tab Icon to avoid inline definition
-const MenuTabIcon = (menuVisible: boolean) => () =>
-  <HamburgerIcon focused={menuVisible} />;
+/**
+ * Creates menu tab icon with visibility state
+ */
+const MenuTabIcon = (menuVisible: boolean) => () => (
+  <HamburgerIcon focused={menuVisible} />
+);
 
-// === Tab Layout Component ===
+/**
+ * Main tab layout component
+ * Manages tab navigation and menu visibility
+ */
 const TabLayout = () => {
   const [loading, setLoading] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);

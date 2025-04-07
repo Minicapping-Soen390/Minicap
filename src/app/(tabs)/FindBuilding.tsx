@@ -1,4 +1,3 @@
-// export default FindBuilding;
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -14,6 +13,9 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import buildingsData from "../../data/hardcodedBuildings.json"; //
 
 // Define TypeScript type for building objects
+/**
+ * Building data type definition
+ */
 type Building = {
   _id: string;
   campus: string;
@@ -31,6 +33,10 @@ type Building = {
 // Ensure `buildingsData` is recognized as an array of `Building` objects
 const buildings: Building[] = buildingsData;
 
+/**
+ * Component for searching and displaying building information
+ * Provides search functionality and displays building details in a list format
+ */
 const FindBuilding = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredBuildings, setFilteredBuildings] = useState<Building[]>([]);
@@ -44,6 +50,10 @@ const FindBuilding = () => {
     }, 1000);
   }, []);
 
+  /**
+   * Filters buildings based on search query
+   * @param query - Search string to filter buildings
+   */
   const handleSearch = (query: string) => {
     setSearchQuery(query);
 
@@ -65,6 +75,10 @@ const FindBuilding = () => {
     setFilteredBuildings(filtered);
   };
 
+  /**
+   * Renders individual building item in the search results
+   * @param item - Building data to display
+   */
   const renderBuildingItem = ({ item }: { item: Building }) => (
     <TouchableOpacity
       testID={`building-item-${item._id}`}

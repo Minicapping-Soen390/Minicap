@@ -4,6 +4,8 @@ import { Marker, LatLng, Region } from "react-native-maps";
 import { SHUTTLE_STOPS } from "@/MVVM/services/ShuttleService";
 import Constants from "expo-constants";
 
+
+
 // Create a functional version of the shuttle state instead of using a class with MobX
 let shuttleState = {
   locations: [],
@@ -13,6 +15,11 @@ let shuttleState = {
   error: null
 };
 
+/**
+ * Determines which campus is closer to the user's current location.
+ * @param location - The user's current region coordinates
+ * @returns "SGW" if the user is closer to SGW campus, "LOYOLA" otherwise
+ */
 export const determineUserCampus = (location: Region): string => {
   const sgwDistance = Math.sqrt(
     Math.pow(location.latitude - SHUTTLE_STOPS.SGW.latitude, 2) +
@@ -25,6 +32,12 @@ export const determineUserCampus = (location: Region): string => {
   return sgwDistance < loyolaDistance ? "SGW" : "LOYOLA";
 };
 
+/**
+ * Renders markers for both SGW and Loyola shuttle stops on the map.
+ * @param globalStyles - Global styles object containing marker styling
+ * @param brandColors - Brand colors object for consistent theming
+ * @returns JSX element containing both shuttle stop markers
+ */
 export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
   return (
     <>
@@ -63,7 +76,11 @@ export const renderShuttleMarkers = (globalStyles: any, brandColors: any) => {
   );
 };
 
-// Fetch shuttle data using a functional approach
+/**
+ * Fetches real-time shuttle bus data from Concordia's shuttle service.
+ * @returns Promise containing bus points and optional route points
+ * @throws Error if the fetch request fails
+ */
 export const fetchShuttleData = async (): Promise<{
   busPoints: any[];
   routePoints?: LatLng[];
@@ -156,6 +173,11 @@ const getNextDepartureTime = async (campus: 'SGW' | 'LOYOLA') => {
 };
 
 // Replace the class-based ShuttleViewModel with a functional facade
+/**
+ * Creates a facade for shuttle-related operations including location tracking and route calculation.
+ * @param params - Object containing setter functions for shuttle state management
+ * @returns Object containing shuttle-related utility functions
+ */
 export const createShuttleFacade = ({
   setShuttleLocations,
   setEstimatedWaitTime,
@@ -291,6 +313,10 @@ export const createShuttleFacade = ({
     return { shuttlePolyline: initialRoute, directions: combinedSteps };
   };
 
+  /**
+   * Tracks shuttle locations and updates estimated waiting times.
+   * @param startPoint - Starting location object for wait time calculation
+   */
   const trackShuttles = async (startPoint: any) => {
     try {
       // Fetch shuttle locations directly
