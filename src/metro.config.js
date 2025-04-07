@@ -1,19 +1,33 @@
-const { getDefaultConfig } = require("expo/metro-config");
+const { getDefaultConfig } = require('expo/metro-config');
+const path = require('path');
 
-module.exports = (() => {
-  const config = getDefaultConfig(__dirname);
+// Create a default configuration
+const defaultConfig = getDefaultConfig(__dirname);
 
-  const { transformer, resolver } = config;
+// Update the resolver extensions
+defaultConfig.resolver.assetExts = defaultConfig.resolver.assetExts.filter(ext => ext !== 'svg');
+defaultConfig.resolver.sourceExts = [...defaultConfig.resolver.sourceExts, 'svg'];
 
-  config.transformer = {
-    ...transformer,
-    babelTransformerPath: require.resolve("react-native-svg-transformer"),
+// Try to use svg-transformer if available
+let transformer = {};
+try {
+  const { createSvgTransformer } = require('react-native-svg-transformer');
+  transformer = {
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: true,
+      },
+    }),
   };
-  config.resolver = {
-    ...resolver,
-    assetExts: resolver.assetExts.filter((ext) => ext !== "svg"),
-    sourceExts: [...resolver.sourceExts, "svg"],
-  };
+} catch (error) {
+  console.warn('react-native-svg-transformer not found. SVG files will not be transformed.');
+  // Use default transformer if svg transformer isn't available
+  transformer = defaultConfig.transformer;
+}
 
-  return config;
-})();
+// Apply the transformer configuration
+defaultConfig.transformer = transformer;
+
+module.exports = defaultConfig;
