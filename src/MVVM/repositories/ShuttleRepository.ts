@@ -98,10 +98,20 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
     if (locations.length === 0) return null;
 
     let closest = locations[0];
-    let minDistance = this.calculateDistance(latitude, longitude, closest.latitude, closest.longitude);
+    let minDistance = this.calculateDistance(
+      latitude, 
+      longitude, 
+      closest.latitude ?? 0, 
+      closest.longitude ?? 0
+    );
 
     for (const location of locations.slice(1)) {
-      const distance = this.calculateDistance(latitude, longitude, location.latitude, location.longitude);
+      const distance = this.calculateDistance(
+        latitude, 
+        longitude, 
+        location.latitude ?? 0, 
+        location.longitude ?? 0
+      );
       if (distance < minDistance) {
         minDistance = distance;
         closest = location;
@@ -119,12 +129,18 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
   async createRouteFromShuttles(shuttles: ShuttlePoint[]): Promise<ShuttleRoute> {
     const stops = await this.getShuttleStops();
     const points: LatLng[] = [
-      { latitude: stops[0].latitude, longitude: stops[0].longitude },
+      { 
+        latitude: stops[0].latitude ?? 0, 
+        longitude: stops[0].longitude ?? 0 
+      },
       ...shuttles.map(shuttle => ({
-        latitude: shuttle.latitude,
-        longitude: shuttle.longitude
+        latitude: shuttle.latitude ?? 0,
+        longitude: shuttle.longitude ?? 0
       })),
-      { latitude: stops[1].latitude, longitude: stops[1].longitude }
+      { 
+        latitude: stops[1].latitude ?? 0, 
+        longitude: stops[1].longitude ?? 0 
+      }
     ];
 
     return {

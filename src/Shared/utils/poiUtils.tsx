@@ -20,13 +20,13 @@ export const fetchNearbyRestaurants = async (
 
 const mapToPOI = (doc: any): POI => {
   // Determine category based on types
-  let category = POICategory.Restaurant; // Default
+  let category = POICategory.RESTAURANT; // Default
 
   if (doc.types) {
-    if (doc.types.includes("cafe")) {
-      category = POICategory.Cafe;
-    } else if (doc.types.includes("bar")) {
-      category = POICategory.Bar;
+    if (doc.types.includes("CAFE")) {
+      category = POICategory.CAFE;
+    } else if (doc.types.includes("BAR")) {
+      category = POICategory.BAR;
     }
   }
 
@@ -44,11 +44,11 @@ const mapToPOI = (doc: any): POI => {
 
 export const getMarkerColorForCategory = (category: POICategory): string => {
   switch (category) {
-    case POICategory.Restaurant:
+    case POICategory.RESTAURANT:
       return "red";
-    case POICategory.Cafe:
+    case POICategory.CAFE:
       return "orange";
-    case POICategory.Bar:
+    case POICategory.BAR:
       return "blue";
     case POICategory.BATHROOM:
       return "green";
@@ -64,9 +64,9 @@ export const createPOIFacade = () => {
   let allPOIs: POI[] = [];
 
   let categoryFilters = {
-    [POICategory.Restaurant]: true,
-    [POICategory.Cafe]: true,
-    [POICategory.Bar]: true,
+    [POICategory.RESTAURANT]: true,
+    [POICategory.CAFE]: true,
+    [POICategory.BAR]: true,
     [POICategory.BATHROOM]: true,
     [POICategory.LIBRARY]: true
   };
@@ -107,19 +107,19 @@ export const createPOIFacade = () => {
     },
 
     getFilteredPOIs: (): POI[] => {
-      return allPOIs.filter(poi => categoryFilters[poi.category] === true);
+      return allPOIs.filter(poi => poi.category && categoryFilters[poi.category] === true);
     },
 
     toggleCategoryFilter: (category: POICategory): POI[] => {
       categoryFilters[category] = !categoryFilters[category];
-      return allPOIs.filter(poi => categoryFilters[poi.category] === true);
+      return allPOIs.filter(poi => poi.category && categoryFilters[poi.category] === true);
     },
 
     toggleAllFilters: (value: boolean): POI[] => {
       categoryFilters = {
-        [POICategory.Restaurant]: value,
-        [POICategory.Cafe]: value,
-        [POICategory.Bar]: value,
+        [POICategory.RESTAURANT]: value,
+        [POICategory.CAFE]: value,
+        [POICategory.BAR]: value,
         [POICategory.BATHROOM]: value,
         [POICategory.LIBRARY]: value
       };
@@ -141,9 +141,9 @@ export const createPOIFacade = () => {
     dispose: () => {
       allPOIs = [];
       categoryFilters = {
-        [POICategory.Restaurant]: true,
-        [POICategory.Cafe]: true,
-        [POICategory.Bar]: true,
+        [POICategory.RESTAURANT]: true,
+        [POICategory.CAFE]: true,
+        [POICategory.BAR]: true,
         [POICategory.BATHROOM]: true,
         [POICategory.LIBRARY]: true
       };

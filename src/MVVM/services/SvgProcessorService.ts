@@ -274,15 +274,15 @@ export class SvgProcessorService extends BaseService {
     }
 
     return coordinates.reduce((bbox, point) => ({
-      minX: Math.min(bbox.minX, point.x),
-      minY: Math.min(bbox.minY, point.y),
-      maxX: Math.max(bbox.maxX, point.x),
-      maxY: Math.max(bbox.maxY, point.y)
+      minX: Math.min(bbox.minX, point.x ?? 0),
+      minY: Math.min(bbox.minY, point.y ?? 0),
+      maxX: Math.max(bbox.maxX, point.x ?? 0),
+      maxY: Math.max(bbox.maxY, point.y ?? 0)
     }), {
-      minX: coordinates[0].x,
-      minY: coordinates[0].y,
-      maxX: coordinates[0].x,
-      maxY: coordinates[0].y
+      minX: coordinates[0].x ?? 0,
+      minY: coordinates[0].y ?? 0,
+      maxX: coordinates[0].x ?? 0,
+      maxY: coordinates[0].y ?? 0
     });
   }
 
@@ -291,23 +291,26 @@ export class SvgProcessorService extends BaseService {
       throw new Error('Cannot calculate building bounding box for empty rooms');
     }
 
-    return rooms.reduce((bbox, room) => ({
-      minX: Math.min(bbox.minX, room.boundingBox.minX),
-      minY: Math.min(bbox.minY, room.boundingBox.minY),
-      maxX: Math.max(bbox.maxX, room.boundingBox.maxX),
-      maxY: Math.max(bbox.maxY, room.boundingBox.maxY)
-    }), {
-      minX: rooms[0].boundingBox.minX,
-      minY: rooms[0].boundingBox.minY,
-      maxX: rooms[0].boundingBox.maxX,
-      maxY: rooms[0].boundingBox.maxY
+    return rooms.reduce((bbox, room) => {
+      const roomBox = room.boundingBox ?? { minX: 0, minY: 0, maxX: 0, maxY: 0 };
+      return {
+        minX: Math.min(bbox.minX, roomBox.minX ?? 0),
+        minY: Math.min(bbox.minY, roomBox.minY ?? 0),
+        maxX: Math.max(bbox.maxX, roomBox.maxX ?? 0),
+        maxY: Math.max(bbox.maxY, roomBox.maxY ?? 0)
+      };
+    }, {
+      minX: (rooms[0].boundingBox?.minX ?? 0),
+      minY: (rooms[0].boundingBox?.minY ?? 0),
+      maxX: (rooms[0].boundingBox?.maxX ?? 0),
+      maxY: (rooms[0].boundingBox?.maxY ?? 0)
     });
   }
 
   private calculateCenter(bbox: BoundingBox): Point {
     return {
-      x: (bbox.minX + bbox.maxX) / 2,
-      y: (bbox.minY + bbox.maxY) / 2
+      x: ((bbox.minX ?? 0) + (bbox.maxX ?? 0)) / 2,
+      y: ((bbox.minY ?? 0) + (bbox.maxY ?? 0)) / 2
     };
   }
 

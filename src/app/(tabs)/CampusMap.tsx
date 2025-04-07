@@ -45,7 +45,7 @@ const LoyolaCampus: Campus = {
 
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
-  const region: Region = campusCenters[campus.outdoorLocation];
+  const region: Region = campusCenters[campus.outdoorLocation as keyof typeof campusCenters];
   const mapRef = useRef<MapView | null>(null);
 
   // Core states
@@ -264,11 +264,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
   const getMarkerColorForCategory = (category: POICategory): string => {
     switch (category) {
-      case POICategory.Restaurant:
+      case POICategory.RESTAURANT:
         return "red";
-      case POICategory.Cafe:
+      case POICategory.CAFE:
         return "orange";
-      case POICategory.Bar:
+      case POICategory.BAR:
         return "blue";
       default:
         return "purple";
@@ -426,37 +426,37 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             <TouchableOpacity
               style={[
                 globalStyles.filterOption,
-                selectedPOICategory === POICategory.Restaurant && globalStyles.activeFilterOption
+                selectedPOICategory === POICategory.RESTAURANT && globalStyles.activeFilterOption
               ]}
-              onPress={() => handleCategoryChange(POICategory.Restaurant)}
+              onPress={() => handleCategoryChange(POICategory.RESTAURANT)}
             >
               <Text style={[
                 globalStyles.filterText,
-                selectedPOICategory === POICategory.Restaurant && globalStyles.activeFilterText
+                selectedPOICategory === POICategory.RESTAURANT && globalStyles.activeFilterText
               ]}>Restaurants</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 globalStyles.filterOption,
-                selectedPOICategory === POICategory.Cafe && globalStyles.activeFilterOption
+                selectedPOICategory === POICategory.CAFE && globalStyles.activeFilterOption
               ]}
-              onPress={() => handleCategoryChange(POICategory.Cafe)}
+              onPress={() => handleCategoryChange(POICategory.CAFE)}
             >
               <Text style={[
                 globalStyles.filterText,
-                selectedPOICategory === POICategory.Cafe && globalStyles.activeFilterText
+                selectedPOICategory === POICategory.CAFE && globalStyles.activeFilterText
               ]}>Cafes</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 globalStyles.filterOption,
-                selectedPOICategory === POICategory.Bar && globalStyles.activeFilterOption
+                selectedPOICategory === POICategory.BAR && globalStyles.activeFilterOption
               ]}
-              onPress={() => handleCategoryChange(POICategory.Bar)}
+              onPress={() => handleCategoryChange(POICategory.BAR)}
             >
               <Text style={[
                 globalStyles.filterText,
-                selectedPOICategory === POICategory.Bar && globalStyles.activeFilterText
+                selectedPOICategory === POICategory.BAR && globalStyles.activeFilterText
               ]}>Bars</Text>
             </TouchableOpacity>
           </View>

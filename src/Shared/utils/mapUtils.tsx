@@ -96,8 +96,6 @@ export const createMapFacade = (params: {
   setNewRoute: (route: LatLng[] | null) => void;
   setDirections: (steps: any[]) => void;
   setShuttlePolyline: (polyline: LatLng[] | null) => void;
-  setTransportMode: (mode: string) => void;
-  setActiveTab: (mode: string) => void;
   setIsCrossCampusNavigation: (flag: boolean) => void;
   shuttleFacade: {
     fetchShuttleDirections: (
@@ -110,6 +108,7 @@ export const createMapFacade = (params: {
   };
   setTransportMode: (mode: string) => void;
   setActiveTab: (mode: string) => void;
+  buildingInfo?: any; // Added buildingInfo parameter
 }) => {
   const {
     setUserLocation,
@@ -136,6 +135,7 @@ export const createMapFacade = (params: {
     setActiveTab,
     setIsCrossCampusNavigation,
     shuttleFacade,
+    buildingInfo, // Added to destructuring
   } = params;
 
   const getUserLocation = async (): Promise<Region | void> => {
@@ -195,7 +195,7 @@ export const createMapFacade = (params: {
           console.warn(`Invalid coordinates for building ${building._id}`);
           return null;
         })
-        .filter((coord): coord is LatLng => coord !== null);
+        .filter((coord: LatLng | null): coord is LatLng => coord !== null);
 
       if (coordinates.length === 0) return null;
 
@@ -513,6 +513,7 @@ export const createMapFacade = (params: {
   };
 
   const handleNavigationPopup = () => {
+    // Use the buildingInfo from the destructured parameters
     if (buildingInfo) {
       setStartingAddress("My Location");
       setDestinationAddress(buildingInfo.address);
