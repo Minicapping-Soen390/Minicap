@@ -27,6 +27,7 @@ import {
 import { createMapFacade } from "../utils/mapUtils";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import Constants from "expo-constants";
+import ClassDirections from "@/components/ClassDirections";
 
 const ClassSchedule = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -38,6 +39,10 @@ const ClassSchedule = () => {
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [directions, setDirections] = useState<any[]>([]);
   const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[] | null>(null);  
+
+  const [showRouteScreen, setShowRouteScreen] = useState(false);
+  const [currentDirections, setCurrentDirections] = useState<any[]>([]);
+  const [etaFormatted, setEtaFormatted] = useState<string | null>(null);
 
   const shuttleFacade = createShuttleFacade({
     setShuttleLocations: () => {},
@@ -71,7 +76,7 @@ const ClassSchedule = () => {
     setIsCrossCampusNavigation: () => {},
     shuttleFacade,
   });
-  
+
   const handleNavigateToEvent = async (classEvent: any) => {
     try {
       const userRegion = await mapFacade.getUserLocation();
@@ -79,7 +84,7 @@ const ClassSchedule = () => {
         Alert.alert("Error", "Unable to get your current location.");
         return;
       }
-  
+
       const userPoint = {
         latitude: userRegion.latitude,
         longitude: userRegion.longitude,
@@ -88,32 +93,26 @@ const ClassSchedule = () => {
         openingHours: "",
         campus: "auto",
       };
-  
-      // 🔁 1. Define alias map
+
       const buildingAlias: Record<string, string> = {
         "hall building": "h building",
         "john molson school of business": "mb building",
         "faubourg building": "fg building",
         "library building": "lb building",
-        // Add more if needed
       };
 
-      // 🔁 2. Extract the building name from the location string
       const locationRaw = classEvent.location ?? "";
       const match = locationRaw.match(/-\s*([A-Za-z\s]+?)(?:\s+Rm|\s*$)/i);
       const extractedBuilding = match ? match[1].trim() : "";
-
-      // 🔁 3. Normalize and map to internal name
       const normalized = extractedBuilding.toLowerCase();
       const mappedName = buildingAlias[normalized] ?? extractedBuilding;
 
-      // 🔁 4. Find matching building from dataset
       const matchingBuilding = buildingsData.find((building) =>
         building.name.toLowerCase() === mappedName.toLowerCase()
       );
 
       if (!matchingBuilding) {
-        Alert.alert("Error", `Could not find building: "${mappedName}"`);
+        Alert.alert("Error", `Could not find building: \"${mappedName}\"`);
         return;
       }
 
@@ -125,13 +124,13 @@ const ClassSchedule = () => {
           }
           return null;
         })
-        .filter((c): c is LatLng => c !== null);
-  
+        .filter((c): c is any => c !== null);
+
       if (coordinates.length === 0) {
         Alert.alert("Error", "Invalid building coordinates.");
         return;
       }
-  
+
       const center = coordinates.reduce(
         (acc, curr) => ({
           latitude: acc.latitude + curr.latitude,
@@ -139,10 +138,10 @@ const ClassSchedule = () => {
         }),
         { latitude: 0, longitude: 0 }
       );
-  
+
       center.latitude /= coordinates.length;
       center.longitude /= coordinates.length;
-  
+
       const destinationPoint = {
         latitude: center.latitude,
         longitude: center.longitude,
@@ -151,31 +150,44 @@ const ClassSchedule = () => {
         openingHours: matchingBuilding.openingHours ?? "",
         campus: matchingBuilding.campus ?? "SGW",
       };
-  
+
       const isCrossCampus = userPoint.campus !== destinationPoint.campus;
       const transportMode = isCrossCampus ? "transit" : "walking";
-  
+
       const apiKey =
         Constants.expoConfig?.extra?.googleMapsApiKey ??
         process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
         "";
-  
+
       await mapFacade.fetchDirections(
         transportMode,
         apiKey,
         userPoint,
         destinationPoint
       );
-  
-      setSelectedEvent(classEvent);
-      slideAnim.setValue(0);
+      
+      const totalDurationSeconds = directions.reduce((sum, step) => {
+        // handle if step.duration is like "3 mins"
+        const match = step.duration?.match(/\d+/);
+        const value = match ? parseInt(match[0]) * 60 : 0;
+        return sum + value;
+      }, 0);
+      
+      const currentTime = new Date();
+      const eta = new Date(currentTime.getTime() + totalDurationSeconds * 1000);
+      
+      setEtaFormatted(eta.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+      }));  
+      setCurrentDirections(directions);
+      setShowRouteScreen(true);
     } catch (error) {
       console.error("Navigation error:", error);
       Alert.alert("Error", "Something went wrong while getting directions.");
     }
   };
-  
-  
+
   const panResponder = React.useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -246,15 +258,7 @@ const ClassSchedule = () => {
       const eventsData = await fetchCalendarEvents();
       setEvents(eventsData);
     } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log("User cancelled the sign-in flow");
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log("Sign-in is already in progress");
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log("Play services not available or outdated");
-      } else {
-        console.error("Something went wrong:", error);
-      }
+      console.error("Sign in error:", error);
     } finally {
       setIsSigninInProgress(false);
     }
@@ -276,28 +280,20 @@ const ClassSchedule = () => {
     const date = new Date(time);
     const startHour = 8;
     const totalMinutes = (date.getHours() - startHour) * 60 + date.getMinutes();
-    const slotIndex = totalMinutes / 30;
-    return slotIndex;
+    return totalMinutes / 30;
   };
 
   const getEventColor = (title: string) => {
     const summary = title.toLowerCase();
-    if (summary.includes("lec")) return "#FFCC80"; // Light orange
-    if (summary.includes("tut")) return "#F8BBD0"; // Light pink
-    if (summary.includes("lab")) return "#B39DDB"; // Light purple
-    return "#CFD8DC"; // Default gray if type is unknown
+    if (summary.includes("lec")) return "#FFCC80";
+    if (summary.includes("tut")) return "#F8BBD0";
+    if (summary.includes("lab")) return "#B39DDB";
+    return "#CFD8DC";
   };
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Text
-        style={[
-          globalStyles.title,
-          { marginTop: 6, marginBottom: 10, alignSelf: "center" },
-        ]}
-      >
-        Class Schedule
-      </Text>
+      <Text style={[globalStyles.title, { marginTop: 6, marginBottom: 10, alignSelf: "center" }]}>Class Schedule</Text>
 
       {!userInfo ? (
         <GoogleSigninButton
@@ -310,12 +306,8 @@ const ClassSchedule = () => {
         />
       ) : (
         <View style={globalStyles.scheduleContainer}>
-          <Text style={globalStyles.successText}>
-            ✅ Connected to Google Calendar!
-          </Text>
-          <Text style={globalStyles.userEmail}>
-            Signed in as: {userInfo.data.user?.email}
-          </Text>
+          <Text style={globalStyles.successText}>✅ Connected to Google Calendar!</Text>
+          <Text style={globalStyles.userEmail}>Signed in as: {userInfo.data.user?.email}</Text>
           <Button testID="signout-button" title="Sign Out" onPress={signOut} />
 
           <ScrollView style={globalStyles.scrollView}>
@@ -325,32 +317,14 @@ const ClassSchedule = () => {
                   const hour = 8 + Math.floor(index / 2);
                   const minute = index % 2 === 0 ? "00" : "30";
                   const timeLabel = `${hour}:${minute}`;
-                  if (hour === 23 && minute === "00") {
-                    return (
-                      <Text
-                        key={`time-${timeLabel}`}
-                        style={globalStyles.timeLabel}
-                      >
-                        11:00 PM
-                      </Text>
-                    );
-                  }
-                  return (
-                    <Text
-                      key={`time-${timeLabel}`}
-                      style={globalStyles.timeLabel}
-                    >
-                      {timeLabel}
-                    </Text>
-                  );
+                  return <Text key={`time-${timeLabel}`} style={globalStyles.timeLabel}>{timeLabel}</Text>;
                 })}
               </View>
 
               <View style={globalStyles.eventColumn}>
                 {events.map((event) => {
                   const topValue = timeToIndex(event.start) * 40;
-                  const eventHeight =
-                    (timeToIndex(event.end) - timeToIndex(event.start)) * 40;
+                  const eventHeight = (timeToIndex(event.end) - timeToIndex(event.start)) * 40;
 
                   return (
                     <TouchableOpacity
@@ -366,15 +340,9 @@ const ClassSchedule = () => {
                         },
                       ]}
                     >
-                      <Text style={globalStyles.eventTitle}>
-                        {event.summary}
-                      </Text>
-                      <Text style={globalStyles.eventTime}>
-                        {event.startFormatted} - {event.endFormatted}
-                      </Text>
-                      <Text style={globalStyles.eventLocation}>
-                        {event.location}
-                      </Text>
+                      <Text style={globalStyles.eventTitle}>{event.summary}</Text>
+                      <Text style={globalStyles.eventTime}>{event.startFormatted} - {event.endFormatted}</Text>
+                      <Text style={globalStyles.eventLocation}>{event.location}</Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -384,68 +352,50 @@ const ClassSchedule = () => {
 
           {selectedEvent && (
             <Animated.View
-              style={[
-                globalStyles.bottomSlider,
-                { transform: [{ translateY: slideAnim }] },
-              ]}
+              style={[globalStyles.bottomSlider, { transform: [{ translateY: slideAnim }] }]}
               {...panResponder.panHandlers}
             >
               <View>
-                {/* "X" Button on the Left */}
-                <TouchableOpacity
-                  style={globalStyles.closeButton}
-                  onPress={closeSlider}
-                >
+                <TouchableOpacity style={globalStyles.closeButton} onPress={closeSlider}>
                   <Text style={globalStyles.closeButtonText}>X</Text>
                 </TouchableOpacity>
-
-                {/* Icon for the Slider (Simple Line) */}
                 <View style={globalStyles.sliderIcon} />
-
-                {/* Event Details */}
-                <Text style={globalStyles.sliderTitle}>
-                  {selectedEvent.summary}
-                </Text>
+                <Text style={globalStyles.sliderTitle}>{selectedEvent.summary}</Text>
                 <Text style={globalStyles.sliderDateTime}>
                   {new Date(selectedEvent.start).toLocaleDateString("en-US", {
                     weekday: "short",
                     month: "short",
                     day: "numeric",
-                  })}{" "}
-                  • {selectedEvent.startFormatted} -{" "}
-                  {selectedEvent.endFormatted}
+                  })} • {selectedEvent.startFormatted} - {selectedEvent.endFormatted}
                 </Text>
-                <Text style={globalStyles.sliderLocation}>
-                  {selectedEvent.location}
-                </Text>
+                <Text style={globalStyles.sliderLocation}>{selectedEvent.location}</Text>
                 <View style={globalStyles.roomRow}>
                   <Text style={globalStyles.sliderRoom} numberOfLines={2}>
                     {selectedEvent.location.split(" - ").pop()?.trim()}
                   </Text>
-                  <TouchableOpacity onPress={() => handleNavigateToEvent(selectedEvent)}>
+                  <TouchableOpacity
+                    onPress={async () => {
+                      await handleNavigateToEvent(selectedEvent);
+                      setShowRouteScreen(true);
+                      closeSlider();
+                    }}
+                  >
                     <Image
                       source={require("assets/images/arrow.png")}
                       style={globalStyles.arrowImageInline}
-                      />
+                    />
                   </TouchableOpacity>
                 </View>
-                {directions.length > 0 && (
-                  <>
-                    <Text style={globalStyles.title}>Directions</Text>
-                    <ScrollView style={globalStyles.directionsScroll}>
-                      {directions.map((step, index) => (
-                        <View key={index} style={globalStyles.directionStep}>
-                          <Text style={globalStyles.title}>{step.instruction}</Text>
-                          <Text style={globalStyles.title}>
-                            {step.distance} • {step.duration}
-                          </Text>
-                        </View>
-                      ))}
-                    </ScrollView>
-                  </>
-                )}
               </View>
             </Animated.View>
+          )}
+
+          {showRouteScreen && (
+            <ClassDirections
+              directions={currentDirections}
+              eta={etaFormatted ?? ""}
+              onClose={() => setShowRouteScreen(false)}
+            />
           )}
         </View>
       )}
