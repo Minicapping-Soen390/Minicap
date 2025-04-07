@@ -1,10 +1,15 @@
 # **Meeting:** Sprint Retrospective
 
 **Date:** 2025-03-24
+
 **Time:** 12h00 - 12h45
+
 **Purpose:** Sprint Retrospective Review
+
 **Attendees:** Minh, Melissa, Edward, Hudson,  Asif, Safaa, Ayesha, Youssef
+
 **Absent:** /
+
 
 ## Agenda Items
 
