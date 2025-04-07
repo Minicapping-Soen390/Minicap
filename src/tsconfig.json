@@ -19,13 +19,14 @@
         "./*"
       ]
     },
-    "resolveJsonModule": true // Added this line
+    "resolveJsonModule": true
   },
   "include": [
     "./**/*",
+    "../app.config.js",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app.config.js"  ],
+  ],
   "exclude": [
     "node_modules"
   ],

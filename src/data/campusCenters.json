@@ -1,0 +1,18 @@
+{
+    "loc-sgw": {
+      "_id": "loc-sgw",
+      "locationType": "outdoor",
+      "latitude": 45.4953,
+      "longitude": -73.5789,
+      "latitudeDelta": 0.01,
+      "longitudeDelta": 0.01
+    },
+    "loc-loyola": {
+      "_id": "loc-loyola",
+      "locationType": "outdoor",
+      "latitude": 45.4581,
+      "longitude": -73.6405,
+      "latitudeDelta": 0.01,
+      "longitudeDelta": 0.01
+    }
+  }
