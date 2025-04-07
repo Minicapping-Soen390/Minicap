@@ -5,11 +5,12 @@ import {
   determineUserCampus,
   fetchShuttleData,
   renderShuttleMarkers,
-} from "../../app/utils/shuttleUtils";
+} from "../../Shared/utils/shuttleUtils";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
+// Mock ShuttleService properly outside of any test
 jest.mock("../../services/ShuttleService", () => ({
   shuttleService: {
     getClosestShuttle: jest.fn().mockReturnValue({}),
@@ -36,7 +37,8 @@ describe("shuttleUtils", () => {
 
   it("determines closest campus to SGW", () => {
     const location = { latitude: 45.4971, longitude: -73.5792 };
-    expect(determineUserCampus(location)).toBe("SGW");
+    const result = determineUserCampus(location);
+    expect(result).toBe("SGW");
   });
 
   it("fetchShuttleData returns filtered bus points and route", async () => {
