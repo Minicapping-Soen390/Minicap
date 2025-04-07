@@ -41,8 +41,7 @@ buildscript {
     }
     
     configurations.all {
-        // Increase timeout
-        timeoutConfig -> timeoutConfig.connectionTimeout = 180_000
+        // Remove the problematic attribute settings
     }
 }
 
@@ -83,21 +82,39 @@ allprojects {
             cacheChangingModulesFor 24, 'hours'
         }
         
-        // Increase timeouts
-        timeoutConfig -> timeoutConfig.connectionTimeout = 180_000
+        // Remove the problematic attribute settings
     }
 }
 
-// If you're having issues with the build, uncomment this to run in offline mode
-// This will use dependencies from the cache
-// tasks.whenTaskAdded { task ->
-//     if (task.name.contains('compile') || task.name.contains('generate')) {
-//         task.dependsOn('offlineMode')
-//     }
-// }
-// 
-// task offlineMode() {
-//     doFirst {
-//         println "Running in offline mode"
-//     }
-// }
+// Enable offline mode
+gradle.startParameter.offline = true
+
+// Explicitly define the offline mode task
+task offlineMode() {
+    doFirst {
+        println "Running in offline mode"
+    }
+}
+
+// Make all compile and generate tasks depend on offlineMode
+tasks.whenTaskAdded { task ->
+    if (task.name.contains('compile') || task.name.contains('generate')) {
+        task.dependsOn('offlineMode')
+    }
+}
+
+// Set caching for offline mode
+allprojects {
+    buildscript {
+        configurations.all {
+            resolutionStrategy {
+                cacheChangingModulesFor 0, 'seconds'
+            }
+        }
+    }
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+        }
+    }
+}
