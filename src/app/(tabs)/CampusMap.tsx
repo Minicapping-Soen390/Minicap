@@ -28,6 +28,13 @@ interface CampusMapProps {
   campusId: string;
 }
 
+const transportModeColors: Record<string, string> = {
+  walking: "#191970", // Midnight Blue
+  driving: "#1E90FF", // Dodger Blue
+  bicycling: "#007F5F", // Dark greenish blue
+  transit: brandColors.concordiaRed, // Already used for shuttle
+};
+
 // Define campuses
 const SGWCampus: Campus = {
   _id: "sgw-uuid",
@@ -154,13 +161,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   }, [isCrossCampusNavigation, activeTab, startPoint]);
   if (!region || !permissionGranted || !userLocation) {
     return (
-      <View style={[globalStyles.mapContainer, { justifyContent: 'center', alignItems: 'center' }]}>
+      <View
+        style={[
+          globalStyles.mapContainer,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
         <ActivityIndicator size="large" color="#186DEE" />
         <Text style={{ marginTop: 10 }}>Loading map...</Text>
       </View>
     );
   }
-  
 
   return (
     <View
@@ -199,7 +210,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             newRoute && (
               <Polyline
                 coordinates={newRoute}
-                strokeColor="#186DEE"
+                strokeColor={transportModeColors[activeTab] || "#000"} // fallback to black
                 strokeWidth={5}
                 testID="outdoor-route-polyline"
               />
@@ -207,7 +218,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           ) : (
             <Polyline
               coordinates={shuttlePolyline ?? []}
-              strokeColor={brandColors.concordiaRed}
+              strokeColor={transportModeColors["transit"]}
               strokeWidth={5}
               lineDashPattern={[10, 5]}
               testID="shuttle-route-polyline"
