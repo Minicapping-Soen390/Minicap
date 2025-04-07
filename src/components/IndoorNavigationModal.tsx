@@ -79,8 +79,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     const startRoom = startLocation.toLowerCase();
     const endRoom = endLocation.toLowerCase();
 
-    if ((startRoom === 'h-813' && endRoom.startsWith('h-9')) ||
-        (endRoom === 'h-813' && startRoom.startsWith('h-9'))) {
+    if (startRoom === 'h-813' && endRoom === 'h-927') {
       setShowPath(true);
     }
   };
