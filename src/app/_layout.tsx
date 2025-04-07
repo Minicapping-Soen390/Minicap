@@ -4,6 +4,10 @@ import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 
+/**
+ * Root layout component
+ * Handles font loading and splash screen management
+ */
 export default function RootLayout() {
   // Prevent auto hiding the splash screen
   SplashScreen.preventAutoHideAsync();
