@@ -8,7 +8,9 @@ import {
   Animated,
   PanResponder,
   Image,
+  Alert,
 } from "react-native";
+import MapView, { Marker, Polyline, Region, LatLng } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import globalStyles from "../styles/globalStyles";
@@ -18,6 +20,13 @@ import {
   statusCodes,
 } from "@react-native-google-signin/google-signin";
 import { fetchCalendarEvents } from "../utils/calendarUtils";
+import {
+  createShuttleFacade,
+  renderShuttleMarkers,
+} from "../utils/shuttleUtils";
+import { createMapFacade } from "../utils/mapUtils";
+import buildingsData from "@/data/hardcodedBuildings.json";
+import Constants from "expo-constants";
 
 const ClassSchedule = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -26,6 +35,147 @@ const ClassSchedule = () => {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [slideAnim] = useState(new Animated.Value(-200));
 
+  const [userLocation, setUserLocation] = useState<Region | null>(null);
+  const [directions, setDirections] = useState<any[]>([]);
+  const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[] | null>(null);  
+
+  const shuttleFacade = createShuttleFacade({
+    setShuttleLocations: () => {},
+    setEstimatedWaitTime: () => {},
+    setShuttlePolyline,
+  });
+  
+  const mapFacade = createMapFacade({
+    setUserLocation,
+    setLocationError: () => {},
+    setPermissionGranted: () => {},
+    setBuildingInfo: () => {},
+    setSelectedBuildingId: () => {},
+    setDestinationAddress: () => {},
+    setStartingAddress: () => {},
+    setStartPoint: () => {},
+    setEndPoint: () => {},
+    userLocation,
+    selectedBuildingId: null,
+    Alert,
+    destinationAddress: "",
+    startPoint: null,
+    endPoint: null,
+    setShowNavigationPopup: () => {},
+    setIsNavigationStarted: () => {},
+    setNewRoute: () => {},
+    setDirections,
+    setShuttlePolyline,
+    setTransportMode: () => {},
+    setActiveTab: () => {},
+    setIsCrossCampusNavigation: () => {},
+    shuttleFacade,
+  });
+  
+  const handleNavigateToEvent = async (classEvent: any) => {
+    try {
+      const userRegion = await mapFacade.getUserLocation();
+      if (!userRegion) {
+        Alert.alert("Error", "Unable to get your current location.");
+        return;
+      }
+  
+      const userPoint = {
+        latitude: userRegion.latitude,
+        longitude: userRegion.longitude,
+        name: "My Location",
+        address: "Current Location",
+        openingHours: "",
+        campus: "auto",
+      };
+  
+      // 🔁 1. Define alias map
+      const buildingAlias: Record<string, string> = {
+        "hall building": "h building",
+        "john molson school of business": "mb building",
+        "faubourg building": "fg building",
+        "library building": "lb building",
+        // Add more if needed
+      };
+
+      // 🔁 2. Extract the building name from the location string
+      const locationRaw = classEvent.location ?? "";
+      const match = locationRaw.match(/-\s*([A-Za-z\s]+?)(?:\s+Rm|\s*$)/i);
+      const extractedBuilding = match ? match[1].trim() : "";
+
+      // 🔁 3. Normalize and map to internal name
+      const normalized = extractedBuilding.toLowerCase();
+      const mappedName = buildingAlias[normalized] ?? extractedBuilding;
+
+      // 🔁 4. Find matching building from dataset
+      const matchingBuilding = buildingsData.find((building) =>
+        building.name.toLowerCase() === mappedName.toLowerCase()
+      );
+
+      if (!matchingBuilding) {
+        Alert.alert("Error", `Could not find building: "${mappedName}"`);
+        return;
+      }
+
+      const coordinates = matchingBuilding.polygonShape
+        .map((coords: number[]) => {
+          if (Array.isArray(coords) && coords.length === 2) {
+            const [lng, lat] = coords;
+            return { latitude: lat, longitude: lng };
+          }
+          return null;
+        })
+        .filter((c): c is LatLng => c !== null);
+  
+      if (coordinates.length === 0) {
+        Alert.alert("Error", "Invalid building coordinates.");
+        return;
+      }
+  
+      const center = coordinates.reduce(
+        (acc, curr) => ({
+          latitude: acc.latitude + curr.latitude,
+          longitude: acc.longitude + curr.longitude,
+        }),
+        { latitude: 0, longitude: 0 }
+      );
+  
+      center.latitude /= coordinates.length;
+      center.longitude /= coordinates.length;
+  
+      const destinationPoint = {
+        latitude: center.latitude,
+        longitude: center.longitude,
+        name: matchingBuilding.name,
+        address: matchingBuilding.address ?? classEvent.location,
+        openingHours: matchingBuilding.openingHours ?? "",
+        campus: matchingBuilding.campus ?? "SGW",
+      };
+  
+      const isCrossCampus = userPoint.campus !== destinationPoint.campus;
+      const transportMode = isCrossCampus ? "transit" : "walking";
+  
+      const apiKey =
+        Constants.expoConfig?.extra?.googleMapsApiKey ??
+        process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+        "";
+  
+      await mapFacade.fetchDirections(
+        transportMode,
+        apiKey,
+        userPoint,
+        destinationPoint
+      );
+  
+      setSelectedEvent(classEvent);
+      slideAnim.setValue(0);
+    } catch (error) {
+      console.error("Navigation error:", error);
+      Alert.alert("Error", "Something went wrong while getting directions.");
+    }
+  };
+  
+  
   const panResponder = React.useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -272,11 +422,28 @@ const ClassSchedule = () => {
                   <Text style={globalStyles.sliderRoom} numberOfLines={2}>
                     {selectedEvent.location.split(" - ").pop()?.trim()}
                   </Text>
-                  <Image
-                    source={require("assets/images/arrow.png")}
-                    style={globalStyles.arrowImageInline}
-                  />
+                  <TouchableOpacity onPress={() => handleNavigateToEvent(selectedEvent)}>
+                    <Image
+                      source={require("assets/images/arrow.png")}
+                      style={globalStyles.arrowImageInline}
+                      />
+                  </TouchableOpacity>
                 </View>
+                {directions.length > 0 && (
+                  <>
+                    <Text style={globalStyles.title}>Directions</Text>
+                    <ScrollView style={globalStyles.directionsScroll}>
+                      {directions.map((step, index) => (
+                        <View key={index} style={globalStyles.directionStep}>
+                          <Text style={globalStyles.title}>{step.instruction}</Text>
+                          <Text style={globalStyles.title}>
+                            {step.distance} • {step.duration}
+                          </Text>
+                        </View>
+                      ))}
+                    </ScrollView>
+                  </>
+                )}
               </View>
             </Animated.View>
           )}
