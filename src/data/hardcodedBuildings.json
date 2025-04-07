@@ -2557,16 +2557,6 @@
     "updatedAtUTC": "2025-02-11T01:45:45.509Z",
     "floors": [
       {
-        "floorLevel": 1,
-        "floorName": "Hall-1",
-        "floorMap": "/svgFloorMaps/Hall-1.png"
-      },
-      {
-        "floorLevel": 2,
-        "floorName": "Hall-2",
-        "floorMap": "/svgFloorMaps/Hall-2.png"
-      },
-      {
         "floorLevel": 8,
         "floorName": "Hall-8",
         "floorMap": "/svgFloorMaps/Hall-8.svg"

@@ -8,8 +8,7 @@ Our backend stack selection was influenced by several factors including technica
 
 Initially, we attempted to use MongoDB because our database administrator was confident in this solution. However, we encountered several issues during implementation.
 
-This prompted our Scrum team to investigate alternatives. We discovered that Android locally uses SQLite, which already introduces a conversion problem form SQL to NoSQL
-
+This prompted our Scrum team to investigate alternatives. We discovered that Android locally uses SQLite, which already introduces a conversion problem from SQL to NoSQL
 ## Reconsidering Our Requirements
 
 ### Server Backup Necessity

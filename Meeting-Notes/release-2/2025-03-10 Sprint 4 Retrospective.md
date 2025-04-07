@@ -23,7 +23,7 @@
 - Retrospective meetings had high attendance.
 - Meeting was well organized and had great flow
 - Great Feature distribution
-- Team had overall great discussion on how we should procede
+- Team had overall great discussion on how we should proceed
 - Good understanding of how we should perform Pr's moving forward
 
 #### **What Could Be Improved**

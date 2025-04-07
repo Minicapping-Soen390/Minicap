@@ -8,10 +8,11 @@ import {
   Animated,
   PanResponder,
   Image,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import globalStyles from "../styles/globalStyles";
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -24,7 +25,7 @@ const ClassSchedule = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
   const [isSigninInProgress, setIsSigninInProgress] = useState(false);
   const [events, setEvents] = useState<any[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [slideAnim] = useState(new Animated.Value(-200));
 
   const panResponder = React.useRef(
@@ -92,7 +93,8 @@ const ClassSchedule = () => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setUserInfo(userInfo);
-      fetchCalendarEvents();
+      const eventsData = await fetchCalendarEvents();
+      setEvents(eventsData);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log("User cancelled the sign-in flow");
@@ -117,66 +119,6 @@ const ClassSchedule = () => {
       await AsyncStorage.removeItem("calendarEvents");
     } catch (error) {
       console.error("Error signing out:", error);
-    }
-  };
-
-  const fetchCalendarEvents = async () => {
-    try {
-      const tokens = await GoogleSignin.getTokens();
-      const accessToken = tokens.accessToken;
-
-      const now = new Date();
-      const startOfDay = new Date(now);
-      startOfDay.setHours(8, 0, 0, 0);
-      const endOfDay = new Date(now);
-      endOfDay.setHours(23, 0, 0, 0);
-
-      const response = await axios.get(
-        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-          params: {
-            timeMin: startOfDay.toISOString(),
-            timeMax: endOfDay.toISOString(),
-            singleEvents: true,
-            orderBy: "startTime",
-          },
-        }
-      );
-
-      const allEvents = response.data.items;
-
-      const classEvents = allEvents.filter(
-        (event: any) =>
-          event.location &&
-          (event.location.startsWith("Sir George Williams Campus") ||
-            event.location.startsWith("Loyola Campus"))
-      );
-
-      const formatDate = (dateTime: string) => {
-        if (!dateTime) return "No Time Available";
-        const date = new Date(dateTime);
-        return date.toLocaleString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        });
-      };
-
-      const eventsData = classEvents.map((event: any) => ({
-        id: event.id,
-        summary: event.summary || "No Title",
-        start: event.start?.dateTime,
-        startFormatted: formatDate(event.start?.dateTime),
-        end: event.end?.dateTime,
-        endFormatted: formatDate(event.end?.dateTime),
-        location: event.location || "No Location",
-      }));
-
-      setEvents(eventsData);
-      await AsyncStorage.setItem("calendarEvents", JSON.stringify(eventsData));
-    } catch (error) {
-      console.error("Error fetching calendar events:", error);
     }
   };
 
@@ -222,6 +164,9 @@ const ClassSchedule = () => {
           <ScrollView style={globalStyles.scrollView}>
             <View style={globalStyles.scheduleGrid}>
               <View style={globalStyles.timeColumn}>
+          <ScrollView style={globalStyles.scrollView}>
+            <View style={globalStyles.scheduleGrid}>
+              <View style={globalStyles.timeColumn}>
                 {Array.from({ length: 30 }).map((_, index) => {
                   const hour = 8 + Math.floor(index / 2);
                   const minute = index % 2 === 0 ? "00" : "30";
@@ -242,6 +187,7 @@ const ClassSchedule = () => {
               </View>
 
               <View style={globalStyles.eventColumn}>
+              <View style={globalStyles.eventColumn}>
                 {events.map((event) => {
                   const topValue = timeToIndex(event.start) * 40;
                   const eventHeight =
@@ -254,12 +200,13 @@ const ClassSchedule = () => {
                       onPress={() => toggleSlider(event)}
                       style={[
                         globalStyles.eventTile,
+                        globalStyles.eventTile,
                         {
                           top: topValue,
                           height: eventHeight,
                           backgroundColor: getEventColor(event.summary),
                         },
-                      ]}                      
+                      ]}
                     >
                       <Text style={globalStyles.eventTitle}>{event.summary}</Text>
                       <Text style={globalStyles.eventTime}>
@@ -277,6 +224,7 @@ const ClassSchedule = () => {
             <Animated.View
               style={[
                 globalStyles.bottomSlider,
+                globalStyles.bottomSlider,
                 { transform: [{ translateY: slideAnim }] },
               ]}
               {...panResponder.panHandlers}
@@ -284,8 +232,10 @@ const ClassSchedule = () => {
               <View>
                 <TouchableOpacity
                   style={globalStyles.closeButton}
+                  style={globalStyles.closeButton}
                   onPress={closeSlider}
                 >
+                  <Text style={globalStyles.closeButtonText}>X</Text>
                   <Text style={globalStyles.closeButtonText}>X</Text>
                 </TouchableOpacity>
 
@@ -297,7 +247,12 @@ const ClassSchedule = () => {
                     weekday: "short",
                     month: "short",
                     day: "numeric",
-                  })} • {selectedEvent.startFormatted} - {selectedEvent.endFormatted}
+                  })}{" "}
+                  • {selectedEvent.startFormatted} -{" "}
+                  {selectedEvent.endFormatted}
+                </Text>
+                <Text style={globalStyles.sliderLocation}>
+                  {selectedEvent.location}
                 </Text>
                 <Text style={globalStyles.sliderLocation}>{selectedEvent.location}</Text>
                 <View style={globalStyles.roomRow}>
