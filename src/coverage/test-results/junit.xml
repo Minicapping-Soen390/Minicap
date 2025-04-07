@@ -9,7 +9,7 @@
     </testcase>
     <testcase classname="shuttleInfo should contain required keys" name="shuttleInfo should contain required keys" time="0.002">
     </testcase>
-    <testcase classname="shuttleInfo should include all requirements as strings" name="shuttleInfo should include all requirements as strings" time="0.001">
+    <testcase classname="shuttleInfo should include all requirements as strings" name="shuttleInfo should include all requirements as strings" time="0.003">
     </testcase>
     <testcase classname="shuttleInfo should specify valid first and last departure times" name="shuttleInfo should specify valid first and last departure times" time="0.001">
     </testcase>
