@@ -273,4 +273,35 @@ const ClassSchedule = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 30,
+  },
+  googleButton: {
+    width: 240,
+    height: 48,
+    marginTop: 16,
+  },
+  userInfoContainer: {
+    alignItems: "center",
+  },
+  successText: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  userEmail: {
+    fontSize: 14,
+    marginBottom: 16,
+    fontStyle: "italic",
+  },
+});
+
 export default ClassSchedule;

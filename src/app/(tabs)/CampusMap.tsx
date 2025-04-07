@@ -1,4 +1,5 @@
 //CampusMap.tsx
+//CampusMap.tsx
 import React, { useState, useRef, useEffect } from "react";
 import {
   View,
@@ -29,7 +30,9 @@ interface CampusMapProps {
 }
 
 // Define campuses
+// Define campuses
 const SGWCampus: Campus = {
+  _id: "sgw-uuid",
   _id: "sgw-uuid",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
@@ -37,6 +40,7 @@ const SGWCampus: Campus = {
 };
 
 const LoyolaCampus: Campus = {
+  _id: "loyola-uuid",
   _id: "loyola-uuid",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
@@ -46,7 +50,11 @@ const LoyolaCampus: Campus = {
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region = campusCenters[campus.outdoorLocation];
+  const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
+  const region: Region = campusCenters[campus.outdoorLocation];
   const mapRef = useRef<MapView | null>(null);
+
+  // Core states
 
   // Core states
   const [userLocation, setUserLocation] = useState<Region | null>(null);
@@ -127,6 +135,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
   useEffect(() => {
     if (mapRef.current) {
+      console.log("Animating to region:", region);
       console.log("Animating to region:", region);
       mapRef.current.animateToRegion(region, 1000);
     }
@@ -215,11 +224,99 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       style={globalStyles.mapContainer}
       testID="outdoor-navigation-container"
     >
+    <View
+      style={globalStyles.mapContainer}
+      testID="outdoor-navigation-container"
+    >
       {locationError ? (
+        <View style={globalStyles.errorContainer}>
+          <Text style={globalStyles.errorText}>{locationError}</Text>
         <View style={globalStyles.errorContainer}>
           <Text style={globalStyles.errorText}>{locationError}</Text>
         </View>
       ) : null}
+
+      <TouchableWithoutFeedback
+        onPress={mapFacade.handleMapPress}
+        accessible={false}
+      >
+        <MapView
+          testID="campus-map"
+          ref={(ref) => (mapRef.current = ref)}
+          style={globalStyles.map}
+          initialRegion={region}
+          pitchEnabled={false}
+          rotateEnabled={false}
+          zoomEnabled={true}
+          zoomControlEnabled={true}
+        >
+          {permissionGranted && userLocation && (
+            <Marker
+              coordinate={userLocation}
+              title="Your Location"
+              pinColor="green"
+              testID="user-location-marker"
+            />
+          )}
+          {activeTab !== "transit" ? (
+            newRoute && (
+              <Polyline
+                coordinates={newRoute}
+                strokeColor="#186DEE"
+                strokeWidth={5}
+                testID="outdoor-route-polyline"
+              />
+            )
+          ) : (
+            <Polyline
+              coordinates={shuttlePolyline ?? []}
+              strokeColor={brandColors.concordiaRed}
+              strokeWidth={5}
+              lineDashPattern={[10, 5]}
+              testID="shuttle-route-polyline"
+            />
+          )}
+          {buildingInfo && (
+            <Marker
+              testID="building-info"
+              coordinate={{
+                latitude: buildingInfo.latitude,
+                longitude: buildingInfo.longitude,
+              }}
+              title={buildingInfo.name}
+              pinColor="orange"
+            />
+          )}
+          {mapFacade.renderBuildings(buildingsData, globalStyles, brandColors)}
+          {renderShuttleMarkers(globalStyles, brandColors)}
+          {isCrossCampusNavigation &&
+            shuttleLocations &&
+            shuttleLocations.length > 0 &&
+            shuttleLocations.map((shuttle: any) => (
+              <Marker
+                key={shuttle.ID}
+                coordinate={{
+                  latitude: parseFloat(shuttle.Latitude),
+                  longitude: parseFloat(shuttle.Longitude),
+                }}
+                title={`Shuttle ${shuttle.ID}`}
+                testID={`shuttle-marker-${shuttle.ID}`}
+              >
+                <View style={[globalStyles.shuttleStopMarker]}>
+                  <Text
+                    style={[
+                      globalStyles.shuttleStopText,
+                      { fontSize: 35, color: brandColors.white },
+                    ]}
+                  >
+                    🚌
+                  </Text>
+                </View>
+              </Marker>
+            ))}
+        </MapView>
+      </TouchableWithoutFeedback>
+
 
       <TouchableWithoutFeedback
         onPress={mapFacade.handleMapPress}
@@ -310,12 +407,21 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           await mapFacade.getUserLocation();
           setIsRefreshing(false);
         }}
+        style={globalStyles.refreshButton}
+        onPress={async () => {
+          setIsRefreshing(true);
+          console.log("Refreshing user location...");
+          await mapFacade.getUserLocation();
+          setIsRefreshing(false);
+        }}
         disabled={isRefreshing}
+        testID="refresh-location-button"
         testID="refresh-location-button"
       >
         {isRefreshing ? (
           <ActivityIndicator color="white" size="small" />
         ) : (
+          <Text style={globalStyles.refreshButtonText}>My Location</Text>
           <Text style={globalStyles.refreshButtonText}>My Location</Text>
         )}
       </TouchableOpacity>
@@ -538,6 +644,8 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState(true);
   const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
+  const [isSGWCampus, setIsSGWCampus] = useState(true);
+  const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
 
   return (
     <SafeAreaView
@@ -559,6 +667,30 @@ const CampusSwitcher: React.FC = () => {
             <Text style={globalStyles.switchText}>LOY</Text>
           </View>
         </View>
+    <SafeAreaView
+      style={globalStyles.container}
+      edges={mainEdges as readonly Edge[]}
+    >
+      <View style={globalStyles.switchHeaderContainer}>
+        <View style={globalStyles.campusSwitchHeader}>
+          <View style={globalStyles.switchContainer}>
+            <Text style={globalStyles.switchText}>SGW</Text>
+            <Switch
+              testID="campus-switch"
+              value={!isSGWCampus}
+              onValueChange={() => {
+                console.log("Switching campus...");
+                setIsSGWCampus(!isSGWCampus);
+              }}
+            />
+            <Text style={globalStyles.switchText}>LOY</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Map Container */}
+      <View style={globalStyles.mapContainer}>
+        <CampusMap campusId={currentCampusId} />
       </View>
 
       {/* Map Container */}

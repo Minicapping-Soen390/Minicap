@@ -2,6 +2,7 @@
 .env
 tmp.md
 knowledge.md
+expo-env.d.ts
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
@@ -27,6 +28,7 @@ project.xcworkspace
 **/.xcode.env.local
 
 # Gradle
+/src/android
 /build/
 /packages/rn-tester/build
 /packages/rn-tester/android/app/.cxx/
@@ -70,6 +72,9 @@ buck-out
 .gradle
 local.properties
 *.iml
+/android
+android/*
+string
 /packages/react-native/android/*
 !/packages/react-native/android/README.md
 .kotlin/
@@ -214,8 +219,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
-
 app-example
+/src/android
 
 tmp.md
 /src/coverage/lcov-report
