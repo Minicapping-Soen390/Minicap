@@ -12,6 +12,7 @@ Team met to discuss architectural improvements and quality assurance procedures 
 
 ## **Discussion Points**
 
+
 ### Architecture & Code Design
 
 - Refactoring needs for CampusMap.tsx component
