@@ -1,7 +1,7 @@
 import { Audit } from "./Audit";
 
 export interface Planner extends Audit {
-  taskIDs?: string[];
+  taskIDs: string[];
 }
 
 export interface Task extends Audit {

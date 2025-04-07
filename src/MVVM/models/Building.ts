@@ -6,6 +6,6 @@ export interface Building extends Audit {
   description?: string;
   polygonShape?: any;  // Type TBD (consider defining a specific type)
   openingHours?: string;
-  floors?: string[]; 
+  floors: string[]; 
   outdoorLocation?: string; 
 }

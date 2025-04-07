@@ -6,7 +6,7 @@ export interface Floor extends Audit {
   isWheelchairAccessible?: boolean;
   hasElevatorAccess?: boolean;
   hasRampAccess?: boolean;
-  roomIds?: string[];   // One-to-many with Room
+  roomIds: string[];   // One-to-many with Room
   floorplanId?: string; // One-to-one with Floorplan
 }
 

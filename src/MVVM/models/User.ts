@@ -4,7 +4,7 @@ export interface User extends Audit {
     email?: string;
     password?: string;
     name?: string;
-    calendarIds?: string[];
+    calendarIds: string[];
     currentLocationId?: string;
 }
 

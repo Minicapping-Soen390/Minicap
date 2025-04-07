@@ -25,7 +25,7 @@ export interface Room extends Audit {
   building?: string;
   type?: string;
   // Search-friendly fields
-  searchTerms?: string[];
+  searchTerms: string[];
   roomNumber?: string;
   // UI-specific properties
   boundingBox?: BoundingBox;
@@ -40,7 +40,7 @@ export interface Room extends Audit {
 
 export interface Building extends Audit {
   name?: string;
-  floors?: string[];
+  floors: string[];
   rooms?: Room[];
   // UI-specific properties
   boundingBox?: BoundingBox;

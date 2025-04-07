@@ -2,7 +2,7 @@ import { Audit } from "./Audit";
 
 export interface Route extends Audit {
   accessible?: boolean;
-  segmentIds?: string[];  // One-to-many with RouteSegment
+  segmentIds: string[];  // One-to-many with RouteSegment
 }
 
 export interface RouteSegment extends Audit {
@@ -15,7 +15,7 @@ export interface RouteSegment extends Audit {
 }
 
 export interface IndoorPath extends Audit {
-  nodeIds?: string[];    // Sequence of indoor navigation nodes
+  nodeIds: string[];    // Sequence of indoor navigation nodes
   floorTransitions?: FloorTransition[];
 }
 

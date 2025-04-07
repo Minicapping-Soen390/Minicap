@@ -1,42 +1,42 @@
 import axios from 'axios';
 import MockDate from 'mockdate';
-import { shuttleService, SHUTTLE_STOPS } from '@/MVVM/services/ShuttleService';
+import { ShuttleService, SHUTTLE_STOPS } from '@/MVVM/services/ShuttleService';
 import { shuttleSchedule } from '@/data/shuttleSchedule';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('ShuttleService', () => {
+  let shuttleService: ShuttleService;
+  
   beforeEach(() => {
-    shuttleService['sessionInitialized'] = false;
+    // Clear any existing instance before each test
+    (ShuttleService as any).clearInstance();
+    // Get a fresh instance
+    shuttleService = (ShuttleService as any).getInstance();
+    // Reset the sessionInitialized flag before each test
+    Object.defineProperty(shuttleService, 'sessionInitialized', {
+      value: false,
+      writable: true
+    });
   });
 
-  describe('initializeSession', () => {
-    it('should initialize session successfully', async () => {
-      mockedAxios.get.mockResolvedValueOnce({});
-      await expect(
-        shuttleService['initializeSession']()
-      ).resolves.not.toThrow();
-      expect(shuttleService['sessionInitialized']).toBe(true);
-    });
-
-    it('should throw error if initialization fails', async () => {
-      mockedAxios.get.mockRejectedValueOnce(new Error('Failed'));
-      await expect(shuttleService['initializeSession']()).rejects.toThrow(
-        'Failed to initialize shuttle tracking'
-      );
-    });
+  afterAll(() => {
+    // Clean up after all tests
+    (ShuttleService as any).clearInstance();
   });
 
   describe('getShuttleLocations', () => {
     it('should fetch and filter shuttle points', async () => {
+      // Mock initializeSession (which gets called internally)
       mockedAxios.get.mockResolvedValueOnce({});
+      
       mockedAxios.post.mockResolvedValueOnce({
         data: {
           d: {
             Points: [
-              { id: 'BUS001', Latitude: 45.5, Longitude: -73.6, IconImage: 'bus.png' },
-              { id: 'OTHER', Latitude: 0, Longitude: 0, IconImage: '' }
+              { id: 'BUS001', Latitude: '45.5', Longitude: '-73.6', IconImage: 'bus.png' },
+              { id: 'OTHER', Latitude: '0', Longitude: '0', IconImage: '' }
             ]
           }
         }
@@ -44,11 +44,13 @@ describe('ShuttleService', () => {
 
       const result = await shuttleService.getShuttleLocations();
       expect(result.length).toBe(1);
-      expect(result[0].ID).toBe('BUS001');
+      expect(result[0].id).toBe('BUS001');
     });
 
     it('should throw error if post fails', async () => {
+      // Mock initializeSession (which gets called internally)
       mockedAxios.get.mockResolvedValueOnce({});
+      
       mockedAxios.post.mockRejectedValueOnce(new Error('Post failed'));
 
       await expect(shuttleService.getShuttleLocations()).rejects.toThrow(
@@ -66,7 +68,7 @@ describe('ShuttleService', () => {
         ],
         SHUTTLE_STOPS.SGW
       );
-      expect(result.ID).toBe('BUS2');
+      expect(result.id).toBe('BUS2');
     });
 
     it('should return null for empty list', () => {

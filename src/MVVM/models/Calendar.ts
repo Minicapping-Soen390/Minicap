@@ -1,8 +1,8 @@
 import { Audit } from "./Audit";
 
 export interface Calendar extends Audit {
-  eventIds?: string[]; // One-to-many with Event
-  userIds?: string[]; // Many-to-many with User
+  eventIds: string[]; // One-to-many with Event
+  userIds: string[]; // Many-to-many with User
 }
 
 export interface Event extends Audit {
@@ -18,6 +18,6 @@ export interface Event extends Audit {
 export interface Course extends Event {
   courseCode?: string;
   description?: string;
-  prerequisites?: string[];
+  prerequisites: string[];
 }
 

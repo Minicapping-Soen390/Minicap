@@ -3,34 +3,41 @@
  * Provides singleton pattern functionality
  */
 export abstract class BaseService {
-  // Using protected static allows subclasses to have their own singleton instances
-  protected static instances: Record<string, any> = {};
+  // Using a private static map to store instances of each service class
+  private static readonly instances = new Map<string, BaseService>();
 
   // Protected constructor to prevent direct instantiation
   protected constructor() {}
 
   /**
    * Gets the singleton instance of the service
-   * @returns The singleton instance
+   * Uses generic type inference to properly handle the return type
    */
-  public static getInstance<S extends BaseService>(this: new () => S): S {
+  public static getInstance<T extends BaseService>(this: new () => T): T {
     const className = this.name;
     
-    if (!BaseService.instances[className]) {
-      BaseService.instances[className] = new this();
+    if (!BaseService.instances.has(className)) {
+      // Create a new instance and store it in the map
+      BaseService.instances.set(className, new this());
     }
     
-    return BaseService.instances[className] as S;
+    return BaseService.instances.get(className) as T;
   }
 
   /**
    * Clears the singleton instance (useful for testing)
    */
-  public static clearInstance(className?: string): void {
-    if (className) {
-      delete BaseService.instances[className];
-    } else {
-      BaseService.instances = {};
+  public static clearInstance(): void {
+    const className = this.name;
+    if (BaseService.instances.has(className)) {
+      BaseService.instances.delete(className);
     }
+  }
+
+  /**
+   * Clears all service instances (useful for testing)
+   */
+  public static clearAllInstances(): void {
+    BaseService.instances.clear();
   }
 }
