@@ -71,12 +71,6 @@ export const createPOIFacade = () => {
     [POICategory.LIBRARY]: true
   };
 
-  // Helper function to extract coordinates from location string
-  const getCoordinates = (location: string) => {
-    const [lat, lng] = location.split(',').map(Number);
-    return { latitude: lat, longitude: lng };
-  };
-
   return {
     findNearbyPOIs: async (
       latitude: number,

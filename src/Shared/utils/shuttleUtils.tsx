@@ -93,7 +93,7 @@ export const fetchShuttleData = async (): Promise<{
     const locations = await fetchShuttleLocations();
     
     const busPoints = locations.filter((point: any) => 
-      point.id && point.id.startsWith("BUS")
+      point?.id?.startsWith("BUS")
     );
     
     let routePoints: LatLng[] | undefined;
@@ -277,7 +277,7 @@ export const createShuttleFacade = ({
     );
     
     // Fetch shuttle data directly instead of using the class
-    const { busPoints, routePoints } = await fetchShuttleData();
+    const { busPoints } = await fetchShuttleData();
     setShuttleLocations(busPoints);
     
     const initialRoute = decodePolyline(

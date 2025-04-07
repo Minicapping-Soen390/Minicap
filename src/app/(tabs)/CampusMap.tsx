@@ -388,10 +388,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           )}
           {mapFacade.renderBuildings(buildingsData, globalStyles, brandColors)}
           {renderShuttleMarkers(globalStyles, brandColors)}
+          
           {/* Render filtered POI markers */}
           {filteredPOIs.map((poi) => (
             <Marker
-              key={poi.id || poi.id} // Use id if it exists, otherwise fall back to id
+              key={poi.id || `poi-${Math.random()}`} // Use id or generate a random key as fallback
               coordinate={{
                 latitude: typeof poi.location === 'string'
                   ? parseFloat(poi.location.split(',')[0])

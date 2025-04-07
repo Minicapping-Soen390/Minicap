@@ -78,7 +78,7 @@ export class RoomRepository extends BaseRepository<Building> implements IRoomRep
     }
   }
 
-  private validateRoom(room: Room): boolean {
+  public validateRoom(room: Room): boolean {
     try {
       // Check required fields
       if (!room.id || !room.name || !room.coordinates || !room.floor || !room.building) {

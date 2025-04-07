@@ -2,7 +2,6 @@ import { runInAction, makeAutoObservable } from 'mobx';
 import { POI, POICategory } from '@/MVVM/models/POI';
 import { BaseViewModel } from './BaseViewModel';
 import { IPOIRepository } from '@/MVVM/repositories/Interfaces/IPOIRepository';
-import { Audit } from '@/MVVM/models/Audit';
 import { generateId } from '@/Shared/utils/generalUtils';
 
 export class POIViewModel extends BaseViewModel<POI> {
