@@ -22,6 +22,7 @@ import {
   createShuttleFacade,
   renderShuttleMarkers,
 } from "../../Shared/utils/shuttleUtils";
+import IndoorNavigationModal from "../../components/IndoorNavigationModal"; 
 
 /**
  * Props interface for CampusMap component
