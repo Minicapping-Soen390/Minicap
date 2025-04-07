@@ -329,10 +329,10 @@ export const createMapFacade = (params: {
     setStartPoint(info);
     setBuildingInfo(info);
     setSelectedBuildingId(buildingId);
-    Alert.alert(
-      "Start Point Selected",
-      `Selected ${info.name} as start point. Now select your destination.`
-    );
+    setTimeout(() => {
+  Alert.alert("Start Point Selected", `Selected ${info.name} as start point. Now select your destination.`);
+}, 200);
+
   };
 
   // Helper: Endpoint
@@ -356,22 +356,24 @@ export const createMapFacade = (params: {
       : `Route from ${start.name} to ${info.name}`;
 
     const transportMode = isCrossCampus ? "transit" : "walking";
-
-    Alert.alert(navText, routeMessage, [
-      {
-        text: "Start Navigation",
-        onPress: () =>
-          fetchDirections(
-            transportMode,
-            Constants.expoConfig?.extra?.googleMapsApiKey ??
-              process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
-              "",
-            start,
-            effectiveEndPoint
-          ),
-      },
-      { text: "Cancel", style: "cancel" },
-    ]);
+    
+    setTimeout(() => {
+      Alert.alert(navText, routeMessage, [
+        {
+          text: "Start Navigation",
+          onPress: () =>
+            fetchDirections(
+              transportMode,
+              Constants.expoConfig?.extra?.googleMapsApiKey ??
+                process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+                "",
+              start,
+              effectiveEndPoint
+            ),
+        },
+        { text: "Cancel", style: "cancel" },
+      ]);
+    }, 200);
   };
 
   // Helper: Get fallback location if needed
