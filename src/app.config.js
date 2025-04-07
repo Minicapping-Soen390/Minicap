@@ -32,4 +32,8 @@ module.exports = {
     ...appJson.expo.updates,
     url: `https://u.expo.dev/${projectId}`
   }
+  ,
+    plugins: [
+      "expo-asset"
+    ]
 };

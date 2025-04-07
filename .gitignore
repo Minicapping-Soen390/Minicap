@@ -72,7 +72,6 @@ buck-out
 .gradle
 local.properties
 *.iml
-/android
 android/*
 string
 /packages/react-native/android/*
