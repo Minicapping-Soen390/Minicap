@@ -6,6 +6,8 @@ import Hall9 from "../data/svgFloorMaps/Hall-9.svg";
 import PathH813ToH845Hall8 from '../data/svgFloorMaps/Path-H813-to-H845-Hall-8.svg';
 import PathH813ToHall9Stairs from '../data/svgFloorMaps/PathH813ToHall9-Stairs.svg';
 import PathH813ToHall9Elevator from '../data/svgFloorMaps/PathH813ToHall9-Elevator.svg';
+import PathH813ToHall9StairsNextFloor from '../data/svgFloorMaps/PathH813ToHall9-Stairs-NextFloor.svg';
+import PathH813ToHall9ElevatorNextFloor from '../data/svgFloorMaps/PathH813ToHall9-Elevator-NextFloor.svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -73,12 +75,21 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     }
   };
 
-  const showPathBetweenRooms = () => {
+  const showMultifloorPath = () => {
     const startRoom = startLocation.toLowerCase();
     const endRoom = endLocation.toLowerCase();
 
-    if ((startRoom === 'h-813' && endRoom.startsWith('h-9')) || 
-        (endRoom === 'h-813' && startRoom.startsWith('h-9'))) {
+    if ((startRoom === 'h-813' && endRoom.startsWith('h-9')) ||
+      (endRoom === 'h-813' && startRoom.startsWith('h-9'))) {
+      setShowPath(true);
+    }
+  };
+
+  const showUnifloorPath = () => {
+    const startRoom = startLocation.toLowerCase();
+    const endRoom = endLocation.toLowerCase();
+
+    if (startRoom === 'h-813' && endRoom === 'h-845') {
       setShowPath(true);
     }
   };
@@ -87,6 +98,35 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     setShowPath(false);
     setStartLocation('');
     setEndLocation('');
+  };
+
+  const renderNavigationButton = () => {
+    if (!showPath) return null;
+
+    const buttonProps = {
+      style: {
+        position: 'absolute',
+        right: 95,
+        bottom: 300,
+        zIndex: 1000,
+        padding: 8,
+        borderRadius: 4,
+        backgroundColor: isAccessibilityEnabled ? '#4CAF50' : '#4B0082',
+      },
+    };
+
+    return (
+      <TouchableOpacity
+        {...buttonProps}
+        onPress={() => changeFloor('up')}
+      >
+        <Icon
+          name="chevron-up"
+          size={10}
+          color="white"
+        />
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -143,7 +183,10 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
 
           <TouchableOpacity
             style={styles.findPathButton}
-            onPress={showPathBetweenRooms}
+            onPress={() => {
+              showMultifloorPath();
+              showUnifloorPath();
+            }}
           >
             <Icon name="arrow-right" size={24} color="#fff" />
           </TouchableOpacity>
@@ -159,62 +202,47 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
         <View style={styles.indoorContainer}>
           {currentFloorIndex === 0 ? (
             showPath ? (
-              isAccessibilityEnabled ? (
+              startLocation.toLowerCase() === 'h-813' && endLocation.toLowerCase() === 'h-845' ? (
+                <PathH813ToH845Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              ) : isAccessibilityEnabled ? (
                 <PathH813ToHall9Elevator width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
               ) : (
                 <PathH813ToHall9Stairs width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
               )
             ) : (
-              <>
-                <Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
-
-                {showStairsMarkers && (
-                  <Svg
-                    width="700"
-                    height="400"
-                    viewBox="0 0 700 800"
-                    style={{ position: 'absolute', top: -110, left: -192 }}
-                  >
-                    {stairsLocations[currentFloorIndex].map(stair => (
-                      <Rect
-                        key={stair.id}
-                        x={stair.x}
-                        y={stair.y}
-                        width="45"
-                        height="60"
-                        fill="#00ff00"
-                        opacity={0.5}
-                      />
-                    ))}
-                  </Svg>
-                )}
-
-                {showElevatorMarkers && (
-                  <Svg
-                    width="500"
-                    height="500"
-                    viewBox="0 0 700 800"
-                    style={{ position: 'absolute', top: -40 }}
-                  >
-                    {elevatorLocations[currentFloorIndex].map(elevator => (
-                      <Rect
-                        key={elevator.id}
-                        x={elevator.x}
-                        y={elevator.y}
-                        width="40"
-                        height="22"
-                        fill="#0000ff"
-                        opacity={0.5}
-                      />
-                    ))}
-                  </Svg>
-                )}
-              </>
+              <Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
             )
           ) : currentFloorIndex === 1 ? (
-            <Hall9 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+            showPath ? (
+              isAccessibilityEnabled ? (
+                <PathH813ToHall9ElevatorNextFloor width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              ) : (
+                <PathH813ToHall9StairsNextFloor width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              )
+            ) : (
+              <Hall9 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+            )
           ) : null}
+
+          {/* Markers for Stairs and Elevators */}
+          {showStairsMarkers && (
+            <Svg width="700" height="400" viewBox="0 0 700 800" style={{ position: 'absolute', top: -110, left: -192 }}>
+              {stairsLocations[currentFloorIndex].map((stair) => (
+                <Rect key={stair.id} x={stair.x} y={stair.y} width="45" height="60" fill="#00ff00" opacity={0.5} />
+              ))}
+            </Svg>
+          )}
+
+          {showElevatorMarkers && (
+            <Svg width="500" height="500" viewBox="0 0 700 800" style={{ position: 'absolute', top: -40 }}>
+              {elevatorLocations[currentFloorIndex].map((elevator) => (
+                <Rect key={elevator.id} x={elevator.x} y={elevator.y} width="40" height="22" fill="#0000ff" opacity={0.5} />
+              ))}
+            </Svg>
+          )}
         </View>
+
+        {renderNavigationButton()}
 
         <View style={styles.poiButtons}>
           {/* Toggle for highlighting washrooms */}
@@ -257,6 +285,8 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     </TouchableWithoutFeedback>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   modalContainer: {
