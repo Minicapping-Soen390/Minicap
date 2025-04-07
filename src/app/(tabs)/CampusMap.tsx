@@ -152,6 +152,15 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       }
     };
   }, [isCrossCampusNavigation, activeTab, startPoint]);
+  if (!region || !permissionGranted || !userLocation) {
+    return (
+      <View style={[globalStyles.mapContainer, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#186DEE" />
+        <Text style={{ marginTop: 10 }}>Loading map...</Text>
+      </View>
+    );
+  }
+  
 
   return (
     <View
