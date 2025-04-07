@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="52" failures="24" errors="0" time="11.442">
-  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="1.513" tests="1">
-    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.017">
+<testsuites name="jest tests" tests="52" failures="24" errors="0" time="10.444">
+  <testsuite name="shuttleSchedule" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:46:40" time="1.034" tests="6">
+    <testcase classname="shuttleSchedule should contain LOY and SGW keys" name="shuttleSchedule should contain LOY and SGW keys" time="0.012">
     </testcase>
-  </testsuite>
-  <testsuite name="useColorScheme" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="1.532" tests="1">
-    <testcase classname="useColorScheme should exist" name="useColorScheme should exist" time="0.016">
+    <testcase classname="shuttleSchedule should have valid time format (HH:MM) for each departure" name="shuttleSchedule should have valid time format (HH:MM) for each departure" time="0.005">
     </testcase>
-  </testsuite>
-  <testsuite name="shuttleSchedule" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="1.533" tests="6">
-    <testcase classname="shuttleSchedule should contain LOY and SGW keys" name="shuttleSchedule should contain LOY and SGW keys" time="0.018">
+    <testcase classname="shuttleSchedule should have same number of shuttle times on both campuses" name="shuttleSchedule should have same number of shuttle times on both campuses" time="0">
     </testcase>
-    <testcase classname="shuttleSchedule should have valid time format (HH:MM) for each departure" name="shuttleSchedule should have valid time format (HH:MM) for each departure" time="0.008">
+    <testcase classname="shuttleInfo should contain required keys" name="shuttleInfo should contain required keys" time="0.002">
     </testcase>
-    <testcase classname="shuttleSchedule should have same number of shuttle times on both campuses" name="shuttleSchedule should have same number of shuttle times on both campuses" time="0.001">
-    </testcase>
-    <testcase classname="shuttleInfo should contain required keys" name="shuttleInfo should contain required keys" time="0.003">
-    </testcase>
-    <testcase classname="shuttleInfo should include all requirements as strings" name="shuttleInfo should include all requirements as strings" time="0.002">
+    <testcase classname="shuttleInfo should include all requirements as strings" name="shuttleInfo should include all requirements as strings" time="0.001">
     </testcase>
     <testcase classname="shuttleInfo should specify valid first and last departure times" name="shuttleInfo should specify valid first and last departure times" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="ShuttleService" errors="0" failures="10" skipped="0" timestamp="2025-04-07T02:42:32" time="1.772" tests="10">
-    <testcase classname="ShuttleService initializeSession should initialize session successfully" name="ShuttleService initializeSession should initialize session successfully" time="0.014">
+  <testsuite name="useColorScheme" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:46:40" time="1.015" tests="1">
+    <testcase classname="useColorScheme should exist" name="useColorScheme should exist" time="0.014">
+    </testcase>
+  </testsuite>
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:46:40" time="1.025" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.013">
+    </testcase>
+  </testsuite>
+  <testsuite name="ShuttleService" errors="0" failures="10" skipped="0" timestamp="2025-04-07T02:46:40" time="1.393" tests="10">
+    <testcase classname="ShuttleService initializeSession should initialize session successfully" name="ShuttleService initializeSession should initialize session successfully" time="0.015">
       <failure>TypeError: Cannot set properties of undefined (setting &apos;sessionInitialized&apos;)
     at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\services\ShuttleService.test.ts:11:41)
     at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
@@ -42,7 +42,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ShuttleService initializeSession should throw error if initialization fails" name="ShuttleService initializeSession should throw error if initialization fails" time="0">
+    <testcase classname="ShuttleService initializeSession should throw error if initialization fails" name="ShuttleService initializeSession should throw error if initialization fails" time="0.001">
       <failure>TypeError: Cannot set properties of undefined (setting &apos;sessionInitialized&apos;)
     at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\services\ShuttleService.test.ts:11:41)
     at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
@@ -61,7 +61,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ShuttleService getShuttleLocations should fetch and filter shuttle points" name="ShuttleService getShuttleLocations should fetch and filter shuttle points" time="0">
+    <testcase classname="ShuttleService getShuttleLocations should fetch and filter shuttle points" name="ShuttleService getShuttleLocations should fetch and filter shuttle points" time="0.001">
       <failure>TypeError: Cannot set properties of undefined (setting &apos;sessionInitialized&apos;)
     at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\services\ShuttleService.test.ts:11:41)
     at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
@@ -99,7 +99,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ShuttleService getClosestShuttle should return the closest shuttle" name="ShuttleService getClosestShuttle should return the closest shuttle" time="0.001">
+    <testcase classname="ShuttleService getClosestShuttle should return the closest shuttle" name="ShuttleService getClosestShuttle should return the closest shuttle" time="0">
       <failure>TypeError: Cannot set properties of undefined (setting &apos;sessionInitialized&apos;)
     at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\services\ShuttleService.test.ts:11:41)
     at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
@@ -214,24 +214,24 @@
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="1.932" tests="7">
-    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.157">
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:46:40" time="1.518" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.172">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.003">
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.005">
     </testcase>
     <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.002">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.001">
+    <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.002">
     </testcase>
-    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.001">
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.003">
     </testcase>
     <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.002">
     </testcase>
-    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.001">
+    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="SVG Processor" errors="0" failures="4" skipped="0" timestamp="2025-04-07T02:42:32" time="2.029" tests="5">
-    <testcase classname="SVG Processor should process SVG file and extract room data" name="SVG Processor should process SVG file and extract room data" time="0.161">
+  <testsuite name="SVG Processor" errors="0" failures="4" skipped="0" timestamp="2025-04-07T02:46:40" time="1.606" tests="5">
+    <testcase classname="SVG Processor should process SVG file and extract room data" name="SVG Processor should process SVG file and extract room data" time="0.19">
       <failure>RangeError: Maximum call stack size exceeded
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:1:38)
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:3:57)
@@ -334,7 +334,7 @@
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)</failure>
     </testcase>
-    <testcase classname="SVG Processor should validate room data structure" name="SVG Processor should validate room data structure" time="0.021">
+    <testcase classname="SVG Processor should validate room data structure" name="SVG Processor should validate room data structure" time="0.017">
       <failure>RangeError: Maximum call stack size exceeded
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:1:38)
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:3:57)
@@ -437,7 +437,7 @@
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)</failure>
     </testcase>
-    <testcase classname="SVG Processor should store and retrieve building data" name="SVG Processor should store and retrieve building data" time="0.019">
+    <testcase classname="SVG Processor should store and retrieve building data" name="SVG Processor should store and retrieve building data" time="0.013">
       <failure>RangeError: Maximum call stack size exceeded
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:1:38)
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:3:57)
@@ -540,9 +540,9 @@
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)</failure>
     </testcase>
-    <testcase classname="SVG Processor should handle invalid SVG files" name="SVG Processor should handle invalid SVG files" time="0.05">
+    <testcase classname="SVG Processor should handle invalid SVG files" name="SVG Processor should handle invalid SVG files" time="0.048">
     </testcase>
-    <testcase classname="SVG Processor should list all processed buildings" name="SVG Processor should list all processed buildings" time="0.025">
+    <testcase classname="SVG Processor should list all processed buildings" name="SVG Processor should list all processed buildings" time="0.012">
       <failure>RangeError: Maximum call stack size exceeded
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:1:38)
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:3:57)
@@ -646,26 +646,26 @@
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="2.164" tests="2">
-    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.087">
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:46:40" time="1.7" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.081">
     </testcase>
-    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.144">
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.151">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="2.258" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.262">
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:46:40" time="1.699" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.23">
     </testcase>
-    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
+    <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.004">
     </testcase>
     <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="2.473" tests="1">
-    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.124">
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:46:40" time="1.974" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.117">
     </testcase>
   </testsuite>
-  <testsuite name="CampusSwitcher Component" errors="0" failures="10" skipped="0" timestamp="2025-04-07T02:42:32" time="4.485" tests="10">
-    <testcase classname="CampusSwitcher Component renders correctly and toggles campuses" name="CampusSwitcher Component renders correctly and toggles campuses" time="0.12">
+  <testsuite name="CampusSwitcher Component" errors="0" failures="10" skipped="0" timestamp="2025-04-07T02:46:40" time="2.918" tests="10">
+    <testcase classname="CampusSwitcher Component renders correctly and toggles campuses" name="CampusSwitcher Component renders correctly and toggles campuses" time="0.292">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -704,7 +704,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component refreshes and displays user location" name="CampusSwitcher Component refreshes and displays user location" time="0.008">
+    <testcase classname="CampusSwitcher Component refreshes and displays user location" name="CampusSwitcher Component refreshes and displays user location" time="0.009">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -742,7 +742,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component shows error for denied location permissions" name="CampusSwitcher Component shows error for denied location permissions" time="0.004">
+    <testcase classname="CampusSwitcher Component shows error for denied location permissions" name="CampusSwitcher Component shows error for denied location permissions" time="0.006">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -780,7 +780,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component handles location fetch failure" name="CampusSwitcher Component handles location fetch failure" time="0.003">
+    <testcase classname="CampusSwitcher Component handles location fetch failure" name="CampusSwitcher Component handles location fetch failure" time="0.004">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -818,7 +818,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component displays building info on press" name="CampusSwitcher Component displays building info on press" time="0.003">
+    <testcase classname="CampusSwitcher Component displays building info on press" name="CampusSwitcher Component displays building info on press" time="0.004">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -856,7 +856,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component clears building info when map pressed" name="CampusSwitcher Component clears building info when map pressed" time="0.002">
+    <testcase classname="CampusSwitcher Component clears building info when map pressed" name="CampusSwitcher Component clears building info when map pressed" time="0.004">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -894,7 +894,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component selects start and destination buildings" name="CampusSwitcher Component selects start and destination buildings" time="0.002">
+    <testcase classname="CampusSwitcher Component selects start and destination buildings" name="CampusSwitcher Component selects start and destination buildings" time="0.004">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -932,7 +932,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component uses current location as start for navigation" name="CampusSwitcher Component uses current location as start for navigation" time="0.002">
+    <testcase classname="CampusSwitcher Component uses current location as start for navigation" name="CampusSwitcher Component uses current location as start for navigation" time="0.004">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -1008,7 +1008,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="CampusSwitcher Component renders building info marker" name="CampusSwitcher Component renders building info marker" time="0.007">
+    <testcase classname="CampusSwitcher Component renders building info marker" name="CampusSwitcher Component renders building info marker" time="0.006">
       <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
     at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
@@ -1047,18 +1047,18 @@
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="10.128" tests="6">
-    <testcase classname="FindBuilding Component renders search results for MB Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for MB Building (SGW) and logs its details on click" time="1.457">
+  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:46:40" time="9.143" tests="6">
+    <testcase classname="FindBuilding Component renders search results for MB Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for MB Building (SGW) and logs its details on click" time="1.849">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" time="1.069">
+    <testcase classname="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" time="1.085">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" name="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" time="1.068">
+    <testcase classname="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" name="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" time="1.062">
     </testcase>
-    <testcase classname="FindBuilding Component renders search results when searching by partial campus name" name="FindBuilding Component renders search results when searching by partial campus name" time="1.049">
+    <testcase classname="FindBuilding Component renders search results when searching by partial campus name" name="FindBuilding Component renders search results when searching by partial campus name" time="1.079">
     </testcase>
-    <testcase classname="FindBuilding Component renders X Building as search result when typing X" name="FindBuilding Component renders X Building as search result when typing X" time="1.071">
+    <testcase classname="FindBuilding Component renders X Building as search result when typing X" name="FindBuilding Component renders X Building as search result when typing X" time="1.046">
     </testcase>
-    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="1.065">
+    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="1.051">
     </testcase>
   </testsuite>
 </testsuites>
