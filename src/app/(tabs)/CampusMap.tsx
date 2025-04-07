@@ -16,12 +16,12 @@ import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import campusCenters from "@/data/campusCenters.json";
-import { Campus } from "@/models/Campus";
-import { createMapFacade } from "../utils/mapUtils";
+import { Campus } from "@/MVVM/models/Campus";
+import { createMapFacade } from "../../Shared/utils/mapUtils";
 import {
   createShuttleFacade,
   renderShuttleMarkers,
-} from "../utils/shuttleUtils";
+} from "../../Shared/utils/shuttleUtils";
 
 /**
  * Props interface for CampusMap component
@@ -94,6 +94,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [transportMode, setTransportMode] = useState<string>("walking");
   const [activeTab, setActiveTab] = useState<string>("walking");
 
+  // Indoor navigation state
+  const [isIndoorNavVisible, setIsIndoorNavVisible] = useState<boolean>(false);
+  const [currentFloorIndex, setCurrentFloorIndex] = useState<number>(0);
+
   const shuttleFacade = createShuttleFacade({
     setShuttleLocations,
     setEstimatedWaitTime,
@@ -163,6 +167,59 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       }
     };
   }, [isCrossCampusNavigation, activeTab, startPoint]);
+ 
+  const handleIndoorNavigation = () => {
+    console.log("handleIndoorNavigation triggered");
+
+    if (buildingInfo) {
+      console.log("Building info found for:", buildingInfo.name);
+      console.log("Floor info:", buildingInfo.floors);
+
+      if (buildingInfo.floors && buildingInfo.floors.length > 0) {
+        console.log(`Found ${buildingInfo.floors.length} floors for ${buildingInfo.name}.`);
+        setCurrentFloorIndex(0); // Reset to first floor
+        setIsIndoorNavVisible(true);
+        console.log("Indoor navigation modal is now visible. Starting at floor 0.");
+      } else {
+        console.log("No floors data available for this building.");
+        Alert.alert("No floor information available for this building.");
+      }
+    } else {
+      console.log("No building info available.");
+      Alert.alert("Building information is missing.");
+    }
+  };
+
+  const closeIndoorNavigation = () => {
+    console.log("Closing indoor navigation...");
+    setIsIndoorNavVisible(false);
+    console.log("Indoor navigation modal is now closed.");
+  };
+
+  const changeFloor = (direction: 'up' | 'down') => {
+    console.log(`Change floor triggered: direction ${direction}, current floor index: ${currentFloorIndex}`);
+
+    if (buildingInfo && buildingInfo.floors) {
+      console.log(`Building ${buildingInfo.name} has ${buildingInfo.floors.length} floors.`);
+      if (direction === 'up' && currentFloorIndex < buildingInfo.floors.length - 1) {
+        console.log("Moving up to the next floor...");
+        setCurrentFloorIndex(currentFloorIndex + 1);
+        console.log(`Current floor index updated to: ${currentFloorIndex}`);
+      } else if (direction === 'down' && currentFloorIndex > 0) {
+        console.log("Moving down to the previous floor...");
+        setCurrentFloorIndex(currentFloorIndex - 1);
+        console.log(`Current floor index updated to: ${currentFloorIndex}`);
+      } else {
+        if (direction === 'up') {
+          console.log("Already on the top floor.");
+        } else {
+          console.log("Already on the bottom floor.");
+        }
+      }
+    } else {
+      console.log("No floor data available.");
+    }
+  };
 
   return (
     <View
@@ -293,9 +350,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   console.log("Starting navigation...");
                   mapFacade.fetchDirections(
                     "transit",
-                    Constants.expoConfig?.extra?.googleMapsApiKey ??
-                      process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
-                      "AIzaSyCdMpoRN-cWcG-LGTKplqHs3SvTeYy7t0E"
+                    Constants.expoConfig?.extra?.googleMapsApiKey ?? ""
                   );
                 }}
                 style={globalStyles.addButton}
@@ -356,9 +411,27 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   </Text>
                 </TouchableOpacity>
               </View>
+              {/* Indoor Navigation button */}
+              <TouchableOpacity
+                onPress={handleIndoorNavigation}
+                style={[globalStyles.addButton, { marginTop: 10, backgroundColor: "green" }]} // Nice color for the button
+              >
+                <Text style={globalStyles.refreshButtonText}>Indoor Navigation</Text>
+              </TouchableOpacity>
             </>
           )}
         </View>
+      )}
+
+
+      {/* Indoor Navigation Modal */}
+      {isIndoorNavVisible && buildingInfo && buildingInfo.floors && (
+        <IndoorNavigationModal
+          buildingInfo={buildingInfo}
+          currentFloorIndex={currentFloorIndex}
+          closeIndoorNavigation={closeIndoorNavigation}
+          changeFloor={changeFloor}
+        />
       )}
 
       {/* Navigation Directions Popup now rendered even if directions are not available */}
@@ -394,7 +467,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             ).map((mode) => (
               <TouchableOpacity
                 key={mode}
-                testID={mode}
+                testID={`mode-tab-${mode}`}
                 onPress={() =>
                   mapFacade.handleTransportModeChange(
                     mode === "shuttle" ? "transit" : mode

@@ -4,7 +4,7 @@ import {
   decodePolyline,
   isPointInPolygon,
   sanitizeHtmlContent,
-} from "../../app/utils/mapUtils";
+} from "../../Shared/utils/mapUtils";
 import axios from "axios";
 
 jest.mock("expo-location");
