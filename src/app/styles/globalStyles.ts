@@ -20,6 +20,812 @@ export const brandColors = {
   orangeTransparent: "#FFA00180",
   darkGreen: "#1E4F05",
   darkGreenTransparent: "#1E4F0580",
+  lightBlue: "#f0f8ff",       // Light blue
+  lightPink: "#F8BBD0",  // Light pink for tutorials
+  purple: "#B39DDB",     // Purple for labs
+};
+
+// Use brandColors in place of the colors object
+const colors = brandColors;
+
+// View styles
+const viewStyles = StyleSheet.create({
+  header: {
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: rem(10),
+    backgroundColor: colors.concordiaRed,
+    zIndex: 10,
+    height: rem(70),
+  },
+  container: {
+    flex: 1,
+  },
+  tabIconWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: rem(20),
+    paddingBottom: rem(1),
+    flex: 1,
+    marginBottom: rem(1), 
+  },
+  switchHeaderContainer: {
+    backgroundColor: colors.concordiaRed,
+  },
+  campusSwitchHeader: {
+    alignItems: "center",
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+  },
+  iconButton: {
+    marginLeft: rem(10),
+    padding: rem(5),
+  },
+  mapContainer: {
+    flex: 1,
+    position: "relative",
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  refreshButton: {
+    position: "absolute",
+    bottom: rem(20),
+    alignSelf: "center",
+    backgroundColor: colors.blueSemiTransparent,
+    padding: rem(10),
+    borderRadius: rem(5),
+  },
+  refreshButtonDisabled: {
+    backgroundColor: colors.blueMoreTransparent,
+  },
+  addButton: {
+    marginTop: 10,
+    backgroundColor: colors.concordiaRed,
+    padding: rem(10),
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  menu: {
+    position: "absolute",
+    bottom: rem(90),
+    left: "80%",
+    transform: [{ translateX: rem(-80) }],
+    backgroundColor: colors.white,
+    paddingVertical: rem(10),
+    paddingHorizontal: rem(20),
+    borderRadius: rem(5),
+    elevation: 5,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: rem(2) },
+    shadowOpacity: 0.25,
+    shadowRadius: rem(3.84),
+    minWidth: rem(150),
+  },
+  footerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tabBarStyle: {
+    backgroundColor: colors.concordiaRed,
+    borderTopWidth: rem(1),
+    borderTopColor: colors.darkGrayishBlue,
+    height: rem(80),
+    paddingHorizontal: rem(10),
+    paddingBottom: rem(10),
+  },
+  tabBarItemStyle: {
+    paddingVertical: rem(5),
+    flex: 1,
+  },
+  buildingInfoContainer: {
+    position: "absolute",
+    top: rem(50),
+    alignSelf: "center",
+    backgroundColor: colors.white,
+    padding: rem(15),
+    borderRadius: rem(10),
+    width: "85%",
+    elevation: 5,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: rem(2),
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: rem(4),
+    zIndex: 2,
+  },
+  marker: {
+    backgroundColor: colors.transparent,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buildingButton: {
+    width: rem(25),
+    height: rem(25),
+    backgroundColor: colors.concordiaRed,
+    borderRadius: rem(15),
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorContainer: {
+    position: "absolute",
+    top: rem(50),
+    left: rem(20),
+    right: rem(20),
+    backgroundColor: colors.brightRed,
+    padding: rem(10),
+    borderRadius: rem(5),
+    zIndex: 2,
+  },
+  navigationPopup: {
+    position: "absolute",
+    bottom: 100,
+    left: "10%",
+    right: "10%",
+    backgroundColor: colors.white,
+    borderRadius: rem(8),
+    padding: rem(16),
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  popupContainer: {
+    position: "absolute",
+    top: rem(10),
+    left: "2%",
+    right: "2%",
+
+    backgroundColor: colors.white,
+    borderRadius: rem(8),
+    paddingRight: rem(18),
+    paddingLeft: rem(18),
+    paddingTop: rem(10),
+    paddingBottom: rem(10),
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: rem(2) },
+    shadowOpacity: 0.3,
+    shadowRadius: rem(4),
+    elevation: 5,
+  },
+  popupText: {
+    fontSize: rem(16),
+    color: colors.darkGray,
+  },
+  popupRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: rem(3),
+
+  },
+  greenDot: {
+    width: rem(12),
+    height: rem(12),
+    borderRadius: rem(6),
+    backgroundColor: colors.green,
+    marginRight: rem(8),
+  },
+  goldDot: {
+    width: rem(12),
+    height: rem(12),
+    borderRadius: rem(6),
+    backgroundColor: colors.orange,
+    marginRight: rem(8),
+  },
+  closeButton: {
+    position: "absolute",
+    top: rem(-10),
+    left: rem(-10),
+    backgroundColor: colors.white,
+    borderRadius: rem(12),
+    padding: rem(4),
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: rem(2) },
+    shadowOpacity: 0.3,
+    shadowRadius: rem(4),
+    elevation: 5,
+  },
+  closeButtonText: {
+    fontSize: rem(14),
+    fontWeight: "bold",
+    color: colors.darkGray,
+  },
+  separator: {
+    borderBottomWidth: rem(1),
+    borderBottomColor: colors.lightGray,
+    marginVertical: rem(8),
+  },
+  directionsContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 300,
+    backgroundColor: "#f9f9f9",
+    borderTopColor: "#ccc",
+    borderRadius: 10,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  
+  fullScreenDirections: {
+    position: "absolute",
+    top: 120,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 0,
+  },
+
+  directionsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 3,
+  },
+  directionsTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  cancelButton: {
+    padding: 2,
+    paddingLeft:10,
+    paddingRight:10,
+    borderRadius: 100,
+    backgroundColor: "lightgrey",
+    height:25
+    },
+  cancelButtonText: {
+    color: "black",
+  },
+  transportModes: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 18,
+  },
+  activeModeTabText: {
+    fontWeight: "bold",
+  },
+  modeTabText: {
+    fontWeight: "normal",
+  },
+  directionsScroll: {
+    paddingHorizontal: 0,
+  },
+  directionStep: {
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    paddingBottom: 10,
+  },
+  modeTab: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginHorizontal: 4,
+  },
+  activeModeTab: {
+    backgroundColor: colors.concordiaRed,
+  },
+  shuttleStopMarker: {
+    backgroundColor: colors.white,
+    padding: 8,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  shuttleStopText: {
+    textAlign: 'center',
+    fontWeight: '600',
+  },
+  shuttleDirectionStep: {
+    backgroundColor: colors.lightBlue,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.concordiaRed,
+    padding: 12,
+  },
+  shuttleInstruction: {
+    fontWeight: 'bold',
+    color: colors.concordiaRed,
+  },
+  shuttleInfo: {
+    marginTop: 8,
+    padding: 8,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  shuttleScheduleText: {
+    color: colors.darkGray,
+    fontSize: 14,
+    marginVertical: 2,
+  },
+  scheduleContainer: {
+    width: "100%",
+  },
+  scrollView: {
+    marginTop: 20,
+  },
+  scheduleGrid: {
+    flexDirection: "row",
+    position: "relative",
+  },
+  timeColumn: {
+    width: 60,
+    alignItems: "flex-end",
+    paddingRight: 10,
+  },
+  eventColumn: {
+    flex: 1,
+    position: "relative",
+  },
+  eventTile: {
+    position: "absolute",
+    left: 10,
+    width: "90%",
+    backgroundColor: "#d32f2f",
+    padding: 8,
+    borderRadius: 5,
+  },
+  bottomSlider: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 450,
+    backgroundColor: "white",
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    padding: 16,
+  },
+  sliderIcon: {
+    alignSelf: "center",
+    width: 40,
+    height: 4,
+    backgroundColor: "#ccc",
+    borderRadius: 2,
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  roomRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+    flexWrap: "wrap",
+  },
+  googleButton: {
+    width: 240,
+    height: 48,
+    marginTop: 16,
+  },
+});
+
+// Text styles
+const textStyles = StyleSheet.create({
+  appName: {
+    fontSize: rem(36),
+    fontFamily: "Poppins-Bold",
+    color: colors.white,
+    textAlign: "center",
+  },
+  switchText: {
+    color: colors.white,
+    fontSize: rem(20),
+    marginHorizontal: rem(8),
+  },
+  refreshButtonText: {
+    color: colors.white,
+    fontSize: rem(16),
+    textAlign: "center",
+  },
+  menuContent: {
+    paddingVertical: rem(8),
+    fontSize: rem(16),
+    color: colors.black,
+  },
+  tabText: {
+    fontSize: rem(30),
+    color: colors.lightGray,
+    fontFamily: "Poppins-Regular",
+  },
+  tabTextFocused: {
+    fontFamily: "Poppins-SemiBold",
+    color: colors.orange,
+    fontSize: rem(30),
+  },
+  buildingNameText: {
+    fontWeight: "bold",
+    fontSize: rem(20),
+    marginBottom: rem(5),
+  },
+  openingHoursText: {
+    fontSize: rem(12),
+    color: colors.lightGray,
+    marginBottom: rem(5),
+  },
+  addressText: {
+    color: colors.darkGray,
+    fontSize: rem(16),
+  },
+  buildingButtonText: {
+    color: colors.white,
+    fontSize: rem(10),
+    fontWeight: "bold",
+  },
+  errorText: {
+    color: colors.white,
+    textAlign: "center",
+  },
+  navAddressText: {
+    fontSize: rem(16),
+    color: colors.black,
+    marginBottom: 4,
+  },
+  fullScreenToggleText: {
+    color: colors.orange,
+    fontWeight: 'bold',
+    textAlign: "center",
+    top:0
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 30,
+  },
+  timeLabel: {
+    height: 40,
+    fontSize: 14,
+    color: "#888",
+    textAlign: "right",
+    paddingRight: 10,
+  },
+  eventTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  eventTime: {
+    fontSize: 12,
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  eventLocation: {
+    fontSize: 12,
+    color: "#000",
+    fontStyle: "italic",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  successText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#4CAF50",
+    marginVertical: 10,
+  },
+  userEmail: {
+    fontSize: 14,
+    fontStyle: "italic",
+    color: "#555",
+    marginBottom: 10,
+  },
+  sliderTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 8,
+    marginTop: 20,
+    marginLeft: 1,
+  },
+  sliderDateTime: {
+    fontSize: 14,
+    marginBottom: 4,
+    color: "#555",
+  },
+  sliderLocation: {
+    fontSize: 14,
+    marginBottom: 16,
+    color: "#555",
+  },
+  sliderRoom: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+    maxWidth: "85%",
+  },
+});
+
+// Image styles
+const imageStyles = StyleSheet.create({
+  logo: {
+    position: "absolute",
+    left: rem(16),
+    width: rem(50),
+    height: rem(50),
+    resizeMode: "contain",
+    alignSelf: "center",
+  },
+  tabIcons: {
+    width: rem(24),
+    height: rem(35),
+    tintColor: colors.lightGray,
+  },
+  tabIconsFocused: {
+    width: rem(24),
+    height: rem(35),
+    tintColor: colors.orange,
+  },
+  arrowImageInline: {
+    width: 40,
+    height: 40,
+    marginLeft: 30,
+    resizeMode: "contain",
+  },
+});
+
+// Navigation styles (objects, not StyleSheet)
+const navigationStyles = {
+  footer: {
+    tabBarActiveTintColor: colors.orange,
+    tabBarInactiveTintColor: colors.lightGray,
+    tabBarShowLabel: true,
+  },
+  screenOptions: {
+    tabBarActiveTintColor: colors.orange,
+    tabBarInactiveTintColor: colors.lightGray,
+    tabBarShowLabel: true,
+    tabBarStyle: {
+      backgroundColor: colors.concordiaRed,
+      borderTopWidth: rem(1),
+      borderTopColor: colors.darkGrayishBlue,
+      height: rem(80),
+      paddingHorizontal: rem(10),
+      paddingBottom: rem(10),
+    },
+    tabBarItemStyle: {
+      paddingVertical: rem(10),
+      justifyContent: "center",
+      alignItems: "center",
+      flex: 1,
+    },
+  },
+};
+
+// Class Schedule styles
+const classScheduleStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 30,
+  },
+  googleButton: {
+    width: 240,
+    height: 48,
+    marginTop: 16,
+  },
+  scheduleContainer: {
+    width: "100%",
+  },
+  scrollView: {
+    marginTop: 20,
+  },
+  scheduleGrid: {
+    flexDirection: "row",
+    position: "relative",
+  },
+  timeColumn: {
+    width: 60,
+    alignItems: "flex-end",
+    paddingRight: 10,
+  },
+  timeLabel: {
+    height: 40,
+    fontSize: 14,
+    color: "#888",
+    textAlign: "right",
+    paddingRight: 10,
+  },
+  eventColumn: {
+    flex: 1,
+    position: "relative",
+  },
+  eventTile: {
+    position: "absolute",
+    left: 10,
+    width: "90%",
+    padding: 8,
+    borderRadius: 5,
+  },
+  eventTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  eventTime: {
+    fontSize: 12,
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  eventLocation: {
+    fontSize: 12,
+    color: "#000",
+    fontStyle: "italic",
+    flexShrink: 1,
+    flexWrap: "wrap",
+  },
+  successText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#4CAF50",
+    marginVertical: 10,
+  },
+  userEmail: {
+    fontSize: 14,
+    fontStyle: "italic",
+    color: "#555",
+    marginBottom: 10,
+  },
+  bottomSlider: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 400,
+    backgroundColor: "white",
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    padding: 16,
+  },
+  closeButton: {
+    position: "absolute",
+    left: 1,
+    top: 1,
+    backgroundColor: "white",
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  closeButtonText: {
+    color: "black",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  sliderIcon: {
+    alignSelf: "center",
+    width: 40,
+    height: 4,
+    backgroundColor: "#ccc",
+    borderRadius: 2,
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  sliderTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 8,
+    marginTop: 20,
+    marginLeft: 1,
+  },
+  sliderDateTime: {
+    fontSize: 14,
+    marginBottom: 4,
+    color: "#555",
+  },
+  sliderLocation: {
+    fontSize: 14,
+    marginBottom: 16,
+    color: "#555",
+  },
+  roomRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+    flexWrap: "wrap",
+  },
+  sliderRoom: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+    flexShrink: 1,
+    flexWrap: "wrap",
+    maxWidth: "85%",
+  },
+  arrowImageInline: {
+    width: 40,
+    height: 40,
+    marginLeft: 30,
+    resizeMode: "contain",
+  },
+});
+
+// Export everything together as globalStyles for backward compatibility
+export const globalStyles = {
+  ...viewStyles,
+  ...textStyles,
+  ...imageStyles,
+  ...navigationStyles,
+  ...classScheduleStyles,
+};
+
+export const mainEdges = ["left", "right", "bottom"];
+export default globalStyles;
+import { StyleSheet } from "react-native";
+import { rem } from "../../components/utils";
+
+// Define and export brand colors separately
+export const brandColors = {
+  concordiaRed: "#922338",
+  white: "#FFFFFF",
+  blueSemiTransparent: "#0000ffb3",
+  blueMoreTransparent: "#0000ff66",
+  black: "#000",
+  orange: "#FFA001",
+  lightGray: "#CDCDE0",
+  darkGrayishBlue: "#232533",
+  brightRed: "#ff0000b3",
+  darkGray: "#555",
+  transparent: "transparent",
+  green: "green",
+  // Transparent versions for map polygons
+  concordiaRedTransparent: "#92233880",
+  orangeTransparent: "#FFA00180",
+  darkGreen: "#1E4F05",
+  darkGreenTransparent: "#1E4F0580",
   lightBlue: "#f0f8ff",
 };
 

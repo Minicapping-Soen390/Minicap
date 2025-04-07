@@ -40,7 +40,6 @@ export interface ShuttleState extends Audit {
 export type CampusType = 'SGW' | 'LOYOLA';
 
 export interface ShuttleLocation extends Audit {
-  ID: string;
   Latitude: number;
   Longitude: number;
 }

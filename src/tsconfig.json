@@ -23,7 +23,7 @@
   },
   "include": [
     "./**/*",
-    "../app.config.js",
+    "app.config.js",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ],
