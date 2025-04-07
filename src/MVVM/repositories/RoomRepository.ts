@@ -22,7 +22,7 @@ export class RoomRepository extends BaseRepository<Building> implements IRoomRep
 
   public async saveBuilding(building: Building): Promise<void> {
     try {
-      const filePath = path.join(this.dataDir, `${building._id}.json`);
+      const filePath = path.join(this.dataDir, `${building.id}.json`);
       await fs.promises.writeFile(
         filePath,
         JSON.stringify(building, null, 2),
@@ -60,7 +60,7 @@ export class RoomRepository extends BaseRepository<Building> implements IRoomRep
   public validateBuilding(building: Building): boolean {
     try {
       // Check required fields
-      if (!building._id || !building.name || !building.floors || !building.rooms) {
+      if (!building.id || !building.name || !building.floors || !building.rooms) {
         return false;
       }
 
@@ -81,7 +81,7 @@ export class RoomRepository extends BaseRepository<Building> implements IRoomRep
   private validateRoom(room: Room): boolean {
     try {
       // Check required fields
-      if (!room._id || !room.name || !room.coordinates || !room.floor || !room.building) {
+      if (!room.id || !room.name || !room.coordinates || !room.floor || !room.building) {
         return false;
       }
 

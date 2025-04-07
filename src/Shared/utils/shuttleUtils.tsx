@@ -93,7 +93,7 @@ export const fetchShuttleData = async (): Promise<{
     const locations = await fetchShuttleLocations();
     
     const busPoints = locations.filter((point: any) => 
-      point._id && point._id.startsWith("BUS")
+      point.id && point.id.startsWith("BUS")
     );
     
     let routePoints: LatLng[] | undefined;

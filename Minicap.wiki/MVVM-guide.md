@@ -50,7 +50,7 @@ interface Building extends Audit {
 ### 2. Repository Interface (How we access data)
 ```typescript
 interface BuildingRepository {
-  findBuildingById(_id: string): Promise<Building>;
+  findBuildingById(id: string): Promise<Building>;
   findBuildingsByCampus(campusId: string): Promise<Building[]>;
   getAllBuildings(): Promise<Building[]>;
 }
@@ -61,9 +61,9 @@ interface BuildingRepository {
 class BuildingViewModel extends BaseViewModel<Building> implements BuildingRepository {
   private readonly COLLECTION_NAME = "buildings";
 
-  async findBuildingById(_id: string): Promise<Building> {
+  async findBuildingById(id: string): Promise<Building> {
     return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-      const doc = await collection.findOne({ _id: id });
+      const doc = await collection.findOne({ id: id });
       if (!doc) throw new Error(`Building with id ${id} not found`);
       return this.mapToDTO(doc);
     });

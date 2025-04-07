@@ -6,7 +6,7 @@ import { BaseRepository } from "./BaseRepository";
 export { IBuildingRepository as BuildingRepository };
 
 export class BuildingRepositoryImpl extends BaseRepository<Building> implements IBuildingRepository {
-  async findBuildingById(_id: string): Promise<Building> {
+  async findBuildingById(id: string): Promise<Building> {
     throw new Error("Method not implemented: findBuildingById");
   }
 

@@ -1,5 +1,5 @@
 export interface Audit {
-  _id: string;
+  id: string;
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string;

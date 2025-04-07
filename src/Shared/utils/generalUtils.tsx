@@ -14,12 +14,12 @@ export function generateId(): string {
 
 /**
  * Creates a new audit object with generated ID and timestamp
- * @returns An audit object with _id, createdAt, and updatedAt properties
+ * @returns An audit object with id, createdAt, and updatedAt properties
  */
-export function createAuditObject(): { _id: string, createdAt: Date, updatedAt: Date } {
+export function createAuditObject(): { id: string, createdAt: Date, updatedAt: Date } {
   const now = new Date();
   return {
-    _id: generateId(),
+    id: generateId(),
     createdAt: now,
     updatedAt: now
   };

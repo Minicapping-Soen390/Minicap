@@ -14,7 +14,7 @@ export class UserRepositoryImpl extends BaseRepository<User> implements IUserRep
     throw new Error("Method not implemented: getUserByEmail");
   }
   
-  async createUser(userData: Omit<User, '_id'>): Promise<User> {
+  async createUser(userData: Omit<User, 'id'>): Promise<User> {
     throw new Error("Method not implemented: createUser");
   }
   

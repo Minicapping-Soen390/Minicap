@@ -7,7 +7,7 @@ export interface IFloorRepository {
    * @returns Promise resolving to the found Floor
    * @throws {NotFoundError} If floor with given ID doesn't exist
    */
-  findFloorById(_id: string): Promise<Floor>;
+  findFloorById(id: string): Promise<Floor>;
 
   /**
    * Retrieves all floors of a specific building

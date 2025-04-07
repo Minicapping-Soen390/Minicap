@@ -31,7 +31,7 @@ export class SvgProcessorService extends BaseService {
       const buildingCenter = this.calculateCenter(buildingBoundingBox);
       
       return {
-        _id: this.generateId(buildingName),
+        id: this.generateId(buildingName),
         name: buildingName,
         floors: [floor],
         rooms: rooms,
@@ -149,7 +149,7 @@ export class SvgProcessorService extends BaseService {
       const roomNumber = this.extractRoomNumber(name, label);
       
       return {
-        _id: this.generateId(name),
+        id: this.generateId(name),
         name,
         label,
         coordinates,

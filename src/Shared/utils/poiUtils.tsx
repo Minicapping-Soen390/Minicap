@@ -32,7 +32,7 @@ const mapToPOI = (doc: any): POI => {
 
   // Create a POI object that follows the POI interface
   return {
-    _id: doc.place_id || generateId,
+    id: doc.placeid || generateId,
     type: doc.types ? doc.types[0] : "place",
     name: doc.name,
     category: category,
@@ -151,7 +151,7 @@ export const createPOIFacade = () => {
 
     // Add a utility function to get POIs displayed on the map
     getPOIForDisplay: (poiId: string): POI | undefined => {
-      return allPOIs.find(poi => poi._id === poiId);
+      return allPOIs.find(poi => poi.id === poiId);
     }
   };
 };

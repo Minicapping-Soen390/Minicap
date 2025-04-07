@@ -6,7 +6,7 @@ import { BaseRepository } from './BaseRepository';
 export { IFloorRepository as FloorRepository };
 
 export class FloorRepositoryImpl extends BaseRepository<Floor> implements IFloorRepository {
-  async findFloorById(_id: string): Promise<Floor> {
+  async findFloorById(id: string): Promise<Floor> {
     throw new Error("Method not implemented: findFloorById");
   }
 

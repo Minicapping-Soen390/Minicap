@@ -35,8 +35,8 @@ describe('ShuttleService', () => {
         data: {
           d: {
             Points: [
-              { _id: 'BUS001', Latitude: 45.5, Longitude: -73.6, IconImage: 'bus.png' },
-              { _id: 'OTHER', Latitude: 0, Longitude: 0, IconImage: '' }
+              { id: 'BUS001', Latitude: 45.5, Longitude: -73.6, IconImage: 'bus.png' },
+              { id: 'OTHER', Latitude: 0, Longitude: 0, IconImage: '' }
             ]
           }
         }
@@ -61,8 +61,8 @@ describe('ShuttleService', () => {
     it('should return the closest shuttle', () => {
       const result = shuttleService.getClosestShuttle(
         [
-          { _id: 'BUS1', Latitude: '45.45', Longitude: '-73.64' },
-          { _id: 'BUS2', Latitude: '45.49', Longitude: '-73.59' }
+          { id: 'BUS1', Latitude: '45.45', Longitude: '-73.64' },
+          { id: 'BUS2', Latitude: '45.49', Longitude: '-73.59' }
         ],
         SHUTTLE_STOPS.SGW
       );

@@ -215,7 +215,7 @@ export const createMapFacade = (params: {
     return buildingsData.map((building) => {
       if (!Array.isArray(building.polygonShape)) {
         console.warn(
-          `Building ${building._id} does not have a valid polygonShape`
+          `Building ${building.id} does not have a valid polygonShape`
         );
         return null;
       }
@@ -226,7 +226,7 @@ export const createMapFacade = (params: {
             const [longitude, latitude] = coords;
             return { latitude, longitude };
           }
-          console.warn(`Invalid coordinates for building ${building._id}`);
+          console.warn(`Invalid coordinates for building ${building.id}`);
           return null;
         })
         .filter((coord: LatLng | null): coord is LatLng => coord !== null);
@@ -246,7 +246,7 @@ export const createMapFacade = (params: {
 
       const isInside =
         userLocation && isPointInPolygon(userLocation, coordinates);
-      const isSelected = selectedBuildingId === building._id;
+      const isSelected = selectedBuildingId === building.id;
 
       const colorSettings = {
         insideSelected: {
@@ -279,7 +279,7 @@ export const createMapFacade = (params: {
       const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
 
       return (
-        <React.Fragment key={building._id}>
+        <React.Fragment key={building.id}>
           <Polygon
             coordinates={coordinates}
             strokeColor={stroke}
@@ -287,7 +287,7 @@ export const createMapFacade = (params: {
             fillColor={fill}
           />
           <Marker
-            testID={`building-marker-${building._id}`}
+            testID={`building-marker-${building.id}`}
             coordinate={center}
             onPress={() => {
               console.log(`Building selected: ${building.name}`);
@@ -300,7 +300,7 @@ export const createMapFacade = (params: {
                 campus: building.campus,
                 floors: building.floors, 
               });
-              setSelectedBuildingId(building._id);
+              setSelectedBuildingId(building.id);
               if (!destinationAddress) {
                 setDestinationAddress(building.address);
                 setStartingAddress("My Location");
@@ -336,11 +336,11 @@ export const createMapFacade = (params: {
     const info = extractBuildingInfo(building);
 
     if (selectionType === "start") {
-      handleStartSelection(info, building._id);
+      handleStartSelection(info, building.id);
       return;
     }
 
-    handleEndSelection(info, building._id);
+    handleEndSelection(info, building.id);
   };
 
   /**

@@ -69,7 +69,7 @@ export class POIViewModel extends BaseViewModel<POI> {
   protected mapToDTO(doc: any): POI {
     // Since fields are optional, no need for default values
     return {
-      _id: doc.id || generateId(),
+      id: doc.id || generateId(),
       type: doc.type,
       name: doc.name,
       category: doc.category,

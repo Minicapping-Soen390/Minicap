@@ -77,7 +77,7 @@ export class POIRepositoryImpl extends BaseRepository<POI> implements IPOIReposi
     }
 
     return {
-      _id: doc.place_id || generateId(),
+      id: doc.placeid || generateId(),
       type: doc.types ? doc.types[0] : undefined,
       name: doc.name,
       category: category,

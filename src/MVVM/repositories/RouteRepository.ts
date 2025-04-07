@@ -8,7 +8,7 @@ export { IRouteRepository as RouteRepository };
 
 export class RouteRepositoryImpl extends BaseRepository<Route> implements IRouteRepository {
     // Read operations
-    async findRouteById(_id: string): Promise<Route> {
+    async findRouteById(id: string): Promise<Route> {
         throw new Error("Method not implemented: findRouteById");
     }
 
@@ -26,7 +26,7 @@ export class RouteRepositoryImpl extends BaseRepository<Route> implements IRoute
     }
 
     // Update operations
-    async updateRoute(_id: string, updates: Partial<Route>, userId: string): Promise<Route> {
+    async updateRoute(id: string, updates: Partial<Route>, userId: string): Promise<Route> {
         throw new Error("Method not implemented: updateRoute");
     }
 
@@ -35,7 +35,7 @@ export class RouteRepositoryImpl extends BaseRepository<Route> implements IRoute
     }
 
     // Delete operations
-    async deleteRoute(_id: string, userId: string): Promise<void> {
+    async deleteRoute(id: string, userId: string): Promise<void> {
         throw new Error("Method not implemented: deleteRoute");
     }
 

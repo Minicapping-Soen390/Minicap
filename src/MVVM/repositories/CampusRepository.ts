@@ -12,7 +12,7 @@ export class CampusRepositoryImpl extends BaseRepository<Campus> implements ICam
    * @returns Promise resolving to the found Campus
    * @throws {NotFoundError} If campus with given ID doesn't exist
    */
-  async findCampusById(_id: string): Promise<Campus> {
+  async findCampusById(id: string): Promise<Campus> {
     throw new Error("Method not implemented: findCampusById");
   }
 

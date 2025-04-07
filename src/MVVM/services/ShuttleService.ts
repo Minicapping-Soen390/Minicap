@@ -60,7 +60,7 @@ export class ShuttleService extends BaseService {
         }
       );
 
-      return response.data.d.Points.filter(point => point._id.startsWith('BUS'));
+      return response.data.d.Points.filter(point => point.id.startsWith('BUS'));
     } catch (error) {
       console.error('Failed to fetch shuttle locations:', error);
       throw new Error('Failed to get shuttle locations');

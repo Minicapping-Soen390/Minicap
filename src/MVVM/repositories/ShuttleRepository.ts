@@ -18,7 +18,7 @@ export { IShuttleRepository as ShuttleRepository };
 export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implements IShuttleRepository {
   private readonly mockStops: ShuttleStop[] = [
     {
-      _id: 'sgw',
+      id: 'sgw',
       name: 'SGW Campus',
       address: '1455 De Maisonneuve Blvd W',
       latitude: 45.4973,
@@ -28,7 +28,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
       updatedAt: new Date(),
     },
     {
-      _id: 'loyola',
+      id: 'loyola',
       name: 'Loyola Campus',
       address: '7141 Sherbrooke St W',
       latitude: 45.4581,
@@ -46,7 +46,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
 
       return [
         {
-          _id: 'BUS1',
+          id: 'BUS1',
           latitude: 45.4973,
           longitude: -73.5789,
           speed: 30,
@@ -56,7 +56,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
           updatedAt: new Date(),
         },
         {
-          _id: 'BUS2',
+          id: 'BUS2',
           latitude: 45.4581,
           longitude: -73.6405,
           speed: 25,
@@ -80,7 +80,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
     const departureTime = new Date(now.getTime() + 15 * 60000); // 15 minutes from now
 
     return {
-      _id: `departure-${campus}-${departureTime.getTime()}`,
+      id: `departure-${campus}-${departureTime.getTime()}`,
       departureTime,
       waitTime: 15,
       campus,
@@ -144,7 +144,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
     ];
 
     return {
-      _id: 'route-' + Date.now(),
+      id: 'route-' + Date.now(),
       name: 'Shuttle Route',
       isActive: false,
       points,

@@ -37,7 +37,7 @@ interface CampusMapProps {
  * Campus model for SGW campus
  */
 const SGWCampus: Campus = {
-  _id: "sgw-uuid",
+  id: "sgw-uuid",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
@@ -47,7 +47,7 @@ const SGWCampus: Campus = {
  * Campus model for Loyola campus
  */
 const LoyolaCampus: Campus = {
-  _id: "loyola-uuid",
+  id: "loyola-uuid",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],
@@ -58,7 +58,7 @@ const LoyolaCampus: Campus = {
  * @param campusId - Unique identifier for the campus to display
  */
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
-  const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
+  const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
   const region: Region = campusCenters[campus.outdoorLocation as keyof typeof campusCenters];
   const mapRef = useRef<MapView | null>(null);
 
@@ -391,7 +391,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           {/* Render filtered POI markers */}
           {filteredPOIs.map((poi) => (
             <Marker
-              key={poi._id || poi.id} // Use _id if it exists, otherwise fall back to id
+              key={poi.id || poi.id} // Use id if it exists, otherwise fall back to id
               coordinate={{
                 latitude: typeof poi.location === 'string'
                   ? parseFloat(poi.location.split(',')[0])
@@ -818,7 +818,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
  */
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState(true);
-  const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
+  const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
 
   return (
     <SafeAreaView
