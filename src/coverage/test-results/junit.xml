@@ -1,45 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="42" failures="14" errors="0" time="10.479">
-  <testsuite name="useColorScheme" errors="0" failures="0" skipped="0" timestamp="2025-04-06T23:46:24" time="1.062" tests="1">
-    <testcase classname="useColorScheme should exist" name="useColorScheme should exist" time="0.011">
+<testsuites name="jest tests" tests="52" failures="24" errors="0" time="11.442">
+  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="1.513" tests="1">
+    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.017">
     </testcase>
   </testsuite>
-  <testsuite name="shuttleSchedule" errors="0" failures="0" skipped="0" timestamp="2025-04-06T23:46:24" time="1.078" tests="6">
-    <testcase classname="shuttleSchedule should contain LOY and SGW keys" name="shuttleSchedule should contain LOY and SGW keys" time="0.014">
+  <testsuite name="useColorScheme" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="1.532" tests="1">
+    <testcase classname="useColorScheme should exist" name="useColorScheme should exist" time="0.016">
     </testcase>
-    <testcase classname="shuttleSchedule should have valid time format (HH:MM) for each departure" name="shuttleSchedule should have valid time format (HH:MM) for each departure" time="0.006">
+  </testsuite>
+  <testsuite name="shuttleSchedule" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="1.533" tests="6">
+    <testcase classname="shuttleSchedule should contain LOY and SGW keys" name="shuttleSchedule should contain LOY and SGW keys" time="0.018">
+    </testcase>
+    <testcase classname="shuttleSchedule should have valid time format (HH:MM) for each departure" name="shuttleSchedule should have valid time format (HH:MM) for each departure" time="0.008">
     </testcase>
     <testcase classname="shuttleSchedule should have same number of shuttle times on both campuses" name="shuttleSchedule should have same number of shuttle times on both campuses" time="0.001">
     </testcase>
-    <testcase classname="shuttleInfo should contain required keys" name="shuttleInfo should contain required keys" time="0.002">
+    <testcase classname="shuttleInfo should contain required keys" name="shuttleInfo should contain required keys" time="0.003">
     </testcase>
-    <testcase classname="shuttleInfo should include all requirements as strings" name="shuttleInfo should include all requirements as strings" time="0.003">
+    <testcase classname="shuttleInfo should include all requirements as strings" name="shuttleInfo should include all requirements as strings" time="0.002">
     </testcase>
     <testcase classname="shuttleInfo should specify valid first and last departure times" name="shuttleInfo should specify valid first and last departure times" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Building Model" errors="0" failures="0" skipped="0" timestamp="2025-04-06T23:46:24" time="1.089" tests="1">
-    <testcase classname="Building Model should have a valid test case" name="Building Model should have a valid test case" time="0.015">
-    </testcase>
-  </testsuite>
-  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T23:46:24" time="1.352" tests="7">
-    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.097">
-    </testcase>
-    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.002">
-    </testcase>
-    <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.001">
-    </testcase>
-    <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.002">
-    </testcase>
-    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.001">
-    </testcase>
-    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.001">
-    </testcase>
-    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="ShuttleService" errors="0" failures="10" skipped="0" timestamp="2025-04-06T23:46:24" time="1.323" tests="10">
-    <testcase classname="ShuttleService initializeSession should initialize session successfully" name="ShuttleService initializeSession should initialize session successfully" time="0.005">
+  <testsuite name="ShuttleService" errors="0" failures="10" skipped="0" timestamp="2025-04-07T02:42:32" time="1.772" tests="10">
+    <testcase classname="ShuttleService initializeSession should initialize session successfully" name="ShuttleService initializeSession should initialize session successfully" time="0.014">
       <failure>TypeError: Cannot set properties of undefined (setting &apos;sessionInitialized&apos;)
     at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\services\ShuttleService.test.ts:11:41)
     at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
@@ -58,7 +42,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ShuttleService initializeSession should throw error if initialization fails" name="ShuttleService initializeSession should throw error if initialization fails" time="0.001">
+    <testcase classname="ShuttleService initializeSession should throw error if initialization fails" name="ShuttleService initializeSession should throw error if initialization fails" time="0">
       <failure>TypeError: Cannot set properties of undefined (setting &apos;sessionInitialized&apos;)
     at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\services\ShuttleService.test.ts:11:41)
     at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
@@ -134,7 +118,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ShuttleService getClosestShuttle should return null for empty list" name="ShuttleService getClosestShuttle should return null for empty list" time="0">
+    <testcase classname="ShuttleService getClosestShuttle should return null for empty list" name="ShuttleService getClosestShuttle should return null for empty list" time="0.001">
       <failure>TypeError: Cannot set properties of undefined (setting &apos;sessionInitialized&apos;)
     at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\services\ShuttleService.test.ts:11:41)
     at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
@@ -210,7 +194,7 @@
     at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ShuttleService estimateWaitingTime should fallback to next departure time if shuttle is null" name="ShuttleService estimateWaitingTime should fallback to next departure time if shuttle is null" time="0">
+    <testcase classname="ShuttleService estimateWaitingTime should fallback to next departure time if shuttle is null" name="ShuttleService estimateWaitingTime should fallback to next departure time if shuttle is null" time="0.001">
       <failure>TypeError: Cannot set properties of undefined (setting &apos;sessionInitialized&apos;)
     at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\services\ShuttleService.test.ts:11:41)
     at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
@@ -230,8 +214,24 @@
     at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="SVG Processor" errors="0" failures="4" skipped="0" timestamp="2025-04-06T23:46:24" time="1.5" tests="5">
-    <testcase classname="SVG Processor should process SVG file and extract room data" name="SVG Processor should process SVG file and extract room data" time="0.117">
+  <testsuite name="ThemedText Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="1.932" tests="7">
+    <testcase classname="ThemedText Component renders correctly with default type" name="ThemedText Component renders correctly with default type" time="0.157">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with title type" name="ThemedText Component renders correctly with title type" time="0.003">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with defaultSemiBold type" name="ThemedText Component renders correctly with defaultSemiBold type" time="0.002">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with subtitle type" name="ThemedText Component renders correctly with subtitle type" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component renders correctly with link type" name="ThemedText Component renders correctly with link type" time="0.001">
+    </testcase>
+    <testcase classname="ThemedText Component applies custom styles correctly" name="ThemedText Component applies custom styles correctly" time="0.002">
+    </testcase>
+    <testcase classname="ThemedText Component uses custom light and dark colors" name="ThemedText Component uses custom light and dark colors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="SVG Processor" errors="0" failures="4" skipped="0" timestamp="2025-04-07T02:42:32" time="2.029" tests="5">
+    <testcase classname="SVG Processor should process SVG file and extract room data" name="SVG Processor should process SVG file and extract room data" time="0.161">
       <failure>RangeError: Maximum call stack size exceeded
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:1:38)
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:3:57)
@@ -334,7 +334,7 @@
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)</failure>
     </testcase>
-    <testcase classname="SVG Processor should validate room data structure" name="SVG Processor should validate room data structure" time="0.015">
+    <testcase classname="SVG Processor should validate room data structure" name="SVG Processor should validate room data structure" time="0.021">
       <failure>RangeError: Maximum call stack size exceeded
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:1:38)
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:3:57)
@@ -437,7 +437,7 @@
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)</failure>
     </testcase>
-    <testcase classname="SVG Processor should store and retrieve building data" name="SVG Processor should store and retrieve building data" time="0.011">
+    <testcase classname="SVG Processor should store and retrieve building data" name="SVG Processor should store and retrieve building data" time="0.019">
       <failure>RangeError: Maximum call stack size exceeded
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:1:38)
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:3:57)
@@ -540,9 +540,9 @@
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)</failure>
     </testcase>
-    <testcase classname="SVG Processor should handle invalid SVG files" name="SVG Processor should handle invalid SVG files" time="0.027">
+    <testcase classname="SVG Processor should handle invalid SVG files" name="SVG Processor should handle invalid SVG files" time="0.05">
     </testcase>
-    <testcase classname="SVG Processor should list all processed buildings" name="SVG Processor should list all processed buildings" time="0.011">
+    <testcase classname="SVG Processor should list all processed buildings" name="SVG Processor should list all processed buildings" time="0.025">
       <failure>RangeError: Maximum call stack size exceeded
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:1:38)
     at cov_1yaazsz6sc (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:3:57)
@@ -646,36 +646,419 @@
     at getErrorMessage (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\generalUtils.tsx:4:35)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T23:46:24" time="1.566" tests="2">
-    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.056">
+  <testsuite name="Loader Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="2.164" tests="2">
+    <testcase classname="Loader Component does not render when isLoading is false" name="Loader Component does not render when isLoading is false" time="0.087">
     </testcase>
-    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.114">
+    <testcase classname="Loader Component renders correctly when isLoading is true" name="Loader Component renders correctly when isLoading is true" time="0.144">
     </testcase>
   </testsuite>
-  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T23:46:24" time="1.591" tests="3">
-    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.156">
+  <testsuite name="ThemedView Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="2.258" tests="3">
+    <testcase classname="ThemedView Component renders with default background color" name="ThemedView Component renders with default background color" time="0.262">
     </testcase>
     <testcase classname="ThemedView Component applies light and dark colors correctly" name="ThemedView Component applies light and dark colors correctly" time="0.003">
     </testcase>
-    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.003">
+    <testcase classname="ThemedView Component combines custom styles with background color" name="ThemedView Component combines custom styles with background color" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T23:46:24" time="1.835" tests="1">
-    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.13">
+  <testsuite name="Home Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="2.473" tests="1">
+    <testcase classname="Home Component renders correctly" name="Home Component renders correctly" time="0.124">
     </testcase>
   </testsuite>
-  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-04-06T23:46:24" time="9.092" tests="6">
-    <testcase classname="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" name="FindBuilding Component renders search results for MB Building (SWG) and logs its details on click" time="1.915">
+  <testsuite name="CampusSwitcher Component" errors="0" failures="10" skipped="0" timestamp="2025-04-07T02:42:32" time="4.485" tests="10">
+    <testcase classname="CampusSwitcher Component renders correctly and toggles campuses" name="CampusSwitcher Component renders correctly and toggles campuses" time="0.12">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" time="1.122">
+    <testcase classname="CampusSwitcher Component refreshes and displays user location" name="CampusSwitcher Component refreshes and displays user location" time="0.008">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" name="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" time="1.069">
+    <testcase classname="CampusSwitcher Component shows error for denied location permissions" name="CampusSwitcher Component shows error for denied location permissions" time="0.004">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="FindBuilding Component renders search results when searching by partial campus name" name="FindBuilding Component renders search results when searching by partial campus name" time="1.062">
+    <testcase classname="CampusSwitcher Component handles location fetch failure" name="CampusSwitcher Component handles location fetch failure" time="0.003">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="FindBuilding Component renders X Building as search result when typing X" name="FindBuilding Component renders X Building as search result when typing X" time="1.055">
+    <testcase classname="CampusSwitcher Component displays building info on press" name="CampusSwitcher Component displays building info on press" time="0.003">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="1.055">
+    <testcase classname="CampusSwitcher Component clears building info when map pressed" name="CampusSwitcher Component clears building info when map pressed" time="0.002">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="CampusSwitcher Component selects start and destination buildings" name="CampusSwitcher Component selects start and destination buildings" time="0.002">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="CampusSwitcher Component uses current location as start for navigation" name="CampusSwitcher Component uses current location as start for navigation" time="0.002">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="CampusSwitcher Component initiates outdoor navigation" name="CampusSwitcher Component initiates outdoor navigation" time="0.004">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="CampusSwitcher Component renders building info marker" name="CampusSwitcher Component renders building info marker" time="0.007">
+      <failure>Error: [MobX] &apos;makeAutoObservable&apos; can only be used for classes that don&apos;t have a superclass
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\errors.ts:84:15)
+    at die (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\mobx\src\api\makeObservable.ts:58:13)
+    at new BaseViewModel (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\BaseViewModel.ts:8:27)
+    at construct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:6:96)
+    at new _callSuper (C:\Users\luhud\Downloads\Github Repo\Minicap\src\MVVM\viewmodels\ShuttleViewModel.ts:14:5)
+    at createShuttleFacade (C:\Users\luhud\Downloads\Github Repo\Minicap\src\Shared\utils\shuttleUtils.tsx:142:28)
+    at CampusMap (C:\Users\luhud\Downloads\Github Repo\Minicap\src\app\(tabs)\CampusMap.tsx:101:44)
+    at renderWithHooks (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:5608:18)
+    at mountIndeterminateComponent (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:9884:13)
+    at beginWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:11351:16)
+    at performUnitOfWork (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15847:12)
+    at workLoopSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15784:5)
+    at renderRootSync (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15756:7)
+    at recoverFromConcurrentError (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15226:20)
+    at performConcurrentWorkOnRoot (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react-test-renderer\cjs\react-test-renderer.development.js:15126:22)
+    at flushActQueue (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\act.ts:31:25)
+    at renderWithAct (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render-act.ts:13:11)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:69:33)
+    at renderInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\@testing-library\react-native\src\render.tsx:44:10)
+    at Object.&lt;anonymous&gt; (C:\Users\luhud\Downloads\Github Repo\Minicap\src\__test__\app\CampusMap.test.tsx:53:19)
+    at Promise.then.completed (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:281:40)
+    at _runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\luhud\Downloads\Github Repo\Minicap\src\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="FindBuilding Component" errors="0" failures="0" skipped="0" timestamp="2025-04-07T02:42:32" time="10.128" tests="6">
+    <testcase classname="FindBuilding Component renders search results for MB Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for MB Building (SGW) and logs its details on click" time="1.457">
+    </testcase>
+    <testcase classname="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" name="FindBuilding Component renders search results for X Building (SGW) and logs its details on click" time="1.069">
+    </testcase>
+    <testcase classname="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" name="FindBuilding Component renders search results for AD Building (LOY) and logs its details on click" time="1.068">
+    </testcase>
+    <testcase classname="FindBuilding Component renders search results when searching by partial campus name" name="FindBuilding Component renders search results when searching by partial campus name" time="1.049">
+    </testcase>
+    <testcase classname="FindBuilding Component renders X Building as search result when typing X" name="FindBuilding Component renders X Building as search result when typing X" time="1.071">
+    </testcase>
+    <testcase classname="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" name="FindBuilding Component displays &apos;No buildings found.&apos; when searching for a non-existing building" time="1.065">
     </testcase>
   </testsuite>
 </testsuites>
