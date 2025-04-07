@@ -1,28 +1,46 @@
 import axios from 'axios';
 import MockDate from 'mockdate';
-import { shuttleService, SHUTTLE_STOPS } from '@/MVVM/services/ShuttleService';
-import { shuttleSchedule } from '@/data/shuttleSchedule';
+import {ShuttleService, SHUTTLE_STOPS } from '@/MVVM/services/ShuttleService';
+import { BaseService } from '@/MVVM/services/BaseService';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
+// Mock the BaseService to allow instantiation of the abstract class
+jest.mock('@/MVVM/services/BaseService', () => {
+  return {
+    BaseService: class MockBaseService {
+      constructor() {}
+    }
+  };
+});
+
 describe('ShuttleService', () => {
+  let shuttleService: ShuttleService;
+
   beforeEach(() => {
-    shuttleService['sessionInitialized'] = false;
+    // Create a new instance for each test
+    shuttleService = new ShuttleService();
+    // Reset the private property
+    (shuttleService as any).sessionInitialized = false;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('initializeSession', () => {
     it('should initialize session successfully', async () => {
       mockedAxios.get.mockResolvedValueOnce({});
       await expect(
-        shuttleService['initializeSession']()
+        (shuttleService as any).initializeSession()
       ).resolves.not.toThrow();
-      expect(shuttleService['sessionInitialized']).toBe(true);
+      expect((shuttleService as any).sessionInitialized).toBe(true);
     });
 
     it('should throw error if initialization fails', async () => {
       mockedAxios.get.mockRejectedValueOnce(new Error('Failed'));
-      await expect(shuttleService['initializeSession']()).rejects.toThrow(
+      await expect((shuttleService as any).initializeSession()).rejects.toThrow(
         'Failed to initialize shuttle tracking'
       );
     });
@@ -44,7 +62,7 @@ describe('ShuttleService', () => {
 
       const result = await shuttleService.getShuttleLocations();
       expect(result.length).toBe(1);
-      expect(result[0].ID).toBe('BUS001');
+      expect(result[0]._id).toBe('BUS001');
     });
 
     it('should throw error if post fails', async () => {
@@ -66,7 +84,7 @@ describe('ShuttleService', () => {
         ],
         SHUTTLE_STOPS.SGW
       );
-      expect(result.ID).toBe('BUS2');
+      expect(result._id).toBe('BUS2');
     });
 
     it('should return null for empty list', () => {

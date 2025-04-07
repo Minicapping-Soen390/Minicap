@@ -50,8 +50,6 @@ const LoyolaCampus: Campus = {
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region = campusCenters[campus.outdoorLocation];
-  const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
-  const region: Region = campusCenters[campus.outdoorLocation];
   const mapRef = useRef<MapView | null>(null);
 
   // Core states
@@ -220,10 +218,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   };
 
   return (
-    <View
-      style={globalStyles.mapContainer}
-      testID="outdoor-navigation-container"
-    >
+
     <View
       style={globalStyles.mapContainer}
       testID="outdoor-navigation-container"
@@ -421,7 +416,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         {isRefreshing ? (
           <ActivityIndicator color="white" size="small" />
         ) : (
-          <Text style={globalStyles.refreshButtonText}>My Location</Text>
           <Text style={globalStyles.refreshButtonText}>My Location</Text>
         )}
       </TouchableOpacity>
@@ -688,10 +682,6 @@ const CampusSwitcher: React.FC = () => {
         </View>
       </View>
 
-      {/* Map Container */}
-      <View style={globalStyles.mapContainer}>
-        <CampusMap campusId={currentCampusId} />
-      </View>
 
       {/* Map Container */}
       <View style={globalStyles.mapContainer}>

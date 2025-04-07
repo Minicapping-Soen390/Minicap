@@ -8,11 +8,10 @@ import {
   Animated,
   PanResponder,
   Image,
-  Image,
+  StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import globalStyles from "../styles/globalStyles";
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -20,6 +19,7 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { globalStyles, brandColors } from "@/app/styles/globalStyles";
 import Constants from 'expo-constants';
+import { fetchCalendarEvents } from "@/Shared/utils/calendarUtils";
 
 const ClassSchedule = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -164,9 +164,6 @@ const ClassSchedule = () => {
           <ScrollView style={globalStyles.scrollView}>
             <View style={globalStyles.scheduleGrid}>
               <View style={globalStyles.timeColumn}>
-          <ScrollView style={globalStyles.scrollView}>
-            <View style={globalStyles.scheduleGrid}>
-              <View style={globalStyles.timeColumn}>
                 {Array.from({ length: 30 }).map((_, index) => {
                   const hour = 8 + Math.floor(index / 2);
                   const minute = index % 2 === 0 ? "00" : "30";
@@ -187,7 +184,6 @@ const ClassSchedule = () => {
               </View>
 
               <View style={globalStyles.eventColumn}>
-              <View style={globalStyles.eventColumn}>
                 {events.map((event) => {
                   const topValue = timeToIndex(event.start) * 40;
                   const eventHeight =
@@ -199,7 +195,6 @@ const ClassSchedule = () => {
                       activeOpacity={0.8}
                       onPress={() => toggleSlider(event)}
                       style={[
-                        globalStyles.eventTile,
                         globalStyles.eventTile,
                         {
                           top: topValue,
@@ -224,7 +219,6 @@ const ClassSchedule = () => {
             <Animated.View
               style={[
                 globalStyles.bottomSlider,
-                globalStyles.bottomSlider,
                 { transform: [{ translateY: slideAnim }] },
               ]}
               {...panResponder.panHandlers}
@@ -232,10 +226,8 @@ const ClassSchedule = () => {
               <View>
                 <TouchableOpacity
                   style={globalStyles.closeButton}
-                  style={globalStyles.closeButton}
                   onPress={closeSlider}
                 >
-                  <Text style={globalStyles.closeButtonText}>X</Text>
                   <Text style={globalStyles.closeButtonText}>X</Text>
                 </TouchableOpacity>
 
@@ -254,7 +246,6 @@ const ClassSchedule = () => {
                 <Text style={globalStyles.sliderLocation}>
                   {selectedEvent.location}
                 </Text>
-                <Text style={globalStyles.sliderLocation}>{selectedEvent.location}</Text>
                 <View style={globalStyles.roomRow}>
                   <Text style={globalStyles.sliderRoom} numberOfLines={2}>
                     {selectedEvent.location.split(" - ").pop()?.trim()}
@@ -272,36 +263,5 @@ const ClassSchedule = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 30,
-  },
-  googleButton: {
-    width: 240,
-    height: 48,
-    marginTop: 16,
-  },
-  userInfoContainer: {
-    alignItems: "center",
-  },
-  successText: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  userEmail: {
-    fontSize: 14,
-    marginBottom: 16,
-    fontStyle: "italic",
-  },
-});
 
 export default ClassSchedule;
