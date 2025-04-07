@@ -225,3 +225,6 @@ src/coverage/coverage-final.json
 src/coverage/coverage-final.json
 src/coverage/clover.xml
 src/coverage/clover.xml
+
+# API Keys and Secrets
+**/*/res/values/secrets.xml
