@@ -80,7 +80,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     const endRoom = endLocation.toLowerCase();
 
     if ((startRoom === 'h-813' && endRoom.startsWith('h-9')) ||
-      (endRoom === 'h-813' && startRoom.startsWith('h-9'))) {
+        (endRoom === 'h-813' && startRoom.startsWith('h-9'))) {
       setShowPath(true);
     }
   };
@@ -101,7 +101,12 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   };
 
   const renderNavigationButton = () => {
-    if (!showPath) return null;
+    // Only show navigation buttons during multifloor paths
+    const isMultifloorPath = 
+      ((startLocation.toLowerCase() === 'h-813' && endLocation.toLowerCase().startsWith('h-9')) ||
+       (endLocation.toLowerCase() === 'h-813' && startLocation.toLowerCase().startsWith('h-9')));
+
+    if (!showPath || !isMultifloorPath) return null;
 
     const buttonProps = {
       style: {
@@ -285,8 +290,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
     </TouchableWithoutFeedback>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   modalContainer: {
