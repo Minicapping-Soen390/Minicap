@@ -21,6 +21,7 @@ export interface ShuttleRoute extends Audit {
   points?: LatLng[];
   color?: string;
   width?: number;
+  isActive?: boolean;
 }
 
 export interface ShuttleDepartureInfo extends Audit {
@@ -45,26 +46,7 @@ export interface ShuttleLocation extends Audit {
   Longitude?: number;
 }
 
-// Already defined above but with different fields - resolving duplication
-export interface ShuttleStop extends Audit {
-  name?: string;
-  latitude?: number;
-  longitude?: number;
-}
-
-// Already defined above but with different fields - resolving duplication
-export interface ShuttleDepartureInfo extends Audit {
-  departureTime?: Date;
-  waitTime?: number;
-}
-
-// Already defined above but with different fields - resolving duplication
-export interface ShuttleRoute extends Audit {
-  points?: LatLng[];
-  isActive?: boolean;
-}
-
-export interface LatLng{
+export interface LatLng {
   latitude?: number;
   longitude?: number;
 }
