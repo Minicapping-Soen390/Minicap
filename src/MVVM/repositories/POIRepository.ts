@@ -107,7 +107,7 @@ export class POIRepositoryImpl implements IPOIRepository {
       type: place.types ? place.types[0] : "restaurant",
       name: place.name || "Unknown Place",
       category: category,
-      description: place.vicinity || "",
+      description: place.vicinity ?? "",
       location: place.geometry ? 
         `${place.geometry.location.lat},${place.geometry.location.lng}` : 
         "0,0", // Default to origin if no geometry
