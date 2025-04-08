@@ -4,8 +4,8 @@ import { Polygon, Marker, LatLng, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import axios from "axios";
 import Constants from "expo-constants";
-import { determineUserCampus } from "../utils/ShuttleUtils";
-import { sanitizeHtmlContent, decodePolyline } from "../utils/MapUtils";
+import { determineUserCampus } from "../utils/shuttleUtils";
+import { sanitizeHtmlContent, decodePolyline } from "../utils/mapUtils";
 
 /**
  * Creates a facade for map-related operations and state management.

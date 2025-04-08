@@ -2,7 +2,7 @@ import { POI, POICategory } from '@/MVVM/models/POI';
 import { IPOIRepository } from "./Interfaces/IPOIRepository";
 import axios from "axios";
 import Constants from 'expo-constants';
-import { generateId } from '@/Shared/utils/GeneralUtils';
+import { generateId } from '@/Shared/utils/generalUtils';
 
 // Google Place API result interface
 interface GooglePlaceResult {

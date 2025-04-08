@@ -2,7 +2,7 @@ import { runInAction, makeAutoObservable } from 'mobx';
 import { POI, POICategory } from '@/MVVM/models/POI';
 import { BaseViewModel } from './BaseViewModel';
 import { POIRepositoryImpl } from '@/MVVM/repositories/POIRepository';
-import { generateId } from '@/Shared/utils/GeneralUtils';
+import { generateId } from '@/Shared/utils/generalUtils';
 import axios from "axios";
 import Constants from 'expo-constants';
 

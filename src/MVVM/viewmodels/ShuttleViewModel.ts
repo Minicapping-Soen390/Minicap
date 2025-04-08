@@ -3,7 +3,7 @@ import { ShuttleRepositoryImpl } from '@/MVVM/repositories/ShuttleRepository';
 import { ShuttleState, ShuttlePoint, ShuttleRoute, ShuttleStop, ShuttleDepartureInfo } from '@/MVVM/models/Shuttle';
 import { ShuttleService } from '@/MVVM/services/ShuttleService';
 import { BaseViewModel } from './BaseViewModel';
-import { getErrorMessage,  createAuditObject, generateId  } from '@/Shared/utils/GeneralUtils';
+import { getErrorMessage,  createAuditObject, generateId  } from '@/Shared/utils/generalUtils';
 
 export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
   private repository: ShuttleRepositoryImpl;

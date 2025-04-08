@@ -24,13 +24,13 @@ import {
   createIndoorNavigationFacade,
   createMapUIFacade,
   renderPOIMarkers
-} from "../../Shared/utils/MapUtils";
+} from "../../Shared/utils/mapUtils";
 import {
   createShuttleFacade,
   renderShuttleMarkers,
-} from "../../Shared/utils/ShuttleUtils";
+} from "../../Shared/utils/shuttleUtils";
 import IndoorNavigationModal from "../../components/IndoorNavigationModal";
-import { getErrorMessage } from "@/Shared/utils/GeneralUtils";
+import { getErrorMessage } from "@/Shared/utils/generalUtils";
  
 
 /**

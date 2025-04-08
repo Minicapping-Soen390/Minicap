@@ -2,7 +2,7 @@ import { ShuttlePoint, ShuttleRoute, ShuttleDepartureInfo } from '@/MVVM/models/
 import { ShuttleStop } from '../models/Shuttle';
 import { LatLng } from 'react-native-maps';
 import { IShuttleRepository } from './Interfaces/IShuttleRepository';
-import { getErrorMessage } from '@/Shared/utils/GeneralUtils';
+import { getErrorMessage } from '@/Shared/utils/generalUtils';
 
 export class ShuttleError extends Error {
   constructor(message: string, public code: string) {
