@@ -1,8 +1,6 @@
-import axios from "axios";
 import { View, Text } from "react-native";
-import { Marker, LatLng, Region } from "react-native-maps";
+import { Marker, Region } from "react-native-maps";
 import { SHUTTLE_STOPS } from "@/MVVM/services/ShuttleService";
-import Constants from "expo-constants";
 
 // Create a functional version of the shuttle state instead of using a class with MobX
 let shuttleState = {

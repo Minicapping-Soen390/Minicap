@@ -16,7 +16,7 @@ import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import campusCenters from "@/data/campusCenters.json";
-import { POI, POICategory } from "@/MVVM/models/POI";
+import { POICategory } from "@/MVVM/models/POI";
 import { Campus } from "@/MVVM/models/Campus";
 import { 
   createMapFacade,
