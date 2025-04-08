@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { Svg, Rect } from 'react-native-svg';
-import React, { useState } from "react";
+import { Svg, Rect, Path } from 'react-native-svg';
+import React, { useState, useEffect } from "react";
 import Hall8 from "../data/svgFloorMaps/Annotated-Hall-8.svg";
 import Hall9 from "../data/svgFloorMaps/Hall-9.svg";
 import PathH813ToH845Hall8 from '../data/svgFloorMaps/Path-H813-to-H845-Hall-8.svg';
@@ -30,6 +30,62 @@ const toggleStrategies = {
   accessibility: (currentState: boolean) => !currentState,
 };
 
+// Graph structure for Hall 8 navigation
+const hall8Graph = {
+  nodes: {
+    'H813': { x: 100, y: 150 },
+    'H845': { x: 300, y: 250 },
+    'waypoint1': { x: 200, y: 200 }
+  },
+  edges: [
+    { from: 'H813', to: 'waypoint1', weight: 50 },
+    { from: 'waypoint1', to: 'H845', weight: 60 }
+  ]
+};
+
+function calculateShortestPath(graph: typeof hall8Graph, start: string, end: string): Array<string> {
+  const distances: Record<string, number> = {};
+  const previous: Record<string, string | null> = {};
+  const queue: Array<{ node: string; distance: number }> = [];
+
+  Object.keys(graph.nodes).forEach(node => {
+    distances[node] = Infinity;
+    previous[node] = null;
+  });
+
+  distances[start] = 0;
+  queue.push({ node: start, distance: 0 });
+
+  while (queue.length > 0) {
+    queue.sort((a, b) => a.distance - b.distance);
+    const { node } = queue.shift()!;
+
+    if (node === end) break;
+
+    graph.edges.forEach(edge => {
+      if (edge.from !== node) return;
+
+      const distance = distances[node] + edge.weight;
+      if (distance < distances[edge.to]) {
+        distances[edge.to] = distance;
+        previous[edge.to] = node;
+        queue.push({ node: edge.to, distance });
+      }
+    });
+  }
+
+  // Reconstruct path
+  const path: Array<string> = [];
+  let currentNode: string | null = end;
+
+  while (currentNode !== null) {
+    path.unshift(currentNode);
+    currentNode = previous[currentNode];
+  }
+
+  return path;
+}
+
 const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   buildingInfo,
   currentFloorIndex,
@@ -42,6 +98,7 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   const [startLocation, setStartLocation] = useState('');
   const [endLocation, setEndLocation] = useState('');
   const [showPath, setShowPath] = useState(false);
+  const [pathCoordinates, setPathCoordinates] = useState<Array<{ x: number; y: number }>>([]);
 
   const stairsLocations: Record<number, Marker[]> = {
     0: [
@@ -78,7 +135,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   const showMultifloorPath = () => {
     const startRoom = startLocation.toLowerCase();
     const endRoom = endLocation.toLowerCase();
-
     if (startRoom === 'h-813' && endRoom === 'h-927') {
       setShowPath(true);
     }
@@ -87,9 +143,14 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   const showUnifloorPath = () => {
     const startRoom = startLocation.toLowerCase();
     const endRoom = endLocation.toLowerCase();
-
     if (startRoom === 'h-813' && endRoom === 'h-845') {
       setShowPath(true);
+      const path = calculateShortestPath(hall8Graph, 'H813', 'H845');
+      const coords = path.map(node => ({
+        x: hall8Graph.nodes[node].x,
+        y: hall8Graph.nodes[node].y
+      }));
+      setPathCoordinates(coords);
     }
   };
 
@@ -101,9 +162,9 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
 
   const renderNavigationButton = () => {
     // Only show navigation buttons during multifloor paths
-    const isMultifloorPath = 
+    const isMultifloorPath =
       ((startLocation.toLowerCase() === 'h-813' && endLocation.toLowerCase().startsWith('h-9')) ||
-       (endLocation.toLowerCase() === 'h-813' && startLocation.toLowerCase().startsWith('h-9')));
+        (endLocation.toLowerCase() === 'h-813' && startLocation.toLowerCase().startsWith('h-9')));
 
     if (!showPath || !isMultifloorPath) return null;
 
@@ -187,7 +248,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
               placeholderTextColor="#ccc"
             />
           </View>
-
           <View style={styles.inputBox}>
             <TextInput
               style={styles.inputField}
@@ -197,7 +257,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
               placeholderTextColor="#ccc"
             />
           </View>
-
           <TouchableOpacity
             style={styles.findPathButton}
             onPress={() => {
@@ -207,7 +266,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
           >
             <Icon name="arrow-right" size={24} color="#fff" />
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.resetButton}
             onPress={resetToHallMap}
@@ -262,12 +320,10 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
         {renderNavigationButton()}
 
         <View style={styles.poiButtons}>
-          {/* Toggle for highlighting washrooms */}
           <TouchableOpacity style={styles.poiButton}>
             <MaterialIcons name="wc" size={20} color="#fff" />
           </TouchableOpacity>
 
-          {/* Toggle for highlighting elevators */}
           <TouchableOpacity
             style={styles.poiButton}
             onPress={() => handleToggle('elevators')}
@@ -279,7 +335,6 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
             />
           </TouchableOpacity>
 
-          {/* Toggle for highlighting stairs */}
           <TouchableOpacity
             style={styles.poiButton}
             onPress={() => handleToggle('stairs')}
