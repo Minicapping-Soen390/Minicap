@@ -1,17 +1,23 @@
 import { Room, Building } from '../models/Room';
 import * as fs from 'fs';
 import * as path from 'path';
-import { getErrorMessage } from '@/Shared/utils/generalUtils';
-import { BaseRepository } from './BaseRepository';
+import { getErrorMessage } from '@/Shared/utils/GeneralUtils';
 import { IRoomRepository } from './Interfaces/IRoomRepository';
 
-export class RoomRepository extends BaseRepository<Building> implements IRoomRepository {
+export class RoomRepositoryImpl implements IRoomRepository {
   private readonly dataDir: string;
+  private static instance: RoomRepositoryImpl | null = null;
 
-  protected constructor(dataDir: string = path.join(process.cwd(), 'data')) {
-    super();
+  private constructor(dataDir: string = path.join(process.cwd(), 'data')) {
     this.dataDir = dataDir;
     this.ensureDataDirectory();
+  }
+
+  public static getInstance(): RoomRepositoryImpl {
+    if (!RoomRepositoryImpl.instance) {
+      RoomRepositoryImpl.instance = new RoomRepositoryImpl();
+    }
+    return RoomRepositoryImpl.instance;
   }
 
   private ensureDataDirectory(): void {
@@ -22,7 +28,7 @@ export class RoomRepository extends BaseRepository<Building> implements IRoomRep
 
   public async saveBuilding(building: Building): Promise<void> {
     try {
-      const filePath = path.join(this.dataDir, `${building._id}.json`);
+      const filePath = path.join(this.dataDir, `${building.id}.json`);
       await fs.promises.writeFile(
         filePath,
         JSON.stringify(building, null, 2),
@@ -60,7 +66,7 @@ export class RoomRepository extends BaseRepository<Building> implements IRoomRep
   public validateBuilding(building: Building): boolean {
     try {
       // Check required fields
-      if (!building._id || !building.name || !building.floors || !building.rooms) {
+      if (!building.id || !building.name || !building.floors || !building.rooms) {
         return false;
       }
 
@@ -78,10 +84,10 @@ export class RoomRepository extends BaseRepository<Building> implements IRoomRep
     }
   }
 
-  private validateRoom(room: Room): boolean {
+  public validateRoom(room: Room): boolean {
     try {
       // Check required fields
-      if (!room._id || !room.name || !room.coordinates || !room.floor || !room.building) {
+      if (!room.id || !room.name || !room.coordinates || !room.floor || !room.building) {
         return false;
       }
 
@@ -103,3 +109,6 @@ export class RoomRepository extends BaseRepository<Building> implements IRoomRep
     }
   }
 }
+
+// Export the interface for backward compatibility
+export { IRoomRepository as RoomRepository };

@@ -7,7 +7,7 @@ export interface IBuildingRepository {
    * @returns Promise resolving to the found Building
    * @throws {NotFoundError} If building with given ID doesn't exist
    */
-  findBuildingById(_id: string): Promise<Building>;
+  findBuildingById(id: string): Promise<Building>;
 
   /**
    * Retrieves all buildings associated with a specific campus

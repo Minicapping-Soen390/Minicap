@@ -3,7 +3,6 @@ import { ShuttleStop } from '../models/Shuttle';
 import { LatLng } from 'react-native-maps';
 import { IShuttleRepository } from './Interfaces/IShuttleRepository';
 import { getErrorMessage } from '@/Shared/utils/generalUtils';
-import { BaseRepository } from './BaseRepository';
 
 export class ShuttleError extends Error {
   constructor(message: string, public code: string) {
@@ -15,10 +14,26 @@ export class ShuttleError extends Error {
 // Export the interface for backward compatibility
 export { IShuttleRepository as ShuttleRepository };
 
-export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implements IShuttleRepository {
+export class ShuttleRepositoryImpl implements IShuttleRepository {
+  // The single instance
+  private static instance: ShuttleRepositoryImpl | null = null;
+  
+  // Private constructor ensures singleton pattern
+  private constructor() {
+    // Initialize any resources needed
+  }
+
+  // Public static method to get the singleton instance
+  public static getInstance(): ShuttleRepositoryImpl {
+    if (!ShuttleRepositoryImpl.instance) {
+      ShuttleRepositoryImpl.instance = new ShuttleRepositoryImpl();
+    }
+    return ShuttleRepositoryImpl.instance;
+  }
+
   private readonly mockStops: ShuttleStop[] = [
     {
-      _id: 'sgw',
+      id: 'sgw',
       name: 'SGW Campus',
       address: '1455 De Maisonneuve Blvd W',
       latitude: 45.4973,
@@ -28,7 +43,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
       updatedAt: new Date(),
     },
     {
-      _id: 'loyola',
+      id: 'loyola',
       name: 'Loyola Campus',
       address: '7141 Sherbrooke St W',
       latitude: 45.4581,
@@ -46,7 +61,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
 
       return [
         {
-          _id: 'BUS1',
+          id: 'BUS1',
           latitude: 45.4973,
           longitude: -73.5789,
           speed: 30,
@@ -56,7 +71,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
           updatedAt: new Date(),
         },
         {
-          _id: 'BUS2',
+          id: 'BUS2',
           latitude: 45.4581,
           longitude: -73.6405,
           speed: 25,
@@ -80,7 +95,7 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
     const departureTime = new Date(now.getTime() + 15 * 60000); // 15 minutes from now
 
     return {
-      _id: `departure-${campus}-${departureTime.getTime()}`,
+      id: `departure-${campus}-${departureTime.getTime()}`,
       departureTime,
       waitTime: 15,
       campus,
@@ -98,10 +113,20 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
     if (locations.length === 0) return null;
 
     let closest = locations[0];
-    let minDistance = this.calculateDistance(latitude, longitude, closest.latitude, closest.longitude);
+    let minDistance = this.calculateDistance(
+      latitude, 
+      longitude, 
+      closest.latitude ?? 0, 
+      closest.longitude ?? 0
+    );
 
     for (const location of locations.slice(1)) {
-      const distance = this.calculateDistance(latitude, longitude, location.latitude, location.longitude);
+      const distance = this.calculateDistance(
+        latitude, 
+        longitude, 
+        location.latitude ?? 0, 
+        location.longitude ?? 0
+      );
       if (distance < minDistance) {
         minDistance = distance;
         closest = location;
@@ -119,16 +144,22 @@ export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implemen
   async createRouteFromShuttles(shuttles: ShuttlePoint[]): Promise<ShuttleRoute> {
     const stops = await this.getShuttleStops();
     const points: LatLng[] = [
-      { latitude: stops[0].latitude, longitude: stops[0].longitude },
+      { 
+        latitude: stops[0].latitude ?? 0, 
+        longitude: stops[0].longitude ?? 0 
+      },
       ...shuttles.map(shuttle => ({
-        latitude: shuttle.latitude,
-        longitude: shuttle.longitude
+        latitude: shuttle.latitude ?? 0,
+        longitude: shuttle.longitude ?? 0
       })),
-      { latitude: stops[1].latitude, longitude: stops[1].longitude }
+      { 
+        latitude: stops[1].latitude ?? 0, 
+        longitude: stops[1].longitude ?? 0 
+      }
     ];
 
     return {
-      _id: 'route-' + Date.now(),
+      id: 'route-' + Date.now(),
       name: 'Shuttle Route',
       isActive: false,
       points,

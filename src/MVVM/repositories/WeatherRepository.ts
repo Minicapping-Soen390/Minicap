@@ -1,11 +1,26 @@
 import { Weather, ForecastData } from "@/MVVM/models/Weather";
 import { IWeatherRepository } from "./Interfaces/IWeatherRepository";
-import { BaseRepository } from "./BaseRepository";
 
 // Export the interface for backward compatibility
 export { IWeatherRepository as WeatherRepository };
 
-export class WeatherRepositoryImpl extends BaseRepository<Weather> implements IWeatherRepository {
+export class WeatherRepositoryImpl implements IWeatherRepository {
+  // The single instance
+  private static instance: WeatherRepositoryImpl | null = null;
+  
+  // Private constructor ensures singleton pattern
+  private constructor() {
+    // Initialize any resources needed
+  }
+
+  // Public static method to get the singleton instance
+  public static getInstance(): WeatherRepositoryImpl {
+    if (!WeatherRepositoryImpl.instance) {
+      WeatherRepositoryImpl.instance = new WeatherRepositoryImpl();
+    }
+    return WeatherRepositoryImpl.instance;
+  }
+  
   async getCurrentWeather(latitude: number, longitude: number): Promise<Weather> {
     throw new Error("Method not implemented: getCurrentWeather");
   }

@@ -1,6 +1,6 @@
 [
   {
-    "_id": "67aaabc9a89802f0176bad67",
+    "id": "67aaabc9a89802f0176bad67",
     "campus": "LOY",
     "name": "AD Building",
     "BuildingLongName": "Administration Building",
@@ -195,7 +195,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad68",
+    "id": "67aaabc9a89802f0176bad68",
     "campus": "SGW",
     "name": "B Building",
     "BuildingLongName": "B Annex",
@@ -234,7 +234,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad69",
+    "id": "67aaabc9a89802f0176bad69",
     "campus": "LOY",
     "name": "BB Building",
     "BuildingLongName": "BB Annex",
@@ -265,7 +265,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad6a",
+    "id": "67aaabc9a89802f0176bad6a",
     "campus": "LOY",
     "name": "BH Building",
     "BuildingLongName": "BH Annex",
@@ -296,7 +296,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad6b",
+    "id": "67aaabc9a89802f0176bad6b",
     "campus": "LOY",
     "name": "CC Building",
     "BuildingLongName": "Central Building",
@@ -377,7 +377,7 @@
     ]
   },
   {
-    "_id": "67aaabc9a89802f0176bad6c",
+    "id": "67aaabc9a89802f0176bad6c",
     "campus": "SGW",
     "name": "CI Building",
     "BuildingLongName": "CI Annex",
@@ -432,7 +432,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad6d",
+    "id": "67aaabc9a89802f0176bad6d",
     "campus": "LOY",
     "name": "CJ Building - wing A",
     "BuildingLongName": "Communication Studies and Journalism Building",
@@ -559,7 +559,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad6e",
+    "id": "67aaabc9a89802f0176bad6e",
     "campus": "LOY",
     "name": "CJ Building - wing N",
     "BuildingLongName": "Communication Studies and Journalism Building",
@@ -686,7 +686,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad6f",
+    "id": "67aaabc9a89802f0176bad6f",
     "campus": "LOY",
     "name": "CJ Building - wing S",
     "BuildingLongName": "Communication Studies and Journalism Building",
@@ -813,7 +813,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad70",
+    "id": "67aaabc9a89802f0176bad70",
     "campus": "SGW",
     "name": "CL Building",
     "BuildingLongName": "CL Annex",
@@ -864,7 +864,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad71",
+    "id": "67aaabc9a89802f0176bad71",
     "campus": "SGW",
     "name": "D Building",
     "BuildingLongName": "D Annex",
@@ -915,7 +915,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad72",
+    "id": "67aaabc9a89802f0176bad72",
     "campus": "SGW",
     "name": "EN Building",
     "BuildingLongName": "EN Annex",
@@ -978,7 +978,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad73",
+    "id": "67aaabc9a89802f0176bad73",
     "campus": "SGW",
     "name": "ER Building",
     "BuildingLongName": "ER Building",
@@ -1029,7 +1029,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad76",
+    "id": "67aaabc9a89802f0176bad76",
     "campus": "SGW",
     "name": "EV Building",
     "BuildingLongName": "Engineering, Computer Science and Visual Arts Integrated Complex",
@@ -1148,7 +1148,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad77",
+    "id": "67aaabc9a89802f0176bad77",
     "campus": "SGW",
     "name": "FA Building",
     "BuildingLongName": "FA Annex",
@@ -1187,7 +1187,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad78",
+    "id": "67aaabc9a89802f0176bad78",
     "campus": "SGW",
     "name": "FB Building",
     "BuildingLongName": "Faubourg Building",
@@ -1294,7 +1294,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad79",
+    "id": "67aaabc9a89802f0176bad79",
     "campus": "LOY",
     "name": "FC Building",
     "BuildingLongName": "F.C. Smith Building",
@@ -1593,7 +1593,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad7a",
+    "id": "67aaabc9a89802f0176bad7a",
     "campus": "SGW",
     "name": "FG Building",
     "BuildingLongName": "Faubourg Ste-Catherine Building",
@@ -1660,7 +1660,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad7b",
+    "id": "67aaabc9a89802f0176bad7b",
     "campus": "SGW",
     "name": "GA Building",
     "BuildingLongName": "Grey Nuns Annex",
@@ -1727,7 +1727,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad7c",
+    "id": "67aaabc9a89802f0176bad7c",
     "campus": "LOY",
     "name": "GE Building",
     "BuildingLongName": "Centre for Structural and Functional Genomics",
@@ -1782,7 +1782,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad7d",
+    "id": "67aaabc9a89802f0176bad7d",
     "campus": "SGW",
     "name": "GM Building",
     "BuildingLongName": "Guy-De Maisonneuve Building",
@@ -1841,7 +1841,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad7e",
+    "id": "67aaabc9a89802f0176bad7e",
     "campus": "SGW",
     "name": "GN Building",
     "BuildingLongName": "Grey Nuns Building",
@@ -2440,7 +2440,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad82",
+    "id": "67aaabc9a89802f0176bad82",
     "campus": "SGW",
     "name": "GS Building",
     "BuildingLongName": "Guy-Sherbrooke Building",
@@ -2491,7 +2491,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad83",
+    "id": "67aaabc9a89802f0176bad83",
     "campus": "SGW",
     "name": "H Building",
     "BuildingLongName": "Henry F. Hall Building",
@@ -2569,7 +2569,7 @@
     ]
   },
   {
-    "_id": "67aaabc9a89802f0176bad84",
+    "id": "67aaabc9a89802f0176bad84",
     "campus": "LOY",
     "name": "HA Building",
     "BuildingLongName": "Hingston Hall, wing HA",
@@ -2632,7 +2632,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad85",
+    "id": "67aaabc9a89802f0176bad85",
     "campus": "LOY",
     "name": "HB Building",
     "BuildingLongName": "Hingston Hall, wing HB",
@@ -2703,7 +2703,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad86",
+    "id": "67aaabc9a89802f0176bad86",
     "campus": "LOY",
     "name": "HC Building",
     "BuildingLongName": "Hingston Hall, wing HC",
@@ -2750,7 +2750,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad87",
+    "id": "67aaabc9a89802f0176bad87",
     "campus": "LOY",
     "name": "HU Building",
     "BuildingLongName": "Applied Science Hub",
@@ -2781,7 +2781,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad88",
+    "id": "67aaabc9a89802f0176bad88",
     "campus": "LOY",
     "name": "JR Building",
     "BuildingLongName": "Jesuit Residence",
@@ -2868,7 +2868,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad89",
+    "id": "67aaabc9a89802f0176bad89",
     "campus": "SGW",
     "name": "K Building",
     "BuildingLongName": "K Annex",
@@ -2935,7 +2935,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad8a",
+    "id": "67aaabc9a89802f0176bad8a",
     "campus": "SGW",
     "name": "LB Building",
     "BuildingLongName": "J.W. McConnell Building",
@@ -3010,7 +3010,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad8d",
+    "id": "67aaabc9a89802f0176bad8d",
     "campus": "SGW",
     "name": "M Building",
     "BuildingLongName": "M Annex",
@@ -3065,7 +3065,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad8e",
+    "id": "67aaabc9a89802f0176bad8e",
     "campus": "SGW",
     "name": "MB Building",
     "BuildingLongName": "John Molson Building",
@@ -3127,7 +3127,7 @@
     ]
   },
   {
-    "_id": "67aaabc9a89802f0176bad8f",
+    "id": "67aaabc9a89802f0176bad8f",
     "campus": "SGW",
     "name": "MI Building",
     "BuildingLongName": "MI Annex",
@@ -3186,7 +3186,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad94",
+    "id": "67aaabc9a89802f0176bad94",
     "campus": "SGW",
     "name": "MU Building",
     "BuildingLongName": "MU Annex",
@@ -3229,7 +3229,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad95",
+    "id": "67aaabc9a89802f0176bad95",
     "campus": "SGW",
     "name": "P Building",
     "BuildingLongName": "P Annex",
@@ -3268,7 +3268,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad96",
+    "id": "67aaabc9a89802f0176bad96",
     "campus": "LOY",
     "name": "PB Building",
     "BuildingLongName": "PB Building",
@@ -3303,7 +3303,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad97",
+    "id": "67aaabc9a89802f0176bad97",
     "campus": "LOY",
     "name": "PC Building",
     "BuildingLongName": "PERFORM centre",
@@ -3334,7 +3334,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad98",
+    "id": "67aaabc9a89802f0176bad98",
     "campus": "SGW",
     "name": "PR Building",
     "BuildingLongName": "PR Annex",
@@ -3381,7 +3381,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad99",
+    "id": "67aaabc9a89802f0176bad99",
     "campus": "LOY",
     "name": "PS Building",
     "BuildingLongName": "Physical Services Building",
@@ -3452,7 +3452,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad9a",
+    "id": "67aaabc9a89802f0176bad9a",
     "campus": "LOY",
     "name": "PT Building",
     "BuildingLongName": "Oscar Peterson Concert Hall",
@@ -3495,7 +3495,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad9b",
+    "id": "67aaabc9a89802f0176bad9b",
     "campus": "LOY",
     "name": "PY Building",
     "BuildingLongName": "Psychology Building",
@@ -3638,7 +3638,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad9c",
+    "id": "67aaabc9a89802f0176bad9c",
     "campus": "SGW",
     "name": "Q Building",
     "BuildingLongName": "Q Annex",
@@ -3677,7 +3677,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad9d",
+    "id": "67aaabc9a89802f0176bad9d",
     "campus": "SGW",
     "name": "R Building",
     "BuildingLongName": "R Annex",
@@ -3712,7 +3712,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad9e",
+    "id": "67aaabc9a89802f0176bad9e",
     "campus": "LOY",
     "name": "RA Building",
     "BuildingLongName": "Recreation and Athletics Complex",
@@ -3759,7 +3759,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bad9f",
+    "id": "67aaabc9a89802f0176bad9f",
     "campus": "LOY",
     "name": "RF Building",
     "BuildingLongName": "Loyola Jesuit Hall and Conference Centre",
@@ -3898,7 +3898,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada0",
+    "id": "67aaabc9a89802f0176bada0",
     "campus": "SGW",
     "name": "RR Building",
     "BuildingLongName": "RR Annex",
@@ -3945,7 +3945,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada1",
+    "id": "67aaabc9a89802f0176bada1",
     "campus": "SGW",
     "name": "S Building",
     "BuildingLongName": "S Annex",
@@ -4004,7 +4004,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada2",
+    "id": "67aaabc9a89802f0176bada2",
     "campus": "SGW",
     "name": "SB Building",
     "BuildingLongName": "Samuel Bronfman Building",
@@ -4111,7 +4111,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada3",
+    "id": "67aaabc9a89802f0176bada3",
     "campus": "LOY",
     "name": "SC Building",
     "BuildingLongName": "Student Centre",
@@ -4174,7 +4174,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada4",
+    "id": "67aaabc9a89802f0176bada4",
     "campus": "LOY",
     "name": "SH Building",
     "BuildingLongName": "Solar House",
@@ -4205,7 +4205,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada5",
+    "id": "67aaabc9a89802f0176bada5",
     "campus": "LOY",
     "name": "SP Building",
     "BuildingLongName": "Richard J. Renaud Science Complex",
@@ -4340,7 +4340,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada6",
+    "id": "67aaabc9a89802f0176bada6",
     "campus": "SGW",
     "name": "T Building",
     "BuildingLongName": "T Annex",
@@ -4375,7 +4375,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada7",
+    "id": "67aaabc9a89802f0176bada7",
     "campus": "LOY",
     "name": "TA Building",
     "BuildingLongName": "Terrebonne Building",
@@ -4406,7 +4406,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada8",
+    "id": "67aaabc9a89802f0176bada8",
     "campus": "LOY",
     "name": "TB Building",
     "BuildingLongName": "TB Annex",
@@ -4437,7 +4437,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176bada9",
+    "id": "67aaabc9a89802f0176bada9",
     "campus": "SGW",
     "name": "TD Building",
     "BuildingLongName": "Toronto-Dominion Building",
@@ -4500,7 +4500,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176badab",
+    "id": "67aaabc9a89802f0176badab",
     "campus": "SGW",
     "name": "V Building",
     "BuildingLongName": "V Annex",
@@ -4547,7 +4547,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176badac",
+    "id": "67aaabc9a89802f0176badac",
     "campus": "SGW",
     "name": "VA Building",
     "BuildingLongName": "Visual Arts Building",
@@ -4606,7 +4606,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176badad",
+    "id": "67aaabc9a89802f0176badad",
     "campus": "LOY",
     "name": "VE Building",
     "BuildingLongName": "Vanier Extension",
@@ -4648,7 +4648,7 @@
     ]
   },
   {
-    "_id": "67aaabc9a89802f0176badae",
+    "id": "67aaabc9a89802f0176badae",
     "campus": "LOY",
     "name": "VL Building",
     "BuildingLongName": "Vanier Library Building",
@@ -4762,7 +4762,7 @@
     ]
   },
   {
-    "_id": "67aaabc9a89802f0176badaf",
+    "id": "67aaabc9a89802f0176badaf",
     "campus": "SGW",
     "name": "X Building",
     "BuildingLongName": "Student Centre",
@@ -4797,7 +4797,7 @@
     "floors": []
   },
   {
-    "_id": "67aaabc9a89802f0176badb0",
+    "id": "67aaabc9a89802f0176badb0",
     "campus": "SGW",
     "name": "Z Building",
     "BuildingLongName": "X Annex",

@@ -10,7 +10,7 @@ export interface ICampusRepository {
    * @returns Promise resolving to the found Campus
    * @throws {NotFoundError} If campus with given ID doesn't exist
    */
-  findCampusById(_id: string): Promise<Campus>;
+  findCampusById(id: string): Promise<Campus>;
 
   /**
    * Retrieves all campuses in the system

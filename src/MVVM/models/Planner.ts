@@ -5,10 +5,10 @@ export interface Planner extends Audit {
 }
 
 export interface Task extends Audit {
-  description: string;
-  locationId: string;  // FK to Location
-  locationType: string;
-  emergencyTask: boolean;
-  needsDisplay: boolean;
-  plannerId: string;   // FK to Planner
+  description?: string;
+  locationId?: string;  // FK to Location
+  locationType?: string;
+  emergencyTask?: boolean;
+  needsDisplay?: boolean;
+  plannerId?: string;   // FK to Planner
 }

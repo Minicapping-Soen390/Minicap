@@ -12,19 +12,19 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
 
   constructor() {
     super();
-    // Use repositories without implementing the interface
-    this.repository = (ShuttleRepositoryImpl as any).getInstance();
-    this.service = (ShuttleService as any).getInstance();
+    // Get repository and service singleton instances
+    this.repository = ShuttleRepositoryImpl.getInstance();
+    this.service = ShuttleService.getInstance();
     
     // Initialize state with audit properties
     const auditObj = createAuditObject();
     this.state = {
+      id: auditObj.id,
       locations: [],
       route: null,
       estimatedWaitTime: null,
       isLoading: false,
       error: null,
-      _id: auditObj._id,
       createdAt: auditObj.createdAt,
       updatedAt: auditObj.updatedAt
     };
@@ -33,7 +33,7 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
 
   protected mapToDTO(doc: any): ShuttleState {
     return {
-      _id: doc._id ?? generateId,
+      id: doc.id ?? generateId(),
       locations: doc.locations ?? [],
       route: doc.route ?? null,
       estimatedWaitTime: doc.estimatedWaitTime ?? null,
@@ -46,25 +46,25 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
 
   get locations(): ShuttlePoint[] {
     this.assertNotDisposed();
-    return this.state.locations;
+    return this.state.locations ?? [];
   }
 
   get route(): ShuttleRoute | null {
     this.assertNotDisposed();
-    return this.state.route;
+    return this.state.route ?? null;
   }
 
   get estimatedWaitTime(): number | null {
     this.assertNotDisposed();
-    return this.state.estimatedWaitTime;
+    return this.state.estimatedWaitTime ?? null;
   }
 
   get isLoading(): boolean {
-    return this.state.isLoading;
+    return this.state.isLoading ?? false;
   }
 
   get error(): string | null {
-    return this.state.error;
+    return this.state.error ?? null;
   }
 
   async fetchShuttleLocations(): Promise<void> {
@@ -78,8 +78,10 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
       // Use repository to get data
       const locations = await this.repository.getShuttleLocations();
       const route = await this.repository.createRouteFromShuttles(locations);
-      const waitTime = locations.length > 0 ? 
-        await this.repository.estimateWaitingTime(locations[0]._id) : null;
+      
+      // Make sure we have a valid id before using it
+      const waitTime = locations.length > 0 && locations[0].id ? 
+        await this.repository.estimateWaitingTime(locations[0].id) : null;
 
       runInAction(() => {
         this.state.locations = locations;
@@ -113,12 +115,12 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
     // Reset state with fresh audit properties
     const auditObj = createAuditObject();
     this.state = {
+      id: auditObj.id,
       locations: [],
       route: null,
       estimatedWaitTime: null,
       isLoading: false,
       error: null,
-      _id: auditObj._id,
       createdAt: auditObj.createdAt,
       updatedAt: auditObj.updatedAt
     };
