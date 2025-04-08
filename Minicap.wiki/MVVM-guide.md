@@ -63,7 +63,7 @@ class BuildingViewModel extends BaseViewModel<Building> implements BuildingRepos
 
   async findBuildingById(id: string): Promise<Building> {
     return this.withCollection(this.COLLECTION_NAME, async (collection) => {
-      const doc = await collection.findOne({ id: id });
+      const doc = await collection.findOne({ _id: id });
       if (!doc) throw new Error(`Building with id ${id} not found`);
       return this.mapToDTO(doc);
     });
