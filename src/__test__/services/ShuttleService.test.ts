@@ -1,28 +1,27 @@
 import axios from 'axios';
 import MockDate from 'mockdate';
-import { shuttleService, SHUTTLE_STOPS } from '@/MVVM/services/ShuttleService';
-import { shuttleSchedule } from '@/data/shuttleSchedule';
+import { ShuttleService, SHUTTLE_STOPS } from '@/MVVM/services/ShuttleService';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('ShuttleService', () => {
   beforeEach(() => {
-    shuttleService['sessionInitialized'] = false;
+    ShuttleService['sessionInitialized'] = false;
   });
 
   describe('initializeSession', () => {
     it('should initialize session successfully', async () => {
       mockedAxios.get.mockResolvedValueOnce({});
       await expect(
-        shuttleService['initializeSession']()
+        ShuttleService['initializeSession']()
       ).resolves.not.toThrow();
-      expect(shuttleService['sessionInitialized']).toBe(true);
+      expect(ShuttleService['sessionInitialized']).toBe(true);
     });
 
     it('should throw error if initialization fails', async () => {
       mockedAxios.get.mockRejectedValueOnce(new Error('Failed'));
-      await expect(shuttleService['initializeSession']()).rejects.toThrow(
+      await expect(ShuttleService['initializeSession']()).rejects.toThrow(
         'Failed to initialize shuttle tracking'
       );
     });
@@ -42,7 +41,7 @@ describe('ShuttleService', () => {
         }
       });
 
-      const result = await shuttleService.getShuttleLocations();
+      const result = await ShuttleService.getShuttleLocations();
       expect(result.length).toBe(1);
       expect(result[0].ID).toBe('BUS001');
     });
@@ -51,7 +50,7 @@ describe('ShuttleService', () => {
       mockedAxios.get.mockResolvedValueOnce({});
       mockedAxios.post.mockRejectedValueOnce(new Error('Post failed'));
 
-      await expect(shuttleService.getShuttleLocations()).rejects.toThrow(
+      await expect(ShuttleService.getShuttleLocations()).rejects.toThrow(
         'Failed to get shuttle locations'
       );
     });
@@ -59,7 +58,7 @@ describe('ShuttleService', () => {
 
   describe('getClosestShuttle', () => {
     it('should return the closest shuttle', () => {
-      const result = shuttleService.getClosestShuttle(
+      const result = ShuttleService.getClosestShuttle(
         [
           { _id: 'BUS1', Latitude: '45.45', Longitude: '-73.64' },
           { _id: 'BUS2', Latitude: '45.49', Longitude: '-73.59' }
@@ -70,7 +69,7 @@ describe('ShuttleService', () => {
     });
 
     it('should return null for empty list', () => {
-      const result = shuttleService.getClosestShuttle([], SHUTTLE_STOPS.SGW);
+      const result = ShuttleService.getClosestShuttle([], SHUTTLE_STOPS.SGW);
       expect(result).toBeNull();
     });
   });
@@ -85,14 +84,14 @@ describe('ShuttleService', () => {
     });
 
     it('should return next available departure', () => {
-      const result = shuttleService.getNextDepartureTime('SGW');
+      const result = ShuttleService.getNextDepartureTime('SGW');
       expect(result.departureTime).toBe('10:15');
       expect(result.waitTime).toBeGreaterThan(0);
     });
 
     it('should return first departure for next day if none left', () => {
       MockDate.set('2025-04-05T23:00:00');
-      const result = shuttleService.getNextDepartureTime('LOYOLA');
+      const result = ShuttleService.getNextDepartureTime('LOYOLA');
       expect(result.departureTime).toBe('09:15');
       expect(result.waitTime).toBeGreaterThan(0);
     });
