@@ -77,8 +77,14 @@ export const createPOIMapFacade = (params: {
   
   return {
     filterPOIsByCategory: () => {
-      const filtered = poiViewModel.filterPOIsByCategory(params.selectedPOICategory);
-      params.setFilteredPOIs(filtered);
+      poiViewModel.setPOIs(params.allPOIs);
+
+      if (params.selectedPOICategory === 'all') {
+        params.setFilteredPOIs(params.allPOIs);
+      } else {
+        const filtered = poiViewModel.filterPOIsByCategory(params.selectedPOICategory);
+        params.setFilteredPOIs(filtered);
+      }
     },
 
     findNearbyPOIs: async (latitude: number, longitude: number, radius: number): Promise<POI[]> => {

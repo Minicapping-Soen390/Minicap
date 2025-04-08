@@ -1,4 +1,4 @@
-import { runInAction, makeAutoObservable } from 'mobx';
+import { runInAction, makeObservable, observable, action } from 'mobx';
 import { POI, POICategory } from '@/MVVM/models/POI';
 import { BaseViewModel } from './BaseViewModel';
 import { POIRepositoryImpl } from '@/MVVM/repositories/POIRepository';
@@ -22,7 +22,25 @@ export class POIViewModel extends BaseViewModel<POI> {
     super();
     // Get repository singleton instance
     this.poiRepository = POIRepositoryImpl.getInstance();
-    makeAutoObservable(this);
+    makeObservable(this, {
+      pois: observable,
+      categoryFilters: observable,
+      setPOIs: action,
+      findPOIById: action,
+      getAllPOIs: action,
+      getFilteredPOIs: action,
+      toggleCategoryFilter: action,
+      toggleAllFilters: action,
+      filterPOIsByCategory: action,
+      findPOIsByCategory: action,
+      findNearbyPOIs: action,
+      dispose: action,
+      mapToDTO: action
+    });
+  }
+
+  setPOIs(pois: POI[]): void {
+    this.pois = pois;
   }
 
   async findPOIById(id: string): Promise<POI | null> {
