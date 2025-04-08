@@ -1,6 +1,6 @@
 import { SvgProcessorService } from '../services/SvgProcessorService';
 import { Building } from '../models/Room';
-import { getErrorMessage } from '@/Shared/utils/GeneralUtils';
+import { getErrorMessage } from '@/Shared/utils/generalUtils';
 import { BaseViewModel } from './BaseViewModel';
 import { RoomRepositoryImpl } from '../repositories/RoomRepository';
 

@@ -3,7 +3,7 @@ import { RoomService } from '@/MVVM/services/RoomService';
 import { RoomRepositoryImpl } from '@/MVVM/repositories/RoomRepository';
 import { BaseViewModel } from './BaseViewModel';
 import { makeAutoObservable, runInAction } from 'mobx';
-import { getErrorMessage, createAuditObject, generateId } from '@/Shared/utils/GeneralUtils';
+import { getErrorMessage, createAuditObject, generateId } from '@/Shared/utils/generalUtils';
 
 export interface RoomSearchState {
   id: string;
