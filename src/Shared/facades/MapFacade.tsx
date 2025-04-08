@@ -183,14 +183,17 @@ export const createMapFacade = (params: {
         },
       };
 
-      const { fill, stroke } =
-        isInside && isSelected
-          ? colorSettings.insideSelected
-          : isInside
-          ? colorSettings.inside
-          : isSelected
-          ? colorSettings.selected
-          : colorSettings.default;
+      // Determine color setting based on selection state
+      let colorSettingKey: 'insideSelected' | 'inside' | 'selected' | 'default' = 'default';
+      if (isInside && isSelected) {
+        colorSettingKey = 'insideSelected';
+      } else if (isInside) {
+        colorSettingKey = 'inside';
+      } else if (isSelected) {
+        colorSettingKey = 'selected';
+      }
+
+      const { fill, stroke } = colorSettings[colorSettingKey];
 
       const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
 
@@ -265,7 +268,7 @@ export const createMapFacade = (params: {
    * @returns boolean indicating if building data is valid
    */
   const isValidBuilding = (building: any): boolean => {
-    if (!building || !building.name) {
+    if (!building?.name) {
       console.error("Invalid building data:", building);
       Alert.alert("Error", "Invalid building data");
       return false;

@@ -16,8 +16,8 @@ export interface RoomSearchState {
 }
 
 export class RoomViewModel extends BaseViewModel<RoomSearchState> {
-  private repository: RoomRepositoryImpl;
-  private service: RoomService;
+  private readonly repository: RoomRepositoryImpl;
+  private readonly service: RoomService;
   private state: RoomSearchState;
 
   constructor() {

@@ -9,7 +9,7 @@ export const createIndoorNavigationFacade = (params: {
   setIsIndoorNavVisible: (visible: boolean) => void;
   setCurrentFloorIndex: (index: number) => void;
   currentFloorIndex: number;
-  buildingInfo: any | null;
+  buildingInfo: any;
   Alert: typeof Alert;
 }) => {
   const {
@@ -30,7 +30,7 @@ export const createIndoorNavigationFacade = (params: {
       console.log("Building info found for:", buildingInfo.name);
       console.log("Floor info:", buildingInfo.floors);
 
-      if (buildingInfo.floors && buildingInfo.floors.length > 0) {
+      if (buildingInfo.floors?.length > 0) {
         console.log(
           `Found ${buildingInfo.floors.length} floors for ${buildingInfo.name}.`
         );
@@ -67,7 +67,7 @@ export const createIndoorNavigationFacade = (params: {
       `Change floor triggered: direction ${direction}, current floor index: ${currentFloorIndex}`
     );
 
-    if (buildingInfo && buildingInfo.floors) {
+    if (buildingInfo?.floors) {
       console.log(
         `Building ${buildingInfo.name} has ${buildingInfo.floors.length} floors.`
       );
@@ -82,18 +82,16 @@ export const createIndoorNavigationFacade = (params: {
         console.log("Moving down to the previous floor...");
         setCurrentFloorIndex(currentFloorIndex - 1);
         console.log(`Current floor index updated to: ${currentFloorIndex - 1}`);
+      } else if (direction === "up") {
+        console.log("Already on the top floor.");
       } else {
-        if (direction === "up") {
-          console.log("Already on the top floor.");
-        } else {
-          console.log("Already on the bottom floor.");
-        }
+        console.log("Already on the bottom floor.");
       }
     } else {
       console.log("No floor data available.");
     }
   };
-  
+
   return {
     handleIndoorNavigation,
     closeIndoorNavigation,
