@@ -16,26 +16,24 @@ import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import campusCenters from "@/data/campusCenters.json";
-import { Campus } from "@/models/Campus";
-import { createMapFacade } from "../utils/mapUtils";
+import { Campus } from "@/MVVM/models/Campus";
+import { createMapFacade } from "../../Shared/utils/mapUtils";
 import {
   createShuttleFacade,
   renderShuttleMarkers,
-} from "../utils/shuttleUtils";
+} from "../../Shared/utils/shuttleUtils";
+import IndoorNavigationModal from "../../components/IndoorNavigationModal"; 
 
-// CampusMap Component Props
+/**
+ * Props interface for CampusMap component
+ */
 interface CampusMapProps {
   campusId: string;
 }
 
-const transportModeColors: Record<string, string> = {
-  walking: "#191970", // Midnight Blue
-  driving: "#1E90FF", // Dodger Blue
-  bicycling: "#007F5F", // Dark greenish blue
-  transit: brandColors.concordiaRed, // Already used for shuttle
-};
-
-// Define campuses
+/**
+ * Campus model for SGW campus
+ */
 const SGWCampus: Campus = {
   _id: "sgw-uuid",
   name: "SGW Campus",
@@ -43,6 +41,9 @@ const SGWCampus: Campus = {
   buildingIds: [],
 };
 
+/**
+ * Campus model for Loyola campus
+ */
 const LoyolaCampus: Campus = {
   _id: "loyola-uuid",
   name: "Loyola Campus",
@@ -50,6 +51,10 @@ const LoyolaCampus: Campus = {
   buildingIds: [],
 };
 
+/**
+ * Main component for displaying interactive campus map with navigation features
+ * @param campusId - Unique identifier for the campus to display
+ */
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
   const region: Region = campusCenters[campus.outdoorLocation];
@@ -89,6 +94,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     useState<boolean>(false);
   const [transportMode, setTransportMode] = useState<string>("walking");
   const [activeTab, setActiveTab] = useState<string>("walking");
+
+  // Indoor navigation state
+  const [isIndoorNavVisible, setIsIndoorNavVisible] = useState<boolean>(false);
+  const [currentFloorIndex, setCurrentFloorIndex] = useState<number>(0);
 
   const shuttleFacade = createShuttleFacade({
     setShuttleLocations,
@@ -173,6 +182,70 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     );
   }
 
+  const handleIndoorNavigation = () => {
+    console.log("handleIndoorNavigation triggered");
+
+    if (buildingInfo) {
+      console.log("Building info found for:", buildingInfo.name);
+      console.log("Floor info:", buildingInfo.floors);
+
+      if (buildingInfo.floors && buildingInfo.floors.length > 0) {
+        console.log(
+          `Found ${buildingInfo.floors.length} floors for ${buildingInfo.name}.`
+        );
+        setCurrentFloorIndex(0); // Reset to first floor
+        setIsIndoorNavVisible(true);
+        console.log(
+          "Indoor navigation modal is now visible. Starting at floor 0."
+        );
+      } else {
+        console.log("No floors data available for this building.");
+        Alert.alert("No floor information available for this building.");
+      }
+    } else {
+      console.log("No building info available.");
+      Alert.alert("Building information is missing.");
+    }
+  };
+
+  const closeIndoorNavigation = () => {
+    console.log("Closing indoor navigation...");
+    setIsIndoorNavVisible(false);
+    console.log("Indoor navigation modal is now closed.");
+  };
+
+  const changeFloor = (direction: "up" | "down") => {
+    console.log(
+      `Change floor triggered: direction ${direction}, current floor index: ${currentFloorIndex}`
+    );
+
+    if (buildingInfo && buildingInfo.floors) {
+      console.log(
+        `Building ${buildingInfo.name} has ${buildingInfo.floors.length} floors.`
+      );
+      if (
+        direction === "up" &&
+        currentFloorIndex < buildingInfo.floors.length - 1
+      ) {
+        console.log("Moving up to the next floor...");
+        setCurrentFloorIndex(currentFloorIndex + 1);
+        console.log(`Current floor index updated to: ${currentFloorIndex}`);
+      } else if (direction === "down" && currentFloorIndex > 0) {
+        console.log("Moving down to the previous floor...");
+        setCurrentFloorIndex(currentFloorIndex - 1);
+        console.log(`Current floor index updated to: ${currentFloorIndex}`);
+      } else {
+        if (direction === "up") {
+          console.log("Already on the top floor.");
+        } else {
+          console.log("Already on the bottom floor.");
+        }
+      }
+    } else {
+      console.log("No floor data available.");
+    }
+  };
+
   return (
     <View
       style={globalStyles.mapContainer}
@@ -210,7 +283,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
             newRoute && (
               <Polyline
                 coordinates={newRoute}
-                strokeColor={transportModeColors[activeTab] || "#000"} // fallback to black
+                strokeColor="#186DEE"
                 strokeWidth={5}
                 testID="outdoor-route-polyline"
               />
@@ -218,7 +291,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           ) : (
             <Polyline
               coordinates={shuttlePolyline ?? []}
-              strokeColor={transportModeColors["transit"]}
+              strokeColor={brandColors.concordiaRed}
               strokeWidth={5}
               lineDashPattern={[10, 5]}
               testID="shuttle-route-polyline"
@@ -304,7 +377,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                     "transit",
                     Constants.expoConfig?.extra?.googleMapsApiKey ??
                       process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
-                      "AIzaSyCdMpoRN-cWcG-LGTKplqHs3SvTeYy7t0E"
+                      ""
                   );
                 }}
                 style={globalStyles.addButton}
@@ -365,9 +438,31 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                   </Text>
                 </TouchableOpacity>
               </View>
+              {/* Indoor Navigation button */}
+              <TouchableOpacity
+                onPress={handleIndoorNavigation}
+                style={[
+                  globalStyles.addButton,
+                  { marginTop: 10, backgroundColor: "green" },
+                ]} // Nice color for the button
+              >
+                <Text style={globalStyles.refreshButtonText}>
+                  Indoor Navigation
+                </Text>
+              </TouchableOpacity>
             </>
           )}
         </View>
+      )}
+
+      {/* Indoor Navigation Modal */}
+      {isIndoorNavVisible && buildingInfo && buildingInfo.floors && (
+        <IndoorNavigationModal
+          buildingInfo={buildingInfo}
+          currentFloorIndex={currentFloorIndex}
+          closeIndoorNavigation={closeIndoorNavigation}
+          changeFloor={changeFloor}
+        />
       )}
 
       {/* Navigation Directions Popup now rendered even if directions are not available */}
@@ -482,6 +577,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   );
 };
 
+/**
+ * Component that allows switching between SGW and Loyola campus views
+ * Wraps the CampusMap component and handles campus selection state
+ */
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState(true);
   const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;

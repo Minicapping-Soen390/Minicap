@@ -4,133 +4,76 @@ import FindBuilding from "../../app/(tabs)/FindBuilding";
 
 jest.spyOn(console, "log").mockImplementation(() => {});
 
+const setup = async () => {
+  const utils = render(<FindBuilding />);
+  await waitFor(
+    () => expect(utils.queryByText("Loading buildings...")).toBeNull(),
+    {
+      timeout: 3000,
+    }
+  );
+  await waitFor(() => utils.getByText("Search Results"));
+  return utils;
+};
+
+const buildingTests = [
+  {
+    label: "MB Building (SGW)",
+    searchText: "MB",
+    testId: "building-item-67aaabc9a89802f0176bad8e",
+    expectedLog: {
+      name: "MB Building",
+      campus: "SGW",
+      address: "1450 Guy Street",
+    },
+  },
+  {
+    label: "X Building (SGW)",
+    searchText: "X",
+    testId: "building-item-67aaabc9a89802f0176badaf",
+    expectedLog: {
+      name: "X Building",
+      campus: "SGW",
+      address: "2080 Mackay Street",
+    },
+  },
+  {
+    label: "AD Building (LOY)",
+    searchText: "AD",
+    testId: "building-item-67aaabc9a89802f0176bad67",
+    expectedLog: {
+      name: "AD Building",
+      campus: "LOY",
+      address: "7141, Sherbrooke West",
+    },
+  },
+];
+
 describe("FindBuilding Component", () => {
-  it("renders search results for MB Building (SWG) and logs its details on click", async () => {
-    const { getByTestId, getByText, queryByText, getAllByTestId } = render(
-      <FindBuilding />
-    );
+  buildingTests.forEach(({ label, searchText, testId, expectedLog }) => {
+    it(`renders search results for ${label} and logs its details on click`, async () => {
+      const { getByTestId, getAllByTestId } = await setup();
 
-    await waitFor(
-      () => expect(queryByText("Loading buildings...")).toBeNull(),
-      { timeout: 2000 }
-    );
+      fireEvent.changeText(getByTestId("search-input"), searchText);
 
-    // Ensure "Search Results" appears
-    await waitFor(() => getByText("Search Results"));
+      const buildingItems = await waitFor(() => getAllByTestId(testId));
+      expect(buildingItems.length).toBeGreaterThan(0);
 
-    // Get search input and type "MB"
-    const searchInput = getByTestId("search-input");
-    fireEvent.changeText(searchInput, "MB");
+      fireEvent.press(buildingItems[0]);
 
-    // Ensure MB Building appears in the search results
-    const buildingItems = await waitFor(() =>
-      getAllByTestId("building-item-67aaabc9a89802f0176bad8e")
-    );
-    expect(buildingItems.length).toBeGreaterThan(0);
-
-    // Click the first building item
-    fireEvent.press(buildingItems[0]);
-
-    // Ensure building details are logged
-    await waitFor(() => {
-      expect(console.log).toHaveBeenCalledWith(
-        "Selected Building:",
-        expect.objectContaining({
-          name: "MB Building",
-          campus: "SGW",
-          address: "1450 Guy Street",
-        })
-      );
-    });
-  });
-
-  it("renders search results for X Building (SGW) and logs its details on click", async () => {
-    const { getByTestId, getByText, queryByText, getAllByTestId } = render(
-      <FindBuilding />
-    );
-
-    await waitFor(
-      () => expect(queryByText("Loading buildings...")).toBeNull(),
-      { timeout: 2000 }
-    );
-
-    // Ensure "Search Results" appears
-    await waitFor(() => getByText("Search Results"));
-
-    // Get search input and type "X"
-    const searchInput = getByTestId("search-input");
-    fireEvent.changeText(searchInput, "X");
-
-    // Ensure X Building appears in the search results
-    const buildingItems = await waitFor(() =>
-      getAllByTestId("building-item-67aaabc9a89802f0176badaf")
-    );
-    expect(buildingItems.length).toBeGreaterThan(0);
-
-    // Click the first building item
-    fireEvent.press(buildingItems[0]);
-
-    // Ensure building details are logged
-    await waitFor(() => {
-      expect(console.log).toHaveBeenCalledWith(
-        "Selected Building:",
-        expect.objectContaining({
-          name: "X Building",
-          campus: "SGW",
-          address: "2080 Mackay Street",
-        })
-      );
-    });
-  });
-
-  it("renders search results for AD Building (LOY) and logs its details on click", async () => {
-    const { getByTestId, getByText, queryByText, getAllByTestId } = render(
-      <FindBuilding />
-    );
-
-    await waitFor(
-      () => expect(queryByText("Loading buildings...")).toBeNull(),
-      { timeout: 2000 }
-    );
-
-    // Ensure "Search Results" appears
-    await waitFor(() => getByText("Search Results"));
-
-    // Get search input and type "AD"
-    const searchInput = getByTestId("search-input");
-    fireEvent.changeText(searchInput, "AD");
-
-    // Ensure AD Building appears in the search results
-    const buildingItems = await waitFor(() =>
-      getAllByTestId("building-item-67aaabc9a89802f0176bad67")
-    );
-    expect(buildingItems.length).toBeGreaterThan(0);
-
-    // Click the first building item
-    fireEvent.press(buildingItems[0]);
-
-    // Ensure building details are logged
-    await waitFor(() => {
-      expect(console.log).toHaveBeenCalledWith(
-        "Selected Building:",
-        expect.objectContaining({
-          name: "AD Building",
-          campus: "LOY",
-          address: "7141, Sherbrooke West",
-        })
-      );
+      await waitFor(() => {
+        expect(console.log).toHaveBeenCalledWith(
+          "Selected Building:",
+          expect.objectContaining(expectedLog)
+        );
+      });
     });
   });
 
   it("renders search results when searching by partial campus name", async () => {
-    const { getByTestId, getByText, getAllByTestId } = render(<FindBuilding />);
+    const { getByTestId, getAllByTestId } = await setup();
 
-    await waitFor(() => expect(getByText("Search Results")).toBeTruthy(), {
-      timeout: 3000,
-    });
-
-    const searchInput = getByTestId("search-input");
-    fireEvent.changeText(searchInput, "LOY");
+    fireEvent.changeText(getByTestId("search-input"), "LOY");
 
     const buildingItems = await waitFor(() =>
       getAllByTestId("building-item-67aaabc9a89802f0176bad84")
@@ -139,14 +82,9 @@ describe("FindBuilding Component", () => {
   });
 
   it("renders X Building as search result when typing X", async () => {
-    const { getByTestId, getByText, getAllByTestId } = render(<FindBuilding />);
+    const { getByTestId, getAllByTestId } = await setup();
 
-    await waitFor(() => expect(getByText("Search Results")).toBeTruthy(), {
-      timeout: 3000,
-    });
-
-    const searchInput = getByTestId("search-input");
-    fireEvent.changeText(searchInput, "X");
+    fireEvent.changeText(getByTestId("search-input"), "X");
 
     const buildingItems = await waitFor(() =>
       getAllByTestId("building-item-67aaabc9a89802f0176badaf")
@@ -155,28 +93,12 @@ describe("FindBuilding Component", () => {
   });
 
   it("displays 'No buildings found.' when searching for a non-existing building", async () => {
-    const { getByTestId, getByText, queryByText } = render(<FindBuilding />);
+    const { getByTestId, getByText } = await setup();
 
-    await waitFor(
-      () => {
-        expect(queryByText("Loading buildings...")).toBeNull();
-      },
-      { timeout: 3000 }
-    );
+    fireEvent.changeText(getByTestId("search-input"), "MASASA");
 
-    // Ensure "Search Results" appears
-    await waitFor(() => getByText("Search Results"));
-
-    // Get search input and type a non-existing building name
-    const searchInput = getByTestId("search-input");
-    fireEvent.changeText(searchInput, "MASASA"); // A string that does not exist in the data
-
-    // Ensure "No buildings found." is displayed
     await waitFor(() => {
       expect(getByText("No buildings found.")).toBeTruthy();
     });
   });
 });
-function queryByText(arg0: string): any {
-  throw new Error("Function not implemented.");
-}
