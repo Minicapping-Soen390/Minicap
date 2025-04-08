@@ -1,7 +1,12 @@
 import uuid from 'react-native-uuid';
 
+/**
+ * Extracts a human-readable error message from any error type
+ * @param error - The error to process
+ * @returns A string representation of the error
+ */
 export function getErrorMessage(error: unknown): string {
-  return error instanceof Error ? getErrorMessage(error) : String(error);
+  return error instanceof Error ? error.message : String(error);
 }
 
 /**

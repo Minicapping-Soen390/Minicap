@@ -2,8 +2,7 @@ import { ShuttlePoint, ShuttleRoute, ShuttleDepartureInfo } from '@/MVVM/models/
 import { ShuttleStop } from '../models/Shuttle';
 import { LatLng } from 'react-native-maps';
 import { IShuttleRepository } from './Interfaces/IShuttleRepository';
-import { getErrorMessage } from '@/Shared/utils/generalUtils';
-import { BaseRepository } from './BaseRepository';
+import { getErrorMessage } from '@/Shared/utils/GeneralUtils';
 
 export class ShuttleError extends Error {
   constructor(message: string, public code: string) {
@@ -15,7 +14,23 @@ export class ShuttleError extends Error {
 // Export the interface for backward compatibility
 export { IShuttleRepository as ShuttleRepository };
 
-export class ShuttleRepositoryImpl extends BaseRepository<ShuttlePoint> implements IShuttleRepository {
+export class ShuttleRepositoryImpl implements IShuttleRepository {
+  // The single instance
+  private static instance: ShuttleRepositoryImpl | null = null;
+  
+  // Private constructor ensures singleton pattern
+  private constructor() {
+    // Initialize any resources needed
+  }
+
+  // Public static method to get the singleton instance
+  public static getInstance(): ShuttleRepositoryImpl {
+    if (!ShuttleRepositoryImpl.instance) {
+      ShuttleRepositoryImpl.instance = new ShuttleRepositoryImpl();
+    }
+    return ShuttleRepositoryImpl.instance;
+  }
+
   private readonly mockStops: ShuttleStop[] = [
     {
       id: 'sgw',

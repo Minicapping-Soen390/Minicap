@@ -3,7 +3,7 @@ import { ShuttleRepositoryImpl } from '@/MVVM/repositories/ShuttleRepository';
 import { ShuttleState, ShuttlePoint, ShuttleRoute, ShuttleStop, ShuttleDepartureInfo } from '@/MVVM/models/Shuttle';
 import { ShuttleService } from '@/MVVM/services/ShuttleService';
 import { BaseViewModel } from './BaseViewModel';
-import { getErrorMessage,  createAuditObject, generateId  } from '@/Shared/utils/generalUtils';
+import { getErrorMessage,  createAuditObject, generateId  } from '@/Shared/utils/GeneralUtils';
 
 export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
   private repository: ShuttleRepositoryImpl;
@@ -12,9 +12,9 @@ export class ShuttleViewModel extends BaseViewModel<ShuttleState> {
 
   constructor() {
     super();
-    // Use repositories without implementing the interface
-    this.repository = (ShuttleRepositoryImpl as any).getInstance();
-    this.service = (ShuttleService as any).getInstance();
+    // Get repository and service singleton instances
+    this.repository = ShuttleRepositoryImpl.getInstance();
+    this.service = ShuttleService.getInstance();
     
     // Initialize state with audit properties
     const auditObj = createAuditObject();

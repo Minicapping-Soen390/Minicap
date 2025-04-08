@@ -1,7 +1,6 @@
 //ShuttleService.ts
 import axios from 'axios';
 import { shuttleSchedule } from '@/data/shuttleSchedule';
-import { BaseService } from './BaseService';
 import { ShuttlePoint } from '@/MVVM/models/Shuttle';
 
 interface ShuttleResponse {
@@ -26,8 +25,18 @@ export const SHUTTLE_STOPS = {
   }
 };
 
-export class ShuttleService extends BaseService {
+export class ShuttleService  {
+  private static instance: ShuttleService | null = null;
   private sessionInitialized: boolean = false;
+
+
+
+  public static getInstance(): ShuttleService {
+    if (!ShuttleService.instance) {
+      ShuttleService.instance = new ShuttleService();
+    }
+    return ShuttleService.instance;
+  }
 
   private async initializeSession(): Promise<void> {
     try {

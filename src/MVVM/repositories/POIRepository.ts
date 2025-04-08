@@ -1,88 +1,116 @@
 import { POI, POICategory } from '@/MVVM/models/POI';
 import { IPOIRepository } from "./Interfaces/IPOIRepository";
-import { BaseRepository } from "./BaseRepository";
 import axios from "axios";
 import Constants from 'expo-constants';
-import { generateId } from '@/Shared/utils/generalUtils';
+import { generateId } from '@/Shared/utils/GeneralUtils';
+
+// Google Place API result interface
+interface GooglePlaceResult {
+  place_id: string;
+  name: string;
+  vicinity?: string;
+  types?: string[];
+  geometry?: {
+    location: {
+      lat: number;
+      lng: number;
+    }
+  }
+}
 
 // Export the interface for backward compatibility
 export { IPOIRepository as POIRepository };
 
-export class POIRepositoryImpl extends BaseRepository<POI> implements IPOIRepository {
+export class POIRepositoryImpl implements IPOIRepository {
+  // The single instance
+  private static instance: POIRepositoryImpl | null = null;
+  
+  // Private constructor ensures singleton pattern
+  private constructor() {
+    // Initialize any resources needed
+  }
+
+  // Public static method to get the singleton instance
+  public static getInstance(): POIRepositoryImpl {
+    if (!POIRepositoryImpl.instance) {
+      POIRepositoryImpl.instance = new POIRepositoryImpl();
+    }
+    return POIRepositoryImpl.instance;
+  }
+
   async getPOIById(poiId: string): Promise<POI> {
-    // Implement actual fetch from data source
+    // Implementation to be completed
     throw new Error("Method not implemented: getPOIById");
   }
   
   async getPOIsInRadius(latitude: number, longitude: number, radiusInMeters: number): Promise<POI[]> {
+    console.log(`[POIRepository] Fetching POIs at ${latitude},${longitude} with radius ${radiusInMeters}m`);
     const apiKey = Constants.expoConfig?.extra?.googleMapsApiKey || process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY;
+    
+    if (!apiKey) {
+      console.error("[POIRepository] Google Maps API key not found");
+      return [];
+    }
 
     try {
-      const rawResults = await this.fetchNearbyRestaurants({ latitude, longitude }, radiusInMeters, apiKey);
-      return rawResults.map(doc => this.mapToPOI(doc));
+      const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radiusInMeters}&type=restaurant&key=${apiKey}`;
+      console.log(`[POIRepository] Calling API: ${url.substring(0, url.indexOf('key=') + 5)}[API_KEY]`);
+      
+      const response = await axios.get(url);
+      const results: GooglePlaceResult[] = response.data.results || [];
+      
+      console.log(`[POIRepository] Found ${results.length} POIs from API`);
+      
+      return results.map(place => this.mapToPOI(place));
     } catch (error) {
-      console.error("Error finding nearby POIs:", error);
+      console.error("[POIRepository] Error fetching POIs:", error);
       return [];
     }
   }
   
   async getPOIsByCategory(category: POICategory): Promise<POI[]> {
-    // Implement actual fetch from data source
+    // Implementation to be completed
     throw new Error("Method not implemented: getPOIsByCategory");
   }
   
   async createPOI(poi: POI, userId: string): Promise<POI> {
-    // Implement actual creation in data source
+    // Implementation to be completed
     throw new Error("Method not implemented: createPOI");
   }
   
   async updatePOI(poiId: string, updates: Partial<POI>, userId: string): Promise<POI> {
-    // Implement actual update in data source
+    // Implementation to be completed
     throw new Error("Method not implemented: updatePOI");
   }
   
   async deletePOI(poiId: string, userId: string): Promise<boolean> {
-    // Implement actual deletion in data source
+    // Implementation to be completed
     throw new Error("Method not implemented: deletePOI");
   }
 
-  private async fetchNearbyRestaurants(
-    location: { latitude: number; longitude: number },
-    radius: number,
-    apiKey: string
-  ): Promise<any[]> {
-    try {
-      const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=restaurant&key=${apiKey}`;
-      const response = await axios.get(url);
-      return response.data.results;
-    } catch (error) {
-      console.error("Error fetching nearby restaurants:", error);
-      return [];
-    }
-  }
-
-  private mapToPOI(doc: any): POI {
+  private mapToPOI(place: GooglePlaceResult): POI {
     const now = new Date();
     
     // Determine category based on types
-    let category;
-    if (doc.types) {
-      if (doc.types.includes("cafe")) {
+    let category = POICategory.RESTAURANT; // Default
+    
+    if (place.types) {
+      if (place.types.includes("cafe")) {
         category = POICategory.CAFE;
-      } else if (doc.types.includes("bar")) {
+      } else if (place.types.includes("bar")) {
         category = POICategory.BAR;
-      } else {
-        category = POICategory.RESTAURANT;
       }
     }
 
     return {
-      id: doc.placeid || generateId(),
-      type: doc.types ? doc.types[0] : undefined,
-      name: doc.name,
+      id: place.place_id || generateId(),
+      type: place.types ? place.types[0] : "restaurant",
+      name: place.name || "Unknown Place",
       category: category,
-      description: doc.vicinity,
-      location: doc.geometry ? `${doc.geometry.location.lat},${doc.geometry.location.lng}` : undefined,
+      description: place.vicinity || "",
+      location: place.geometry ? 
+        `${place.geometry.location.lat},${place.geometry.location.lng}` : 
+        "0,0", // Default to origin if no geometry
       createdAt: now,
       updatedAt: now
     };

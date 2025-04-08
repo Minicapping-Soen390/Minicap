@@ -2,11 +2,20 @@ import { Room, Building, Point, BoundingBox } from '../models/Room';
 import * as fs from 'fs';
 import * as path from 'path';
 import { DOMParser } from '@xmldom/xmldom';
-import { getErrorMessage } from '@/Shared/utils/generalUtils';
-import { BaseService } from './BaseService';
+import { getErrorMessage } from '@/Shared/utils/GeneralUtils';
 
-export class SvgProcessorService extends BaseService {
+export class SvgProcessorService {
+  private static instance: SvgProcessorService | null = null;
   private readonly parser: DOMParser = new DOMParser();
+
+
+
+  public static getInstance(): SvgProcessorService {
+    if (!SvgProcessorService.instance) {
+      SvgProcessorService.instance = new SvgProcessorService();
+    }
+    return SvgProcessorService.instance;
+  }
 
   /**
    * Parses an SVG file and extracts room data

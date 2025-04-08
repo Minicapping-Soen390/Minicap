@@ -1,7 +1,16 @@
 import { Room, Building } from '../models/Room';
-import { BaseService } from './BaseService';
 
-export class RoomService extends BaseService {
+export class RoomService  {
+  private static instance: RoomService | null = null;
+
+
+  public static getInstance(): RoomService {
+    if (!RoomService.instance) {
+      RoomService.instance = new RoomService();
+    }
+    return RoomService.instance;
+  }
+
   /**
    * Search for rooms across all buildings
    * @param buildings List of buildings to search in
