@@ -1,5 +1,4 @@
-//CampusMap.tsx
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   View,
   Text,
@@ -9,20 +8,30 @@ import {
   TouchableWithoutFeedback,
   Alert,
   ScrollView,
+  Image,
 } from "react-native";
-import MapView, { Marker, Polyline, Region, LatLng } from "react-native-maps";
+import MapView, { Marker, Polyline, Region, LatLng, Circle } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import Constants from "expo-constants";
 import { globalStyles, mainEdges, brandColors } from "../styles/globalStyles";
 import buildingsData from "@/data/hardcodedBuildings.json";
 import campusCenters from "@/data/campusCenters.json";
+import { POICategory } from "@/MVVM/models/POI";
 import { Campus } from "@/MVVM/models/Campus";
-import { createMapFacade } from "../../Shared/utils/mapUtils";
+import { 
+  createMapFacade,
+  createPOIMapFacade,
+  createIndoorNavigationFacade,
+  createMapUIFacade,
+  renderPOIMarkers
+} from "../../Shared/utils/mapUtils";
 import {
   createShuttleFacade,
   renderShuttleMarkers,
 } from "../../Shared/utils/shuttleUtils";
-import IndoorNavigationModal from "../../components/IndoorNavigationModal"; 
+import IndoorNavigationModal from "../../components/IndoorNavigationModal";
+import { getErrorMessage } from "@/Shared/utils/generalUtils";
+ 
 
 /**
  * Props interface for CampusMap component
@@ -35,7 +44,7 @@ interface CampusMapProps {
  * Campus model for SGW campus
  */
 const SGWCampus: Campus = {
-  _id: "sgw-uuid",
+  id: "sgw-uuid",
   name: "SGW Campus",
   outdoorLocation: "loc-sgw",
   buildingIds: [],
@@ -45,7 +54,7 @@ const SGWCampus: Campus = {
  * Campus model for Loyola campus
  */
 const LoyolaCampus: Campus = {
-  _id: "loyola-uuid",
+  id: "loyola-uuid",
   name: "Loyola Campus",
   outdoorLocation: "loc-loyola",
   buildingIds: [],
@@ -56,8 +65,8 @@ const LoyolaCampus: Campus = {
  * @param campusId - Unique identifier for the campus to display
  */
 const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
-  const campus = campusId === SGWCampus._id ? SGWCampus : LoyolaCampus;
-  const region: Region = campusCenters[campus.outdoorLocation];
+  const campus = campusId === SGWCampus.id ? SGWCampus : LoyolaCampus;
+  const region: Region = campusCenters[campus.outdoorLocation as keyof typeof campusCenters];
   const mapRef = useRef<MapView | null>(null);
 
   // Core states
@@ -95,16 +104,28 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [transportMode, setTransportMode] = useState<string>("walking");
   const [activeTab, setActiveTab] = useState<string>("walking");
 
+  // POI states
+  const [allPOIs, setAllPOIs] = useState<any[]>([]);
+  const [filteredPOIs, setFilteredPOIs] = useState<any[]>([]);
+  const [selectedPOICategory, setSelectedPOICategory] = useState<POICategory | 'all'>('all');
+  const [showPOIFilters, setShowPOIFilters] = useState<boolean>(false);
+  const [searchRadius, setSearchRadius] = useState<number>(500); // Default radius 500m
+  
   // Indoor navigation state
   const [isIndoorNavVisible, setIsIndoorNavVisible] = useState<boolean>(false);
   const [currentFloorIndex, setCurrentFloorIndex] = useState<number>(0);
 
+  // Cache for POI data to avoid repeated API calls
+  const poiCache = useRef<Record<string, any[]>>({});
+
+  // Create shuttle facade
   const shuttleFacade = createShuttleFacade({
     setShuttleLocations,
     setEstimatedWaitTime,
     setShuttlePolyline,
   });
 
+  // Create map facade
   const mapFacade = createMapFacade({
     setUserLocation,
     setLocationError,
@@ -130,16 +151,55 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setActiveTab,
     setIsCrossCampusNavigation,
     shuttleFacade,
+    buildingInfo,
   });
 
+  // Create POI facade
+  const poiFacade = useMemo(
+    () => createPOIMapFacade({
+      setFilteredPOIs,
+      setSelectedPOICategory,
+      setSearchRadius,
+      setShowPOIFilters,
+      allPOIs,
+      selectedPOICategory,
+      searchRadius,
+      showPOIFilters,
+    }),
+    [allPOIs, selectedPOICategory, searchRadius, showPOIFilters]
+  );
+
+  // Create indoor navigation facade
+  const indoorNavFacade = useMemo(
+    () => createIndoorNavigationFacade({
+      setIsIndoorNavVisible,
+      setCurrentFloorIndex,
+      currentFloorIndex,
+      buildingInfo,
+      Alert,
+    }),
+    [buildingInfo, currentFloorIndex]
+  );
+
+  // Create UI facade
+  const mapUIFacade = useMemo(
+    () => createMapUIFacade({
+      setIsFullScreenDirections,
+      isFullScreenDirections,
+      setIsRefreshing,
+      getUserLocation: mapFacade.getUserLocation,
+    }),
+    [isFullScreenDirections]
+  );
+
+  // Get user location on component mount
   useEffect(() => {
-    console.log("Fetching user location...");
     mapFacade.getUserLocation();
   }, []);
 
+  // Animate to region when it changes
   useEffect(() => {
     if (mapRef.current) {
-      console.log("Animating to region:", region);
       mapRef.current.animateToRegion(region, 1000);
     }
   }, [region]);
@@ -147,7 +207,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   // Dynamic Shuttle Tracking
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-
+    
     const trackShuttles = async () => {
       try {
         await shuttleFacade.trackShuttles(startPoint);
@@ -156,12 +216,11 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       }
     };
 
-    // Start tracking if in cross-campus navigation and transit mode
     if (isCrossCampusNavigation && activeTab === "transit") {
       trackShuttles();
       intervalId = setInterval(trackShuttles, 15000);
     }
-
+    
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
@@ -169,80 +228,57 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     };
   }, [isCrossCampusNavigation, activeTab, startPoint]);
 
-  const handleIndoorNavigation = () => {
-    console.log("handleIndoorNavigation triggered");
+  // Fetch nearby POIs when userLocation is available or searchRadius changes
+  useEffect(() => {
+    if (!userLocation) return;
 
-    if (buildingInfo) {
-      console.log("Building info found for:", buildingInfo.name);
-      console.log("Floor info:", buildingInfo.floors);
-
-      if (buildingInfo.floors && buildingInfo.floors.length > 0) {
-        console.log(
-          `Found ${buildingInfo.floors.length} floors for ${buildingInfo.name}.`
-        );
-        setCurrentFloorIndex(0); // Reset to first floor
-        setIsIndoorNavVisible(true);
-        console.log(
-          "Indoor navigation modal is now visible. Starting at floor 0."
-        );
-      } else {
-        console.log("No floors data available for this building.");
-        Alert.alert("No floor information available for this building.");
-      }
-    } else {
-      console.log("No building info available.");
-      Alert.alert("Building information is missing.");
+    // Skip POI search when radius is 0
+    if (searchRadius === 0) {
+      console.log("Search radius is 0m, not fetching POIs");
+      setAllPOIs([]);
+      setFilteredPOIs([]);
+      return;
     }
-  };
 
-  const closeIndoorNavigation = () => {
-    console.log("Closing indoor navigation...");
-    setIsIndoorNavVisible(false);
-    console.log("Indoor navigation modal is now closed.");
-  };
+    // Create a cache key based on location and radius
+    const lat = userLocation.latitude.toFixed(4);
+    const long = userLocation.longitude.toFixed(4);
+    const cacheKey = `${lat}-${long}-${searchRadius}`;
 
-  const changeFloor = (direction: "up" | "down") => {
-    console.log(
-      `Change floor triggered: direction ${direction}, current floor index: ${currentFloorIndex}`
-    );
-
-    if (buildingInfo && buildingInfo.floors) {
-      console.log(
-        `Building ${buildingInfo.name} has ${buildingInfo.floors.length} floors.`
-      );
-      if (
-        direction === "up" &&
-        currentFloorIndex < buildingInfo.floors.length - 1
-      ) {
-        console.log("Moving up to the next floor...");
-        setCurrentFloorIndex(currentFloorIndex + 1);
-        console.log(`Current floor index updated to: ${currentFloorIndex}`);
-      } else if (direction === "down" && currentFloorIndex > 0) {
-        console.log("Moving down to the previous floor...");
-        setCurrentFloorIndex(currentFloorIndex - 1);
-        console.log(`Current floor index updated to: ${currentFloorIndex}`);
-      } else {
-        if (direction === "up") {
-          console.log("Already on the top floor.");
-        } else {
-          console.log("Already on the bottom floor.");
-        }
-      }
-    } else {
-      console.log("No floor data available.");
+    // Check if we have this data in cache
+    if (poiCache.current[cacheKey]) {
+      console.log("Using cached POI data");
+      setAllPOIs(poiCache.current[cacheKey]);
+      return;
     }
-  };
+
+    // If not in cache, fetch from API
+    console.log(`Fetching POIs at ${lat},${long} with radius: ${searchRadius}m`);
+    poiFacade.findNearbyPOIs(userLocation.latitude, userLocation.longitude, searchRadius)
+      .then((results: any[]) => {
+        // Store in cache
+        poiCache.current[cacheKey] = results;
+        console.log(`Found ${results.length} POIs`);
+        setAllPOIs(results);
+      })
+      .catch((error: unknown) => console.error("Error fetching POIs:", getErrorMessage(error)));
+  }, [userLocation, searchRadius]);
+
+  // Filter POIs when category or allPOIs changes
+  useEffect(() => {
+    poiFacade.filterPOIsByCategory();
+  }, [selectedPOICategory, allPOIs]);
 
   return (
     <View
       style={globalStyles.mapContainer}
       testID="outdoor-navigation-container"
     >
-      {locationError ? (
+      {locationError && (
         <View style={globalStyles.errorContainer}>
           <Text style={globalStyles.errorText}>{locationError}</Text>
         </View>
-      ) : null}
+      )}
 
       <TouchableWithoutFeedback
         onPress={mapFacade.handleMapPress}
@@ -259,13 +295,19 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           zoomControlEnabled={true}
         >
           {permissionGranted && userLocation && (
-            <Marker
-              coordinate={userLocation}
-              title="Your Location"
-              pinColor="green"
-              testID="user-location-marker"
-            />
+            <>
+              <Marker coordinate={userLocation} title="Your Location" pinColor="green" />
+              {/* Search radius circle */}
+              <Circle
+                center={userLocation}
+                radius={searchRadius}
+                strokeWidth={1}
+                strokeColor="rgba(0, 0, 255, 0.3)"
+                fillColor="rgba(0, 0, 255, 0.1)"
+              />
+            </>
           )}
+          
           {activeTab !== "transit" ? (
             newRoute && (
               <Polyline
@@ -284,6 +326,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               testID="shuttle-route-polyline"
             />
           )}
+          
           {buildingInfo && (
             <Marker
               testID="building-info"
@@ -295,8 +338,14 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               pinColor="orange"
             />
           )}
+          
           {mapFacade.renderBuildings(buildingsData, globalStyles, brandColors)}
           {renderShuttleMarkers(globalStyles, brandColors)}
+          
+          {/* Render filtered POI markers */}
+          {renderPOIMarkers(filteredPOIs, poiFacade.getMarkerColorForCategory)}
+          
+          {/* Render shuttle location markers */}
           {isCrossCampusNavigation &&
             shuttleLocations &&
             shuttleLocations.length > 0 &&
@@ -325,14 +374,106 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         </MapView>
       </TouchableWithoutFeedback>
 
+      {/* Filter Icon Button in the top right corner */}
+      <TouchableOpacity
+        style={globalStyles.filterIconButton}
+        onPress={poiFacade.togglePOIFilters}
+      >
+        <Image
+          source={require("../../assets/icons/Filter.png")}
+          style={globalStyles.filterIcon}
+        />
+      </TouchableOpacity>
+
+      {/* POI Filter Container */}
+      {showPOIFilters && (
+        <View style={globalStyles.filterContainer}>
+          <Text style={globalStyles.filterTitle}>Filter POIs</Text>
+
+          {/* Category Filter Section */}
+          <Text style={globalStyles.filterSectionTitle}>Categories</Text>
+          <View style={globalStyles.filterOptions}>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                selectedPOICategory === 'all' && globalStyles.activeFilterOption
+              ]}
+              onPress={() => poiFacade.handleCategoryChange('all')}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                selectedPOICategory === 'all' && globalStyles.activeFilterText
+              ]}>All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                selectedPOICategory === POICategory.RESTAURANT && globalStyles.activeFilterOption
+              ]}
+              onPress={() => poiFacade.handleCategoryChange(POICategory.RESTAURANT)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                selectedPOICategory === POICategory.RESTAURANT && globalStyles.activeFilterText
+              ]}>Restaurants</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                selectedPOICategory === POICategory.CAFE && globalStyles.activeFilterOption
+              ]}
+              onPress={() => poiFacade.handleCategoryChange(POICategory.CAFE)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                selectedPOICategory === POICategory.CAFE && globalStyles.activeFilterText
+              ]}>Cafes</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                globalStyles.filterOption,
+                selectedPOICategory === POICategory.BAR && globalStyles.activeFilterOption
+              ]}
+              onPress={() => poiFacade.handleCategoryChange(POICategory.BAR)}
+            >
+              <Text style={[
+                globalStyles.filterText,
+                selectedPOICategory === POICategory.BAR && globalStyles.activeFilterText
+              ]}>Bars</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Radius Filter Section */}
+          <Text style={globalStyles.filterSectionTitle}>Search Radius</Text>
+          <View style={globalStyles.filterOptions}>
+            {[0, 100, 200, 500, 1000].map((radius) => (
+              <TouchableOpacity
+                key={radius}
+                style={[
+                  globalStyles.filterOption,
+                  searchRadius === radius && globalStyles.activeFilterOption
+                ]}
+                onPress={() => poiFacade.handleRadiusChange(radius)}
+              >
+                <Text style={[
+                  globalStyles.filterText,
+                  searchRadius === radius && globalStyles.activeFilterText
+                ]}>{radius}m</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* POI Count Information */}
+          <Text style={globalStyles.poiCountText}>
+            {filteredPOIs.length} POI{filteredPOIs.length !== 1 ? 's' : ''} found within {searchRadius}m
+          </Text>
+        </View>
+      )}
+
+      {/* My Location Button */}
       <TouchableOpacity
         style={globalStyles.refreshButton}
-        onPress={async () => {
-          setIsRefreshing(true);
-          console.log("Refreshing user location...");
-          await mapFacade.getUserLocation();
-          setIsRefreshing(false);
-        }}
+        onPress={mapUIFacade.handleRefreshLocation}
         disabled={isRefreshing}
         testID="refresh-location-button"
       >
@@ -347,97 +488,17 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
       {buildingInfo && !isNavigationStarted && (
         <View style={globalStyles.buildingInfoContainer}>
           {startPoint && endPoint ? (
-            <>
-              <Text style={globalStyles.buildingNameText}>
-                Cross-Campus Navigation
-              </Text>
-              <Text style={globalStyles.addressText}>
-                From: {startPoint.name} ({startPoint.campus})
-              </Text>
-              <Text style={globalStyles.addressText}>
-                To: {endPoint.name} ({endPoint.campus})
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log("Starting navigation...");
-                  mapFacade.fetchDirections(
-                    "transit",
-                    Constants.expoConfig?.extra?.googleMapsApiKey ??
-                      process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
-                      ""
-                  );
-                }}
-                style={globalStyles.addButton}
-                testID="start-navigation-button"
-              >
-                <Text style={globalStyles.refreshButtonText}>
-                  Start Navigation
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log("Resetting navigation...");
-                  mapFacade.resetNavigation();
-                }}
-                style={[
-                  globalStyles.addButton,
-                  { marginTop: 10, backgroundColor: "#555" },
-                ]}
-                testID="reset-navigation-button"
-              >
-                <Text style={globalStyles.refreshButtonText}>Reset</Text>
-              </TouchableOpacity>
-            </>
+            <RenderNavigationStartPopup 
+              startPoint={startPoint}
+              endPoint={endPoint}
+              mapFacade={mapFacade} 
+            />
           ) : (
-            <>
-              <Text style={globalStyles.buildingNameText}>
-                {buildingInfo.name}
-              </Text>
-              <Text style={globalStyles.openingHoursText}>
-                {buildingInfo.openingHours}
-              </Text>
-              <Text style={globalStyles.addressText}>
-                {buildingInfo.address}
-              </Text>
-              <View style={globalStyles.buttonContainer}>
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log(`Setting ${buildingInfo.name} as start point`);
-                    mapFacade.handleBuildingSelection(buildingInfo, "start");
-                  }}
-                  style={[globalStyles.addButton, { marginRight: 10 }]}
-                  testID="set-start-button"
-                >
-                  <Text style={globalStyles.refreshButtonText}>
-                    Set as Start
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log(`Setting ${buildingInfo.name} as destination`);
-                    mapFacade.handleBuildingSelection(buildingInfo, "end");
-                  }}
-                  style={globalStyles.addButton}
-                  testID="set-destination-button"
-                >
-                  <Text style={globalStyles.refreshButtonText}>
-                    Set as Destination
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              {/* Indoor Navigation button */}
-              <TouchableOpacity
-                onPress={handleIndoorNavigation}
-                style={[
-                  globalStyles.addButton,
-                  { marginTop: 10, backgroundColor: "green" },
-                ]} // Nice color for the button
-              >
-                <Text style={globalStyles.refreshButtonText}>
-                  Indoor Navigation
-                </Text>
-              </TouchableOpacity>
-            </>
+            <RenderBuildingInfoPopup 
+              buildingInfo={buildingInfo}
+              mapFacade={mapFacade}
+              handleIndoorNavigation={indoorNavFacade.handleIndoorNavigation} 
+            />
           )}
         </View>
       )}
@@ -447,119 +508,272 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         <IndoorNavigationModal
           buildingInfo={buildingInfo}
           currentFloorIndex={currentFloorIndex}
-          closeIndoorNavigation={closeIndoorNavigation}
-          changeFloor={changeFloor}
+          closeIndoorNavigation={indoorNavFacade.closeIndoorNavigation}
+          changeFloor={indoorNavFacade.changeFloor}
         />
       )}
 
-      {/* Navigation Directions Popup now rendered even if directions are not available */}
+      {/* Navigation Directions Popup */}
       {isNavigationStarted && (
-        <View
-          style={[
-            globalStyles.directionsContainer,
-            isFullScreenDirections && globalStyles.fullScreenDirections,
-          ]}
+        <RenderNavigationDirections
+          isFullScreenDirections={isFullScreenDirections}
+          toggleFullScreenDirections={mapUIFacade.toggleFullScreenDirections}
+          mapFacade={mapFacade}
+          directions={directions}
+          isCrossCampusNavigation={isCrossCampusNavigation}
+          activeTab={activeTab}
+          estimatedWaitTime={estimatedWaitTime}
+          globalStyles={globalStyles}
+        />
+      )}
+    </View>
+  );
+};
+
+interface RenderBuildingInfoPopupProps {
+  buildingInfo: any;
+  mapFacade: any;
+  handleIndoorNavigation: () => void;
+}
+
+const RenderBuildingInfoPopup: React.FC<RenderBuildingInfoPopupProps> = ({ 
+  buildingInfo, 
+  mapFacade, 
+  handleIndoorNavigation 
+}) => {
+  return (
+    <>
+      <Text style={globalStyles.buildingNameText}>
+        {buildingInfo.name}
+      </Text>
+      <Text style={globalStyles.openingHoursText}>
+        {buildingInfo.openingHours}
+      </Text>
+      <Text style={globalStyles.addressText}>
+        {buildingInfo.address}
+      </Text>
+      <View style={globalStyles.buttonContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            console.log(`Setting ${buildingInfo.name} as start point`);
+            mapFacade.handleBuildingSelection(buildingInfo, "start");
+          }}
+          style={[globalStyles.addButton, { marginRight: 10 }]}
+          testID="set-start-button"
         >
+          <Text style={globalStyles.refreshButtonText}>
+            Set as Start
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            console.log(`Setting ${buildingInfo.name} as destination`);
+            mapFacade.handleBuildingSelection(buildingInfo, "end");
+          }}
+          style={globalStyles.addButton}
+          testID="set-destination-button"
+        >
+          <Text style={globalStyles.refreshButtonText}>
+            Set as Destination
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {/* Indoor Navigation button */}
+      <TouchableOpacity
+        onPress={handleIndoorNavigation}
+        style={[
+          globalStyles.addButton,
+          { marginTop: 10, backgroundColor: "green" },
+        ]}
+      >
+        <Text style={globalStyles.refreshButtonText}>
+          Indoor Navigation
+        </Text>
+      </TouchableOpacity>
+    </>
+  );
+};
+
+interface RenderNavigationStartPopupProps {
+  startPoint: any;
+  endPoint: any;
+  mapFacade: any;
+}
+
+const RenderNavigationStartPopup: React.FC<RenderNavigationStartPopupProps> = ({
+  startPoint,
+  endPoint,
+  mapFacade
+}) => {
+  return (
+    <>
+      <Text style={globalStyles.buildingNameText}>
+        Cross-Campus Navigation
+      </Text>
+      <Text style={globalStyles.addressText}>
+        From: {startPoint.name} ({startPoint.campus})
+      </Text>
+      <Text style={globalStyles.addressText}>
+        To: {endPoint.name} ({endPoint.campus})
+      </Text>
+      <TouchableOpacity
+        onPress={() => {
+          console.log("Starting navigation...");
+          mapFacade.fetchDirections(
+            "transit",
+            Constants.expoConfig?.extra?.googleMapsApiKey ??
+              process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+              ""
+          );
+        }}
+        style={globalStyles.addButton}
+        testID="start-navigation-button"
+      >
+        <Text style={globalStyles.refreshButtonText}>
+          Start Navigation
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          console.log("Resetting navigation...");
+          mapFacade.resetNavigation();
+        }}
+        style={[
+          globalStyles.addButton,
+          { marginTop: 10, backgroundColor: "#555" },
+        ]}
+        testID="reset-navigation-button"
+      >
+        <Text style={globalStyles.refreshButtonText}>Reset</Text>
+      </TouchableOpacity>
+    </>
+  );
+};
+
+interface RenderNavigationDirectionsProps {
+  isFullScreenDirections: boolean;
+  toggleFullScreenDirections: () => void;
+  mapFacade: any;
+  directions: any[];
+  isCrossCampusNavigation: boolean;
+  activeTab: string;
+  estimatedWaitTime: number | null;
+  globalStyles: any;
+}
+
+const RenderNavigationDirections: React.FC<RenderNavigationDirectionsProps> = ({
+  isFullScreenDirections,
+  toggleFullScreenDirections,
+  mapFacade,
+  directions,
+  isCrossCampusNavigation,
+  activeTab,
+  estimatedWaitTime,
+  globalStyles
+}) => {
+  return (
+    <View
+      style={[
+        globalStyles.directionsContainer,
+        isFullScreenDirections && globalStyles.fullScreenDirections,
+      ]}
+    >
+      <TouchableOpacity onPress={toggleFullScreenDirections}>
+        <Text style={globalStyles.fullScreenToggleText}>
+          {isFullScreenDirections ? "Exit Full Screen" : "Full Screen"}
+        </Text>
+      </TouchableOpacity>
+
+      <View style={globalStyles.directionsHeader}>
+        <Text style={globalStyles.directionsTitle}>Directions</Text>
+        <TouchableOpacity
+          onPress={mapFacade.resetNavigation}
+          style={globalStyles.cancelButton}
+        >
+          <Text style={globalStyles.cancelButtonText}>×</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={globalStyles.transportModes}>
+        {(isCrossCampusNavigation
+          ? ["shuttle", "walking", "driving", "bicycling"]
+          : ["walking", "driving", "transit", "bicycling"]
+        ).map((mode) => (
           <TouchableOpacity
-            onPress={() => setIsFullScreenDirections(!isFullScreenDirections)}
+            key={mode}
+            testID={mode}
+            onPress={() =>
+              mapFacade.handleTransportModeChange(
+                mode === "shuttle" ? "transit" : mode
+              )
+            }
+            style={[
+              globalStyles.modeTab,
+              activeTab === (mode === "shuttle" ? "transit" : mode) &&
+                globalStyles.activeModeTab,
+            ]}
           >
-            <Text style={globalStyles.fullScreenToggleText}>
-              {isFullScreenDirections ? "Exit Full Screen" : "Full Screen"}
+            <Text
+              style={
+                activeTab === (mode === "shuttle" ? "transit" : mode)
+                  ? globalStyles.activeModeTabText
+                  : globalStyles.modeTabText
+              }
+            >
+              {mode === "shuttle"
+                ? "Shuttle Bus"
+                : mode.charAt(0).toUpperCase() + mode.slice(1)}
+              {mode === "shuttle" && estimatedWaitTime
+                ? ` (${estimatedWaitTime}min wait)`
+                : ""}
             </Text>
           </TouchableOpacity>
+        ))}
+      </View>
 
-          <View style={globalStyles.directionsHeader}>
-            <Text style={globalStyles.directionsTitle}>Directions</Text>
-            <TouchableOpacity
-              onPress={mapFacade.resetNavigation}
-              style={globalStyles.cancelButton}
+      <ScrollView style={globalStyles.directionsScroll}>
+        {directions.length > 0 ? (
+          directions.map((step, index) => (
+            <View
+              key={index}
+              style={[
+                globalStyles.directionStep,
+                step.isShuttle && globalStyles.shuttleDirectionStep,
+              ]}
             >
-              <Text style={globalStyles.cancelButtonText}>×</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={globalStyles.transportModes}>
-            {(isCrossCampusNavigation
-              ? ["shuttle", "walking", "driving", "bicycling"]
-              : ["walking", "driving", "transit", "bicycling"]
-            ).map((mode) => (
-              <TouchableOpacity
-                key={mode}
-                testID={mode}
-                onPress={() =>
-                  mapFacade.handleTransportModeChange(
-                    mode === "shuttle" ? "transit" : mode
-                  )
+              <Text
+                style={
+                  step.isShuttle
+                    ? globalStyles.shuttleInstruction
+                    : undefined
                 }
-                style={[
-                  globalStyles.modeTab,
-                  activeTab === (mode === "shuttle" ? "transit" : mode) &&
-                    globalStyles.activeModeTab,
-                ]}
               >
-                <Text
-                  style={
-                    activeTab === (mode === "shuttle" ? "transit" : mode)
-                      ? globalStyles.activeModeTabText
-                      : globalStyles.modeTabText
-                  }
-                >
-                  {mode === "shuttle"
-                    ? "Shuttle Bus"
-                    : mode.charAt(0).toUpperCase() + mode.slice(1)}
-                  {mode === "shuttle" && estimatedWaitTime
-                    ? ` (${estimatedWaitTime}min wait)`
-                    : ""}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <ScrollView style={globalStyles.directionsScroll}>
-            {directions.length > 0 ? (
-              directions.map((step, index) => (
-                <View
-                  key={index}
-                  style={[
-                    globalStyles.directionStep,
-                    step.isShuttle && globalStyles.shuttleDirectionStep,
-                  ]}
-                >
-                  <Text
-                    style={
-                      step.isShuttle
-                        ? globalStyles.shuttleInstruction
-                        : undefined
-                    }
-                  >
-                    {step.instruction}
-                  </Text>
-                  <Text>
-                    {step.distance} | {step.duration}
-                  </Text>
-                  {step.isShuttle && step.departureInfo && (
-                    <View style={globalStyles.shuttleInfo}>
-                      <Text style={globalStyles.shuttleScheduleText}>
-                        🕒 Next departure: {step.departureInfo.departureTime}
-                      </Text>
-                      <Text
-                        testID="estimated-wait"
-                        style={globalStyles.shuttleScheduleText}
-                      >
-                        ⏱️ Estimated wait: {step.departureInfo.waitTime} minutes
-                      </Text>
-                    </View>
-                  )}
-                </View>
-              ))
-            ) : (
-              <Text style={{ padding: 10, textAlign: "center" }}>
-                Directions loading...
+                {step.instruction}
               </Text>
-            )}
-          </ScrollView>
-        </View>
-      )}
+              <Text>
+                {step.distance} | {step.duration}
+              </Text>
+              {step.isShuttle && step.departureInfo && (
+                <View style={globalStyles.shuttleInfo}>
+                  <Text style={globalStyles.shuttleScheduleText}>
+                    🕒 Next departure: {step.departureInfo.departureTime}
+                  </Text>
+                  <Text
+                    testID="estimated-wait"
+                    style={globalStyles.shuttleScheduleText}
+                  >
+                    ⏱️ Estimated wait: {step.departureInfo.waitTime} minutes
+                  </Text>
+                </View>
+              )}
+            </View>
+          ))
+        ) : (
+          <Text style={{ padding: 10, textAlign: "center" }}>
+            Directions loading...
+          </Text>
+        )}
+      </ScrollView>
     </View>
   );
 };
@@ -570,7 +784,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
  */
 const CampusSwitcher: React.FC = () => {
   const [isSGWCampus, setIsSGWCampus] = useState(true);
-  const currentCampusId = isSGWCampus ? SGWCampus._id : LoyolaCampus._id;
+  const currentCampusId = isSGWCampus ? SGWCampus.id : LoyolaCampus.id;
 
   return (
     <SafeAreaView
@@ -594,7 +808,6 @@ const CampusSwitcher: React.FC = () => {
         </View>
       </View>
 
-      {/* Map Container */}
       <View style={globalStyles.mapContainer}>
         <CampusMap campusId={currentCampusId} />
       </View>

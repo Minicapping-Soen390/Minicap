@@ -23,7 +23,7 @@ export interface IUserRepository {
    * @throws {ValidationError} If user data is invalid
    * @throws {ConflictError} If email already exists
    */
-  createUser(userData: Omit<User, '_id'>): Promise<User>;
+  createUser(userData: Omit<User, 'id'>): Promise<User>;
   
   /**
    * Updates an existing user

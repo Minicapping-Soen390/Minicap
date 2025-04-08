@@ -6,7 +6,7 @@ title ER diagram (Crow's Foot) - Complete System
 
 note as AuditNote
   All entities contain Audit fields:
-  - _id: string
+  - id: string
   - createdAtUTC: Date
   - updatedAtUTC: Date
   - createdBy: string
@@ -122,7 +122,7 @@ entity "RouteSegment" as RouteSegment {
 }
 
 entity "IndoorPath" as IndoorPath {
-    node_ids: VARCHAR[]
+    nodeids: VARCHAR[]
 }
 
 entity "FloorTransition" as FloorTransition {
@@ -185,7 +185,7 @@ entity "ShuttleStop" as ShuttleStop {
 }
 
 entity "Shuttle" as Shuttle {
-    shuttle_id: VARCHAR
+    shuttleid: VARCHAR
     current_latitude: DOUBLE
     current_longitude: DOUBLE
     status: ENUM

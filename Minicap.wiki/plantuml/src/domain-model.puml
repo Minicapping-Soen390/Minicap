@@ -5,7 +5,7 @@ skinparam groupInheritance 2
 title UML domain model (updated 2024-02-12)
 ' --- Base Classes ---
 abstract class AuditableEntity {
-  - _id: string
+  - id: string
   - createdAtUTC: Date
   - updatedAtUTC: Date
   - createdBy: string

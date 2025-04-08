@@ -17,7 +17,7 @@ import buildingsData from "../../data/hardcodedBuildings.json"; //
  * Building data type definition
  */
 type Building = {
-  _id: string;
+  id: string;
   campus: string;
   name: string;
   BuildingLongName: string;
@@ -81,7 +81,7 @@ const FindBuilding = () => {
    */
   const renderBuildingItem = ({ item }: { item: Building }) => (
     <TouchableOpacity
-      testID={`building-item-${item._id}`}
+      testID={`building-item-${item.id}`}
       style={styles.searchItem}
       activeOpacity={0.7}
       onPress={() => console.log("Selected Building:", item)}
@@ -93,23 +93,23 @@ const FindBuilding = () => {
         style={styles.buildingIcon}
       />
       <View style={styles.searchTextContainer}>
-        <Text testID={`building-item-${item._id}`} style={styles.buildingName}>
+        <Text testID={`building-item-${item.id}`} style={styles.buildingName}>
           {item.name}
         </Text>
         <Text
-          testID={`building-item-${item._id}`}
+          testID={`building-item-${item.id}`}
           style={styles.buildingDetails}
         >
           {item.description}
         </Text>
         <Text
-          testID={`building-item-${item._id}`}
+          testID={`building-item-${item.id}`}
           style={styles.buildingCampus}
         >
           Campus: {item.campus}
         </Text>
         <Text
-          testID={`building-item-${item._id}`}
+          testID={`building-item-${item.id}`}
           style={styles.buildingAddress}
         >
           Address: {item.address}
@@ -154,7 +154,7 @@ const FindBuilding = () => {
         {filteredBuildings.length > 0 ? (
           <FlatList
             data={filteredBuildings}
-            keyExtractor={(item) => item._id.toString()} // Ensure `_id` is a valid key
+            keyExtractor={(item) => item.id.toString()} // Ensure `id` is a valid key
             renderItem={renderBuildingItem}
             contentContainerStyle={styles.listContainer}
           />

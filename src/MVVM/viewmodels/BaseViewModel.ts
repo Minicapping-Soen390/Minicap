@@ -1,12 +1,7 @@
 import { Audit } from "@/MVVM/models/Audit";
-import { makeAutoObservable } from 'mobx';
 
 export abstract class BaseViewModel<T extends Audit> {
     protected _disposed: boolean = false;
-
-    constructor() {
-        makeAutoObservable(this);
-    }
 
     get isDisposed(): boolean {
         return this._disposed;

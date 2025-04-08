@@ -2,17 +2,16 @@ import { SvgProcessorService } from '../services/SvgProcessorService';
 import { Building } from '../models/Room';
 import { getErrorMessage } from '@/Shared/utils/generalUtils';
 import { BaseViewModel } from './BaseViewModel';
-import { RoomRepository } from '../repositories/RoomRepository';
+import { RoomRepositoryImpl } from '../repositories/RoomRepository';
 
 // This ViewModel can be extended from BaseViewModel if it needs state management
 export class SvgProcessorViewModel {
   private readonly svgProcessor: SvgProcessorService;
-  private readonly roomRepository: RoomRepository;
+  private readonly roomRepository: RoomRepositoryImpl;
 
   constructor() {
-    // Cast to any to avoid TypeScript errors with getInstance()
-    this.svgProcessor = (SvgProcessorService as any).getInstance();
-    this.roomRepository = (RoomRepository as any).getInstance();
+    this.svgProcessor = SvgProcessorService.getInstance();
+    this.roomRepository = RoomRepositoryImpl.getInstance();
   }
 
   /**

@@ -99,7 +99,7 @@
    ```typescript
    // Every model must extend Audit
    interface Audit {
-       _id: string;
+       id: string;
        createdAtUTC?: Date;
        updatedAtUTC?: Date;
        createdBy?: string;

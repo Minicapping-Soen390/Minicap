@@ -11,7 +11,7 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
-
+import Filter from "../assets/icons/Filter.png";
 import Campus from "../assets/icons/Campus.png";
 import Calendar from "../assets/icons/Calendar.png";
 import searchBuilding from "../assets/icons/searchBuilding.png";
@@ -36,4 +36,5 @@ export default {
   Calendar,
   searchBuilding,
   Hamburger,
+  Filter,
 };

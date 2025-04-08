@@ -1,7 +1,16 @@
 import { Room, Building } from '../models/Room';
-import { BaseService } from './BaseService';
 
-export class RoomSearchService extends BaseService {
+export class RoomService  {
+  private static instance: RoomService | null = null;
+
+
+  public static getInstance(): RoomService {
+    if (!RoomService.instance) {
+      RoomService.instance = new RoomService();
+    }
+    return RoomService.instance;
+  }
+
   /**
    * Search for rooms across all buildings
    * @param buildings List of buildings to search in
@@ -13,9 +22,9 @@ export class RoomSearchService extends BaseService {
     const results: Array<{ room: Room; building: Building }> = [];
 
     for (const building of buildings) {
-      const matchingRooms = building.rooms.filter(room => 
+      const matchingRooms = building.rooms?.filter(room => 
         this.matchesQuery(room, normalizedQuery)
-      );
+      ) || [];
 
       results.push(...matchingRooms.map(room => ({ room, building })));
     }
@@ -31,9 +40,9 @@ export class RoomSearchService extends BaseService {
    */
   searchRoomsInBuilding(building: Building, query: string): Room[] {
     const normalizedQuery = this.normalizeQuery(query);
-    const matchingRooms = building.rooms.filter(room => 
+    const matchingRooms = building.rooms?.filter(room => 
       this.matchesQuery(room, normalizedQuery)
-    );
+    ) || [];
 
     return this.sortResults(matchingRooms.map(room => ({ room, building })), normalizedQuery)
       .map(result => result.room);
@@ -54,7 +63,7 @@ export class RoomSearchService extends BaseService {
     }
 
     // Check if query matches building name
-    if (room.building.toLowerCase().includes(normalizedQuery)) {
+    if (room.building?.toLowerCase().includes(normalizedQuery)) {
       return true;
     }
 

@@ -1,7 +1,12 @@
 import uuid from 'react-native-uuid';
 
+/**
+ * Extracts a human-readable error message from any error type
+ * @param error - The error to process
+ * @returns A string representation of the error
+ */
 export function getErrorMessage(error: unknown): string {
-  return error instanceof Error ? getErrorMessage(error) : String(error);
+  return error instanceof Error ? error.message : String(error);
 }
 
 /**
@@ -14,12 +19,12 @@ export function generateId(): string {
 
 /**
  * Creates a new audit object with generated ID and timestamp
- * @returns An audit object with _id, createdAt, and updatedAt properties
+ * @returns An audit object with id, createdAt, and updatedAt properties
  */
-export function createAuditObject(): { _id: string, createdAt: Date, updatedAt: Date } {
+export function createAuditObject(): { id: string, createdAt: Date, updatedAt: Date } {
   const now = new Date();
   return {
-    _id: generateId(),
+    id: generateId(),
     createdAt: now,
     updatedAt: now
   };
