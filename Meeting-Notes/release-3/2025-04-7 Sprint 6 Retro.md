@@ -15,7 +15,7 @@
 
 ### **1. Sprint Review**  
 
-![17689035](Meeting-Notes/release-3/image/2025-04-07retro/17689035.PNG) 
+![17689035](image/2025-04-07retro/17689035.PNG) 
 
-![17689034](Meeting-Notes/release-3/image/2025-04-07retro/17689034.PNG)
+![17689034](image/2025-04-07retro/17689034.PNG)
 
