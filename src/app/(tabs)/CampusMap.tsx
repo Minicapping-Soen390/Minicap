@@ -372,7 +372,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               </Marker>
             ))}
         </MapView>
-      </TouchableWithoutFeedback>
 
       {/* Filter Icon Button in the top right corner */}
       <TouchableOpacity
