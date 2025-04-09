@@ -15,6 +15,7 @@ export const brandColors = {
   darkGray: "#555",
   transparent: "transparent",
   green: "green",
+  purple: "#8e44ad",
   // Transparent versions for map polygons
   concordiaRedTransparent: "#92233880",
   orangeTransparent: "#FFA00180",
@@ -192,7 +193,6 @@ const viewStyles = StyleSheet.create({
     top: rem(10),
     left: "2%",
     right: "2%",
-
     backgroundColor: colors.white,
     borderRadius: rem(8),
     paddingRight: rem(18),
@@ -213,7 +213,6 @@ const viewStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: rem(3),
-
   },
   greenDot: {
     width: rem(12),
@@ -268,7 +267,6 @@ const viewStyles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  
   fullScreenDirections: {
     position: "absolute",
     top: 120,
@@ -278,7 +276,6 @@ const viewStyles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
     borderRadius: 0,
   },
-
   directionsHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -368,6 +365,88 @@ const viewStyles = StyleSheet.create({
     fontSize: 14,
     marginVertical: 2,
   },
+  // New styles for filter icon button
+  filterIconButton: {
+    position: "absolute",
+    top: rem(15),
+    right: rem(15),
+    backgroundColor: colors.white,
+    borderRadius: rem(20),
+    width: rem(40),
+    height: rem(40),
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+    zIndex: 10,
+  },
+  filterIcon: {
+    width: rem(24),
+    height: rem(24),
+    tintColor: colors.darkGray,
+  },
+  filterContainer: {
+    position: 'absolute',
+    top: rem(65),
+    right: rem(15),
+    left: rem(15),
+    backgroundColor: colors.white,
+    borderRadius: rem(8),
+    padding: rem(12),
+    elevation: 4,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    zIndex: 1000,
+  },
+  filterTitle: {
+    fontSize: rem(16),
+    fontWeight: 'bold',
+    marginBottom: rem(8),
+    textAlign: 'center',
+    color: colors.darkGray,
+  },
+  filterSectionTitle: {
+    fontSize: rem(14),
+    fontWeight: 'bold',
+    marginTop: rem(12),
+    marginBottom: rem(6),
+    color: colors.darkGray,
+  },
+  filterOptions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  filterOption: {
+    backgroundColor: colors.lightGray,
+    paddingVertical: rem(6),
+    paddingHorizontal: rem(12),
+    borderRadius: rem(16),
+    marginBottom: rem(6),
+    marginHorizontal: rem(4),
+  },
+  activeFilterOption: {
+    backgroundColor: colors.purple,
+  },
+  filterText: {
+    fontSize: rem(14),
+    color: colors.darkGray,
+  },
+  activeFilterText: {
+    color: colors.white,
+  },
+  poiCountText: {
+    fontSize: rem(12),
+    color: colors.darkGray,
+    textAlign: 'center',
+    marginTop: rem(12),
+    fontStyle: 'italic',
+  }
 });
 
 // Text styles
@@ -435,9 +514,8 @@ const textStyles = StyleSheet.create({
     color: colors.orange,
     fontWeight: 'bold',
     textAlign: "center",
-    top:0
+    top: 0
   },
-
 });
 
 // Image styles

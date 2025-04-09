@@ -1,9 +1,21 @@
-import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Svg, Rect } from 'react-native-svg';
+import React, { useState } from "react";
 import Hall8 from "../data/svgFloorMaps/Annotated-Hall-8.svg";
 import Hall9 from "../data/svgFloorMaps/Hall-9.svg";
+import PathH813ToH845Hall8 from '../data/svgFloorMaps/Path-H813-to-H845-Hall-8.svg';
+import PathH813ToHall9Stairs from '../data/svgFloorMaps/PathH813ToHall9-Stairs.svg';
+import PathH813ToHall9Elevator from '../data/svgFloorMaps/PathH813ToHall9-Elevator.svg';
+import PathH813ToHall9StairsNextFloor from '../data/svgFloorMaps/PathH813ToHall9-Stairs-NextFloor.svg';
+import PathH813ToHall9ElevatorNextFloor from '../data/svgFloorMaps/PathH813ToHall9-Elevator-NextFloor.svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+interface Marker {
+  id: string;
+  x: number;
+  y: number;
+}
 
 interface IndoorNavigationModalProps {
   buildingInfo: any;
@@ -12,6 +24,12 @@ interface IndoorNavigationModalProps {
   changeFloor: (direction: 'up' | 'down') => void;
 }
 
+const toggleStrategies = {
+  stairs: (currentState: boolean) => !currentState,
+  elevators: (currentState: boolean) => !currentState,
+  accessibility: (currentState: boolean) => !currentState,
+};
+
 const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   buildingInfo,
   currentFloorIndex,
@@ -19,19 +37,117 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
   changeFloor,
 }) => {
   const [isAccessibilityEnabled, setAccessibilityEnabled] = useState(false);
-  const searchInputRef = useRef<TextInput>(null);
+  const [showStairsMarkers, setShowStairsMarkers] = useState(false);
+  const [showElevatorMarkers, setShowElevatorMarkers] = useState(false);
+  const [startLocation, setStartLocation] = useState('');
+  const [endLocation, setEndLocation] = useState('');
+  const [showPath, setShowPath] = useState(false);
 
-  const toggleAccessibility = () => {
-    setAccessibilityEnabled(!isAccessibilityEnabled);
+  const stairsLocations: Record<number, Marker[]> = {
+    0: [
+      { id: 'rect3865', x: 166, y: 349 },
+      { id: 'rect3945', x: 495, y: 350 },
+      { id: 'rect3957', x: 498, y: 643 },
+      { id: 'rect3919', x: 207, y: 643 }
+    ],
+    1: [] // Add floor 1 locations when needed
+  };
+
+  const elevatorLocations: Record<number, Marker[]> = {
+    0: [
+      { id: 'rect3881', x: 240, y: 200 },
+      { id: 'rect3883', x: 245, y: 411 }
+    ],
+    1: [] // Add floor 1 locations when needed
+  };
+
+  const handleToggle = (type: 'stairs' | 'elevators' | 'accessibility') => {
+    switch (type) {
+      case 'stairs':
+        setShowStairsMarkers(toggleStrategies.stairs(showStairsMarkers));
+        break;
+      case 'elevators':
+        setShowElevatorMarkers(toggleStrategies.elevators(showElevatorMarkers));
+        break;
+      case 'accessibility':
+        setAccessibilityEnabled(toggleStrategies.accessibility(isAccessibilityEnabled));
+        break;
+    }
+  };
+
+  const showMultifloorPath = () => {
+    const startRoom = startLocation.toLowerCase();
+    const endRoom = endLocation.toLowerCase();
+
+    if (startRoom === 'h-813' && endRoom === 'h-927') {
+      setShowPath(true);
+    }
+  };
+
+  const showUnifloorPath = () => {
+    const startRoom = startLocation.toLowerCase();
+    const endRoom = endLocation.toLowerCase();
+
+    if (startRoom === 'h-813' && endRoom === 'h-845') {
+      setShowPath(true);
+    }
+  };
+
+  const resetToHallMap = () => {
+    setShowPath(false);
+    setStartLocation('');
+    setEndLocation('');
+  };
+
+  const renderNavigationButton = () => {
+    // Only show navigation buttons during multifloor paths
+    const isMultifloorPath = 
+      ((startLocation.toLowerCase() === 'h-813' && endLocation.toLowerCase().startsWith('h-9')) ||
+       (endLocation.toLowerCase() === 'h-813' && startLocation.toLowerCase().startsWith('h-9')));
+
+    if (!showPath || !isMultifloorPath) return null;
+
+    // Define separate button props for stairs and elevator
+    const stairsButtonProps = {
+      style: {
+        position: 'absolute',
+        right: 95,
+        bottom: 300,
+        zIndex: 1000,
+        padding: 8,
+        borderRadius: 4,
+        backgroundColor: isAccessibilityEnabled ?  '#4B0082': '#4CAF50',
+      },
+    };
+
+    const elevatorButtonProps = {
+      style: {
+        position: 'absolute',
+        right: 224,
+        bottom: 290,
+        zIndex: 1000,
+        padding: 5,
+        borderRadius: 4,
+        backgroundColor: isAccessibilityEnabled ? '#4B0082': '#4CAF50',
+      },
+    };
+
+    return (
+      <TouchableOpacity
+        {...(isAccessibilityEnabled ? elevatorButtonProps : stairsButtonProps)}
+        onPress={() => changeFloor('up')}
+      >
+        <Icon
+          name="chevron-up"
+          size={10}
+          color="white"
+        />
+      </TouchableOpacity>
+    );
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => {
-      Keyboard.dismiss(); 
-      if (searchInputRef.current) {
-        searchInputRef.current.blur(); 
-      }
-    }}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.modalContainer}>
         <View style={styles.header}>
           <Text style={styles.floorName}>
@@ -60,31 +176,123 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
             <Text style={styles.closeButtonText}>✖</Text>
           </TouchableOpacity>
         </View>
-        <TextInput
-          ref={searchInputRef} 
-          style={styles.searchInput}
-          placeholder="Search Room"
-          placeholderTextColor="#ccc"
-        />
+
+        <View style={styles.locationInputsRow}>
+          <View style={styles.inputBox}>
+            <TextInput
+              style={styles.inputField}
+              placeholder="Start Room"
+              value={startLocation}
+              onChangeText={setStartLocation}
+              placeholderTextColor="#ccc"
+            />
+          </View>
+
+          <View style={styles.inputBox}>
+            <TextInput
+              style={styles.inputField}
+              placeholder="End Room"
+              value={endLocation}
+              onChangeText={setEndLocation}
+              placeholderTextColor="#ccc"
+            />
+          </View>
+
+          <TouchableOpacity
+            style={styles.findPathButton}
+            onPress={() => {
+              showMultifloorPath();
+              showUnifloorPath();
+            }}
+          >
+            <Icon name="arrow-right" size={24} color="#fff" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.resetButton}
+            onPress={resetToHallMap}
+          >
+            <Icon name="rotate-left" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.indoorContainer}>
           {currentFloorIndex === 0 ? (
-            <Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+            showPath ? (
+              startLocation.toLowerCase() === 'h-813' && endLocation.toLowerCase() === 'h-845' ? (
+                <PathH813ToH845Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              ) : isAccessibilityEnabled ? (
+                <PathH813ToHall9Elevator width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              ) : (
+                <PathH813ToHall9Stairs width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              )
+            ) : (
+              <Hall8 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+            )
           ) : currentFloorIndex === 1 ? (
-            <Hall9 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+            showPath ? (
+              isAccessibilityEnabled ? (
+                <PathH813ToHall9ElevatorNextFloor width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              ) : (
+                <PathH813ToHall9StairsNextFloor width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+              )
+            ) : (
+              <Hall9 width="120%" height="120%" fill="black" preserveAspectRatio="xMidYMid meet" />
+            )
           ) : null}
+
+          {/* Markers for Stairs and Elevators */}
+          {showStairsMarkers && (
+            <Svg width="700" height="400" viewBox="0 0 700 800" style={{ position: 'absolute', top: -110, left: -192 }}>
+              {stairsLocations[currentFloorIndex].map((stair) => (
+                <Rect key={stair.id} x={stair.x} y={stair.y} width="45" height="60" fill="#00ff00" opacity={0.5} />
+              ))}
+            </Svg>
+          )}
+
+          {showElevatorMarkers && (
+            <Svg width="500" height="500" viewBox="0 0 700 800" style={{ position: 'absolute', top: -40 }}>
+              {elevatorLocations[currentFloorIndex].map((elevator) => (
+                <Rect key={elevator.id} x={elevator.x} y={elevator.y} width="40" height="22" fill="#0000ff" opacity={0.5} />
+              ))}
+            </Svg>
+          )}
         </View>
+
+        {renderNavigationButton()}
+
         <View style={styles.poiButtons}>
+          {/* Toggle for highlighting washrooms */}
           <TouchableOpacity style={styles.poiButton}>
-            <MaterialIcons name="wc" size={20}  color="#fff" />
+            <MaterialIcons name="wc" size={20} color="#fff" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.poiButton}>
-            <MaterialIcons name="elevator" size={24} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.poiButton}>
-            <MaterialIcons name="stairs" size={24} color="#fff" />
-          </TouchableOpacity>
+
+          {/* Toggle for highlighting elevators */}
           <TouchableOpacity
-            onPress={toggleAccessibility}
+            style={styles.poiButton}
+            onPress={() => handleToggle('elevators')}
+          >
+            <MaterialIcons
+              name="elevator"
+              size={24}
+              color={showElevatorMarkers ? 'purple' : '#fff'}
+            />
+          </TouchableOpacity>
+
+          {/* Toggle for highlighting stairs */}
+          <TouchableOpacity
+            style={styles.poiButton}
+            onPress={() => handleToggle('stairs')}
+          >
+            <MaterialIcons
+              name="stairs"
+              size={24}
+              color={showStairsMarkers ? 'green' : '#fff'}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => handleToggle('accessibility')}
             style={[styles.accessibilityButton, isAccessibilityEnabled && styles.accessibilityEnabled]}
           >
             <MaterialIcons name="accessible" size={24} color="#fff" />
@@ -97,16 +305,17 @@ const IndoorNavigationModal: React.FC<IndoorNavigationModalProps> = ({
 
 const styles = StyleSheet.create({
   modalContainer: {
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.9)',
+    height: 525,
+    backgroundColor: 'rgba(0, 0, 0, 0.93)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
     padding: 10,
+    zIndex: 1000,
   },
   closeButton: {
     position: 'absolute',
@@ -135,22 +344,48 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: 'absolute',
     top: 0,
-    left:135,
+    left: 135,
     flexDirection: 'row',
   },
   floorChanger: {
     marginHorizontal: 10,
     alignItems: 'center',
   },
-  searchInput: {
+  locationInputsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 20,
+  },
+  inputBox: {
+    flex: 1,
+    marginHorizontal: 5,
+    backgroundColor: '#333',
+    padding: 5,
+    borderRadius: 5,
+  },
+  inputField: {
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
-    marginBottom: 20,
     paddingHorizontal: 10,
     color: '#fff',
-    width: '100%',
+  },
+  findPathButton: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    width: 50,
+  },
+  resetButton: {
+    backgroundColor: '#ff4444',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    width: 50,
   },
   indoorContainer: {
     width: '100%',
@@ -180,7 +415,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   accessibilityEnabled: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'lightblue',
   },
 });
 

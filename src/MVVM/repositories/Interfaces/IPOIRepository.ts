@@ -7,7 +7,7 @@ export interface IPOIRepository {
    * @returns Promise resolving to the found POI
    * @throws {NotFoundError} If POI doesn't exist
    */
-  getPOIById(poiId: string): Promise<any>;
+  getPOIById(poiId: string): Promise<POI>;
   
   /**
    * Gets all points of interest in a specified radius around coordinates
@@ -16,14 +16,14 @@ export interface IPOIRepository {
    * @param radiusInMeters - Search radius in meters
    * @returns Promise resolving to array of POIs
    */
-  getPOIsInRadius(latitude: number, longitude: number, radiusInMeters: number): Promise<any[]>;
+  getPOIsInRadius(latitude: number, longitude: number, radiusInMeters: number): Promise<POI[]>;
   
   /**
    * Gets all points of interest by category
    * @param category - The category to filter by
    * @returns Promise resolving to array of POIs
    */
-  getPOIsByCategory(category: any): Promise<any[]>;
+  getPOIsByCategory(category: POICategory): Promise<POI[]>;
   
   /**
    * Creates a new point of interest
@@ -32,7 +32,7 @@ export interface IPOIRepository {
    * @returns Promise resolving to the created POI
    * @throws {ValidationError} If POI data is invalid
    */
-  createPOI(poi: any, userId: string): Promise<any>;
+  createPOI(poi: POI, userId: string): Promise<POI>;
   
   /**
    * Updates an existing point of interest
@@ -43,7 +43,7 @@ export interface IPOIRepository {
    * @throws {NotFoundError} If POI doesn't exist
    * @throws {AuthorizationError} If not authorized to update the POI
    */
-  updatePOI(poiId: string, updates: any, userId: string): Promise<any>;
+  updatePOI(poiId: string, updates: Partial<POI>, userId: string): Promise<POI>;
   
   /**
    * Deletes a point of interest
