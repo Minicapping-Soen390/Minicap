@@ -9,6 +9,7 @@ import {
   Alert,
   ScrollView,
   Image,
+  Modal,
 } from "react-native";
 import MapView, { Marker, Polyline, Region, LatLng, Circle } from "react-native-maps";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
@@ -31,7 +32,7 @@ import {
 } from "../../Shared/utils/shuttleUtils";
 import IndoorNavigationModal from "../../components/IndoorNavigationModal";
 import { getErrorMessage } from "@/Shared/utils/generalUtils";
- 
+import RouteInstructions from "@/components/RouteInstructions";
 
 /**
  * Props interface for CampusMap component
@@ -77,30 +78,23 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
 
   // Building selection and navigation states
   const [buildingInfo, setBuildingInfo] = useState<any>(null);
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
-    null
-  );
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
   const [newRoute, setNewRoute] = useState<LatLng[] | null>(null);
   const [directions, setDirections] = useState<any[]>([]);
   const [destinationAddress, setDestinationAddress] = useState<string>("");
   const [startingAddress, setStartingAddress] = useState<string>("");
-  const [isNavigationStarted, setIsNavigationStarted] =
-    useState<boolean>(false);
+  const [isNavigationStarted, setIsNavigationStarted] = useState<boolean>(false);
   const [startPoint, setStartPoint] = useState<any>(null);
   const [endPoint, setEndPoint] = useState<any>(null);
 
   // Shuttle states
   const [shuttleLocations, setShuttleLocations] = useState<any[]>([]);
-  const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(
-    null
-  );
+  const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(null);
   const [shuttlePolyline, setShuttlePolyline] = useState<LatLng[] | null>(null);
 
   // Directions popup and Transport mode
-  const [isFullScreenDirections, setIsFullScreenDirections] =
-    useState<boolean>(false);
-  const [isCrossCampusNavigation, setIsCrossCampusNavigation] =
-    useState<boolean>(false);
+  const [isFullScreenDirections, setIsFullScreenDirections] = useState<boolean>(false);
+  const [isCrossCampusNavigation, setIsCrossCampusNavigation] = useState<boolean>(false);
   const [transportMode, setTransportMode] = useState<string>("walking");
   const [activeTab, setActiveTab] = useState<string>("walking");
 
@@ -109,8 +103,10 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   const [filteredPOIs, setFilteredPOIs] = useState<any[]>([]);
   const [selectedPOICategory, setSelectedPOICategory] = useState<POICategory | 'all'>('all');
   const [showPOIFilters, setShowPOIFilters] = useState<boolean>(false);
-  const [searchRadius, setSearchRadius] = useState<number>(500); // Default radius 500m
-  
+  const [searchRadius, setSearchRadius] = useState<number>(500);
+  const [showRouteInstructions, setShowRouteInstructions] = useState<boolean>(false);
+  const [selectedPOI, setSelectedPOI] = useState<any>(null);
+
   // Indoor navigation state
   const [isIndoorNavVisible, setIsIndoorNavVisible] = useState<boolean>(false);
   const [currentFloorIndex, setCurrentFloorIndex] = useState<number>(0);
@@ -152,6 +148,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     setIsCrossCampusNavigation,
     shuttleFacade,
     buildingInfo,
+    setSelectedPOI,
   });
 
   // Create POI facade
@@ -168,6 +165,29 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }),
     [allPOIs, selectedPOICategory, searchRadius, showPOIFilters]
   );
+
+  const handlePOISelection = (poi: any) => {
+    setSelectedPOI(poi);
+    setBuildingInfo(null);
+  };
+
+  // Navigation instructions
+  const handleGoToNavigation = () => {
+    if (buildingInfo && userLocation) {
+      const route: LatLng[] = [
+        {
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+        },
+        {
+          latitude: buildingInfo.latitude,
+          longitude: buildingInfo.longitude,
+        }
+      ];
+      setNewRoute(route);
+      setShowRouteInstructions(true);
+    }
+  };
 
   // Create indoor navigation facade
   const indoorNavFacade = useMemo(
@@ -204,6 +224,16 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
     }
   }, [region]);
 
+  // Fit map to route when route changes
+  useEffect(() => {
+    if (newRoute && mapRef.current) {
+      mapRef.current.fitToCoordinates(newRoute, {
+        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+        animated: true
+      });
+    }
+  }, [newRoute]);
+
   // Dynamic Shuttle Tracking
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -232,33 +262,24 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   useEffect(() => {
     if (!userLocation) return;
 
-    // Skip POI search when radius is 0
     if (searchRadius === 0) {
-      console.log("Search radius is 0m, not fetching POIs");
       setAllPOIs([]);
       setFilteredPOIs([]);
       return;
     }
 
-    // Create a cache key based on location and radius
     const lat = userLocation.latitude.toFixed(4);
     const long = userLocation.longitude.toFixed(4);
     const cacheKey = `${lat}-${long}-${searchRadius}`;
 
-    // Check if we have this data in cache
     if (poiCache.current[cacheKey]) {
-      console.log("Using cached POI data");
       setAllPOIs(poiCache.current[cacheKey]);
       return;
     }
 
-    // If not in cache, fetch from API
-    console.log(`Fetching POIs at ${lat},${long} with radius: ${searchRadius}m`);
     poiFacade.findNearbyPOIs(userLocation.latitude, userLocation.longitude, searchRadius)
       .then((results: any[]) => {
-        // Store in cache
         poiCache.current[cacheKey] = results;
-        console.log(`Found ${results.length} POIs`);
         setAllPOIs(results);
       })
       .catch((error: unknown) => console.error("Error fetching POIs:", getErrorMessage(error)));
@@ -270,34 +291,35 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
   }, [selectedPOICategory, allPOIs]);
 
   return (
-    <View
-      style={globalStyles.mapContainer}
-      testID="outdoor-navigation-container"
-    >
+    <View style={globalStyles.mapContainer} testID="outdoor-navigation-container">
       {locationError && (
         <View style={globalStyles.errorContainer}>
           <Text style={globalStyles.errorText}>{locationError}</Text>
         </View>
       )}
 
-      <TouchableWithoutFeedback
-        onPress={mapFacade.handleMapPress}
-        accessible={false}
-      >
+      <TouchableWithoutFeedback onPress={mapFacade.handleMapPress} accessible={false}>
         <MapView
           testID="campus-map"
-          ref={(ref) => (mapRef.current = ref)}
+          ref={mapRef}
           style={globalStyles.map}
           initialRegion={region}
           pitchEnabled={false}
           rotateEnabled={false}
           zoomEnabled={true}
           zoomControlEnabled={true}
+          onLayout={() => {
+            if (newRoute && mapRef.current) {
+              mapRef.current.fitToCoordinates(newRoute, {
+                edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+                animated: true
+              });
+            }
+          }}
         >
           {permissionGranted && userLocation && (
             <>
               <Marker coordinate={userLocation} title="Your Location" pinColor="green" />
-              {/* Search radius circle */}
               <Circle
                 center={userLocation}
                 radius={searchRadius}
@@ -314,6 +336,9 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
                 coordinates={newRoute}
                 strokeColor="#186DEE"
                 strokeWidth={5}
+                lineCap="round"
+                lineJoin="round"
+                miterLimit={1}
                 testID="outdoor-route-polyline"
               />
             )
@@ -329,7 +354,6 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
           
           {buildingInfo && (
             <Marker
-              testID="building-info"
               coordinate={{
                 latitude: buildingInfo.latitude,
                 longitude: buildingInfo.longitude,
@@ -338,112 +362,76 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               pinColor="orange"
             />
           )}
+
+          {selectedPOI && (
+            <Marker
+              coordinate={{
+                latitude: selectedPOI.latitude,
+                longitude: selectedPOI.longitude,
+              }}
+              title={selectedPOI.name}
+            >
+              <View style={globalStyles.marker}>
+                <Text style={globalStyles.markerText}>
+                  {selectedPOI.name.charAt(0)}
+                </Text>
+              </View>
+            </Marker>
+          )}
           
           {mapFacade.renderBuildings(buildingsData, globalStyles, brandColors)}
           {renderShuttleMarkers(globalStyles, brandColors)}
+          {renderPOIMarkers(filteredPOIs, poiFacade.getMarkerColorForCategory, handlePOISelection)}
           
-          {/* Render filtered POI markers */}
-          {renderPOIMarkers(filteredPOIs, poiFacade.getMarkerColorForCategory)}
-          
-          {/* Render shuttle location markers */}
-          {isCrossCampusNavigation &&
-            shuttleLocations &&
-            shuttleLocations.length > 0 &&
-            shuttleLocations.map((shuttle: any) => (
-              <Marker
-                key={shuttle.ID}
-                coordinate={{
-                  latitude: parseFloat(shuttle.Latitude),
-                  longitude: parseFloat(shuttle.Longitude),
-                }}
-                title={`Shuttle ${shuttle.ID}`}
-                testID={`shuttle-marker-${shuttle.ID}`}
-              >
-                <View style={[globalStyles.shuttleStopMarker]}>
-                  <Text
-                    style={[
-                      globalStyles.shuttleStopText,
-                      { fontSize: 35, color: brandColors.white },
-                    ]}
-                  >
-                    🚌
-                  </Text>
-                </View>
-              </Marker>
-            ))}
+          {isCrossCampusNavigation && shuttleLocations?.map((shuttle) => (
+            <Marker
+              key={shuttle.ID}
+              coordinate={{
+                latitude: parseFloat(shuttle.Latitude),
+                longitude: parseFloat(shuttle.Longitude),
+              }}
+              title={`Shuttle ${shuttle.ID}`}
+            >
+              <View style={globalStyles.shuttleStopMarker}>
+                <Text style={[globalStyles.shuttleStopText, { fontSize: 35 }]}>
+                  🚌
+                </Text>
+              </View>
+            </Marker>
+          ))}
         </MapView>
       </TouchableWithoutFeedback>
 
-      {/* Filter Icon Button in the top right corner */}
       <TouchableOpacity
         style={globalStyles.filterIconButton}
         onPress={poiFacade.togglePOIFilters}
       >
-        <Image
-          source={require("../../assets/icons/Filter.png")}
-          style={globalStyles.filterIcon}
-        />
+        <Image source={require("../../assets/icons/Filter.png")} style={globalStyles.filterIcon} />
       </TouchableOpacity>
 
-      {/* POI Filter Container */}
       {showPOIFilters && (
         <View style={globalStyles.filterContainer}>
           <Text style={globalStyles.filterTitle}>Filter POIs</Text>
-
-          {/* Category Filter Section */}
           <Text style={globalStyles.filterSectionTitle}>Categories</Text>
           <View style={globalStyles.filterOptions}>
-            <TouchableOpacity
-              style={[
-                globalStyles.filterOption,
-                selectedPOICategory === 'all' && globalStyles.activeFilterOption
-              ]}
-              onPress={() => poiFacade.handleCategoryChange('all')}
-            >
-              <Text style={[
-                globalStyles.filterText,
-                selectedPOICategory === 'all' && globalStyles.activeFilterText
-              ]}>All</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                globalStyles.filterOption,
-                selectedPOICategory === POICategory.RESTAURANT && globalStyles.activeFilterOption
-              ]}
-              onPress={() => poiFacade.handleCategoryChange(POICategory.RESTAURANT)}
-            >
-              <Text style={[
-                globalStyles.filterText,
-                selectedPOICategory === POICategory.RESTAURANT && globalStyles.activeFilterText
-              ]}>Restaurants</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                globalStyles.filterOption,
-                selectedPOICategory === POICategory.CAFE && globalStyles.activeFilterOption
-              ]}
-              onPress={() => poiFacade.handleCategoryChange(POICategory.CAFE)}
-            >
-              <Text style={[
-                globalStyles.filterText,
-                selectedPOICategory === POICategory.CAFE && globalStyles.activeFilterText
-              ]}>Cafes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                globalStyles.filterOption,
-                selectedPOICategory === POICategory.BAR && globalStyles.activeFilterOption
-              ]}
-              onPress={() => poiFacade.handleCategoryChange(POICategory.BAR)}
-            >
-              <Text style={[
-                globalStyles.filterText,
-                selectedPOICategory === POICategory.BAR && globalStyles.activeFilterText
-              ]}>Bars</Text>
-            </TouchableOpacity>
+            {['all', POICategory.RESTAURANT, POICategory.CAFE, POICategory.BAR].map((category) => (
+              <TouchableOpacity
+                key={category}
+                style={[
+                  globalStyles.filterOption,
+                  selectedPOICategory === category && globalStyles.activeFilterOption
+                ]}
+                onPress={() => poiFacade.handleCategoryChange(category as "all" | POICategory)}
+              >
+                <Text style={[
+                  globalStyles.filterText,
+                  selectedPOICategory === category && globalStyles.activeFilterText
+                ]}>
+                  {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
-
-          {/* Radius Filter Section */}
           <Text style={globalStyles.filterSectionTitle}>Search Radius</Text>
           <View style={globalStyles.filterOptions}>
             {[0, 100, 200, 500, 1000].map((radius) => (
@@ -462,20 +450,16 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
               </TouchableOpacity>
             ))}
           </View>
-
-          {/* POI Count Information */}
           <Text style={globalStyles.poiCountText}>
             {filteredPOIs.length} POI{filteredPOIs.length !== 1 ? 's' : ''} found within {searchRadius}m
           </Text>
         </View>
       )}
 
-      {/* My Location Button */}
       <TouchableOpacity
         style={globalStyles.refreshButton}
         onPress={mapUIFacade.handleRefreshLocation}
         disabled={isRefreshing}
-        testID="refresh-location-button"
       >
         {isRefreshing ? (
           <ActivityIndicator color="white" size="small" />
@@ -484,14 +468,28 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         )}
       </TouchableOpacity>
 
-      {/* Building Info Popup (when a building is selected but navigation hasn't started) */}
-      {buildingInfo && !isNavigationStarted && (
+      {(buildingInfo || selectedPOI) && !isNavigationStarted && (
         <View style={globalStyles.buildingInfoContainer}>
           {startPoint && endPoint ? (
             <RenderNavigationStartPopup 
               startPoint={startPoint}
               endPoint={endPoint}
               mapFacade={mapFacade} 
+            />
+          ) : selectedPOI ? (
+            <RenderPOIInfoPopup 
+              poi={selectedPOI}
+              mapFacade={mapFacade}
+              handleGoToNavigation={() => {
+                if (selectedPOI && userLocation) {
+                  const route: LatLng[] = [
+                    { latitude: userLocation.latitude, longitude: userLocation.longitude },
+                    { latitude: selectedPOI.latitude, longitude: selectedPOI.longitude }
+                  ];
+                  setNewRoute(route);
+                  setShowRouteInstructions(true);
+                }
+              }}
             />
           ) : (
             <RenderBuildingInfoPopup 
@@ -503,8 +501,7 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         </View>
       )}
 
-      {/* Indoor Navigation Modal */}
-      {isIndoorNavVisible && buildingInfo && buildingInfo.floors && (
+      {isIndoorNavVisible && buildingInfo?.floors && (
         <IndoorNavigationModal
           buildingInfo={buildingInfo}
           currentFloorIndex={currentFloorIndex}
@@ -513,7 +510,13 @@ const CampusMap: React.FC<CampusMapProps> = ({ campusId }) => {
         />
       )}
 
-      {/* Navigation Directions Popup */}
+      <Modal visible={showRouteInstructions} animationType="slide">
+        <RouteInstructions 
+          route={newRoute} 
+          onClose={() => setShowRouteInstructions(false)} 
+        />
+      </Modal>
+
       {isNavigationStarted && (
         <RenderNavigationDirections
           isFullScreenDirections={isFullScreenDirections}
@@ -590,6 +593,49 @@ const RenderBuildingInfoPopup: React.FC<RenderBuildingInfoPopupProps> = ({
           Indoor Navigation
         </Text>
       </TouchableOpacity>
+    </>
+  );
+};
+
+interface RenderPOIInfoPopupProps {
+  poi: any;
+  mapFacade: any;
+  handleGoToNavigation: () => void;
+}
+
+const RenderPOIInfoPopup: React.FC<RenderPOIInfoPopupProps> = ({ 
+  poi, 
+  mapFacade,
+  handleGoToNavigation
+}) => {
+  return (
+    <>
+      <Text style={globalStyles.buildingNameText}>
+        {poi.name}
+      </Text>
+      <Text style={globalStyles.addressText}>
+        {poi.vicinity || poi.formatted_address}
+      </Text>
+      {poi.opening_hours && (
+        <Text style={globalStyles.openingHoursText}>
+          {poi.opening_hours.open_now ? "Open Now" : "Closed"}
+        </Text>
+      )}
+      <View style={globalStyles.buttonContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            console.log(`Setting ${poi.name} as destination`);
+            mapFacade.handlePOISelection(poi, "end");
+            handleGoToNavigation();
+          }}
+          style={globalStyles.addButton}
+          testID="navigate-to-poi-button"
+        >
+          <Text style={globalStyles.refreshButtonText}>
+            Navigate to POI
+          </Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
@@ -691,6 +737,7 @@ const RenderNavigationDirections: React.FC<RenderNavigationDirectionsProps> = ({
           style={globalStyles.cancelButton}
         >
           <Text style={globalStyles.cancelButtonText}>×</Text>
+
         </TouchableOpacity>
       </View>
 

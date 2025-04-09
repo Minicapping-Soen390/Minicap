@@ -156,6 +156,10 @@ const viewStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  markerText: {
+    fontSize: rem(16),
+    color: colors.darkGray,
+  },
   buildingButton: {
     width: rem(25),
     height: rem(25),

@@ -117,7 +117,8 @@ export const createPOIMapFacade = (params: {
  */
 export const renderPOIMarkers = (
   filteredPOIs: any[],
-  getMarkerColorForCategory: (category: POICategory) => string
+  getMarkerColorForCategory: (category: POICategory) => string,
+  handleSelection: Function
 ) => {
   const { Marker } = require("react-native-maps");
   return filteredPOIs.map((poi) => (

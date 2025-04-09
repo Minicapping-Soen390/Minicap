@@ -1,11 +1,21 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { Polygon, Marker, LatLng, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import axios from "axios";
 import Constants from "expo-constants";
 import { determineUserCampus } from "../utils/shuttleUtils";
 import { sanitizeHtmlContent, decodePolyline } from "../utils/mapUtils";
+
+type PointInfo = {
+  name: string;
+  address: string;
+  openingHours: string;
+  latitude: number;
+  longitude: number;
+  campus: string;
+};
+
 
 /**
  * Creates a facade for map-related operations and state management.
@@ -18,6 +28,7 @@ export const createMapFacade = (params: {
   setPermissionGranted: (flag: boolean) => void;
   setBuildingInfo: (info: any) => void;
   setSelectedBuildingId: (id: string | null) => void;
+  setSelectedPOI?: (poi: any) => void;
   setDestinationAddress: (addr: string) => void;
   setStartingAddress: (addr: string) => void;
   setStartPoint: (info: any) => void;
@@ -53,6 +64,7 @@ export const createMapFacade = (params: {
     setPermissionGranted,
     setBuildingInfo,
     setSelectedBuildingId,
+    setSelectedPOI,
     setDestinationAddress,
     setStartingAddress,
     setStartPoint,
@@ -114,7 +126,76 @@ export const createMapFacade = (params: {
     console.log("Map pressed. Clearing building selection.");
     setBuildingInfo(null);
     setSelectedBuildingId(null);
+    setSelectedPOI?.(null);
   };
+
+  /**
+   * Handles POI selection and sets start/end points.
+   * @param poi - POI object to be selected
+   * @param selectionType - Either "start" or "end"
+   */
+  const handlePOISelection = (poi: any, selectionType: "start" | "end") => {
+    if (!poi || !poi.name) {
+      console.error("Invalid POI data:", poi);
+      Alert.alert("Error", "Invalid POI data");
+      return;
+    }
+
+    const info: PointInfo = {
+      name: poi.name,
+      address: poi.vicinity || poi.formatted_address,
+      openingHours: poi.opening_hours?.open_now ? "Open Now" : "Closed",
+      latitude: poi.latitude,
+      longitude: poi.longitude,
+      campus: "current", // You might want to dynamically determine this
+    };
+
+    if (selectionType === "start") {
+      console.log(`Setting ${info.name} as start point.`);
+      setStartPoint(info);
+      setSelectedPOI?.(poi);
+
+      Alert.alert(
+        "Start Point Selected",
+        `Selected ${info.name} as start point. Now select your destination.`
+      );
+    } else {
+      console.log(`Setting ${info.name} as end point.`);
+
+      const start = startPoint ?? getUserLocationFallback();
+      if (!start) return;
+
+      setEndPoint(info);
+      setSelectedPOI?.(poi);
+
+      const isCrossCampus = start.campus !== info.campus;
+      setIsCrossCampusNavigation(isCrossCampus);
+
+      const navText = isCrossCampus ? "Cross-Campus Route" : "Route Selected";
+      const routeMessage = isCrossCampus
+        ? `Route from ${start.name} to ${info.name} will use the shuttle service.`
+        : `Route from ${start.name} to ${info.name}`;
+
+      const transportMode = isCrossCampus ? "transit" : "walking";
+
+      Alert.alert(navText, routeMessage, [
+        {
+          text: "Start Navigation",
+          onPress: () =>
+            fetchDirections(
+              transportMode,
+              Constants.expoConfig?.extra?.googleMapsApiKey ??
+                process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY ??
+                "",
+              start,
+              info
+            ),
+        },
+        { text: "Cancel", style: "cancel" },
+      ]);
+    }
+  };
+
 
   /**
    * Renders building markers and polygons on the map.
@@ -183,17 +264,14 @@ export const createMapFacade = (params: {
         },
       };
 
-      // Determine color setting based on selection state
-      let colorSettingKey: 'insideSelected' | 'inside' | 'selected' | 'default' = 'default';
-      if (isInside && isSelected) {
-        colorSettingKey = 'insideSelected';
-      } else if (isInside) {
-        colorSettingKey = 'inside';
-      } else if (isSelected) {
-        colorSettingKey = 'selected';
-      }
-
-      const { fill, stroke } = colorSettings[colorSettingKey];
+      const { fill, stroke } =
+        isInside && isSelected
+          ? colorSettings.insideSelected
+          : isInside
+          ? colorSettings.inside
+          : isSelected
+          ? colorSettings.selected
+          : colorSettings.default;
 
       const buildingNameInitials = building.name.substring(0, 2).toUpperCase();
 
@@ -268,7 +346,7 @@ export const createMapFacade = (params: {
    * @returns boolean indicating if building data is valid
    */
   const isValidBuilding = (building: any): boolean => {
-    if (!building?.name) {
+    if (!building || !building.name) {
       console.error("Invalid building data:", building);
       Alert.alert("Error", "Invalid building data");
       return false;
@@ -502,6 +580,7 @@ export const createMapFacade = (params: {
     setEndPoint(null);
     setBuildingInfo(null);
     setSelectedBuildingId(null);
+    setSelectedPOI?.(null);
     setNewRoute(null);
     setDirections([]);
     setIsNavigationStarted(false);
@@ -543,6 +622,7 @@ export const createMapFacade = (params: {
     resetNavigation,
     handleNavigationPopup,
     handleTransportModeChange,
+    handlePOISelection,
   };
 };
 
